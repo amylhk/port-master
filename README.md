@@ -1,22 +1,42 @@
 # Port Master: Melaka 1511
 
-**Status:** Pre-production — game design and systems planning. No playable Godot build is included yet.
+**Status: Early Godot 4 gameplay experiment / pre-production.**
 
-Port Master: Melaka 1511 is a proposed single-player historical strategy game about managing a bustling maritime trading port. The design explores real-time harbour operations, merchant relationships, cargo inspection, trade, and the pressures surrounding the Portuguese conquest of 1511.
+A historical trading-hub game concept set in Melaka before the Portuguese conquest of 1511. This repository contains a **small playable harbour scheduling experiment**, alongside the larger ideal-gameplay design blueprint. It is **not** a complete game or finished vertical slice.
 
-## Design materials
+## Run the experiment
 
-- [Ideal Gameplay & Architecture Blueprint](docs/gameplay-blueprint.md) — the full English game vision, core loop, systems, and development roadmap.
-- [Project status and proposed Godot structure](design/project-status.md) — what exists today versus what is planned.
+1. Install Godot 4.x.
+2. Import this folder by selecting `project.godot` in Godot Project Manager.
+3. Run the project (F6/F5).
+4. Assign waiting ships to one of two berths; advance time and observe parallel cargo processing and limited anchorage capacity.
 
-## Current stage
+## Implemented
 
-This repository currently contains **design files only**. It does not claim to contain a working Godot project or implemented gameplay. A Godot prototype is a possible future implementation step.
+- Godot project configuration and main `.tscn` scene
+- GDScript harbour queue and berth assignment
+- Five fictional test ships and a three-slot anchorage
+- Parallel berth processing, time advancement, and event log
+- Capacity-based lost arrivals
 
-## Scope and historical approach
+## Not implemented
 
-The game draws on Melaka's role as a multilingual trading hub. Historical claims and proposed mechanics are distinguished in the design blueprint; the final rules and technical stack are subject to testing.
+- Real-time clock, detailed inspection, manifests, reference manual, merchant AI, royal purchasing, economics, narrative, and diplomacy
+- End-of-day ship departure logic (ships currently remain waiting)
 
-## License
+The simulation currently uses **manual time advancement**, not the proposed real-time design. These simplifications are intentional to test the harbour queue independently.
 
-All rights reserved unless otherwise stated. This repository is shared for project review; no reuse license is granted.
+## Design documentation
+
+- [`docs/gameplay-blueprint.md`](docs/gameplay-blueprint.md) — aspirational design, not a claim of implemented features.
+- [`design/project-status.md`](design/project-status.md) — design-stage context.
+
+## Repository structure
+
+```text
+project.godot
+scenes/harbour.tscn
+scripts/harbour.gd
+docs/gameplay-blueprint.md
+design/project-status.md
+```
