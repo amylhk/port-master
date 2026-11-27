@@ -1,0 +1,74 @@
+{
+  "id": "abdul_rahim",
+  "name": "Abdul Rahim of Pasai",
+  "role": "Broker and valuer, sometimes called to sit on the merchants' valuation panel",
+  "skills": {"berth": 1, "inspection": 3, "purchasing": 5},
+  "flaw": {
+    "id": "kin_and_countrymen",
+    "text": "Abdul Rahim is generous to ships from Pasai and Bengal, where his family trades. When he values or inspects their cargo, faults get smaller and prices get kinder."
+  },
+  "bio": "Abdul Rahim's family has traded pepper between Pasai and Melaka for three generations. He has sat among the ten merchants who value a great ship's cargo, and he can price a bale of cloth across the quay. His word is good with strangers and better with cousins.",
+  "delegation_lines": {
+    "berth": {
+      "assign": [
+        "I am a trader, not a boatman. But I know which cargoes cannot wait. I will start there.",
+        "I will put the richest cargo in first. The port earns from goods, not from waiting hulls."
+      ],
+      "good": [
+        "The valuable cargoes went in first and the dues will show it. Even the rice was ashore by noon.",
+        "All berthed, and the merchants say the office knows its business."
+      ],
+      "mixed": [
+        "The rich ships are in. The poorer ones grumble at anchor. Commerce is not always kind.",
+        "My cousin's ship from Pasai went in early. She had pepper. Pepper is valuable. You see?"
+      ],
+      "bad": [
+        "I chose by value and forgot the rice. The market women are at the office door.",
+        "The pilots did not listen to me. Half the berths stood empty while I argued."
+      ]
+    },
+    "inspection": {
+      "assign": [
+        "I will look at the goods as a buyer would. A buyer is harder to fool than a clerk.",
+        "Let me open a few bales. Grade is where men lie."
+      ],
+      "good": [
+        "The cloth is the grade declared, and so is the pepper. I would buy it myself.",
+        "I found it. The top layer is first quality and below is coarse. The declaration needs amending."
+      ],
+      "mixed": [
+        "The goods are sound, but the quantity is a little short. Only a little. Ships lose a little at sea.",
+        "The grade is right. The weight I leave to the steelyard men."
+      ],
+      "bad": [
+        "I cleared the Pasai ship as declared. They tell me now she was short by a good deal. I trusted where I should have looked.",
+        "I priced it well and missed what was hidden under it. A buyer's eye, not a customs eye."
+      ]
+    },
+    "purchasing": {
+      "assign": [
+        "Tell me how much the treasury will spend. I will make it go further than you think.",
+        "I will bid as the panel bids, slowly and together. Nobody overpays that way."
+      ],
+      "good": [
+        "Bought well below the opening price, good grade, stored and counted. The treasury will be pleased.",
+        "A fine purchase. The seller is happy too, which means he will come back."
+      ],
+      "mixed": [
+        "A fair price, not a great one. The seller was a Bengali friend of my uncle. I could not press him hard.",
+        "We have most of what you wanted. The rest I would not buy at that price."
+      ],
+      "bad": [
+        "I paid my countryman's price, not the market's. I am ashamed, Shahbandar.",
+        "Too much talk, and the panel bought it out from under us."
+      ]
+    }
+  },
+  "notes": [
+    "[FACT] For large ships, with the king's consent, ten merchants, five Klings and five from another nation, valued the cargo before the temenggung as Customs Judge, to stop bribery of valuers (Pires, pp. 270, 273; port-official.md §5.2 step 6).",
+    "[FACT] Ten or twenty merchants could bid together for a cargo and divide it in proportion (Pires, pp. 273-4).",
+    "[FACT] Pasai was received by the same shahbandar as the Klings, Bengalis and Pegu (Pires, p. 265; port-official.md §3).",
+    "[INFERENCE] Shahbandars were of the same nations as the merchants and sympathetic to them (Pires, p. 273); favouring one's own community is a plausible pressure on any broker, not a documented charge against a named person.",
+    "[GAMEPLAY] Abdul Rahim is a fictional character. Treasury buying is the blueprint's stated state-purchasing abstraction (blueprint §06, port-official.md §5.2). Flaw kin_and_countrymen: his delegated results are softer for ships from Pasai and Bengal."
+  ]
+}

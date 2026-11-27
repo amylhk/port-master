@@ -1,0 +1,73 @@
+{
+  "id": "chen_bao",
+  "name": "Chen Bao",
+  "role": "Tally clerk for the junk trade, who counts lots and checks papers",
+  "skills": {"berth": 2, "inspection": 4, "purchasing": 3},
+  "flaw": {
+    "id": "accepts_presents",
+    "text": "Chen Bao accepts small presents, as everyone in the port does. A captain who gives him one finds his tally kinder, and a fault on that ship may go unreported."
+  },
+  "bio": "Chen Bao came south on a Fujian junk as a boy and never sailed home. He counts quickly, writes Chinese and some Jawi, and remembers every merchant who was ever polite to him. He sees nothing wrong with a gift of tea, or a gift of silver.",
+  "delegation_lines": {
+    "berth": {
+      "assign": [
+        "I will keep the berth tally, Shahbandar. Numbers do not get seasick.",
+        "In and out, counted and written. Leave it to me."
+      ],
+      "good": [
+        "Every ship berthed and every hour written down. The junks were in before the wind turned.",
+        "The tally is clean and the berths never stood idle."
+      ],
+      "mixed": [
+        "All in, though one captain waited longer than he liked. He did not bring tea.",
+        "The berths are full. My tally says one more ship could have come in. My tally may be wrong."
+      ],
+      "bad": [
+        "A captain was very generous and I may have let him in early. The rice boat is still waiting.",
+        "I counted the berths and forgot the tide. Two ships ran aground at the river mouth."
+      ]
+    },
+    "inspection": {
+      "assign": [
+        "I will count every lot against the declaration. Every lot.",
+        "Papers first, then the hold. Give me until the bell."
+      ],
+      "good": [
+        "Every lot matches the declaration. Here is the tally.",
+        "Three lots short against the declaration, marked and written down. The captain says the sea took them. The sea does not take whole bales."
+      ],
+      "mixed": [
+        "The count is right. One mark on the bales looks fresh to me, but I am a clerk, not a judge.",
+        "Most of it matches. The captain gave me tea while I counted the rest. Good tea."
+      ],
+      "bad": [
+        "I cleared her as declared. She was very courteous. Now the merchants say she carried twice what she paid for.",
+        "The captain's gift was generous and I counted generously. I see that was a mistake."
+      ]
+    },
+    "purchasing": {
+      "assign": [
+        "I will buy from the junks. They know me and the price will be fair.",
+        "Silk, porcelain, anything from China. I know who has the good lots."
+      ],
+      "good": [
+        "Bought at a good price, counted in and stored. The seller even threw in an extra crate.",
+        "Done, and cheaper than the market. The junk captains remember who treats them well."
+      ],
+      "mixed": [
+        "We have the goods. The price was a little high, but the seller has been good to me.",
+        "Bought and counted. Some of the bowls are cracked. I counted them anyway."
+      ],
+      "bad": [
+        "I bought from the man who gave me a present, not the man with the better goods. It is poor stuff.",
+        "The seller was charming. The silk is not."
+      ]
+    }
+  },
+  "notes": [
+    "[FACT] Chinese junks, including from Fujian (Chancheo), traded at Melaka and were received by their own shahbandar (Pires, p. 265; port-official.md §3; ships-weights-currency.md §1).",
+    "[FACT] Presents were a normal part of clearance, and the shahbandar set their size; the valuation panel existed partly to stop bribery of valuers (Pires, pp. 270, 273).",
+    "[INFERENCE] Written tallies and counted lots are a reasonable picture of a busy port's clerks; the sources do not describe a standard written manifest or tally form (port-official.md §5.2). Treat any written tally as a game invention.",
+    "[GAMEPLAY] Chen Bao is a fictional character. Flaw accepts_presents: a ship whose captain gives him a present gets a softer delegated result."
+  ]
+}
