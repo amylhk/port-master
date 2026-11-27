@@ -185,6 +185,7 @@ func restart() -> void:
     notice = ""
     feedback_open = false
     manual_open = false
+    manual_seen = false
     notes_open = false
     inspections_filed = 0
     detail_open = false
@@ -411,7 +412,6 @@ func _reset_desk() -> void:
     viewed = {"manifest": true}
     method = ""
     stamp = ""
-    manual_seen = false
     manual_page = 0
     manual_full = false
     manual_full_page = 0

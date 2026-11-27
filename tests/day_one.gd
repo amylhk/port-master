@@ -181,9 +181,40 @@ func _run() -> void:
     await _harbour_status_routing()
     await _berthed_hull_routing()
     await _expired_rice_reminder()
+    await _manual_across_cases()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
+
+
+func _manual_across_cases() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.assign_berth("porcelain", 0, true)
+    game.open_manual()
+    _press_text(game, "合上手冊")
+    game.show_evidence(3)
+    game.choose_method("contents")
+    game.choose_stamp("major_fraud")
+    game.apply_stamp()
+    _expect(game.day.pending_case.is_empty(), "the first case files after reading the manual")
+    _press_text(game, "返回港口")
+    game.assign_berth("resin", 1, true)
+    _expect(game.day.pending_case.get("id") == "resin", "a second case opens in the same watch")
+    _expect(game.manual_seen, "a manual read earlier in the watch remains read on the second case")
+    game.choose_method("contents")
+    game.choose_stamp("hold")
+    game.apply_stamp()
+    _expect(game.day.pending_case.get("id") == "resin", "the second case still requires its own inspected evidence")
+    game.show_evidence(3)
+    game.choose_method("contents")
+    _expect(game.find_children("*", "Button", true, false).any(func(button: Button) -> bool: return button.text == "蓋印：扣留" and not button.disabled), "the second-case filing button enables without reopening the manual")
+    game.apply_stamp()
+    _expect(game.day.pending_case.is_empty() and game.day.flags.has("case_004_hold"), "the second supported filing needs no manual reopen")
+    game.restart()
+    _expect(not game.manual_seen, "a fresh watch resets the manual tutorial gate")
+    game.queue_free()
+    await process_frame
 
 
 func _other_cases() -> void:
