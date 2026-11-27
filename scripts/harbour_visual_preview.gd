@@ -319,7 +319,7 @@ func _build_inspection_overlay() -> void:
     desk.add_child(jar_tex_rect)
 
     var notes := Label.new()
-    notes.text = "DETAILED INSPECTION — LOT SEVEN\nToggle between sealed exterior (18 catties gross,\n3 catties tare) and opened interior (nested Ming\nbowls + unlisted red-grain frankincense)."
+    notes.text = "DETAILED INSPECTION — THE JARS FROM GUANGZHOU\nToggle between seals & weights (32–36 vs 45–47 kati,\nfish-sealed after row) and opened jars (8 bowls over\na straw mat and ~18 kati of whole nutmegs)."
     notes.position = Vector2(618, 374)
     notes.size = Vector2(320, 96)
     notes.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
