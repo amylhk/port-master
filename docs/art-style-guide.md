@@ -108,12 +108,12 @@ All visual assets depict the **Melaka Sultanate at its commercial height around 
 - **Directory Layout** (aligned with `docs/data-formats.md` for Stage A JSON references):
   ```text
   assets/
-    inspection/    # Stage A case evidence illustrations (2:1, <lowercase-kebab-name>.png/.svg), referenced by data/inspections/*.json
+    inspection/    # Case evidence plates (2:1) and clay closure sprites (see §7.3)
     art/
       harbour/     # Panoramic harbour backdrop, berth markers, water/shore overlays
       ships/       # Vessel sprites (side-3/4 profile, facing left-to-right consistently)
       cargo/       # Cargo lot icons (128x128) & close-up inspection props (256x256)
-      inspection/  # Customs desk backdrop, manifest parchment, seals, tools
+      inspection/  # Customs desk backdrop, manifest parchment, legacy wax seals, tools
       ui/          # 9-slice panels, header banners, icons
       marks/       # (Stage B+) Merchant marks & reference manual glyphs
       knots/       # (Stage B+) Cordage & knot inspection close-ups
@@ -176,6 +176,17 @@ To keep all upcoming assets cohesive as the project expands beyond Stage A:
 ### 7.3 Knots & Cordage (`128×128` close-up)
 - **Materials:** Natural hemp (`#C8B088`), dark coconut coir (`#7D5C3B`), and split rattan strips (`#B89458`).
 - **Clarity Rule:** Always draw clear shadows where one strand passes *under* another. Maintain 3–5 visually unmistakable knot families (e.g., flat reef binding, clove hitch, spiral lashing, double-loop slip) plus a messy/frayed "re-tied in transit" variant.
+
+**Cargo inspection sprite set.** Regenerate the transparent PNGs with `python tools/art/paint_seals_marks_knots.py` (Pillow).
+
+| Path | Size | IDs or variants |
+|---|---|---|
+| `assets/art/marks/mark_<id>.png` | `64×64` | `lim_seng`, `khoja_ismail`, `sri_rangan`, `ki_jaya`, `encik_hamzah`, `ong_kuan_ship`, `dawud_ship`, `khoja_ismail_forged` |
+| `assets/inspection/seal_clay_<id>_<state>.png` | `96×96` | Every mark ID above, plus unmarked `seal_clay_<state>.png`; states: `intact`, `weathered`, `tampered`, `broken` |
+| `assets/inspection/manifest/` | `48×48` | Compact copies of the clay closures, with the same filenames |
+| `assets/art/knots/knot_<family>.png` | `128×128` | `square`, `lashing`, `double_loop`, `single_loop`, `blue_thread_tie`, `frayed_retie` |
+
+The two ship marks identify legitimate reseals when supported by the manifest; they are not official stamps. The smaller seal sprites are for compact depictions of physical closures, not for showing the expected mark on a declaration.
 
 ### 7.4 Porcelain Jars & Bowls (`256×256` inspection layers)
 - **Nested Inspection Architecture:** Separate exterior container (`jar_body`, `jar_lid`, `cord_wrap`, `seal`) from interior layers (`straw_packing`, `nested_bowls`, `hidden_contraband`) so the Programmer can compose multi-layer reveals dynamically.
