@@ -4,6 +4,8 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 
 | File | Object shape |
 | --- | --- |
+| `data/hints/day_1.json` | Day 1 action hints: array of objects with `id` and `text` |
+| `data/short/day_1.json` | Day 1 short display copy: `briefings`, `ships`, `cases`, and `events` objects keyed by source ID |
 | `data/port_day.json` | `briefing` (text), `start_minute`, `end_minute`, `rice_target` (integers), `ships` (array ordered by arrival) |
 | `data/manual/manual_stage_a.json` | `title` (text); `entries` (array of objects with `title` and `text`, in reading order) |
 | `data/inspections/<id>.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
@@ -28,6 +30,14 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 - **Berth holds (optional):** Set `hidden_truth.hold_at_berth` to `true` when the supported hold keeps the ship at its berth until closing. The occupied berth earns no trade and does not block the other berth.
 - **Citation and review (optional):** Set `hidden_truth.citation_method` only when a case should require one specific supporting method. Use one of `marks`, `measurements`, `testimony`, `contents`, or `manifest`. Players see the same neutral menu in every case, not the authored reason labels. If the field is absent or unrecognized, the existing cases accept any method supported by their authored findings; other cases default to `contents`. `hidden_truth.feedback_by_method` maps a wrongly cited method ID to a short explanation of what that method missed or misinterpreted (for example, `"feedback_by_method": {"marks": "Explain why the marks alone are not decisive."}`). The game shows the correct ruling and, for a wrong citation, the supporting methods; a missing or blank explanation falls back to the decisive reason label.
 
+
+## Day 1 display copy
+
+- **Action hints:** use an imperative `text` of fewer than 10 words for each ID: `first_ship`, `berth_free`, `tide_warning`, `anchorage_full`, `open_cargo`, `check_manual`, `stamp`, and `day_end`.
+- **Short lines:** give each entry a one-sentence `line` of at most 15 words. The `briefings` keys are the Day 1 briefing ID and `port_day` for the top-level scenario briefing. Key `ships` by the IDs in the top-level `ships` array. Key `cases` by those ships’ `inspection_case` IDs and `events` by the IDs of events with `day: 1`. Briefings, cases, and events may include `speaker_id` when `res://assets/art/portraits/<speaker_id>.png` exists; omit it for narration.
+- **Inspection and event entries:** each case has an `evidence` object keyed by evidence page ID (at most 12 words per summary) and a `rulings` object keyed by ruling ID (at most 5 words per label). Each event has a `choices` object keyed by choice ID (at most 5 words per label); use `{}` for an event with no choices.
+
+Keep full text available on click from the original data. Show evidence summaries only after the associated evidence is examined; preserve the counts and weights needed for comparisons without stating the correct ruling. Neither file replaces the original rules, timing, outcomes, or history. Validate with `godot --headless --script tests/day1_text.gd`.
 
 ## Briefings and events
 
