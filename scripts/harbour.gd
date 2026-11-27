@@ -21,6 +21,7 @@ var content: VBoxContainer
 var evidence_index := 0
 var ruling_index := -1
 var reason_index := -1
+var recorded_measurements := ""
 var screen_art: TextureRect
 var screen_tint: ColorRect
 var missing_art := {}
@@ -104,6 +105,10 @@ func _render() -> void:
 
 
 func _render_harbour() -> void:
+    if not day.ruling_note.is_empty():
+        var result := _panel(content)
+        _label(result, "LATEST INSPECTION RESULT", 13, GOLD)
+        _label(result, day.ruling_note, 16, INK, true)
     _render_view()
     if day.story_queue.is_empty():
         var paper := _texture(_scenario_art("panel")) != null
@@ -171,16 +176,26 @@ func _render_harbour() -> void:
         var actions := VBoxContainer.new()
         actions.custom_minimum_size.x = 146
         row.add_child(actions)
-        var berth_open := day.berths.size() < PortDay.BERTH_CAPACITY
         var inspection := day.inspection_for(ship)
-        _button(actions, "Berth & clear" if not inspection.is_empty() else "Assign berth",
-            _berth.bind(ship["id"], false)).disabled = not berth_open or not day.can_finish(ship, false)
+        var assign := _button(actions, "Berth & clear" if not inspection.is_empty() else "Assign berth",
+            _berth.bind(ship["id"], false))
+        _set_disabled_reason(assign, _label(actions, "", 13, GOLD, true), _berth_block(ship, false))
         if not inspection.is_empty():
             var inspect := _button(actions, "Inspect  +%d min" % inspection["minutes"],
                 _berth.bind(ship["id"], true))
-            inspect.disabled = not berth_open or not day.can_finish(ship, true)
-            inspect.tooltip_text = "Takes a berth and advances the clock before unloading. Other ships keep working."
+            _set_disabled_reason(inspect, _label(actions, "", 13, GOLD, true), _berth_block(ship, true),
+                "Takes a berth and advances the clock before unloading. Other ships keep working.")
     _render_log()
+
+
+func _berth_block(ship: Dictionary, inspect: bool) -> String:
+    if day.berths.size() >= PortDay.BERTH_CAPACITY:
+        return "Both berths are occupied."
+    if not day.can_finish(ship, inspect):
+        var deadline := "closing" if day.scenario["end_minute"] < ship["departure"] else "departure"
+        var action := "inspect and unload" if inspect else "unload"
+        return "Not enough time to %s before %s." % [action, deadline]
+    return ""
 
 
 func _render_inspection() -> void:
@@ -206,7 +221,11 @@ func _render_inspection() -> void:
         _evidence_tab(tabs, evidence[i]["label"], i)
     _evidence_tab(tabs, "%02d  Reference manual" % (evidence.size() + 1), evidence.size())
 
-    var reading := _panel(content)
+    var pages := HBoxContainer.new()
+    pages.add_theme_constant_override("separation", 12)
+    content.add_child(pages)
+    var reading := _panel(pages)
+    reading.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     if evidence_index == evidence.size():
         _label(reading, day.manual["title"], 20, GOLD, true)
         for entry in day.manual["entries"]:
@@ -214,6 +233,8 @@ func _render_inspection() -> void:
             _label(reading, entry["text"], 16, INK, true)
     else:
         var clue: Dictionary = evidence[evidence_index]
+        if clue["id"] in ["ev_exterior", "ev_tally"]:
+            recorded_measurements = _measurement_excerpt(clue["text"])
         var spread := HBoxContainer.new()
         spread.add_theme_constant_override("separation", 12)
         reading.add_child(spread)
@@ -225,25 +246,71 @@ func _render_inspection() -> void:
         var picture := _art(spread, clue.get("image", ""), Vector2(400, 200))
         if picture:
             picture.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+    if not recorded_measurements.is_empty():
+        _render_findings(pages)
 
     var decision := _panel(content)
     _label(decision, "FILE A RULING  /  ONE FINAL DECISION", 14, GOLD)
     var submit := Button.new()
+    var hint := Label.new()
     _choice(decision, "Choose a ruling", inspection["rulings"], ruling_index,
         func(index: int) -> void:
             ruling_index = index - 1
-            submit.disabled = ruling_index < 0 or reason_index < 0
+            _set_disabled_reason(submit, hint, _ruling_block())
     )
-    _choice(decision, "Cite your evidence", inspection["reasons"], reason_index,
+    _choice(decision, "Cite your evidence", PortDay.CITATION_METHODS, reason_index,
         func(index: int) -> void:
             reason_index = index - 1
-            submit.disabled = ruling_index < 0 or reason_index < 0
+            _set_disabled_reason(submit, hint, _ruling_block())
     )
     submit.text = "File ruling & return to the quay"
-    submit.disabled = ruling_index < 0 or reason_index < 0
     submit.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     decision.add_child(submit)
     submit.pressed.connect(_rule)
+    hint.add_theme_font_size_override("font_size", 13)
+    hint.add_theme_color_override("font_color", GOLD)
+    hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    decision.add_child(hint)
+    _set_disabled_reason(submit, hint, _ruling_block())
+
+
+func _measurement_excerpt(text: String) -> String:
+    var readings := PackedStringArray()
+    for paragraph in text.split("\n\n", false):
+        if paragraph.begins_with("Weights:"):
+            readings.append(paragraph)
+    return text if readings.is_empty() else "\n\n".join(readings)
+
+
+func _render_findings(parent: Node) -> void:
+    var notes := _panel(parent)
+    var panel := notes.get_parent() as Control
+    panel.custom_minimum_size.x = 330
+    panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+    _label(notes, "RECORDED MEASUREMENTS", 14, GOLD)
+    var scroll := ScrollContainer.new()
+    scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+    scroll.custom_minimum_size.y = 280
+    notes.add_child(scroll)
+    var measurements := _label(scroll, recorded_measurements, 14, INK, true)
+    measurements.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+
+func _ruling_block() -> String:
+    if ruling_index < 0 and reason_index < 0:
+        return "Choose a ruling and cite evidence before filing."
+    if ruling_index < 0:
+        return "Choose a ruling before filing."
+    if reason_index < 0:
+        return "Cite evidence before filing."
+    return ""
+
+
+func _set_disabled_reason(button: Button, hint: Label, reason: String, enabled_tooltip := "") -> void:
+    button.disabled = not reason.is_empty()
+    button.tooltip_text = reason if button.disabled else enabled_tooltip
+    hint.text = reason
+    hint.visible = button.disabled
 
 
 func _render_view() -> void:
@@ -378,6 +445,7 @@ func _berth(ship_id: String, inspect: bool) -> void:
         evidence_index = 0
         ruling_index = -1
         reason_index = -1
+        recorded_measurements = ""
     _render()
 
 
@@ -387,8 +455,10 @@ func _advance(minutes: int) -> void:
 
 
 func _rule() -> void:
+    if day.pending_case.is_empty() or not _ruling_block().is_empty():
+        return
     var inspection := day.inspection_for(day.pending_case)
-    day.rule(inspection["rulings"][ruling_index]["id"], inspection["reasons"][reason_index]["id"])
+    day.rule_with_method(inspection["rulings"][ruling_index]["id"], PortDay.CITATION_METHODS[reason_index]["id"])
     _render()
 
 
