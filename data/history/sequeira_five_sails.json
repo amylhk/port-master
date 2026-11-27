@@ -22,7 +22,8 @@
       "outcome_text": "The captains keep their turns. Araújo's buyers have to take what cloves are left at the scales.",
       "effects": {
         "supply": -1,
-        "reputation": 1
+        "reputation": 1,
+        "faction_standing": {"eastern_junk_guild": 2}
       }
     }
   ],

@@ -15,7 +15,8 @@
       "outcome_text": "Upeh has rice tonight without needing the crossing. The royal storekeeper strikes the expected sacks from his tally.",
       "effects": {
         "supply": 3,
-        "reputation": -1
+        "reputation": -1,
+        "faction_standing": {"upeh_household": 2}
       }
     },
     {

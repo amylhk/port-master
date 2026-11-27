@@ -5,7 +5,7 @@
   "day": 17,
   "requires": [
     "melaka_siege_step_5",
-    "case_002_cleared"
+    "case_002_verified_clearance"
   ],
   "conditions": [
     "faction_standing.chatu_contacts>=2"

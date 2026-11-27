@@ -147,7 +147,15 @@ func _check_choices(path: String, choices: Variant, has_merchant: bool) -> void:
             _fail(path, "choice needs an effects object")
             continue
         for key in effects:
-            if not key in EFFECT_KEYS or not _is_integer(effects[key]):
+            if key == "faction_standing":
+                var standings: Variant = effects[key]
+                if not standings is Dictionary or standings.is_empty():
+                    _fail(path, "faction_standing must map faction IDs to integer deltas")
+                    continue
+                for faction_id in standings:
+                    if not _id_exists(FACTIONS_DIR, faction_id) or not _is_integer(standings[faction_id]):
+                        _fail(path, "invalid faction_standing delta for %s" % faction_id)
+            elif not key in EFFECT_KEYS or not _is_integer(effects[key]):
                 _fail(path, "effect %s must be an integer duty, supply, reputation or merchant_trust delta" % key)
             elif key == "merchant_trust" and not has_merchant:
                 _fail(path, "merchant_trust requires merchant_id")

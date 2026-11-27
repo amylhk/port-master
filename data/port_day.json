@@ -64,6 +64,9 @@
     ]},
     {"rice_target":0, "ships":[
       {"id":"north_bank_jong","name":"North Bank Jong","cargo":"12 teak planks","arrival":610,"departure":840,"minutes":60,"duty":5,"rice":0,"inspection_case":"case_018"}
-    ]}
+    ]},
+    {"narrative_only":true, "rice_target":0, "ships":[]},
+    {"narrative_only":true, "rice_target":0, "ships":[]},
+    {"narrative_only":true, "rice_target":0, "ships":[]}
   ]
 }
