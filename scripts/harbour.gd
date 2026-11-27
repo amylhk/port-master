@@ -131,10 +131,11 @@ func _render_harbour() -> void:
         actions.custom_minimum_size.x = 146
         row.add_child(actions)
         var berth_open := day.berths.size() < PortDay.BERTH_CAPACITY
-        _button(actions, "Berth & clear" if day.has_case(ship) else "Assign berth",
+        var inspection := day.inspection_for(ship)
+        _button(actions, "Berth & clear" if not inspection.is_empty() else "Assign berth",
             _berth.bind(ship["id"], false)).disabled = not berth_open or not day.can_finish(ship, false)
-        if day.has_case(ship):
-            var inspect := _button(actions, "Inspect  +%d min" % day.inspection["minutes"],
+        if not inspection.is_empty():
+            var inspect := _button(actions, "Inspect  +%d min" % inspection["minutes"],
                 _berth.bind(ship["id"], true))
             inspect.disabled = not berth_open or not day.can_finish(ship, true)
             inspect.tooltip_text = "Takes a berth and advances the clock before unloading. Other ships keep working."
@@ -142,19 +143,20 @@ func _render_harbour() -> void:
 
 
 func _render_inspection() -> void:
+    var inspection := day.inspection_for(day.pending_case)
     var dossier := _panel(content)
-    _label(dossier, day.inspection["subtitle"], 14, GOLD)
-    _label(dossier, day.inspection["title"], 24)
-    var inspection_minutes := int(day.inspection["minutes"])
+    _label(dossier, inspection["subtitle"], 14, GOLD)
+    _label(dossier, inspection["title"], 24)
+    var inspection_minutes := int(inspection["minutes"])
     _label(dossier, "%d min elapsed. Other berth work and scheduled arrivals continued; unloading starts after your ruling." % inspection_minutes,
         15, MUTED, true)
-    var evidence: Array = day.inspection["evidence"]
+    var evidence: Array = inspection["evidence"]
     var tabs := HBoxContainer.new()
     tabs.add_theme_constant_override("separation", 8)
     dossier.add_child(tabs)
     for i in evidence.size():
         _evidence_tab(tabs, evidence[i]["label"], i)
-    _evidence_tab(tabs, "05  Reference manual", evidence.size())
+    _evidence_tab(tabs, "%02d  Reference manual" % (evidence.size() + 1), evidence.size())
 
     var reading := _panel(content)
     if evidence_index == evidence.size():
@@ -183,12 +185,12 @@ func _render_inspection() -> void:
     var decision := _panel(content)
     _label(decision, "FILE A RULING  /  ONE FINAL DECISION", 14, GOLD)
     var submit := Button.new()
-    _choice(decision, "Choose a ruling", day.inspection["rulings"], ruling_index,
+    _choice(decision, "Choose a ruling", inspection["rulings"], ruling_index,
         func(index: int) -> void:
             ruling_index = index - 1
             submit.disabled = ruling_index < 0 or reason_index < 0
     )
-    _choice(decision, "Cite your evidence", day.inspection["reasons"], reason_index,
+    _choice(decision, "Cite your evidence", inspection["reasons"], reason_index,
         func(index: int) -> void:
             reason_index = index - 1
             submit.disabled = ruling_index < 0 or reason_index < 0
@@ -241,7 +243,8 @@ func _advance(minutes: int) -> void:
 
 
 func _rule() -> void:
-    day.rule(day.inspection["rulings"][ruling_index]["id"], day.inspection["reasons"][reason_index]["id"])
+    var inspection := day.inspection_for(day.pending_case)
+    day.rule(inspection["rulings"][ruling_index]["id"], inspection["reasons"][reason_index]["id"])
     _render()
 
 

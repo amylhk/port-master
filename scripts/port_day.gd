@@ -2,10 +2,10 @@ extends RefCounted
 
 const BERTH_CAPACITY := 2
 const ANCHORAGE_CAPACITY := 3
-const INSPECTION_PATH := "res://data/inspections/case_001.json"
+const INSPECTION_DIR := "res://data/inspections"
 
 var scenario: Dictionary
-var inspection: Dictionary
+var inspections: Dictionary
 var manual: Dictionary
 var minute_of_day := 0
 var waiting: Array[Dictionary] = []
@@ -21,11 +21,33 @@ var recovered_duty := 0
 var ruling_note := ""
 
 
-func load_data() -> bool:
-    scenario = _read_data("res://data/port_day.json")
-    inspection = _read_data(INSPECTION_PATH)
+func load_data(scenario_path := "res://data/port_day.json", inspection_dir := INSPECTION_DIR) -> bool:
+    inspections.clear()
+    scenario = _read_data(scenario_path)
     manual = _read_data("res://data/manual/manual_stage_a.json")
-    return not scenario.is_empty() and not inspection.is_empty() and not manual.is_empty()
+    if scenario.is_empty() or manual.is_empty():
+        return false
+
+    var loaded := {}
+    for ship in scenario["ships"]:
+        if not ship.has("inspection_case"):
+            continue
+        var case_id: Variant = ship["inspection_case"]
+        if not case_id is String or not case_id.is_valid_filename():
+            push_error("Invalid inspection_case for ship %s: expected a case ID." % ship["id"])
+            return false
+        if loaded.has(case_id):
+            continue
+        var path := inspection_dir.path_join("%s.json" % case_id)
+        var inspection := _read_data(path)
+        if inspection.is_empty():
+            return false
+        if inspection.get("id") != case_id:
+            push_error("Expected inspection ID '%s' at %s." % [case_id, path])
+            return false
+        loaded[case_id] = inspection
+    inspections = loaded
+    return true
 
 
 func reset() -> void:
@@ -51,8 +73,9 @@ func berth(ship_id: String, inspect: bool) -> void:
         var ship := waiting[i]
         if ship["id"] != ship_id:
             continue
-        if not can_finish(ship, inspect) or (inspect and not has_case(ship)):
+        if not can_finish(ship, inspect):
             return
+        var inspection := inspection_for(ship)
         waiting.remove_at(i)
         berths.append(ship)
         _log("%s took a berth." % ship["name"])
@@ -60,8 +83,8 @@ func berth(ship_id: String, inspect: bool) -> void:
             pending_case = ship
             _log("Detailed Inspection occupied a berth for %d min." % inspection["minutes"])
             _advance_clock(int(inspection["minutes"]))
-        elif has_case(ship):
-            ruling_note = "Porcelain cleared on the declaration alone."
+        elif not inspection.is_empty():
+            ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
         return
 
 
@@ -70,7 +93,7 @@ func rule(ruling_id: String, reason_id: String) -> void:
         return
     var ship := pending_case
     pending_case = {}
-    var truth: Dictionary = inspection["hidden_truth"]
+    var truth: Dictionary = inspection_for(ship)["hidden_truth"]
     if ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]:
         ship["extra_duty"] = int(truth["extra_duty"])
         ruling_note = truth["success"]
@@ -93,12 +116,15 @@ func advance(minutes: int) -> void:
 func can_finish(ship: Dictionary, inspect: bool) -> bool:
     var duration := int(ship["minutes"])
     if inspect:
+        var inspection := inspection_for(ship)
+        if inspection.is_empty():
+            return false
         duration += int(inspection["minutes"])
     return minute_of_day + duration <= mini(int(ship["departure"]), int(scenario["end_minute"]))
 
 
-func has_case(ship: Dictionary) -> bool:
-    return ship.get("inspection_case", "") == inspection["id"]
+func inspection_for(ship: Dictionary) -> Dictionary:
+    return inspections.get(ship.get("inspection_case", ""), {})
 
 
 func ship_at_anchor(slot: int) -> Dictionary:
