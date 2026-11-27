@@ -1193,7 +1193,7 @@ func _feedback() -> void:
     _reading(panel, last_feedback, Rect2(27, 86, 686, 182 if teaching else 220), BROWN, 21)
     if teaching:
         _text(panel, "同僚：" + TEACHING["stamp"], Rect2(27, 270, 555, 52), 16, BROWN)
-        _button(panel, "唔使教", Rect2(605, 277, 108, 38), _skip_teaching)
+        _button(panel, "不必再教", Rect2(605, 277, 108, 38), _skip_teaching)
     _button(panel, "返回港口", Rect2(215, 332, 310, 45), func() -> void:
         feedback_open = false
         teaching_topic = ""
@@ -1249,7 +1249,7 @@ func _hint(caption: String) -> void:
     else:
         _text(panel, "同僚：" + TEACHING[teaching_topic], Rect2(17, 1, 1070, 25), 17, INK)
         _text(panel, caption, Rect2(17, 25, 1070, 24), 17, GOLD)
-        _button(panel, "唔使教", Rect2(1107, 7, 108, 37), _skip_teaching)
+        _button(panel, "不必再教", Rect2(1107, 7, 108, 37), _skip_teaching)
 
 
 func _modal(rect: Rect2, fill := DARK) -> Panel:
