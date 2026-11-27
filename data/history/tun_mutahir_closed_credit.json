@@ -29,8 +29,8 @@
     }
   ],
   "notes": [
-    "fact: Pires and the Malay Annals both record Mahmud's order to execute Bendahara Seri Maharaja Tun Mutahir, but give different accounts of why. Brown's Annals name Paduka Tuan as his successor and have Mahmud hand the regalia to Ahmad before the conquest; Pires still describes Mahmud as king during the 1511 negotiations (docs/research/people-factions.md §2, research PR #28; docs/research/1511-events.md §§1, 4.3).",
-    "inference: The purge weakened the court's administrative and commercial relationships before the invasion (docs/research/1511-events.md §1, Phase II). The accounts do not establish how Mahmud and Ahmad divided port authority (docs/research/people-factions.md §2, research PR #28).",
+    "fact: Pires and the Malay Annals both record Mahmud's order to execute Bendahara Seri Maharaja Tun Mutahir, but give different accounts of why. Brown's Annals name Paduka Tuan as his successor and have Mahmud hand the regalia to Ahmad before the conquest; Pires still describes Mahmud as king during the 1511 negotiations (docs/research/people-factions.md §2; docs/research/1511-events.md §§1, 4.3).",
+    "inference: The purge weakened the court's administrative and commercial relationships before the invasion (docs/research/1511-events.md §1, Phase II). The accounts do not establish how Mahmud and Ahmad divided port authority (docs/research/people-factions.md §2).",
     "gameplay: The court report follows the Annals. The clerks' uncertainty, unsigned purchase order, credit refusal and rice disposition are invented."
   ]
 }

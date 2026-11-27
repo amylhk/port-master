@@ -29,7 +29,7 @@
   ],
   "notes": [
     "fact: Albuquerque's fleet took Gujarati shipping and called at Pedir, where escaped Portuguese captives joined it (docs/research/1511-events.md §1, Phase III).",
-    "gameplay: Ismail is the fictional merchant who owns the Salamat, not the unnamed Gujarati shahbandar mentioned in Birch's account. Farid, his letter, the Salamat and this follow-up are also fictional. The advice concerns unsold stock and does not assess dues or count a sale (data/inspections/case_004.json; data/events/ev_bendahara_summons.json; data/merchants/khoja_ismail.json; docs/research/people-factions.md §2, research PR #28)."
+    "gameplay: Ismail is the fictional merchant who owns the Salamat, not the unnamed Gujarati shahbandar mentioned in Birch's account. Farid, his letter, the Salamat and this follow-up are also fictional. The advice concerns unsold stock and does not assess dues or count a sale (data/inspections/case_004.json; data/events/ev_bendahara_summons.json; data/merchants/khoja_ismail.json; docs/research/people-factions.md §2)."
   ],
   "merchant_id": "khoja_ismail"
 }
