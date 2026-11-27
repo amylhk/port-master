@@ -342,7 +342,9 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
 
 func inspect_berth(slot: int) -> void:
     if not selected_ship.is_empty():
-        request_berth(selected_ship, slot)
+        var placing := selected_ship
+        selected_ship = ""
+        request_berth(placing, slot)
         return
     var ship := day.ship_at_berth(slot)
     if ship.is_empty() or day.closed() or not day.pending_case.is_empty() or feedback_open or notes_open or manual_open or detail_open:

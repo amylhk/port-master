@@ -133,6 +133,9 @@ func _run() -> void:
     game.selected_ship = "rice"
     game.inspect_berth(0)
     _expect(game.day.pending_case.is_empty() and not game.notice.is_empty() and game.day.ship_at_berth(0).get("inspection_open", false), "clicking the marker while placing a ship reports the occupied berth instead of inspecting")
+    _expect(game.selected_ship.is_empty(), "a rejected placement on the marker drops the selection so the next click inspects")
+    game.inspect_berth(0)
+    _expect(game.day.pending_case.get("id") == "porcelain", "the marker inspects once nothing is being placed")
     game.restart()
     game.day.berth("rice", false, -2)
     game.day.berth("rice", false, 2)
