@@ -1,0 +1,171 @@
+{
+  "id": "case_017",
+  "title": "A name from the boat hire",
+  "subtitle": "As families move away from the river, Nina Chatu’s bookkeeper asks to land the pepper on the Three Reeds at a quieter stair. The quay clerk calls for the name at the top of the declaration. The boatman answers instead.",
+  "minutes": 30,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The declaration for the Three Reeds",
+      "text": "Eight baskets of Pasai pepper for sale through Nina Chatu’s brokerage. Owner entered on the declaration: Bakar the boatman. The entry was drawn up at the temporary desk after the river lane closed."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Quay tally",
+      "title": "The eight baskets",
+      "text": "Weights: Eight baskets, net weight eighty kati each. The receiving tally repeats the same basket numbers as the declaration. No buyer’s name is attached to any basket."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Two copies of the bargain",
+      "text": "Kannan, Chatu’s bookkeeper, brings the seller’s receipt: payment from Nina Chatu for eight baskets, identified by the same numbers as the receiving tally.\n\nBakar the boatman brings his own counterfoil: payment from Chatu for carrying those baskets from the anchorage to the stair. “That’s the only money I took. I don’t buy pepper.”\n\nThe quay clerk compares both copies. “Bakar’s was the first name on the landing list. I copied it into the owner’s space when we moved the desk.”"
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Opened cargo",
+      "title": "Pepper at the new stair",
+      "text": "Opened: Dry black pepper in the sampled baskets. The quantity and agreed value on the books do not change."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "carrier_not_owner",
+      "label": "Chatu’s purchase receipt and the boat hire counterfoil identify Chatu as owner and Bakar as carrier."
+    },
+    {
+      "id": "matching_weight",
+      "label": "The weighers got the declared net weight."
+    },
+    {
+      "id": "sound_pepper",
+      "label": "The sampled pepper is sound."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "minor_fault",
+    "reason_id": "carrier_not_owner",
+    "citation_method": "testimony",
+    "feedback_by_method": {
+      "marks": "The basket numbers connect the paperwork to the goods but name neither the buyer nor the hired carrier.",
+      "measurements": "The weight matches the entry; it cannot tell you who bought the pepper.",
+      "contents": "Opening the baskets confirms the goods, not whose account should receive them.",
+      "manifest": "The declaration repeats the copied name. The seller’s receipt records a purchase, and the boatman’s counterfoil records only hire."
+    },
+    "extra_duty": 0,
+    "success": "In the temenggung’s name, you enter Nina Chatu as owner and Bakar as carrier. The pepper clears at the same assessment. Kannan copies both names onto the landing receipt so the man who rowed the load does not have to answer for its sale.",
+    "clear": "You clear the pepper with the boatman still entered as its owner. Kannan cannot use the landing receipt to claim Chatu’s lot when the clerk moves desks again.",
+    "unsupported": "The correction you cited is not supported. The goods and the assessment stand, but the entry still assigns the lot to the wrong account.",
+    "hold": "You keep the Three Reeds at the berth. Kannan and the boatman lose a day at the stair over a mistake both their receipts could have corrected."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Three Reeds",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "minor_fault",
+      "summary": "Chatu’s purchase receipt and the boat hire counterfoil identify Chatu as owner and Bakar as carrier.",
+      "explanation": "The temporary landing desk copied the hired boatman’s name into the ownership field. Paid purchase and hire records agree to the basket tally and show an honest transcription error without a change in goods or value.",
+      "key_clues": [
+        "ev_manifest",
+        "ev_testimony"
+      ],
+      "deduction": [
+        "The goods and the manifest agree on number, type and weight.",
+        "The seller named Chatu as buyer; the carrier was paid only for the passage.",
+        "Amend the owner without reassessing the lot."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": []
+    },
+    "outcomes": {
+      "clean": {
+        "text": "The wrong owner stays on the receipt.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "The clerk corrects the owner and records the carrier separately.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 1,
+          "office_reputation": 1
+        },
+        "correct": true
+      },
+      "major_fraud": {
+        "text": "The accounts do not support a charge of concealment.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "The hold costs time without uncovering a matter for the court.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -2,
+          "office_reputation": -1
+        },
+        "correct": false
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Pepper and brokers",
+        "note": "Pasai supplied pepper to Melaka, and Keling merchants took regional pepper into the Indian Ocean trade (docs/research/commodities.md, Pepper).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Sales during the lull",
+        "note": "A closed lane turns a sale or a handover into a choice between moving goods and leaving room for people (data/history/ismail_shuttered_store.json). The separate handover at the Three Reeds and the lot Chatu owns are fictional.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Inspection and documents",
+        "note": "The day 14 consignment, dialogue, manifest and inspection paperwork are gameplay inventions. The player is a shahbandar ruling in the temenggung’s name.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_exterior": "inspect",
+      "ev_testimony": "inspect",
+      "ev_opened": "open"
+    },
+    "question_prerequisites": {}
+  }
+}

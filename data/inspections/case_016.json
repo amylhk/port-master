@@ -1,0 +1,175 @@
+{
+  "id": "case_016",
+  "title": "The runner at the rice steps",
+  "subtitle": "Jaka Wira has brought his rice to the Upeh landing. A runner wearing a palace sash says the sacks must go across the bridge before the stallholders get a measure.",
+  "minutes": 30,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "Jaka’s declaration",
+      "text": "Javanese rice jong from Demak. Jaka Wira declares twenty-four sacks of rice for the Upeh market. No court delivery is entered against this lot."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Quay tally",
+      "title": "Sacks at the landing",
+      "text": "Weights: Twenty-four sacks. Each weighs between 38 and 42 kati. All twenty-four stand beside the Upeh landing plank.\n\nThe runner leaves an empty handcart by the landing and keeps asking when the regular storekeeper comes on duty."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Three accounts at the steps",
+      "text": "Runner: “The royal storekeeper sent me. He took me on this morning. Ask him yourself when the rice is over the bridge.”\n\nRoyal storekeeper, called to the quay: “I entered no order for these sacks and sent no runner. I asked the shahbandar to set rice aside if the court calls for it.”\n\nUpeh carter: “I know that man. He hired my cart before dawn for a private yard two lanes from here. He told me to let the porters think it was going across the bridge.”"
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Opened sacks",
+      "title": "A sample from either end",
+      "text": "Opened: Plain dry rice in one sack from either end of the stack. No other goods lie beneath it. Jaka offers to open the rest if the weighers ask."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "false_store_runner",
+      "label": "The royal storekeeper denies the order, and the carter places the runner’s delivery in a private Upeh yard."
+    },
+    {
+      "id": "sound_rice",
+      "label": "The opened sacks hold sound rice."
+    },
+    {
+      "id": "full_lot",
+      "label": "The number of sacks matches the declaration."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "hold",
+    "reason_id": "false_store_runner",
+    "citation_method": "testimony",
+    "feedback_by_method": {
+      "marks": "A palace sash does not establish who sent the runner or where his cart will take the rice.",
+      "measurements": "The tally shows that Jaka has the full lot. It cannot establish who ordered it across the bridge.",
+      "contents": "Opening the sacks shows that the rice is sound, not whether the royal storekeeper requisitioned it.",
+      "manifest": "The declaration shows where Jaka intended to sell the rice; a genuine later requisition would not necessarily be on it."
+    },
+    "extra_duty": 0,
+    "success": "In the temenggung’s name, you hold the jong and send the runner’s account, the storekeeper’s denial and the carter’s testimony to the bendahara. The sacks stay on the landing under guard. The court can ask for rice in its own name; the man with the cart cannot.",
+    "clear": "You clear Jaka’s rice while the runner is still at the steps. The porters follow the palace sash, and the first sacks go to the private yard instead of the market.",
+    "unsupported": "The goods and the tally agree, so the declaration stands. Amending a cargo entry does not stop the cart from leaving.",
+    "hold": "You stop the rice but send no evidence the bendahara can act on. The runner leaves the steps, and neither the court store nor the market receives the lot."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Javanese Rice Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "story_event",
+      "summary": "The royal storekeeper denies the order, and the carter places the runner’s delivery in a private Upeh yard.",
+      "explanation": "The rice trade itself is in order. A runner falsely invokes royal authority to redirect provisions to a private yard while access to the bridge is uncertain.",
+      "key_clues": [
+        "ev_testimony"
+      ],
+      "deduction": [
+        "The tally and sample do not disclose a customs offense.",
+        "The storekeeper disowns the runner, and the carter gives a destination on the wrong bank for the royal stores.",
+        "Hold the consignment for the bendahara, not for a duty assessment."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": [
+        {
+          "evidence": "ev_exterior",
+          "why_not_guilt": "The idle cart raises a question about the runner; its presence does not establish fraud by Jaka."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "The rice clears but the runner diverts it.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "The amendment does not stop the cart.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "major_fraud": {
+        "text": "The declaration agrees with the goods; accusing Jaka misses the diversion.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "The port holds the rice and reports the impersonation to the bendahara.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 1,
+          "office_reputation": 1
+        },
+        "correct": true
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Rice supply",
+        "note": "Northern Java was a major source of grain for Melaka (docs/research/commodities.md, Rice).",
+        "confidence": "high"
+      },
+      {
+        "topic": "The bridge",
+        "note": "The first Portuguese assault separated the Upeh market from the royal bank until the Portuguese withdrew at dusk (data/history/first_assault_bridge.json; docs/research/1511-events.md, Phase IV).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Inspection and documents",
+        "note": "The day 13 consignment, dialogue, manifest and inspection paperwork are gameplay inventions. The player is a shahbandar ruling in the temenggung’s name.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_exterior": "inspect",
+      "ev_testimony": "inspect",
+      "ev_opened": "open"
+    },
+    "question_prerequisites": {}
+  }
+}
