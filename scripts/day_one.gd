@@ -667,7 +667,10 @@ func _crate_findings(panel: Control, inspection: Dictionary) -> void:
             findings[1] += "\n\n" + findings[3].replace("他沉默許久，才要求把此事交由天猛公親自裁決。", "他沉默許久，沒有回答。")
         "case_003":
             findings = findings[0].split("他們再", false, 1)
-            findings[1] = "他們再" + findings[1]
+            var weighing := findings[1].split("，", false, 1)
+            findings[1] = "搬運工" + weighing[0] + "。"
+            if viewed.has("contents"):
+                findings[selected_crate] += "\n\n全批錫錠：" + weighing[1]
         "case_004":
             findings[2] += "\n\n" + findings[3]
     var body := findings[selected_crate]

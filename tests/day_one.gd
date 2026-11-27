@@ -246,6 +246,14 @@ func _other_cases() -> void:
                 game._evidence_turn(1)
                 game._evidence_turn(-1)
             _expect(game.opened_crates.is_empty() and not game.viewed.has("contents"), "%s starts with all packages closed" % example[0])
+            if case_id == "case_003":
+                _press_accessible(game, "開封其餘的籃子")
+                _expect(not _text_shown(game, "秤量裸錠") and not _text_shown(game, "仍是8小巴哈"), "the other baskets do not reveal the shipment's net weight while the muddy basket is closed")
+                _press_text(game, "查看完整證據")
+                _expect(game.detail_open and not game.detail_text.contains("仍是8小巴哈"), "the full reading also withholds the combined weight")
+                _press_text(game, "返回驗貨桌")
+                _press_accessible(game, "開封沾泥的籃子")
+                _expect(_text_shown(game, "仍是8小巴哈"), "opening the last basket reveals the shipment's original net weight")
             for index in game.CRATE_NAMES[case_id].size():
                 game.open_crate(index)
             game.manual_seen = true
