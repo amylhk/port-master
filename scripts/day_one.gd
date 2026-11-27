@@ -720,7 +720,7 @@ func _findings(inspection: Dictionary) -> void:
     var paragraphs := evidence_text.split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
     var short_line := _short_evidence(inspection, evidence)
-    var has_art: bool = evidence.has("image") and (evidence_page == 0 or not short_line.is_empty())
+    var has_art := _has_evidence_art(evidence) and (evidence_page == 0 or not short_line.is_empty())
     if has_art:
         _image(panel, evidence["image"], Rect2(17, 65, 478, 135))
     _reading(panel, short_line if not short_line.is_empty() else paragraphs[evidence_page], Rect2(18, 205 if has_art else 74, 476, 96 if has_art else 227), BROWN, 18)
@@ -794,6 +794,10 @@ func _short_evidence(inspection: Dictionary, evidence: Dictionary) -> String:
     return short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
 
 
+func _has_evidence_art(evidence: Dictionary) -> bool:
+    return evidence.has("image") and ResourceLoader.exists(evidence["image"], "Texture2D")
+
+
 func show_evidence(index: int, full := false) -> void:
     if day.pending_case.is_empty() or manual_open or detail_open or index < 0 or index > 2:
         return
@@ -805,7 +809,8 @@ func show_evidence(index: int, full := false) -> void:
         0: viewed["manifest"] = true
         1:
             viewed["measurements"] = true
-            if inspection["id"] != "case_003" and (full or _short_evidence(inspection, evidence).is_empty()):
+            var shows_seal_plate: bool = inspection["id"] == "case_001" and _has_evidence_art(evidence)
+            if inspection["id"] != "case_003" and (full or shows_seal_plate or _short_evidence(inspection, evidence).is_empty()):
                 viewed["marks"] = true
         2: viewed["testimony"] = true
     if full:

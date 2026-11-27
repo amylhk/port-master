@@ -466,10 +466,16 @@ func _citation_locks() -> void:
     _press_text(game, "返回驗貨桌")
     _expect(_disabled_button(game, "證詞") and _disabled_button(game, "貨單"), "the introductory statement does not substitute for either source")
     _press_text(game, "查驗封印與過磅")
-    _expect(not _disabled_button(game, "重量") and _disabled_button(game, "封印"), "the weight summary does not uncover unshown seal marks")
+    var seal_plate_visible := false
+    for picture: TextureRect in game.find_children("*", "TextureRect", true, false):
+        if picture.texture != null and picture.texture.resource_path == "res://assets/inspection/lot-seven-exterior.png" and picture.is_visible_in_tree():
+            seal_plate_visible = true
+    _expect(seal_plate_visible and not _disabled_button(game, "重量") and not _disabled_button(game, "封印"), "the porcelain exterior plate immediately uncovers its weights and seal marks")
+    _press_text(game, "封印")
+    _expect(game.method == "marks" and not game.detail_open, "visible porcelain seals can be cited without opening the full reading")
     _press_text(game, "查看完整證據")
     _press_text(game, "返回驗貨桌")
-    _expect(not _disabled_button(game, "封印") and _disabled_button(game, "證詞") and _disabled_button(game, "貨單"), "only the complete exterior check unlocks its seals")
+    _expect(not _disabled_button(game, "封印") and _disabled_button(game, "證詞") and _disabled_button(game, "貨單"), "the full exterior reading preserves seal access without unlocking other sources")
     _press_text(game, "詢問船員")
     _press_text(game, "查閱完整貨單")
     _press_text(game, "返回驗貨桌")
