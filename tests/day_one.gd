@@ -26,11 +26,14 @@ func _run() -> void:
     if game.day.berths.is_empty():
         # Keep diagnostics meaningful if the native drag assertion fails.
         game.assign_berth("rice", 1, false)
-    var before: int = game.day.waiting.size()
-    game.request_berth("pepper", 1)
-    _expect(game.day.waiting.size() == before and game.proposed_ship.is_empty(), "occupied drops never move a second ship")
-    game.request_berth("porcelain", 0)
+    var before: Array = game.day.waiting.duplicate()
+    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    _expect(game.day.waiting == before and game.proposed_ship.is_empty(), "occupied drops never move a second ship")
+    _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.minute_of_day == 540, "an occupied drop leaves the berth and clock unchanged")
+    _expect(_label_exists(game, "此泊位已有船隻，請使用另一泊位。"), "an occupied drop shows the reason and points to the open berth")
+    await _drag(Vector2(1025, 550), Vector2(215, 350))
     _expect(game.proposed_ship == "porcelain" and game.day.pending_case.is_empty(), "dropping case cargo offers unload or inspect before committing")
+    _expect(game.notice.is_empty(), "a successful retry clears the refusal")
     game.assign_berth("porcelain", 0, true)
     _expect(game.day.pending_case.get("id") == "porcelain" and game.day.minute_of_day == 585, "inspection opens the existing case and charges its fixed 45 minutes")
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
@@ -87,6 +90,11 @@ func _run() -> void:
     game.day.berth("rice", false, 1)
     game.day.berth("pepper", false, 1)
     _expect(game.day.berths.size() == 1 and game.day.ship_at_berth(1)["id"] == "rice", "the model rejects occupied explicit slots")
+    game.assign_berth("pepper", 0, false)
+    await process_frame
+    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    _expect(game.day.berths.size() == 2 and game.day.waiting.size() == 1 and game.proposed_ship.is_empty(), "a drop when both berths are full leaves the remaining ship waiting")
+    _expect(game.notice == "兩個泊位均已佔用，請推進至下次港鐘。", "a full harbour points to the next bell rather than another berth")
     game.queue_free()
     await process_frame
     await _other_cases()
@@ -149,6 +157,13 @@ func _drag(from: Vector2, to: Vector2) -> void:
 func _button_exists(node: Node, caption: String) -> bool:
     for button in node.find_children("*", "Button", true, false):
         if button.text == caption:
+            return true
+    return false
+
+
+func _label_exists(node: Node, caption: String) -> bool:
+    for label in node.find_children("*", "Label", true, false):
+        if label.text == caption:
             return true
     return false
 
