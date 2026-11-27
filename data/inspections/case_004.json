@@ -1,0 +1,215 @@
+{
+  "id": "case_004",
+  "title": "The fifteenth crate from Cambay",
+  "subtitle": "A Gujarati nau from Cambay carrying Arabian frankincense drops anchor with a torn foresail and a hurried crew. A harbour boatman says her captain forbade any porter to step behind the after stack. You board her for a Detailed Inspection.",
+  "minutes": 45,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Salamat’s declaration",
+      "text": "Salamat — Gujarati nau from Cambay\nMid-morning, first day of inspection season\n\nOwner Khoja Ismail of Cambay. 14 crates of Arabian frankincense, 6 crates of rosewater in glass flasks. Route Cambay - Calicut - Melaka. One note: frankincense crate 11 resealed off Calicut after a plank split. No passengers declared. No other note.\n\nArabian frankincense, in sealed timber crates\nQuantity: 14 crates · Grade: Fine · Declared value: 420\n\nRosewater in glass flasks, packed in straw-lined crates\nQuantity: 6 crates · Grade: Fine · Declared value: 180\n\nManifest note: Frankincense crate 11 opened off Calicut after a plank split in a swell; repacked and resealed by the nakhoda with the ship's seal."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Seals & weights",
+      "title": "Marks, seals and the weighers’ call",
+      "text": "Frankincense crates: 1 to 10 and 12 to 14 (13 crates)\nDry, reddish-brown clay seals pressed with a crescent over a bar. Timber sound; all alike.\n\nFrankincense crate 11\nDry grey clay seal pressed with a star above a crescent, the nakhoda's registered ship's seal. One side plank freshly pegged.\n\nUnnumbered crate behind the after stack (15th crate)\nLashed out of sight behind the frankincense rows. Darker river-clay seal, still soft at the rim, pressed clumsily with a crooked crescent and bar. Three narrow air-slits have been bored through the back slats.\n\nWeights: frankincense crates\nThe porters call out 35, 34, 36, 35, 34 kati... all fourteen declared crates between 34 and 36 kati, including crate 11 at 35 kati. When two porters heave the unnumbered fifteenth crate, they call out 94 kati and jump back at a muffled scrape from inside.\n\nRosewater flask crates (6 crates)\nAll six carry Khoja Ismail's crescent-over-a-bar seal in dry reddish-brown clay and weigh 22 to 24 kati. Crate 3 gives a faint clink of broken glass when tilted.\n\nNakhoda Dawud\nWhy does frankincense crate 11 carry your seal?\nA swell off Calicut split a side plank. I repacked the resin, pegged a new board, sealed it with my ship's seal and wrote it on the manifest.\n\nHassan\nWhat is the unnumbered fifteenth crate behind the stack?\nSpare ballast-stone and ship's gear. Not trade goods — nothing for the weighers.\n\nHassan\nWhy does rosewater crate 3 rattle?\nTwo flasks must have cracked in the swell. Ordinary breakage on a long crossing."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "The people aboard",
+      "text": "Hassan — Factor (agent) of Khoja Ismail, merchant of Cambay\nFourteen crates of Dhofar frankincense and six crates of rosewater flasks, all packed in Cambay under my master's mark. We called at Calicut and came straight across to Melaka. Nowhere else.\n\nNakhoda Dawud — Captain\nCambay to Calicut, then straight to Melaka. We never dropped anchor in Sumatra. Crate 11 split off Calicut; I repacked it, sealed it with my ship's seal and noted it on the manifest.\n\nTariq — Helmsman\nWe lay one night off Pedir in northern Sumatra, with our lamps hooded. Sixteen or more Feringgi warships — the white Bengalis — were anchored off the bar, and a Gujarati nau was burning in the roadstead.\n\nRahim — Cook\nAt Pedir a bruised, salt-soaked man in torn Cambay clothes scrambled up our side from a perahu after midnight with a waxed leather tube slung across his chest. The nakhoda hurried him below, bored air-slits into a spare crate and daubed wet dark clay from the Pedir shore onto its cord before we slipped out on the ebb.\n\nNakhoda Dawud\nYour helmsman and cook say you stopped at Pedir and hid a man in the stern crate.\nHe lowers his voice. A sister ship of our guild was seized off Pedir by the Feringgi. If I wrote that man's name on a public manifest, spies on the waterfront would know before noon."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open cargo",
+      "title": "Inside the crates",
+      "text": "Opened: frankincense crate 11\nPale amber tears of Arabian frankincense, dry and clean, matching the other crates. One repaired side plank. Nothing else inside.\n\nOpened: rosewater crate 3\nGlass flasks nested in straw. Two flasks are cracked and dry; the rest are whole and full. Nothing else.\n\nOpened: the unnumbered fifteenth crate\nNo frankincense, no ballast, no trade goods. Curled inside beside a water gourd is Farid, a bruised clerk from a sister Cambay nau seized by the Feringgi off Pedir. Around his neck hangs a waxed leather tube containing a sealed letter from Pedir's shahbandar to the bendahara of Melaka: eighteen armed Feringgi warships have put in at Pedir, taken aboard escaped captives from Melaka, and are making ready to sail down the Strait.\n\nFarid\nWhy were you sealed inside a cargo crate?\nI have not a kati of goods to trade and no dues to dodge. Take me and this letter quietly to the bendahara before the Feringgi sails sight the headland — and keep my name off the quay."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "calicut_reseal",
+      "label": "Frankincense crate 11 was resealed with the nakhoda's seal instead of Khoja Ismail's."
+    },
+    {
+      "id": "cracked_flasks",
+      "label": "Two cracked rosewater flasks in crate 3 were not declared as damaged."
+    },
+    {
+      "id": "pedir_messenger",
+      "label": "The hidden stern crate, Pedir testimony and the survivor's sealed warning of a Feringgi fleet are a matter of state."
+    },
+    {
+      "id": "smuggled_resin",
+      "label": "The unmanifested 94-kati crate proves undeclared frankincense was hidden to evade the 6% western dues."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "hold",
+    "reason_id": "pedir_messenger",
+    "extra_duty": 0,
+    "success": "In the temenggung's name you hold the Salamat at the berth and send Farid and the sealed Pedir letter under quiet guard to the bendahara. Every declared crate of frankincense and rosewater is in order, so no extra dues apply — yet the court receives warning of the eighteen Feringgi warships before their sails sight Melaka.",
+    "clear": "You clear the Salamat as declared. Farid slips ashore into the crowded lanes of Upeh after dark, and days pass before the court hears that an armed Feringgi fleet has already seized Gujarati ships off Pedir.",
+    "unsupported": "The evidence cited does not support a customs amendment in the temenggung’s name. All fourteen crates of frankincense and six of rosewater match the declaration, and the man hidden at the stern goes unreported to the court.",
+    "hold": "You hold the Salamat and summon the court on the wrong grounds. The bendahara's clerks find only a noted reseal and two cracked flasks where you pointed, and the day's frankincense sale is lost without uncovering the survivor from Pedir."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Arabian Frankincense Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "story_event",
+      "summary": "A surviving clerk from a Gujarati nau seized by the Feringgi armada off Pedir is hidden inside an unmanifested fifteenth crate at the stern, carrying a sealed warning from Pedir's shahbandar to Melaka's bendahara.",
+      "explanation": "Off Pedir in northern Sumatra, Nakhoda Dawud took aboard Farid, a survivor from a sister Cambay ship seized by the gathering Portuguese (Feringgi) fleet. Fearing waterfront spies in Melaka, Dawud hid Farid inside a spare crate with air-slits and soft Pedir clay behind the frankincense stack and denied stopping in Sumatra. All fourteen declared crates of frankincense and six of rosewater are intact and in order, with no hidden trade goods or tax evasion — what is concealed is a person in hiding carrying urgent military intelligence for the bendahara, making this a Story Event rather than customs fraud. Crate 11 (noted Calicut reseal) and crate 3 (two cracked flasks) are red herrings.",
+      "key_clues": [
+        "ev_crate15_seal_weight",
+        "q_helmsman_pedir",
+        "q_cook_pedir",
+        "ev_crate15_open"
+      ],
+      "deduction": [
+        "The manual flags soft, differently coloured clay and unnoted seals as warning signs. The unnumbered fifteenth crate behind the stack has soft dark clay, bored air-slits, no manifest entry, weighs 94 kati, and scrapes from within when moved.",
+        "The factor and captain deny stopping in Sumatra, but the helmsman reports sixteen or more Feringgi warships burning a Gujarati nau off Pedir, and the cook saw the captain seal a bruised survivor with a waxed scroll-tube inside a spare crate there.",
+        "Opening the fifteenth crate reveals Farid, a clerk from the seized Cambay ship, carrying a sealed letter from Pedir's shahbandar to Melaka's bendahara warning of eighteen Feringgi warships and escaped Melaka captives — with no undeclared trade goods.",
+        "All declared cargo matches the manifest and the discovery is a hidden messenger bearing news of an approaching war fleet for the court: Story Event (hold the ship and report to the bendahara), not Major Fraud or Minor Fault."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": [
+        {
+          "evidence": "ev_crate11_reseal",
+          "why_not_guilt": "Resealing with the nakhoda's registered ship's seal is permitted when noted on the manifest. The note, normal weight (35 kati), repaired plank and clean frankincense all agree."
+        },
+        {
+          "evidence": "ev_crate3_flasks",
+          "why_not_guilt": "Two cracked glass flasks in an otherwise sound crate of rosewater are ordinary sea breakage."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "You clear the Salamat as declared. Farid slips ashore into the crowded lanes of Upeh after dark, and days pass before the court hears that an armed Feringgi fleet has already seized Gujarati ships off Pedir.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -2
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "You amend the declaration over two cracked flasks and a repaired plank. Nakhoda Dawud pays without protest, and the fifteenth crate is carried off the quay after dusk.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "major_fraud": {
+        "text": "You charge the factor with hiding frankincense to evade the 6% western dues. The weighers count fourteen sound crates and find no undeclared resin, and the temenggung's clerks dismiss the charge while Farid slips away.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "In the temenggung's name you hold the Salamat at the berth and send Farid and the sealed Pedir letter under quiet guard to the bendahara. Every declared crate of frankincense and rosewater is in order, so no extra dues apply — yet the court receives warning of the eighteen Feringgi warships before their sails sight Melaka.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": 2
+        },
+        "correct": true
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Gujarati (Cambay) frankincense and rosewater trade",
+        "note": "Arabian frankincense (from Dhofar/Hadramawt via Aden) and rosewater in glass flasks traveled to Melaka aboard Gujarati (Cambay) and Western Indian Ocean naus on the southwest monsoon, paying 6% western entry dues plus the 1% weighing fee (Pires, Suma Oriental, Vol. I, pp. 13, 42-6; Vol. II, pp. 270-4).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Albuquerque's 1511 fleet at Pedir",
+        "note": "Sailing from Cochin in late April/May 1511 with 16-19 ships, Afonso de Albuquerque captured Gujarati merchant vessels en route and called at Pedir in northern Sumatra, where escaped Portuguese captives from Sequeira's 1509 visit (including Joao Viegas) joined him before the fleet sailed on Melaka (Castanheda, Book III, ch. 50-53; Commentaries, III, ch. 15-18).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Feringgi / Bengali putih",
+        "note": "Sejarah Melayu refers to the Portuguese as Peranggi/Feringgi and Bengali putih ('white Bengalis').",
+        "confidence": "high"
+      },
+      {
+        "topic": "Player role and offices",
+        "note": "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name and matters of state are reported to the bendahara.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Merchant marks, seals, manifests and weights",
+        "note": "The written manifest, merchant-mark register, clay sealing rules and crate weight ranges are gameplay inventions, not documented period conventions.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "People and ship",
+        "note": "The Salamat, Khoja Ismail, Hassan, Nakhoda Dawud, Tariq, Rahim and Farid are fictional.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_crate_seals_main": "inspect",
+      "ev_crate11_reseal": "inspect",
+      "ev_crate15_seal_weight": "inspect",
+      "ev_crate3_flasks": "inspect",
+      "ev_crate11_open": "open",
+      "ev_crate3_open": "open",
+      "ev_crate15_open": "open"
+    },
+    "question_prerequisites": {
+      "q_captain_crate11": [
+        "ev_crate11_reseal"
+      ],
+      "q_captain_pedir": [
+        "q_helmsman_pedir",
+        "q_cook_pedir"
+      ],
+      "q_factor_crate15": [
+        "ev_crate15_seal_weight"
+      ],
+      "q_factor_crate3": [
+        "ev_crate3_flasks"
+      ],
+      "q_helmsman_pedir": [],
+      "q_cook_pedir": [],
+      "q_farid_crate": [
+        "ev_crate15_open"
+      ]
+    }
+  }
+}
