@@ -3,6 +3,9 @@
   "title": "The jars from Guangzhou",
   "subtitle": "A junk from Guangzhou rides at anchor, deep in the water. Last night a porter said the factor aboard paid a boatman well to keep quiet about something. You board her for a Detailed Inspection.",
   "minutes": 45,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
   "evidence": [
     {
       "id": "ev_manifest",
@@ -12,6 +15,7 @@
     },
     {
       "id": "ev_exterior",
+      "image": "res://assets/inspection/lot-seven-exterior.png",
       "label": "02  Seals & weights",
       "title": "Marks, seals and the weighers’ call",
       "text": "Jar seals: forward rows (20 jars)\nDry, grey clay seals pressed with a circle crossed by one upright line. All alike.\n\nJar seals: after row (4 jars)\nReddish clay, still slightly soft at the edges, pressed with a fish facing left. Straw around these jars is loose and freshly scattered.\n\nWeights: forward-row jars\nThe porters call out 33, 34, 32, 35, 34 kati... every forward jar between 32 and 36 kati.\n\nWeights: after-row jars\nThe four after-row jars weigh 45, 46, 45 and 47 kati.\n\nSilk bale seals\nNine bales carry Lim Seng's circle-and-line mark. Bale 7 carries a square seal with a notched corner, the nakhoda's registered ship's seal.\n\nWeights: silk bales\nAll ten bales between 9 and 11 kati. Bale 7 weighs 10 kati.\n\nOng Kuan\nWhy does silk bale 7 carry your seal?\nIt was soaked in the squall off Champa. I dried it and resealed it myself. It is written on the manifest.\n\nTan Bo\nWhy do four jars carry a fish mark, not your master's?\nJars rub against each other in the hold. Perhaps a porter at Champa pressed a new seal. It means nothing.\n\nTan Bo\nWhy are the after-row jars so heavy?\nThicker clay. Some kilns make heavier jars."
@@ -24,6 +28,7 @@
     },
     {
       "id": "ev_opened",
+      "image": "res://assets/inspection/lot-seven-open.png",
       "label": "04  Open cargo",
       "title": "Inside the jars and the silk bale",
       "text": "Opened: a forward-row jar\nThirty small blue-and-white bowls nested in straw. Two are chipped. Nothing else.\n\nOpened: an after-row jar\nOne layer of eight bowls on top. Beneath a straw mat, the jar is packed tight with whole nutmegs, about 18 kati of them.\n\nOpened: silk bale 7\nRaw silk, dry, with a faint pale tide-line from sea water along one edge. Nothing else inside.\n\nTan Bo\nWhat is this nutmeg doing under your bowls?\nHe says nothing for a long moment, then asks that the matter go before the temenggung himself."

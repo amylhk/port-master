@@ -3,6 +3,9 @@
   "title": "The fifteenth crate from Cambay",
   "subtitle": "A Gujarati nau from Cambay carrying Arabian frankincense drops anchor with a torn foresail and a hurried crew. A harbour boatman says her captain forbade any porter to step behind the after stack. You board her for a Detailed Inspection.",
   "minutes": 45,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
   "evidence": [
     {
       "id": "ev_manifest",

@@ -3,6 +3,9 @@
   "title": "The missing length",
   "subtitle": "While the Kaveri waited at anchor, a harbour porter went aboard to tally her bales of dyed cotton. He swears a piece is missing. You board the nau from Pulicat to check before she unloads.",
   "minutes": 35,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
   "evidence": [
     {
       "id": "ev_manifest",
