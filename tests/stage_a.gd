@@ -166,13 +166,13 @@ func _run() -> void:
     await process_frame
     _expect(scroll.get_h_scroll_bar().visible, "the harbour remains horizontally scrollable at 460px")
     root.size = Vector2i(1280, 960)
-    _test_closing_tradeoff(harbour)
     _check_evenings(harbour)
     await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
     for example in INSPECTION_EXAMPLES:
         _exercise_inspection(harbour, example)
     _test_scheduled_inspections(harbour)
+    _test_closing_tradeoff()
     if failures == 0:
         print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
             day.manual["entries"].size(), inspection["id"], inspection["title"], inspection["evidence"].size(),
@@ -568,7 +568,9 @@ func _expect(condition: bool, message: String) -> void:
         push_error("FAILED: " + message)
 
 
-func _test_closing_tradeoff(harbour) -> void:
+func _test_closing_tradeoff() -> void:
+    var harbour = Harbour.instantiate()
+    root.add_child(harbour)
     var safe := _replay_plan(harbour, "Efficient skip", "pepper")
     var correct := _replay_plan(harbour, "Correct inspection", "porcelain", "marks_weight_route")
     var wrong := _replay_plan(harbour, "Unsupported inspection", "porcelain", "foreign_seal")
@@ -581,6 +583,7 @@ func _test_closing_tradeoff(harbour) -> void:
         "the efficient skip saves a sale that inspection costs")
     _expect(wrong.recovered == 0 and wrong.duty < safe.duty and naive.duty < safe.duty,
         "an unsupported ruling and a porcelain-first skip earn less than the efficient skip")
+    harbour.queue_free()
 
 
 func _replay_plan(harbour, plan: String, second_ship: String, reason: String = "") -> Dictionary:
