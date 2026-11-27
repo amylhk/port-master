@@ -207,11 +207,12 @@ func _morning_voice() -> void:
         notes_open = true
         render()
     )
+    _style_paper_button(bubble)
     var portrait: String = copy.get("speaker_id", "")
     if not portrait.is_empty():
         _image(bubble, "res://assets/art/portraits/%s.png" % portrait, Rect2(10, 17, 100, 119))
-    _text(bubble, copy.get("line", ""), Rect2(123, 12, 270, 116), 20)
-    _text(bubble, "按下聽取詳情", Rect2(123, 125, 270, 28), 13, MUTED)
+    _text(bubble, copy.get("line", ""), Rect2(123, 12, 270, 116), 20, BROWN)
+    _text(bubble, "按下聽取詳情", Rect2(123, 125, 270, 28), 13, BROWN)
 
 
 func _harbour_hint() -> String:
@@ -414,20 +415,22 @@ func _desk() -> void:
         instruction = _hint_text("stamp", "選擇印章，再按下申報單蓋印。")
     _hint(instruction)
     # Physical tools live on the left; the declaration and findings share the desk.
-    _text(surface, "驗貨工具", Rect2(28, 155, 277, 30), 16, GOLD)
+    _panel(surface, Rect2(16, 151, 284, 552), PAPER)
+    _text(surface, "驗貨工具", Rect2(28, 155, 260, 30), 16, BROWN)
     var cargo := _button(surface, "", Rect2(28, 192, 260, 171), show_evidence.bind(3))
+    _style_paper_button(cargo)
     cargo.tooltip_text = "打開貨物"
     var cargo_path: String = day.pending_case.get("cargo_image", "")
     if day.pending_case["id"] == "porcelain":
         cargo_path = "res://assets/art/cargo/porcelain_jar_open.png" if viewed.has("contents") else "res://assets/art/cargo/porcelain_jar_closed.png"
     _image(cargo, cargo_path, Rect2(58, 1, 145, 128))
-    _text(cargo, "打開貨物" if not viewed.has("contents") else "貨物已開封", Rect2(8, 133, 244, 30), 19, GOLD, true)
+    _text(cargo, "打開貨物" if not viewed.has("contents") else "貨物已開封", Rect2(8, 133, 244, 30), 19, BROWN, true)
     _button(surface, "查驗封印與過磅", Rect2(28, 377, 260, 49), show_evidence.bind(1))
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
     _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 3, 250, 110))
     _text(manual, "港務手冊\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
-    _text(surface, "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"], Rect2(28, 630, 260, 66), 14, INK)
+    _text(surface, "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"], Rect2(28, 630, 260, 66), 14, BROWN)
     _declaration(inspection)
     _findings(inspection)
     _stamp_rack(inspection)
@@ -455,18 +458,18 @@ func _declaration(inspection: Dictionary) -> void:
 
 func _findings(inspection: Dictionary) -> void:
     var evidence: Dictionary = inspection["evidence"][evidence_index]
-    var panel := _panel(surface, Rect2(740, 161, 512, 360), Color("#173c40"))
-    _text(panel, evidence["title"], Rect2(18, 12, 476, 50), 22, GOLD)
+    var panel := _panel(surface, Rect2(740, 161, 512, 360), PAPER)
+    _text(panel, evidence["title"], Rect2(18, 12, 476, 50), 22, BROWN)
     var paragraphs := str(evidence["text"]).split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
     var short_line: String = short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
     var has_art: bool = evidence.has("image") and (evidence_page == 0 or not short_line.is_empty())
     if has_art:
         _image(panel, evidence["image"], Rect2(17, 65, 478, 135))
-    _reading(panel, short_line if not short_line.is_empty() else paragraphs[evidence_page], Rect2(18, 205 if has_art else 74, 476, 96 if has_art else 227), INK, 18)
+    _reading(panel, short_line if not short_line.is_empty() else paragraphs[evidence_page], Rect2(18, 205 if has_art else 74, 476, 96 if has_art else 227), BROWN, 18)
     if short_line.is_empty():
         _button(panel, "<", Rect2(18, 312, 55, 34), _evidence_turn.bind(-1)).disabled = evidence_page == 0
-        _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, MUTED, true)
+        _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, BROWN, true)
         _button(panel, ">", Rect2(439, 312, 55, 34), _evidence_turn.bind(1)).disabled = evidence_page == paragraphs.size() - 1
     else:
         _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence["text"]))
@@ -523,17 +526,17 @@ func _stamp_rack(inspection: Dictionary) -> void:
         var ruling: Dictionary = inspection["rulings"][index]
         var id: String = ruling["id"]
         var button := _button(surface, "", Rect2(334 + index * 226, 626, 214, 61), choose_stamp.bind(id))
+        _style_paper_button(button)
         button.tooltip_text = ruling["label"]
-        button.add_theme_color_override("font_color", GREEN if id == "clear" else RED)
         if stamp == id:
-            button.add_theme_stylebox_override("normal", _style(Color("#5b4036"), GOLD, 3))
+            button.add_theme_stylebox_override("normal", _style(Color("#dfccac"), GOLD, 3))
         var path: String = {"clear": "stamp_clear", "major_fraud": "stamp_fine", "hold": "stamp_hold"}.get(id, "")
         var has_face := not path.is_empty() and ResourceLoader.exists("res://assets/inspection/%s.png" % path, "Texture2D")
         if has_face:
             _image(button, "res://assets/inspection/%s.png" % path, Rect2(4, 2, 102, 55))
         else:
-            _text(button, STAMPS.get(id, ""), Rect2(6, 5, 202, 26), 20, GREEN if id == "clear" else RED, true)
-        _text(button, STAMP_CATEGORIES.get(id, ""), Rect2(108, 4, 100, 52) if has_face else Rect2(6, 31, 202, 23), 15, INK, true)
+            _text(button, STAMPS.get(id, ""), Rect2(6, 5, 202, 26), 20, Color("#315f52") if id == "clear" else Color("#8e493e"), true)
+        _text(button, STAMP_CATEGORIES.get(id, ""), Rect2(108, 4, 100, 52) if has_face else Rect2(6, 31, 202, 23), 15, BROWN, true)
 
 
 func choose_method(id: String) -> void:
@@ -730,6 +733,11 @@ func _button(parent: Node, caption: String, rect: Rect2, callback: Callable) -> 
     button.pressed.connect(callback)
     parent.add_child(button)
     return button
+
+
+func _style_paper_button(button: Button) -> void:
+    for state in ["normal", "hover", "pressed", "focus"]:
+        button.add_theme_stylebox_override(state, _style(PAPER if state == "normal" else PAPER.darkened(0.08), Color("#6f8071") if state == "normal" else GOLD, 2))
 
 
 func _image(parent: Node, path: String, rect: Rect2) -> TextureRect:
