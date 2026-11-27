@@ -1,0 +1,34 @@
+{
+  "id": "case_001",
+  "title": "The weight of Lot Seven",
+  "subtitle": "Port of Melaka / Inbound customs docket 007",
+  "minutes": 45,
+  "evidence": [
+    {"id":"manifest", "label":"01  Manifest", "title":"Signed declaration", "text":"Chinese Porcelain Trader • Captain Lin • from Quanzhou\nOwner: Lin trading house\nLot 7: six standard stacks of common bowls (60 bowls). No other goods declared."},
+    {"id":"exterior", "label":"02  Exterior", "title":"Lot Seven on the quay scale", "text":"The lid is tied with a green cord. The scale reads 18 catties gross. The bonded jar and its packing are stamped 3 catties tare.", "image":"res://assets/inspection/lot-seven.svg"},
+    {"id":"contents", "label":"03  Open jar", "title":"Beneath the lowest stack", "text":"All six stacks have intact stamped spacers. The reeds and paper are dry. Beneath them is an unlisted packet: three waxy, aromatic lumps with red crystalline grains on a broken edge."},
+    {"id":"testimony", "label":"04  Captain", "title":"Captain Lin's account", "text":"“We weighed it at eighteen. I told the clerk it was damp packing. The cord came off an older shipment. Count the bowls if you like.”"}
+  ],
+  "rulings": [
+    {"id":"clear", "label":"Clear the declaration as filed"},
+    {"id":"amend", "label":"Add 3 catties of red-grain frankincense"},
+    {"id":"amend_white", "label":"Add 3 catties of white frankincense"},
+    {"id":"amend_six", "label":"Add 6 catties of red-grain frankincense"},
+    {"id":"hold", "label":"Hold the lot for prohibited cargo"}
+  ],
+  "reasons": [
+    {"id":"cord", "label":"Use the green transit cord as proof of the contents."},
+    {"id":"damp", "label":"Use the captain’s account of damp packing."},
+    {"id":"gross", "label":"Compare the gross scale reading directly against the bowl weight."},
+    {"id":"weight_resin", "label":"Deduct the stamped tare and intact bowls; match the parcel to the manual."}
+  ],
+  "hidden_truth": {
+    "ruling_id":"amend",
+    "reason_id":"weight_resin",
+    "extra_duty":18,
+    "success":"Amendment accepted. The intact bowls account for twelve catties; the dry jar and packing account for three. The remaining three are legal red-grain frankincense, liable for 18 extra duty when the ship trades.",
+    "clear":"Cleared as filed. No additional duty assessed.",
+    "unsupported":"The evidence cited did not support the amendment. The declaration stands; no additional duty assessed.",
+    "hold":"The hold stopped lawful trade: red-grain frankincense is declarable, not prohibited."
+  }
+}
