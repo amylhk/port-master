@@ -44,7 +44,8 @@ func _run() -> void:
     var stamp_buttons := 0
     var manual_found := false
     for button in game.find_children("*", "Button", true, false):
-        if button.tooltip_text == "驗貨手冊":
+        if button.accessibility_name == "驗貨手冊":
+            _expect(button.tooltip_text.is_empty(), "hovering the manual does not cover its caption")
             for label in button.find_children("*", "Label", true, false):
                 manual_found = manual_found or label.text.begins_with("驗貨手冊\n")
         if button.tooltip_text in game.STAMPS.values():
@@ -52,7 +53,7 @@ func _run() -> void:
             for label in button.find_children("*", "Label", true, false):
                 _expect(label.text == button.tooltip_text, "stamp faces and tooltips show only the plain action, never a ruling description")
     _expect(stamp_buttons == 4, "the desk offers four plain-name stamps without verdict hints")
-    _expect(manual_found, "the reference manual uses its Traditional Chinese name on both the desk and tooltip")
+    _expect(manual_found, "the manual has a visible Traditional Chinese caption and accessible name")
     game.choose_stamp("major_fraud")
     game.choose_method("contents")
     game.apply_stamp()

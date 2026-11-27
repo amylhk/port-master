@@ -456,7 +456,7 @@ func _desk() -> void:
     _button(surface, "查驗封印與過磅", Rect2(28, 377, 260, 49), show_evidence.bind(1))
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
-    manual.tooltip_text = MANUAL_TITLE
+    manual.accessibility_name = MANUAL_TITLE
     _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 3, 250, 110))
     _text(manual, MANUAL_TITLE + "\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
     _text(surface, "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"], Rect2(28, 630, 260, 66), 14, BROWN)
