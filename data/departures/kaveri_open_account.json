@@ -1,0 +1,28 @@
+{
+  "id": "kaveri_open_account",
+  "merchant_id": "sri_rangan",
+  "chain_id": "kaveri_account",
+  "step": 1,
+  "day": 2,
+  "requires": ["case_002_hold"],
+  "title": "A day the Kaveri cannot buy back",
+  "body": "Sri Rangan comes himself this time. The temenggung has released the Kaveri's cotton, but the buyers who waited through the hold have spent their money elsewhere. Rangan lays down the entry dues on the two bales and asks you to record, in the temenggung's name, that neither bale was short. He does not ask for the money back; he asks who will hear the correction.",
+  "choices": [
+    {
+      "id": "call_the_buyers",
+      "label": "Read the corrected count before the buyers",
+      "outcome_text": "The porter brings both lengths out for the buyers to see. The dues stand, but Rangan will not have to defend the count at the next auction.",
+      "effects": {"duty": 8, "reputation": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "record_the_count",
+      "label": "Give Rangan the corrected count without calling the buyers",
+      "outcome_text": "Rangan folds the tally into his sash. He has something to show his partners now, but the men who left the quay heard nothing.",
+      "effects": {"duty": 8, "merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "fact: Pires describes Pulicat's Kling merchants paying entry dues and nothing on departure (docs/research/port-official.md §5.1; Suma Oriental, Cortesão ed., II p. 272)",
+    "gameplay: The temenggung's release, payment after the hold, written tally and hearing are invented follow-ups to the lost sale, not another charge on departure (data/inspections/case_002.json)"
+  ]
+}

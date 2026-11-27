@@ -9,6 +9,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/inspections/<id>.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
+| `data/departures/<id>.json` | One Stage B departure or tax event per file: evening event shape plus `merchant_id`, `chain_id` (text) and `step` (integer) |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 
 - **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete.
@@ -65,6 +66,20 @@ Sample event (illustrative; `data/events/` holds the real ones):
   ]
 }
 ```
+
+## Stage B departures and taxes
+
+Put each departure-chain step in its own `data/departures/<id>.json` file. Use the evening event fields above, including exactly one of `day` or `trigger`, and add:
+
+- `merchant_id`: the ID of an existing merchant in `data/merchants/`.
+- `chain_id`: a stable ID shared by all steps in the chain.
+- `step`: a positive integer, starting at 1 and increasing by 1 per step within the chain.
+
+When a step plays, the game is to set `<chain_id>_step_<n>` for later days, even if the step has no choices. Each step after the first lists the previous step's flag in `requires`. For example, step 2 of `arus_account` requires `arus_account_step_1`. Use inspection outcome flags to gate the relevant first steps. Spell hold flags `case_00N_hold`, not `case_00N_held`, in both departures and evening events.
+
+Choice effects can include integer `merchant_trust` deltas for the named merchant, in addition to `duty`, `supply` and `reputation`. Use optional `notes` lines prefixed with `fact:`, `inference:` or `gameplay:` to distinguish historical evidence from invented accounts and mechanics. The player is a shahbandar; file dues and customs rulings in the temenggung's name and label port-wide player authority as a gameplay abstraction.
+
+Validate with `godot --headless --script tests/departures.gd`. These are Stage B authoring files; the Stage A main scene does not play them yet.
 
 ## Stage B merchants
 

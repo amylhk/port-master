@@ -1,0 +1,27 @@
+{
+  "id": "salamat_small_lots",
+  "merchant_id": "khoja_ismail",
+  "chain_id": "salamat_account",
+  "step": 3,
+  "day": 4,
+  "requires": ["salamat_account_step_2"],
+  "title": "Ismail brings no guest",
+  "body": "Ismail comes back from the roadstead in a boat, without the Salamat. Before the hold he wanted one buyer for the whole cargo. Now he offers small lots from the store, so a failed bargain will not keep his ship within reach of the quay. He asks you to introduce buyers who want resin, not news from Pedir. The crates have already been assessed.",
+  "choices": [
+    {
+      "id": "send_local_buyers",
+      "label": "Introduce the local buyers to Hassan",
+      "outcome_text": "The first crates are opened for dealers who can pay for only a little at a time. Ismail leaves the store open while his ship waits outside.",
+      "effects": {"supply": 2, "merchant_trust": 2}
+    },
+    {
+      "id": "no_introductions",
+      "label": "Let Hassan find his own buyers",
+      "outcome_text": "Hassan gets one offer before dusk. Ismail orders the unsold crates loaded into his boat rather than leave them on the wharf another night.",
+      "effects": {"supply": -1, "merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "gameplay: The shore sale and effects are invented consequences of the hold. They change market supply without assessing the same crates twice (data/inspections/case_004.json; docs/gameplay-blueprint.md §§08–09)"
+  ]
+}

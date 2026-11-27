@@ -1,0 +1,28 @@
+{
+  "id": "salamat_due_on_release",
+  "merchant_id": "khoja_ismail",
+  "chain_id": "salamat_account",
+  "step": 1,
+  "day": 2,
+  "requires": ["case_004_hold"],
+  "title": "Crates, not names",
+  "body": "The Salamat has been released. Khoja Ismail pays the ordinary dues on the declared frankincense and rosewater. You enter them in the temenggung's name; there is no extra charge for the hold. Hassan wants the account to name the reason for the delay, so his buyers will stop asking what was found in the crates. Ismail asks you to leave Farid's name out of it.",
+  "choices": [
+    {
+      "id": "separate_accounts",
+      "label": "Record that the cargo matched and refer questions to the court",
+      "outcome_text": "Hassan can show the buyers that no crate was seized. It gives them no name to carry into Upeh.",
+      "effects": {"duty": 6, "merchant_trust": 2}
+    },
+    {
+      "id": "record_payment_only",
+      "label": "Record only the payment and leave inquiries to the court",
+      "outcome_text": "Farid's name stays out of it, but Hassan has no answer when a buyer asks why the ship lost a day.",
+      "effects": {"duty": 6, "merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "fact: The temenggung received dues on merchandise and western merchandise generally paid entry dues (docs/research/port-official.md §§3–5; Suma Oriental, Cortesão ed., II pp. 265, 272–273)",
+    "gameplay: The ship's later release and the written account are invented; the supported hold itself assesses no extra dues (data/inspections/case_004.json)"
+  ]
+}

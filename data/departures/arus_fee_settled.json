@@ -1,0 +1,28 @@
+{
+  "id": "arus_fee_settled",
+  "merchant_id": "awang_musa",
+  "chain_id": "arus_account",
+  "step": 1,
+  "day": 2,
+  "requires": ["case_003_minor_fault"],
+  "title": "The scale beside the number",
+  "body": "Awang Musa brings the Arus's corrected tally. Ramli has written 'small dacing' beside the eight and is waiting for someone to tell him the new figure means more tin was found. In the temenggung's name you confirm the weighing account: a different scale, the same load. Musa settles what is still owed and asks for a copy before the tally goes into the chest.",
+  "choices": [
+    {
+      "id": "show_both_readings",
+      "label": "Give him both equivalent readings on the copy",
+      "outcome_text": "Ramli tries the explanation on a buyer. For once the man reads the scale before he argues about the number.",
+      "effects": {"merchant_trust": 2}
+    },
+    {
+      "id": "copy_final_reading",
+      "label": "Copy only the assessed weight",
+      "outcome_text": "Musa accepts the copy. He tells Ramli to find a witness next time a buyer says the baskets have grown.",
+      "effects": {"merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "fact: Pires distinguishes the weighing fee from the main customs dues (docs/research/port-official.md §5.1; Suma Oriental, Cortesão ed., II pp. 274–275)",
+    "gameplay: The copied tally and delayed settlement are fictional. This event does not credit the extra weighing fee again (data/inspections/case_003.json)"
+  ]
+}

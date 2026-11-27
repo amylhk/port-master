@@ -1,0 +1,14 @@
+{
+  "id": "salamat_waits_offshore",
+  "merchant_id": "khoja_ismail",
+  "chain_id": "salamat_account",
+  "step": 2,
+  "day": 3,
+  "requires": ["salamat_account_step_1"],
+  "title": "Resin ashore, rosewater afloat",
+  "body": "Ismail sends the Salamat out to a neighbouring roadstead while the fleet's captains decide whether to sail together. He has left several crates of frankincense in a rented store in Melaka. He will not risk all his goods on one tide, he says, and he won't tell the crew which rumour to believe.",
+  "notes": [
+    "inference: Leaving goods in a rented store while a ship moves to a nearby anchorage is a plausible precaution, not a documented episode (docs/research/port-official.md §3)",
+    "gameplay: The roadstead, decision and timing are fictional; this is not a voyage to Cambay and back (data/merchants/khoja_ismail.json; docs/gameplay-blueprint.md §§08–09)"
+  ]
+}

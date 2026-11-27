@@ -1,0 +1,14 @@
+{
+  "id": "arus_outer_anchorage",
+  "merchant_id": "awang_musa",
+  "chain_id": "arus_account",
+  "step": 2,
+  "day": 3,
+  "requires": ["arus_account_step_1"],
+  "title": "The Arus goes out light",
+  "body": "Musa has paid the weighers and sold the tin. By dusk the Arus is outside the anchorage, bound for a coastal landing to meet a feeder boat with his next lot. Ramli has taken the copied reading with him; Musa wants the next tally made before the buyers are close enough to shout.",
+  "notes": [
+    "inference: Coastal feeders are a plausible way to bring another tin lot to port without a round trip to Perak in two days (docs/research/commodities.md, Tin)",
+    "gameplay: The feeder trip and its timing are invented (docs/gameplay-blueprint.md §§04, 08)"
+  ]
+}
