@@ -860,7 +860,8 @@ func _stamp_rack(inspection: Dictionary) -> void:
         button.tooltip_text = METHOD_TITLES[id] if not button.disabled else "尚未查驗"
         if id == "contents" and day.is_rice_spot_check(day.pending_case) and opened_crates.has(selected_crate):
             button.tooltip_text = "引用%s的貨物查驗結果" % inspection["sacks"][selected_crate]["label"]
-        if method == id:
+        if _citation_selected(id, _citation_sack(id)):
+            button.tooltip_text = "取消引用"
             button.add_theme_stylebox_override("normal", _style(Color("#346052"), GOLD, 2))
     var ordered_rulings: Array[String] = []
     for id in STAMPS:
@@ -884,10 +885,23 @@ func _can_cite(id: String, sack: int) -> bool:
     return viewed.has(id) and (id != "contents" or not day.is_rice_spot_check(day.pending_case) or opened_crates.has(sack))
 
 
+func _citation_sack(id: String) -> int:
+    return selected_crate if id == "contents" and day.is_rice_spot_check(day.pending_case) else -1
+
+
+func _citation_selected(id: String, sack: int) -> bool:
+    return method == id and cited_sack == sack
+
+
 func choose_method(id: String) -> void:
     if not day.pending_case.is_empty() and _can_cite(id, selected_crate) and not manual_open and not detail_open:
-        cited_sack = selected_crate if id == "contents" and day.is_rice_spot_check(day.pending_case) else -1
-        method = id
+        var sack := _citation_sack(id)
+        if _citation_selected(id, sack):
+            cited_sack = -1
+            method = ""
+        else:
+            cited_sack = sack
+            method = id
         render()
 
 

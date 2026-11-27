@@ -454,6 +454,12 @@ func _citation_locks() -> void:
     game.choose_method("contents")
     game.open_crate(1)
     _expect(game.cited_sack == 0 and _text_shown(game, "已引用：一號袋") and _disabled_button(game, "貨單"), "an opened sack can be cited without unlocking an unopened source or moving the existing citation")
+    _press_text(game, "貨物")
+    _expect(game.method == "contents" and game.cited_sack == 1 and _text_shown(game, "已引用：二號袋"), "tapping cargo with a different opened sack in view replaces the citation")
+    _press_text(game, "貨物")
+    _expect(game.method.is_empty() and game.cited_sack == -1 and not _text_shown(game, "已引用："), "tapping the cited sack again withdraws its citation")
+    game.open_crate(0)
+    game.choose_method("contents")
     game.day.rule_with_method("major_fraud", "contents", 3)
     _expect(game.day.pending_case.get("id") == "rice", "the model rejects a citation to a still-closed sack")
     game.manual_seen = true
@@ -480,6 +486,15 @@ func _citation_locks() -> void:
     _press_text(game, "查閱完整貨單")
     _press_text(game, "返回驗貨桌")
     _expect(not _disabled_button(game, "證詞") and not _disabled_button(game, "貨單") and _disabled_button(game, "貨物"), "testimony and manifest unlock independently of cargo")
+    _press_text(game, "貨單")
+    _expect(game.method == "manifest", "the uncovered manifest citation replaces the selected seals")
+    game.open_manual()
+    _press_text(game, "合上手冊")
+    game.choose_stamp("clear")
+    _press_text(game, "貨單")
+    _expect(game.method.is_empty() and not _disabled_button(game, "貨單"), "tapping the selected manifest withdraws it without hiding evidence")
+    _press_text(game, "蓋印：放行")
+    _expect(game.day.flags.has("case_001_clear") and game.opened_crates.is_empty() and game.last_feedback.contains("未引用"), "withdrawing a citation restores clearance without citing evidence or opening cargo")
     game.queue_free()
     await process_frame
 
