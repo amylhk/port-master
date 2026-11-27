@@ -92,12 +92,13 @@ func _render_harbour() -> void:
     board.add_theme_constant_override("separation", 12)
     content.add_child(board)
     var moored := _panel(board)
+    moored.get_parent().custom_minimum_size.x = 248
     _label(moored, "BERTHS   %d / %d" % [day.berths.size(), PortDay.BERTH_CAPACITY], 15, GOLD)
     for ship in day.berths:
-        _label(moored, ship["name"], 17)
+        _label(moored, ship["name"], 17, INK, true)
         _label(moored, "%d min unloading · %s tide" % [
             ship["remaining"], PortDay.clock(int(ship["departure"]))
-        ], 14, MUTED)
+        ], 14, MUTED, true)
     for slot in PortDay.BERTH_CAPACITY - day.berths.size():
         _label(moored, "Berth %d · Available" % (day.berths.size() + slot + 1), 16, MUTED)
     var next_arrival := ""
@@ -105,17 +106,20 @@ func _render_harbour() -> void:
         var ship: Dictionary = day.scenario["ships"][day.next_ship]
         next_arrival = "NEXT INBOUND  %s\n%s" % [PortDay.clock(int(ship["arrival"])), ship["name"]]
     if not next_arrival.is_empty():
-        _label(moored, next_arrival, 14, GOLD)
+        _label(moored, next_arrival, 14, GOLD, true)
 
     var anchorage := _panel(board)
     anchorage.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     _label(anchorage, "ANCHORAGE   %d / %d" % [day.waiting.size(), PortDay.ANCHORAGE_CAPACITY], 15, GOLD)
-    if day.waiting.is_empty():
-        _label(anchorage, "No ships at anchor.", 16, MUTED)
-    for ship in day.waiting:
+    for slot in PortDay.ANCHORAGE_CAPACITY:
+        var ship := day.ship_at_anchor(slot)
         var row := HBoxContainer.new()
+        row.custom_minimum_size.y = 76
         row.add_theme_constant_override("separation", 8)
         anchorage.add_child(row)
+        if ship.is_empty():
+            _label(row, "Anchorage %d · Available" % (slot + 1), 16, MUTED)
+            continue
         var details := VBoxContainer.new()
         details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         row.add_child(details)
@@ -124,6 +128,7 @@ func _render_harbour() -> void:
             ship["cargo"], ship["duty"], ship["minutes"], PortDay.clock(int(ship["departure"]))
         ], 14, MUTED, true)
         var actions := VBoxContainer.new()
+        actions.custom_minimum_size.x = 146
         row.add_child(actions)
         var berth_open := day.berths.size() < PortDay.BERTH_CAPACITY
         _button(actions, "Berth & clear" if day.has_case(ship) else "Assign berth",

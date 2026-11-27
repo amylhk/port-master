@@ -20,9 +20,13 @@ func _run() -> void:
 
     _expect(day.waiting.size() == 3, "morning harbour has three waiting ships")
     harbour._berth("rice", false)
+    _expect(day.ship_at_anchor(0).is_empty() and day.ship_at_anchor(1).get("id") == "pepper",
+        "assigning one ship keeps the other ship in its original row")
     harbour._berth("pepper", false)
     harbour._advance(60)
     _expect(day.rice == 24 and day.duty == 30, "two berths unload in parallel")
+    _expect(day.ship_at_anchor(0).get("id") == "resin" and day.ship_at_anchor(2).get("id") == "porcelain",
+        "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
     _expect(day.pending_case.is_empty(), "serving both early ships misses the inspection window")
     harbour._berth("porcelain", false)

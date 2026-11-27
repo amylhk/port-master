@@ -101,6 +101,13 @@ func has_case(ship: Dictionary) -> bool:
     return ship.get("inspection_case", "") == inspection["id"]
 
 
+func ship_at_anchor(slot: int) -> Dictionary:
+    for ship in waiting:
+        if ship["anchor_slot"] == slot:
+            return ship
+    return {}
+
+
 func closed() -> bool:
     return minute_of_day >= int(scenario["end_minute"])
 
@@ -149,6 +156,10 @@ func _arrivals() -> void:
         if waiting.size() >= ANCHORAGE_CAPACITY:
             _lose(ship, "Anchorage full")
         else:
+            for slot in ANCHORAGE_CAPACITY:
+                if ship_at_anchor(slot).is_empty():
+                    ship["anchor_slot"] = slot
+                    break
             ship["remaining"] = int(ship["minutes"])
             waiting.append(ship)
             _log("Arrived: %s." % ship["name"])
