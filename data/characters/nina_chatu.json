@@ -1,0 +1,17 @@
+{
+  "id": "nina_chatu",
+  "name": "Nina Chatu",
+  "faction_id": "chatu_contacts",
+  "role": "Merchant broker; later Bendahara under Portuguese rule",
+  "origin": "Keling merchant community in Melaka",
+  "bio": "A letter carried through Chatu’s contacts may reach a prisoner when a direct petition cannot. The same network can arrange trade after authority changes hands.",
+  "traits": [
+    "Resourceful",
+    "Remembers obligations"
+  ],
+  "notes": [
+    "fact: The accounts describe his aid to Portuguese captives and later office, not a pre-fall shahbandar appointment (Pires II, pp. 258, 265, 281; Birch III, pp. 44–46, 128–129)",
+    "inference: The date and manner of his death are disputed; Pires reports grief and poison, and Cortesão discusses later accounts (Pires II, pp. 287–288 and editorial notes; people-factions.md §2)",
+    "gameplay: Consignment covers and Kannan’s patronage are invented (people-factions.md §2; port-labour.md §4)"
+  ]
+}

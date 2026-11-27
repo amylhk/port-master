@@ -13,6 +13,8 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/history/<id>.json` | One Stage D historical event per file: departure-chain shape with `merchant_id` only for merchant-centred chains |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 | `data/offers/<id>.json` | One Stage B state purchasing offer per file: `id`, `merchant_id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices` (arrays) |
+| `data/factions/<id>.json` | One Stage D faction per file: `id`, `name`, `kind`, `leader_id`, `bio` (text); `bloc` (text or null); `member_ids`, `goals`, `notes` (arrays) |
+| `data/characters/<id>.json` | One Stage D persistent character per file: Stage B merchant shape with `faction_id` and `role` in place of `bloc` and `ship_ids` |
 
 - **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete. Optional `image` (ship sprite) and `cargo_image` (cargo icon) are full resource paths.
 - **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
@@ -199,6 +201,26 @@ Run `godot --headless --script tests/offers.gd` to check offer files. Sample off
   ]
 }
 ```
+
+## Stage D factions and persistent characters
+
+Write one UTF-8 JSON object per file. IDs are stable snake_case strings matching the file name. Faction IDs are unique within `data/factions/`. Merchants and persistent characters share one ID namespace: reference an existing `data/merchants/` ID rather than adding a second record for the same person.
+
+| Faction field | Type and use |
+| --- | --- |
+| `id`, `name`, `bio` | Non-empty text: stable ID, display name, and a short description of the network. |
+| `kind` | One of `guild` (fictional trade association), `merchant_network` (commercial contacts), `household` (kin, dependants and patronage), `court_circle` (companions or temporary counsel), `quarter` (neighborhood contacts), or `expedition` (visiting mission and its contacts). |
+| `bloc` | A Stage B merchant bloc: `gujarati`, `kling_bengal_pegu_pasai`, `java_eastern_islands`, or `china_ryukyu_champa`. Use JSON `null` for a port-wide or otherwise non-bloc network. A bloc describes a roster grouping, not a person's loyalty or a historical jurisdiction. |
+| `leader_id`, `member_ids` | Leader/contact ID and an array of affiliated IDs, respectively. All IDs must resolve to a merchant or character. The array may be empty and may include the leader. It can contain intermediaries, petitioners or later contacts, not just contemporary formal members. |
+| `goals`, `notes` | Non-empty arrays of non-empty strings. Goals describe pressures, not executable mechanics. Notes are author-facing. |
+
+Each character has exactly `id`, `name`, `faction_id`, `role`, `origin`, `bio` (non-empty text), and `traits`, `notes` (non-empty arrays of non-empty strings). The `faction_id` must resolve to a faction; it records a primary roster affiliation, and a character may also appear in other factions' `member_ids`. Put secondary patronage and changes in allegiance or office in the bio and notes, not in extra fields.
+
+Every note starts with `fact:`, `inference:`, or `gameplay:` and ends with a parenthesized source. Attribute disputed events to their accounts. Network names, individual goals, invented traits, and port errands are gameplay, not attested institutions or motives. The player is a shahbandar; port-wide authority is a gameplay abstraction. Dues and customs rulings are made in the temenggung's name. Show staff and their patrons through individual relationships: enslavement, obligatory Orang Laut royal service, and debt bondage are story pressures, not staffing upgrades.
+
+Sources: [people and factions](research/people-factions.md), [port labour](research/port-labour.md), [port officials](research/port-official.md), [1511 events](research/1511-events.md), [monsoon calendar](research/monsoon-calendar.md), and [prices](research/prices.md).
+
+Validate with `godot --headless --script tests/factions.gd`. These are Stage D authoring files; the Stage A main scene does not load them yet.
 
 ## Art
 

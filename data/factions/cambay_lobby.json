@@ -1,0 +1,23 @@
+{
+  "id": "cambay_lobby",
+  "name": "Cambay commercial lobby",
+  "kind": "merchant_network",
+  "bloc": "gujarati",
+  "leader_id": "cambay_shahbandar",
+  "member_ids": [
+    "cambay_shahbandar",
+    "khoja_ismail",
+    "mariam_of_cambay",
+    "salim_diu",
+    "yusuf_vora"
+  ],
+  "goals": [
+    "Keep space for Cambay consignments before the return sailing.",
+    "Press the court over Portuguese access without committing every captain to the same bargain."
+  ],
+  "bio": "The Cambay shahbandar brings complaints about competition to court. Merchants who depend on his introductions still make their own decisions about whether to trade.",
+  "notes": [
+    "fact: Araújo’s report associates the Gujarati shahbandar with opposition to Portuguese entry; Pires later records Gujaratis returning to trade (Birch III, p. 70; Pires II, pp. 254–258, 283)",
+    "gameplay: The roster merchants are fictional constituents, not attested subscribers to the lobby or a formal guild (people-factions.md §§3–4; data/merchants)"
+  ]
+}

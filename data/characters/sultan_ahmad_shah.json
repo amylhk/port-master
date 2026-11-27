@@ -1,0 +1,17 @@
+{
+  "id": "sultan_ahmad_shah",
+  "name": "Raja Ahmad Shah",
+  "faction_id": "ahmads_circle",
+  "role": "Mahmud’s son and commander in Brown’s account",
+  "origin": "Melaka royal house",
+  "bio": "Ahmad’s messengers bring pressing requests for carts and boats. He can offer a court seal, but the quay still wants to know whose instructions will stand.",
+  "traits": [
+    "Urgent",
+    "Trusts his companions"
+  ],
+  "notes": [
+    "fact: Brown presents Ahmad as reigning and rallying the bridge defense; Pires instead includes the king’s son among those opposing peace. Both report his later death at his father’s order (Brown chs. XXII–XXIII, pp. 166–170; Pires II, p. 280)",
+    "inference: Birch’s Alaoadim in a later correspondence episode is not a secure alternate name for Ahmad (Birch III, pp. 143–144; Brown ch. XXIII, pp. 170–171)",
+    "gameplay: His requisitions may compete with booked trade; they do not represent a permanent anti-trade policy (people-factions.md §§2–3)"
+  ]
+}

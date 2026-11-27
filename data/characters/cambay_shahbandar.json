@@ -1,0 +1,17 @@
+{
+  "id": "cambay_shahbandar",
+  "name": "Cambay Shahbandar",
+  "faction_id": "cambay_lobby",
+  "role": "Gujarati shahbandar, personal name unrecorded here",
+  "origin": "Cambay trade community in Melaka",
+  "bio": "He raises the Cambay merchants’ objections when Portuguese ships seek entry. A captain can seek his help without speaking with his voice.",
+  "traits": [
+    "Makes time for his constituents",
+    "Protective of established routes"
+  ],
+  "notes": [
+    "fact: Araújo’s report in Birch links the unnamed Gujarati shahbandar to opposition to Portuguese entry; Pires describes the office and its constituency (Birch III, p. 70; Pires II, p. 265)",
+    "inference: The sources do not establish that he was also the Gujarati captain of either reported episode (Pires II, pp. 257, 279; people-factions.md §2)",
+    "gameplay: The display title preserves anonymity; dealings with the fictional merchant roster are invented (people-factions.md §4)"
+  ]
+}

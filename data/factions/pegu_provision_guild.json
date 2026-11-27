@@ -1,0 +1,20 @@
+{
+  "id": "pegu_provision_guild",
+  "name": "Pegu Provision Guild",
+  "kind": "guild",
+  "bloc": "kling_bengal_pegu_pasai",
+  "leader_id": "min_ye",
+  "member_ids": [
+    "min_ye"
+  ],
+  "goals": [
+    "Protect the rice while town buyers are short.",
+    "Settle loading and clearance in time for the next leg of the voyage."
+  ],
+  "bio": "Min Ye can put buyers in touch with provision captains who have room to talk. A safeguard for the warehouse does not decide when each crew sails.",
+  "notes": [
+    "fact: Birch reports Pegu merchants asking for protection and separately describes captains sending men to Muar (Birch III, pp. 125–126, 130, 141–142)",
+    "inference: Pires’s Pegu circuit leaves Melaka for Pasai in July; Araújo reports September departures, so the roster should not impose one deadline. Delayed rice fleets could threaten food supply (monsoon-calendar.md §3; prices.md §4.2)",
+    "gameplay: The guild and Min Ye’s leadership are fictional; the safeguard and Muar contingent need not have identical membership (people-factions.md §§3–4; data/merchants/min_ye.json)"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "hang_nadim",
+  "name": "Hang Nadim",
+  "faction_id": "mahmuds_household",
+  "role": "Royal agent",
+  "origin": "Melaka royal service",
+  "bio": "Hang Nadim carries requests on the royal household’s business. A berth inquiry is an errand, not an order from a siege admiral.",
+  "traits": [
+    "Resourceful",
+    "Tactful"
+  ],
+  "notes": [
+    "fact: Brown depicts him as an agent and places his appointment as laksamana in the exile sequence (Brown chs. XVIII–XIX, pp. 139–148; ch. XXIII, p. 171)",
+    "gameplay: Port errands are invented; do not identify him as the commander of the 1511 fleet (people-factions.md §2)"
+  ]
+}

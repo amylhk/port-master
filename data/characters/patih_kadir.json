@@ -1,0 +1,17 @@
+{
+  "id": "patih_kadir",
+  "name": "Patih Kadir",
+  "faction_id": "upeh_household",
+  "role": "Intermediary and later Upeh leader in Pires",
+  "origin": "Java; Upeh connections",
+  "bio": "Kadir carries petitions for the household before taking an independent course. A later captain who asks whose permission counts in Upeh may hear different names.",
+  "traits": [
+    "Purposeful",
+    "Prepared to leave"
+  ],
+  "notes": [
+    "fact: Birch has him petition for the widow and then lead resistance; Pires connects him with Upeh leadership and says he returned to Java (Birch III, pp. 149–152; Pires II, p. 282)",
+    "inference: Birch’s later roster names Regunecerage for Upeh, so an uninterrupted succession is not secure; Kadir is not Pati Unus (Birch III, pp. 166–167; people-factions.md §2)",
+    "gameplay: His role as a shipping contact in an aftermath storyline is invented (people-factions.md §2)"
+  ]
+}

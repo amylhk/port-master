@@ -1,0 +1,17 @@
+{
+  "id": "raja_mendeliar",
+  "name": "Raja Mendeliar",
+  "faction_id": "mendeliar_contacts",
+  "role": "Keling-connected shahbandar",
+  "origin": "Kalinga; resident in Melaka",
+  "bio": "Mendeliar receives grievances from traders who can reach his household. He knows how to get a claim before the court, but other merchants can contest his account.",
+  "traits": [
+    "Well connected",
+    "Sensitive to slights"
+  ],
+  "notes": [
+    "fact: Brown calls him Master of the Port, connects him to the accusations, and has Mahmud order his execution (Brown ch. XXII, pp. 160–164)",
+    "inference: His origin makes Pires’s Keling-connected constituency plausible, not an independently attested assignment of the whole bloc (Pires II, pp. 258–259, 265; people-factions.md §2)",
+    "gameplay: Specific commercial claims and his dealings with the roster merchants are invented (people-factions.md §3)"
+  ]
+}

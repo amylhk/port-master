@@ -1,0 +1,16 @@
+{
+  "id": "tun_fatimah",
+  "name": "Tun Fatimah",
+  "faction_id": "mahmuds_household",
+  "role": "Dynastic intermediary",
+  "origin": "Melaka court",
+  "bio": "Born into the Bendahara’s family and brought into Mahmud’s household after the purge, Tun Fatimah has reason to ask whose name stands behind a promise.",
+  "traits": [
+    "Attentive to kin",
+    "Careful with promises"
+  ],
+  "notes": [
+    "fact: Brown describes her marriage to Tun Ali, later marriage to Mahmud and the promise concerning a son of hers; Brown later records Alauddin’s designation and succession (Brown chs. XXII–XXIII, pp. 159–171; chs. XXVIII–XXIX, pp. 193–195)",
+    "gameplay: Playable correspondence about patronage is fictional; the sources do not give her command of warehouses or a merchant network (people-factions.md §2)"
+  ]
+}

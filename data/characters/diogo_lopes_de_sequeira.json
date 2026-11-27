@@ -1,0 +1,16 @@
+{
+  "id": "diogo_lopes_de_sequeira",
+  "name": "Diogo Lopes de Sequeira",
+  "faction_id": "portuguese_expedition",
+  "role": "Commander of the 1509 visiting expedition",
+  "origin": "Portugal; Indian Ocean route",
+  "bio": "Sequeira seeks a trading foothold in 1509. Once the ships leave and the captives remain ashore, he is no longer a harbour contact.",
+  "traits": [
+    "Formal in negotiations",
+    "Watchful of access ashore"
+  ],
+  "notes": [
+    "fact: Sequeira led the 1509 visit and escaped the ambush, leaving men including Araújo behind; sources differ on timing and counts (1511-events.md §§1, 4)",
+    "gameplay: Berth and warehouse conversations are invented; his roster membership does not place him in the 1511 fleet (1511-events.md §1)"
+  ]
+}

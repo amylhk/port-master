@@ -1,0 +1,17 @@
+{
+  "id": "tuam_banda",
+  "name": "Tuam Banda",
+  "faction_id": "ahmads_circle",
+  "role": "Councillor in Pires’s account",
+  "origin": "Melaka court",
+  "bio": "The council knows a Tuam Banda who argues against peace. A report from the bridge names a captain similarly; the messenger cannot vouch that both accounts name the same man.",
+  "traits": [
+    "Plain-spoken",
+    "Skeptical of settlement"
+  ],
+  "notes": [
+    "fact: Pires names Tuam Banda among opponents of peace; Birch reports the bridge defense and death of a captain named Tuão Bandao (Pires II, p. 280; Birch III, pp. 105–106)",
+    "inference: The names may identify one person, but the sources do not establish this (people-factions.md §2)",
+    "gameplay: Treat the link as an attributed report rather than a fixed identity or death (people-factions.md §2)"
+  ]
+}

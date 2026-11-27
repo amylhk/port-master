@@ -1,0 +1,16 @@
+{
+  "id": "tun_hamzah",
+  "name": "Tun Hamzah",
+  "faction_id": "bendahara_household",
+  "role": "Surviving member of the Bendahara kin group",
+  "origin": "Melaka court",
+  "bio": "Hamzah knows the names behind his father’s accounts, but merchants who approach him after the purge cannot assume he can act in his father’s place.",
+  "traits": [
+    "Wary of inherited obligations",
+    "Remembers favors"
+  ],
+  "notes": [
+    "fact: Brown says Tahir’s son was wounded in the purge but survived, and later received the same title in exile (Brown chs. XXII–XXIII, pp. 163, 170)",
+    "gameplay: Quay referrals are invented; he is not the old port’s Seri Nara Diraja by virtue of his later title (people-factions.md §2)"
+  ]
+}

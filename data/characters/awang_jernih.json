@@ -1,0 +1,17 @@
+{
+  "id": "awang_jernih",
+  "name": "Awang Jernih",
+  "faction_id": "mahmuds_household",
+  "role": "Orang Laut boatman called for royal rowing",
+  "origin": "Bintan waters",
+  "bio": "Jernih has promised a cousin a crossing. A summons from the Bintan governor, in Mahmud’s name, may take him away before he can make good on it.",
+  "traits": [
+    "Keeps track of promises",
+    "Speaks plainly about obligations"
+  ],
+  "notes": [
+    "fact: Pires describes people brought by the Bintan governor to row when the king required it, for food rather than pay (Pires II, p. 264; port-labour.md §1)",
+    "inference: Thomaz identifies the Celates with Orang Laut and reads the obligation as naval service, not paid commercial lighterage (Thomaz pp. 76–77; port-labour.md §1)",
+    "gameplay: Jernih, his cousin and the missed crossing are invented; no general cargo-labor role is implied (port-labour.md §4)"
+  ]
+}

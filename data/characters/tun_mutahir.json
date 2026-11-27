@@ -1,0 +1,16 @@
+{
+  "id": "tun_mutahir",
+  "name": "Tun Mutahir",
+  "faction_id": "bendahara_household",
+  "role": "Bendahara Seri Maharaja",
+  "origin": "Melaka court",
+  "bio": "A recommendation from Mutahir can bring a trader’s complaint before the court. Those who rely on his hearing may find nobody willing to honor his promises after the purge.",
+  "traits": [
+    "Accessible to petitioners",
+    "Guarded about household dealings"
+  ],
+  "notes": [
+    "fact: Brown describes the Bendahara’s business and the execution ordered by Mahmud; Pires also records the purge but emphasizes the failed 1509 attack’s aftermath, fear and confiscation (Brown ch. XXII, pp. 159–164; Pires II, pp. 257–259)",
+    "gameplay: Individual cargo hearings and promises are invented; the competing explanations are not fixed private motives (people-factions.md §§2–3)"
+  ]
+}

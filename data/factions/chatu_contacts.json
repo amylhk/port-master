@@ -1,0 +1,21 @@
+{
+  "id": "chatu_contacts",
+  "name": "Nina Chatu’s brokerage",
+  "kind": "merchant_network",
+  "bloc": "kling_bengal_pegu_pasai",
+  "leader_id": "nina_chatu",
+  "member_ids": [
+    "nina_chatu",
+    "cogequirmani",
+    "kannan_bookkeeper"
+  ],
+  "goals": [
+    "Find safe channels for aid, cargo and correspondence.",
+    "Hear a disputed repayment without putting the creditor’s word above the record."
+  ],
+  "bio": "Nina Chatu’s introductions carry letters and business across households. The bookkeeper Kannan wants a witnessed account of his own debt, not another patron’s promise.",
+  "notes": [
+    "fact: Nina Chatu helped the Portuguese prisoners and later held office; Birch also puts him and Cogequirmani in an eastern trading venture (Pires II, pp. 258, 281; Birch III, pp. 125–129, 162–163)",
+    "gameplay: Chatu is not the pre-conquest Keling shahbandar; Kannan and the debt case are invented (people-factions.md §2; port-labour.md §§3–4)"
+  ]
+}

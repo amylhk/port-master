@@ -1,0 +1,16 @@
+{
+  "id": "tun_tahir",
+  "name": "Tun Tahir",
+  "faction_id": "bendahara_household",
+  "role": "Seri Nara Diraja and treasury patron",
+  "origin": "Melaka court",
+  "bio": "A receipt seeking the treasury’s recognition goes to Tahir’s circle. It does not bypass the temenggung’s ruling at customs.",
+  "traits": [
+    "Distinguishes an account from a claim",
+    "Protective of clerks"
+  ],
+  "notes": [
+    "fact: Brown names Tahir among those killed in the purge and Hamzah as his surviving son; Cortesão’s note associates Tahir with the treasury (Brown chs. XXII–XXIII, pp. 163, 170; Pires II, p. 256 n. 1)",
+    "gameplay: Receipt referrals are fictional, and the treasury is not the customs bench (people-factions.md §2; port-labour.md §2)"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "salmah_quay_watch",
+  "name": "Salmah",
+  "faction_id": "bendahara_household",
+  "role": "Watch retainer sponsored by Tun Hasan",
+  "origin": "Melaka riverfront",
+  "bio": "Salmah answers to Hasan’s household. When a messenger asks her to leave a merchant’s warehouse for the town watch, she wants someone to sign for the goods she leaves behind.",
+  "traits": [
+    "Careful about handovers",
+    "Unimpressed by rank alone"
+  ],
+  "notes": [
+    "fact: Pires places the city watch under the temenggung and distinguishes it from the laksamana’s role at sea (Pires II, pp. 264–265; port-labour.md §2)",
+    "inference: Retainers around officials support patron-based service, not a fixed establishment of port guards (port-labour.md §2; Andaya pp. 90–91)",
+    "gameplay: Salmah, her patron link and the reassignment are fictional (port-labour.md §4)"
+  ]
+}

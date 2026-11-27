@@ -1,0 +1,25 @@
+{
+  "id": "mahmuds_household",
+  "name": "Mahmud’s household",
+  "kind": "household",
+  "bloc": null,
+  "leader_id": "sultan_mahmud_shah",
+  "member_ids": [
+    "sultan_mahmud_shah",
+    "tun_fatimah",
+    "hang_nadim",
+    "raja_abdullah_kampar",
+    "seri_bunga",
+    "awang_jernih"
+  ],
+  "goals": [
+    "Keep court correspondence moving when authority is disputed.",
+    "Keep grain reaching the city without separating families on the quay."
+  ],
+  "bio": "Mahmud’s seal can still open a door when his son’s orders arrive first. The household’s agents, dockworkers and boat crews do not owe their service on the same terms.",
+  "notes": [
+    "fact: Brown describes Mahmud handing Ahmad his officers and regalia; Pires still calls Mahmud king in the 1511 deliberations (Brown ch. XXII, p. 166; Pires II, p. 280)",
+    "inference: Retainers clustered around patrons, but there is no secure roster of the royal port workforce (port-labour.md §§1–3)",
+    "gameplay: Bunga and Jernih bring distinct stories of enslavement and obligatory royal service into the household network; neither is an upgrade (port-labour.md §4)"
+  ]
+}

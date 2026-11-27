@@ -1,0 +1,16 @@
+{
+  "id": "tun_mai_ulat_bulu",
+  "name": "Tun Mai Ulat Bulu",
+  "faction_id": "ahmads_circle",
+  "role": "Temenggung styled Seri Awadana",
+  "origin": "Ahmad’s court",
+  "bio": "Once Ahmad appoints him, Tun Mai is a route from court to watch and quay. Orders brought by his men are not survivals of Hasan’s household arrangements.",
+  "traits": [
+    "Direct",
+    "Watchful of changing orders"
+  ],
+  "notes": [
+    "fact: Brown records his appointment by Ahmad, his injury in the defense and his later death in exile (Brown chs. XXII–XXIII, pp. 166–169; ch. XXVIII, p. 192)",
+    "gameplay: His particular quay assignments are invented; the portfolio does not make him the earlier incumbent (people-factions.md §2)"
+  ]
+}

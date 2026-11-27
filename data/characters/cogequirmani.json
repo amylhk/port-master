@@ -1,0 +1,17 @@
+{
+  "id": "cogequirmani",
+  "name": "Cogequirmani",
+  "faction_id": "chatu_contacts",
+  "role": "Captain in a post-conquest eastern venture",
+  "origin": "Family settled in Melaka; earlier origin unverified",
+  "bio": "Cogequirmani has a share of an eastern venture and is prepared to sail ahead of the main company. A useful referral is worth more to him than a flattering title.",
+  "traits": [
+    "Voyage-minded",
+    "Precise about shares"
+  ],
+  "notes": [
+    "fact: Birch names him as a junk captain, says his family was settled in Melaka and records a share of the venture alongside Nina Chatu (Birch III, pp. 162–163)",
+    "inference: The editorial gloss Khoja Kirmani does not establish ancestry, and there is no basis to merge him with Cojeabrahem (Birch III, pp. 147–148, 162–163; people-factions.md §2)",
+    "gameplay: His personal manner and referrals are invented; use as a late departure contact (people-factions.md §2)"
+  ]
+}

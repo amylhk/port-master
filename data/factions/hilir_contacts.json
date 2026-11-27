@@ -1,0 +1,20 @@
+{
+  "id": "hilir_contacts",
+  "name": "Hilir quarter contacts",
+  "kind": "quarter",
+  "bloc": null,
+  "leader_id": "tuan_colascar",
+  "member_ids": [
+    "tuan_colascar"
+  ],
+  "goals": [
+    "Find a local hearing after the conquest changes the chain of authority.",
+    "Keep Hilir’s petitions separate from disputes within the Upeh household."
+  ],
+  "bio": "Hilir has its own post-conquest contact in Colascar. A merchant with business on both banks need not inherit either quarter’s quarrels.",
+  "notes": [
+    "fact: Pires and Birch name Colascar in the post-conquest settlement, separately from the Upeh leadership (Pires II, pp. 281–282; Birch III, pp. 166–167)",
+    "inference: The appointment neither proves a pre-fall office nor establishes a standing Upeh–Hilir feud (people-factions.md §§2–3)",
+    "gameplay: Use this record as an aftermath contact, not a sultanate appointment (people-factions.md §4)"
+  ]
+}

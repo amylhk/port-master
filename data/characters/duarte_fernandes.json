@@ -1,0 +1,16 @@
+{
+  "id": "duarte_fernandes",
+  "name": "Duarte Fernandes",
+  "faction_id": "portuguese_expedition",
+  "role": "Portuguese envoy to Siam",
+  "origin": "Portuguese expedition; Siam route",
+  "bio": "Fernandes can reach Siam only if the junk captains can sail. The embassy follows the captains’ bargain rather than creating their sailing window.",
+  "traits": [
+    "Adaptable",
+    "Ready to travel"
+  ],
+  "notes": [
+    "fact: The Commentaries sends Fernandes to Siam aboard a departing Chinese junk (Birch III, pp. 113–115, 152–155)",
+    "gameplay: His recurring departure referrals are invented (people-factions.md §§2–3; monsoon-calendar.md §6)"
+  ]
+}

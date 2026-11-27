@@ -1,0 +1,16 @@
+{
+  "id": "tun_ali_hati",
+  "name": "Tun Ali Hati",
+  "faction_id": "ahmads_circle",
+  "role": "Companion and messenger to Ahmad",
+  "origin": "Melaka court",
+  "bio": "Ali Hati brings Ahmad’s requests without claiming authority to set a fee or settle the merchant’s claim himself.",
+  "traits": [
+    "Personally loyal",
+    "Impatient with delay"
+  ],
+  "notes": [
+    "fact: Brown has him ride with Ahmad at the defense and refuse another master before being killed on Mahmud’s order; he is not Tun Fatimah’s first husband (Brown chs. XXII–XXIII, pp. 159–160, 166–170)",
+    "gameplay: His trips to the harbour are fictional, not a port appointment (people-factions.md §2)"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "peace_counsel",
+  "name": "Counsel for a settlement",
+  "kind": "court_circle",
+  "bloc": null,
+  "leader_id": "tun_pikrama",
+  "member_ids": [
+    "tun_pikrama"
+  ],
+  "goals": [
+    "Keep a channel open for talks while court opinion shifts.",
+    "Reassess which petitions survive the change of Bendahara."
+  ],
+  "bio": "A hearing can buy time, but a change of Bendahara does not transfer the old household’s obligations. The admiral who advises talks is not named here.",
+  "notes": [
+    "fact: Brown names Mutahir’s successor, and Pires has the Bendahara and admiral counsel peace in 1511 without naming them in that passage (Brown ch. XXII, p. 164; Pires II, p. 280)",
+    "inference: The succession makes Pikrama a plausible match, not a named attribution by Pires (people-factions.md §2)",
+    "gameplay: A temporary negotiating contact, not a party with a fixed membership (people-factions.md §3)"
+  ]
+}

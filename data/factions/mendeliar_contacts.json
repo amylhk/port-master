@@ -1,0 +1,23 @@
+{
+  "id": "mendeliar_contacts",
+  "name": "Mendeliar’s hearing contacts",
+  "kind": "merchant_network",
+  "bloc": "kling_bengal_pegu_pasai",
+  "leader_id": "raja_mendeliar",
+  "member_ids": [
+    "raja_mendeliar",
+    "naina_sura_dewana",
+    "si_kitul",
+    "laksamana_khoja_husain",
+    "sri_rangan"
+  ],
+  "goals": [
+    "Get competing claims heard without treating a gift as proof.",
+    "Trace who heard a report firsthand and who owes its bearer a favour."
+  ],
+  "bio": "A commercial grievance reaches court through men who would not all sit at the same table. A debtor, a merchant and an admiral each have their own reason to pass on a story.",
+  "notes": [
+    "fact: The Annals connects Dewana, Mendeliar, Kittul and the admiral through a gift, debt and accusations; its account calls the treason report false (Brown ch. XXII, pp. 160–164)",
+    "gameplay: This grouping includes opponents and intermediaries, not a united body; Rangan is a fictional petitioner (people-factions.md §3; data/merchants/sri_rangan.json)"
+  ]
+}

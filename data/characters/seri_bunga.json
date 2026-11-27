@@ -1,0 +1,16 @@
+{
+  "id": "seri_bunga",
+  "name": "Seri Bunga",
+  "faction_id": "mahmuds_household",
+  "role": "Enslaved royal dockworker",
+  "origin": "Melaka riverfront",
+  "bio": "Bunga unloads at the royal landing because Mahmud’s household claims her labor. She swaps news with a boatman to find where her brother has been sent and asks a warehouse keeper to witness the transfer.",
+  "traits": [
+    "Observant",
+    "Protective of kin"
+  ],
+  "notes": [
+    "inference: Thomaz identifies cash-purchased belati among the ruler’s dockworkers, not the entire unloading workforce (port-labour.md §§1, 3; Thomaz p. 75)",
+    "gameplay: Bunga, her brother and the witness are fictional. Her story is about separation and who will help her, not buying unloading capacity (port-labour.md §4)"
+  ]
+}
