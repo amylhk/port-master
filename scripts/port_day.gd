@@ -11,8 +11,6 @@ const OFFER_DIR := "res://data/offers"
 const MERCHANT_DIR := "res://data/merchants"
 const DEPUTY_DIR := "res://data/deputies"
 const FACTION_DIR := "res://data/factions"
-const CHARACTER_DIR := "res://data/characters"
-const HISTORY_DIR := "res://data/history"
 const BRIEFING_FLAG_SOURCES := {
     "rice_short_yesterday": "rice_target_missed",
     "ship_lost_yesterday": "ship_lost",
@@ -60,12 +58,9 @@ var briefing_flags := {}
 var events: Array[Dictionary] = []
 var briefings: Array[Dictionary] = []
 var departures: Array[Dictionary] = []
-var history := {}
 var offers: Array[Dictionary] = []
 var merchants := {}
 var deputies := {}
-var factions := {}
-var characters := {}
 var story_queue: Array[Dictionary] = []
 var story_index := 0
 var story_outcome := {}
@@ -78,10 +73,7 @@ var _opening_anchorage: Array[Dictionary] = []
 var _opening_supply := 0
 var _opening_reputation := 0
 var _opening_trust := {}
-var _opening_standing := {}
-var _opening_duty := 0
 var _opening_campaign_flags := {}
-var _priority_history_played := false
 var _day_trigger := RegEx.create_from_string("^day\\s*(>=|<=|==|!=|>|<)\\s*([0-9]+)$")
 var _condition := RegEx.create_from_string("^(duty|supply|reputation|merchant_trust|faction_standing)(?:\\.([a-z0-9_]+))?(>=|<=|==|>|<)([+-]?[0-9]+)\\z")
 
@@ -135,16 +127,10 @@ func load_data(scenario_path := "res://data/port_day.json", inspection_dir := IN
     offers = _load_stories(OFFER_DIR)
     merchants = _load_index(MERCHANT_DIR)
     deputies = _load_index(DEPUTY_DIR)
-    factions = _load_index(FACTION_DIR)
-    characters = _load_index(CHARACTER_DIR)
-    history = _load_index(HISTORY_DIR)
-    if merchants.is_empty() or deputies.is_empty() or factions.is_empty() or characters.is_empty() or history.is_empty():
-        return false
-    _opening_standing.clear()
-    for id in factions:
-        _opening_standing[id] = 0
-    faction_standing = _opening_standing.duplicate()
-    return _validate_cast()
+    faction_standing.clear()
+    for faction in _load_stories(FACTION_DIR):
+        faction_standing[faction["id"]] = 0
+    return true
 
 
 func _load_stories(directory: String) -> Array[Dictionary]:
@@ -159,41 +145,9 @@ func _load_stories(directory: String) -> Array[Dictionary]:
 
 func _load_index(directory: String) -> Dictionary:
     var index := {}
-    for filename in DirAccess.get_files_at(directory):
-        if not filename.ends_with(".json"):
-            continue
-        var path := directory.path_join(filename)
-        var item := _read_data(path)
-        var id := filename.get_basename()
-        if item.get("id") != id:
-            push_error("Expected ID '%s' at %s." % [id, path])
-            return {}
-        index[id] = item
+    for item in _load_stories(directory):
+        index[item["id"]] = item
     return index
-
-
-func _validate_cast() -> bool:
-    for id in characters:
-        if merchants.has(id) or not factions.has(characters[id].get("faction_id")):
-            push_error("Character '%s' duplicates a merchant ID or has an unknown faction." % id)
-            return false
-    for id in factions:
-        var faction: Dictionary = factions[id]
-        var members: Variant = faction.get("member_ids")
-        if not members is Array:
-            push_error("Faction '%s' needs a member_ids array." % id)
-            return false
-        for person_id in [faction.get("leader_id")] + members:
-            if person(person_id).is_empty():
-                push_error("Faction '%s' references an unknown person: %s." % [id, person_id])
-                return false
-    return true
-
-
-func person(id: Variant) -> Dictionary:
-    if not id is String:
-        return {}
-    return characters.get(id, merchants.get(id, {}))
 
 
 func reset() -> void:
@@ -207,7 +161,7 @@ func reset() -> void:
     completed = 0
     lost = 0
     held = 0
-    duty = _opening_duty if scenario.get("narrative_only", false) else 0
+    duty = 0
     rice = 0
     rice_relief_cost = 0
     recovered_duty = 0
@@ -215,9 +169,7 @@ func reset() -> void:
     supply = _opening_supply
     reputation = _opening_reputation
     merchant_trust = _opening_trust.duplicate()
-    faction_standing = _opening_standing.duplicate()
     campaign_flags = _opening_campaign_flags.duplicate()
-    _priority_history_played = false
     active_offer.clear()
     _finished_offers.clear()
     _offer_ship_departures.clear()
@@ -230,8 +182,6 @@ func reset() -> void:
     for ship in waiting:
         _log("Still at anchor: %s." % ship["name"])
     _arrivals()
-    if scenario.get("narrative_only", false):
-        _advance_clock(int(scenario["end_minute"]) - minute_of_day)
 
 
 func berth(ship_id: String, inspect: bool, berth_slot := -1) -> void:
@@ -329,8 +279,6 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
         outcome = "clear"
     flags[ship["inspection_case"] + "_inspected"] = true
     _record_ruling(ship, outcome)
-    if supported and ruling_id == "clear":
-        flags[ship["inspection_case"] + "_verified_clearance"] = true
     if not supported:
         ruling_note += "\n\n" + _ruling_feedback(inspection, ruling_matches, evidence_matches, method_id)
     _log(ruling_note)
@@ -422,42 +370,9 @@ func _queue_stories(stories: Array[Dictionary], required_flags: Dictionary, firs
 
 func _skip_unmatched_stories() -> void:
     while story_index >= 0 and story_index < story_queue.size():
-        var story := story_queue[story_index]
-        if history.has(story["id"]):
-            var required_flags := _evening_flags()
-            if (not story.has("priority") or not _priority_history_played) and story_matches(story, required_flags):
-                return
-        elif _conditions_match(story):
+        if _conditions_match(story_queue[story_index]):
             return
         story_index += 1
-
-
-func _evening_flags() -> Dictionary:
-    var required_flags := campaign_flags.duplicate()
-    required_flags.merge(briefing_flags)
-    required_flags.merge(flags)
-    return required_flags
-
-
-func _queue_history() -> void:
-    var prioritized: Array[Dictionary] = []
-    for story: Dictionary in history.values():
-        if campaign_flags.has(_step_flag(story)):
-            continue
-        if story.has("day") and story["day"] != day_number:
-            continue
-        if story.has("trigger") and not _trigger_matches(story["trigger"]):
-            continue
-        if story.has("priority"):
-            prioritized.append(story)
-        else:
-            story_queue.append(story)
-    prioritized.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["priority"]) < int(b["priority"]))
-    story_queue.append_array(prioritized)
-
-
-func _step_flag(story: Dictionary) -> String:
-    return "%s_step_%d" % [story["chain_id"], int(story["step"])]
 
 
 func start_evening() -> void:
@@ -487,10 +402,6 @@ func choose_story(choice_id: String) -> void:
             if effects.has("merchant_trust"):
                 var merchant_id: String = story["merchant_id"]
                 merchant_trust[merchant_id] = int(merchant_trust.get(merchant_id, 0)) + int(effects["merchant_trust"])
-            var standings: Dictionary = effects.get("faction_standing", {})
-            for id in standings:
-                if faction_standing.has(id):
-                    faction_standing[id] += int(standings[id])
             story_outcome = choice
             return
 
@@ -505,11 +416,9 @@ func continue_story() -> void:
         active_offer = {}
         return
     if story.has("chain_id"):
-        var step_flag := _step_flag(story)
+        var step_flag := "%s_step_%d" % [story["chain_id"], int(story["step"])]
         flags[step_flag] = true
         campaign_flags[step_flag] = true
-    if history.has(story["id"]) and story.has("priority"):
-        _priority_history_played = true
     story_index += 1
     _skip_unmatched_stories()
 
@@ -666,11 +575,9 @@ func begin_next_day() -> void:
     if flags.has("ships_held_over"):
         briefing_flags["ships_held_over"] = true
     _opening_anchorage = waiting.duplicate(true)
-    _opening_duty = duty
     _opening_supply = supply
     _opening_reputation = reputation
     _opening_trust = merchant_trust.duplicate()
-    _opening_standing = faction_standing.duplicate()
     for flag in flags:
         if flag.begins_with("case_"):
             campaign_flags[flag] = true
@@ -801,16 +708,14 @@ func _advance_clock(minutes: int) -> void:
             rice_relief_cost = ceili(shortfall / RICE_SACKS_PER_RELIEF_DUTY)
             duty -= rice_relief_cost
             flags["rice_target_met" if shortfall == 0 else "rice_target_missed"] = true
-            if scenario.get("narrative_only", false):
-                story_queue.clear()
-                story_index = -1
-            else:
-                _queue_stories(events, flags, -1)
-                var departure_flags := _evening_flags()
-                for departure in departures:
-                    if not campaign_flags.has(_step_flag(departure)) and story_matches(departure, departure_flags, false):
-                        story_queue.append(departure)
-            _queue_history()
+            _queue_stories(events, flags, -1)
+            var departure_flags := campaign_flags.duplicate()
+            departure_flags.merge(briefing_flags)
+            departure_flags.merge(flags)
+            for departure in departures:
+                var step_flag := "%s_step_%d" % [departure["chain_id"], int(departure["step"])]
+                if not campaign_flags.has(step_flag) and story_matches(departure, departure_flags, false):
+                    story_queue.append(departure)
         else:
             _arrivals()
 

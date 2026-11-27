@@ -13,6 +13,8 @@ A historical trading-hub game set in Melaka before the Portuguese conquest of 15
 5. Case ships offer declared unloading or detailed inspection. Inspection occupies the chosen berth and advances time by its fixed cost; the other berth and scheduled arrivals keep working. Open physical evidence, consult the manual, choose an evidence citation and a plain ruling stamp, then stamp the declaration. Full original evidence is one click away; consequences appear only after filing.
 6. Close the watch when ready, or automatically at 17:00. The closing ledger records duty, rice supply and lost trade. Replay restores the morning. Deputies, offers, economy, evenings and later days are deliberately absent from this new main scene.
 
+The previous fifteen-day Stage B prototype remains available in `scenes/harbour.tscn` for regression checks and later development, not as the current player entry point. Stage D remains unmerged.
+
 ## Day 1 rebuild
 
 - Guided harbour with native drag/drop, click fallback and explicit berth targets
@@ -21,15 +23,9 @@ A historical trading-hub game set in Melaka before the Portuguese conquest of 15
 - Hands-on cargo, seals, scales, testimony, paged manual and unselected plain stamps
 - Parchment-and-teal desk, short copy with full evidence on click, closing and replay
 
-## Full campaign prototype
-
-Open `scenes/harbour.tscn` and run it as the current scene (F6), or run `godot scenes/harbour.tscn` from the project directory. This separate prototype runs for eighteen linked campaign days: fifteen harbour watches, eighteen scheduled inspection cases, and an illustrated branching finale. The quay office includes deputies, merchant offers, and a faction and cast directory.
-
-Close the watch at 17:00, then resolve evening events, departure accounts, and historical chapters. Ships still at anchor carry over during the harbour watches. After day 15 the quay closes for good, and the final three days play as story chapters. **Replay the day** restores that day's opening state.
-
 ## Not implemented
 
-- Real-time clock, Basic Inspection, merchant AI, and diplomacy
+- Real-time clock, Basic Inspection, merchant AI, historical story chains, finale, and diplomacy
 
 The prototype keeps **manual time advancement** and uses the blueprint's alternative fixed inspection cost. The inspection does not additionally run a wall-clock timer while you read.
 
@@ -46,7 +42,6 @@ godot --headless --script tests/day_one.gd
 godot --headless --script tests/day1_text.gd
 godot --headless --script tests/stage_a.gd
 godot --headless --script tests/stage_b.gd
-godot --headless --script tests/stage_d.gd
 ```
 
 ## Design documentation
