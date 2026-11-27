@@ -1,6 +1,6 @@
-# Stage A authoring formats
+# Data authoring formats
 
-Stage A uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and `JSON.parse_string`. Required fields are listed below unless marked optional. Labels and prose are display text; keep IDs stable and unique within each collection. Use JSON `\n` for paragraph breaks.
+Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and `JSON.parse_string`. Required fields are listed below unless marked optional. Labels and prose are display text; keep IDs stable and unique within each collection. Use JSON `\n` for paragraph breaks.
 
 | File | Object shape |
 | --- | --- |
@@ -9,6 +9,7 @@ Stage A uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and 
 | `data/inspections/case_001.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
+| `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 
 - **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete.
 - **Evidence:** each page has `id`, `label` (short button text), `title`, and `text`. Optional `image` is the full Godot resource path. Put observations on the evidence pages and generally applicable conventions in the manual. The manifest describes what was declared, never the expected correct markings or an assessment.
@@ -61,6 +62,50 @@ Sample event (illustrative; `data/events/` holds the real ones):
      "outcome_text": "He takes the cloth home. The office keeps its distance.",
      "effects": {"reputation": 0}}
   ]
+}
+```
+
+## Deputies
+
+Stage B deputies live in `data/deputies/`, one deputy per file named `<id>.json`.
+
+- `id`, `name`, `role`, `bio` (non-empty text).
+- `skills`: integer ratings from 0 to 5 for exactly three delegable tasks: `berth`, `inspection`, and `purchasing`.
+- `flaw`: `id` identifies the flaw, and `text` describes it (both non-empty text). The game decides how the flaw changes outcomes; the prose does not set a numerical modifier.
+- `delegation_lines`: keyed by the same three task IDs. Each task has `assign` (spoken when given the work) and `good`, `mixed`, and `bad` (spoken when reporting the result). Each is a non-empty array of non-empty strings. The game could pick a line at random from the matching array when it has multiple variants.
+- Optional `notes`: authoring-only strings, never shown in play. Start every note with `[FACT]` (source-backed), `[INFERENCE]` (plausible reconstruction), or `[GAMEPLAY]` (fiction or design abstraction).
+
+Flaw IDs in use (intended effects):
+
+| ID | Effect |
+| --- | --- |
+| `kin_and_countrymen` | Valuation and inspection are more lenient toward ships from Pasai and Bengal. |
+| `accepts_presents` | A captain's gift can win a kinder tally or leave a fault unreported. |
+| `weighs_everything` | Checking weights personally slows inspection and can cost a ship berth time or delay its departure. |
+| `old_favours` | A captain owed a favour may jump the berth queue. |
+| `rice_before_all` | Rice takes priority, sometimes at the expense of duty or other cargo. |
+
+Run `godot --headless --script tests/deputies.gd` to check deputy files.
+
+Sample deputy (illustrative and abridged; a real file also needs the `inspection` and `purchasing` entries under `delegation_lines`):
+
+```json
+{
+  "id": "pak_mamat",
+  "name": "Pak Mamat",
+  "role": "Roads pilot",
+  "bio": "He knows the anchorage and its captains.",
+  "skills": {"berth": 5, "inspection": 1, "purchasing": 1},
+  "flaw": {"id": "old_favours", "text": "Captains he owes may jump the berth queue."},
+  "delegation_lines": {
+    "berth": {
+      "assign": ["I'll take the boat out, Shahbandar."],
+      "good": ["She's tied up and ready to unload."],
+      "mixed": ["She's in, but the next ship has to wait."],
+      "bad": ["She gave up waiting and sailed."]
+    }
+  },
+  "notes": ["[GAMEPLAY] Pak Mamat is fictional."]
 }
 ```
 

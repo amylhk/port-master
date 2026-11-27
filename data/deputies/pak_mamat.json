@@ -1,0 +1,73 @@
+{
+  "id": "pak_mamat",
+  "name": "Pak Mamat",
+  "role": "Roads pilot, lent to the harbour office by the laksamana's boatmen",
+  "skills": {"berth": 5, "inspection": 1, "purchasing": 1},
+  "flaw": {
+    "id": "old_favours",
+    "text": "Pak Mamat owes favours to half the nakhodas in the roads. When he orders the berths himself, a captain he owes may slip ahead of a ship that needed the berth more."
+  },
+  "bio": "Pak Mamat has taken boats through the Melaka roads since before the shahbandar was born. He knows every shoal, every current at the river mouth and every captain who ever bought him a meal. He reads a hull's draught at a glance and a manifest not at all.",
+  "delegation_lines": {
+    "berth": {
+      "assign": [
+        "Leave the roads to me, Shahbandar. The water has not changed since your father's day.",
+        "I will bring them in by the tide and by need. Mostly by need."
+      ],
+      "good": [
+        "Every hull is tied up and nobody scraped a keel. The rice boat went in first, as you wanted.",
+        "Done. The anchorage is quiet and the captains are content."
+      ],
+      "mixed": [
+        "The berths are full and the work goes on, but I let the Pasai perahu in ahead of turn. Her nakhoda once pulled me out of the river. A man must pay his debts.",
+        "Everyone is in except one. He waited too long and cursed my mother. Fair enough."
+      ],
+      "bad": [
+        "I put a friend's ship in the near berth and the big ship waited at anchor all afternoon. Her captain is talking about Pasai's harbour. I am sorry, Shahbandar.",
+        "Too many favours, too few berths. A ship that should have unloaded today is still out there."
+      ]
+    },
+    "inspection": {
+      "assign": [
+        "Me, read their papers? I will look at the hull and the crew. I can tell you if they are frightened.",
+        "I will go aboard, but do not expect me to count bales."
+      ],
+      "good": [
+        "The crew were easy and the hold smelled of what they said it held. I found nothing wrong.",
+        "Nothing hidden under the deck boards. I looked where smugglers look."
+      ],
+      "mixed": [
+        "The ship sits lower than her cargo should make her. Maybe she carries ballast, maybe something else. Someone who can read should look again.",
+        "I counted the jars twice and got two numbers. The captain says the first was right."
+      ],
+      "bad": [
+        "I cleared her. The papers looked like papers. Now people say she carried more than she paid for.",
+        "The captain was an old friend. I did not look as hard as I should have."
+      ]
+    },
+    "purchasing": {
+      "assign": [
+        "Buying for the treasury? I know what boats cost, not cloth. But I will try.",
+        "I will ask around the quays. Somebody always owes me a better price."
+      ],
+      "good": [
+        "A friend sold to me cheap, and the goods are sound. I tasted the rice myself.",
+        "Bought, carried and stored before the rain. The keepers counted it in."
+      ],
+      "mixed": [
+        "I got the quantity you asked for. Whether the price was fair, ask a merchant, not a boatman.",
+        "Half of it is good. The other half I bought from a friend, so I did not like to argue."
+      ],
+      "bad": [
+        "The merchant laughed when I paid. I think I paid too much.",
+        "I bought what the man showed me on top. Underneath, it is damp."
+      ]
+    }
+  },
+  "notes": [
+    "[FACT] The laksamana had jurisdiction over everyone at sea and over junks and lancharas (Pires, Suma Oriental, Cortesão ed., pp. 264-5; docs/research/port-official.md §4.2).",
+    "[INFERENCE] Who handled day-to-day anchoring is not stated; Andaya credits the shahbandar with supervising anchoring (p. 90). A boatman who knows the roads is a plausible helper, but no named pilot office is documented (port-official.md §4.1, §5.2 step 1).",
+    "[GAMEPLAY] Pak Mamat is a fictional character. Lending him from the laksamana's boatmen and the shahbandar ordering berths at all are stated abstractions (Lead decision, port-official.md §6).",
+    "[GAMEPLAY] Flaw old_favours: when Pak Mamat orders berths, a ship may jump the queue for reasons of personal debt, not need."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "id": "siti_aminah",
+  "name": "Siti Aminah",
+  "role": "Rice buyer and market keeper for the town's granaries",
+  "skills": {
+    "berth": 2,
+    "inspection": 2,
+    "purchasing": 4
+  },
+  "flaw": {
+    "id": "rice_before_all",
+    "text": "Siti Aminah has watched the town go hungry and will not let it happen again. Given any work, she puts rice first, even when the treasury or a richer cargo needed the attention more."
+  },
+  "bio": "Siti Aminah sells and buys in the market by the river and knows to the gantang how much rice the town eats. She can tell old grain from new by its smell and a rice trader's best price by his face. She treats every empty granary as a personal insult.",
+  "delegation_lines": {
+    "berth": {
+      "assign": [
+        "Rice boats first. Then whatever you like.",
+        "I will see the food ships in. The rest can wait a little, can they not?"
+      ],
+      "good": [
+        "The rice is ashore and the other ships followed in good order. The town eats tonight.",
+        "Every boat in, food first. Nobody starved and nobody sailed away."
+      ],
+      "mixed": [
+        "The rice is in. The pepper ship waited, and her captain is sulking. Pepper does not feed children.",
+        "Food ships in, and most of the others. One is still out there."
+      ],
+      "bad": [
+        "I held every berth for the rice boats and one came late. The big ship from the west left before noon.",
+        "The rice came in and the treasury's best cargo went to anchor and stayed there. I know, Shahbandar."
+      ]
+    },
+    "inspection": {
+      "assign": [
+        "If it is rice I will know in a breath. If it is anything else, I will do my best.",
+        "I will look at it the way I look at grain in the market. Nobody fools me twice."
+      ],
+      "good": [
+        "Good grain, dry and new, the measure as declared. Clear it.",
+        "The top sacks are new rice. Underneath, old and damp. Amend the declaration."
+      ],
+      "mixed": [
+        "The rice is sound. The other goods I looked at quickly. You asked me to hurry.",
+        "The grain is good, but the measure is short. Maybe the measure, maybe the man."
+      ],
+      "bad": [
+        "I looked at the rice and not at the bales beside it. Something was in the bales.",
+        "I cleared it because the town needed it. The grain is poor. I was in too much of a hurry."
+      ]
+    },
+    "purchasing": {
+      "assign": [
+        "Give me the silver and I will fill the granaries. Leave the haggling to me.",
+        "I will buy rice from the Javanese before the price climbs."
+      ],
+      "good": [
+        "The granaries are full and the price was fair. The market women send their thanks.",
+        "Good rice, cheaply bought. The town will not go hungry this month."
+      ],
+      "mixed": [
+        "The granaries are full. The treasury is lighter than you wanted. Rice is rice.",
+        "I bought the rice. I did not buy the cloth you asked for. There was not enough silver for both."
+      ],
+      "bad": [
+        "I spent every calain on rice and there was nothing left for the rest. The treasury is empty and the granary is overflowing.",
+        "I bought in a hurry and the grain is old. The town eats, but it grumbles."
+      ]
+    }
+  },
+  "notes": [
+    "[FACT] Melaka's hinterland grew almost no rice, so the town depended on imports from Java, Siam, Pegu, Bengal and Sumatra; rice was measured by volume in gantang (Pires, Suma Oriental, vol. I, p. 108; docs/research/commodities.md §2). The land digest assigns rules on the gantang and cupak and on market regulation to the shahbandar (Liaw, Undang-Undang Melaka §29; port-official.md §4.1).",
+    "[INFERENCE] Southeast Asian women were prominent as market traders in this period (Reid, Southeast Asia in the Age of Commerce, vol. I, 1988). No named market keeper for Melaka is recorded.",
+    "[GAMEPLAY] Siti Aminah is a fictional character. Granary buying uses the blueprint's state-purchasing abstraction and the game's rice target. Flaw rice_before_all: her delegated work favours rice and food supply at the cost of duty or other cargo."
+  ]
+}

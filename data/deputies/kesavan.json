@@ -1,0 +1,74 @@
+{
+  "id": "kesavan",
+  "name": "Kesavan",
+  "role": "Weigher at the port steelyards, the large and small dacing",
+  "skills": {"berth": 1, "inspection": 4, "purchasing": 2},
+  "flaw": {
+    "id": "weighs_everything",
+    "text": "Kesavan will not trust a weight he has not taken himself. His inspections are sound but slow, and a ship he is weighing may hold its berth past the hour it should have left."
+  },
+  "bio": "A Kling from the Coromandel coast who came to Melaka as a cloth broker's clerk and stayed to work the steelyards. He knows which goods go on the large dacing and which on the small, and he can feel a false weight in the beam before the pointer settles. He has never once hurried.",
+  "delegation_lines": {
+    "berth": {
+      "assign": [
+        "Berths, Shahbandar? I weigh cargo. Very well, I will keep the order you give me, exactly.",
+        "I will follow the list. If the list is wrong, I will follow it anyway."
+      ],
+      "good": [
+        "Every ship went in the order you set. I wrote down the hour of each.",
+        "The berths turned over as planned. No one argued with the list."
+      ],
+      "mixed": [
+        "I kept your order, but a rice boat came in after you wrote it, and I did not dare change it. She is still at anchor.",
+        "The order held, but it was slow. I checked every captain's name twice."
+      ],
+      "bad": [
+        "I held a berth for a ship that never came, as the list said. Two others waited all day.",
+        "I am not the man for the water, Shahbandar. The anchorage is full and the berths are half idle."
+      ]
+    },
+    "inspection": {
+      "assign": [
+        "I will put every lot on the beam. Spices on the large dacing, tin and silk on the small. It will take as long as it takes.",
+        "Give me the declaration. The steelyard will tell us what is true."
+      ],
+      "good": [
+        "Every lot weighed true to its declaration. You may clear her with a quiet mind.",
+        "I found the fault. The pepper was reckoned in small bahar, and pepper goes on the large. The difference is written here for the temenggung's bench."
+      ],
+      "mixed": [
+        "The weights are right. The quality I cannot swear to. My beam does not taste pepper.",
+        "I weighed two lots in three. The ship must sail, so the last one went ashore on the captain's word."
+      ],
+      "bad": [
+        "I weighed every lot and found nothing, and the ship lost her sailing time while I did it. She left angry, half unsold.",
+        "The weights were honest. What was wrong was inside the bales, and I did not open them."
+      ]
+    },
+    "purchasing": {
+      "assign": [
+        "I will buy by weight and only by weight. No one cheats me on the beam.",
+        "I will see the goods weighed before a single calain changes hands."
+      ],
+      "good": [
+        "Bought and weighed in. The treasury has exactly what it paid for, to the kati.",
+        "A fair price on honest weights. The seller tried a light beam once. Only once."
+      ],
+      "mixed": [
+        "The weight is right, but the price was high. The seller knew I would not leave until it was weighed.",
+        "We have the goods, but I spent the morning weighing and the best lots went to others."
+      ],
+      "bad": [
+        "I argued over every kati until the merchant sold to the Chinese buyers instead. We have nothing.",
+        "Correct weight, poor grade. I should have looked as well as weighed."
+      ]
+    }
+  },
+  "notes": [
+    "[FACT] Heavy bulk goods were weighed on a beam steelyard, the dacing (Portuguese dachem), and Melaka used a large and a small bahar of 200 kati each for different goods: pepper and other spices on the large, tin and China silk on the small (Nunes, Livro dos Pesos, 1554, ed. Felner 1868, p. 39; docs/research/ships-weights-currency.md §2.1).",
+    "[FACT] Pires records a separate weighing due on goods weighed in or out, handled by the king's secretaries and receivers (Pires, p. 274; port-official.md §5.1).",
+    "[FACT] The Klings had more of the Melaka trade than any other nation (Pires, p. 272).",
+    "[INFERENCE] No named weigher is recorded; a Kling clerk working the steelyards is a plausible type, not a documented person.",
+    "[GAMEPLAY] Kesavan is a fictional character. Flaw weighs_everything: his delegated inspections take longer, which can cost a ship its berth time or sailing."
+  ]
+}
