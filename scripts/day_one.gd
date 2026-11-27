@@ -639,7 +639,7 @@ func _closing() -> void:
     _header("首次值勤結束", "第一日  /  17:00")
     var panel := _panel(surface, Rect2(220, 173, 840, 408), DARK)
     _text(panel, _hint_text("day_end", "收港鐘聲響遍馬六甲。"), Rect2(30, 27, 780, 55), 28, GOLD, true)
-    var captions := ["完成卸貨", "稻米入港", "錯過潮汐", "扣留船隻", "淨收支"]
+    var captions := ["完成卸貨", "稻米入港", "流失交易", "有效扣留", "淨收支"]
     var values := [str(day.completed), "%d / %d" % [day.rice, day.scenario["rice_target"]], str(day.lost), str(day.held), str(day.duty)]
     for index in captions.size():
         _text(panel, values[index], Rect2(30 + index * 156, 112, 150, 68), 36, INK, true)
