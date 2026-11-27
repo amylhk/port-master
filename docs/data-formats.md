@@ -5,7 +5,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | File | Object shape |
 | --- | --- |
 | `data/hints/day_1.json` | Day 1 action hints: array of objects with `id` and `text` |
-| `data/short/day_1.json` | Day 1 short display copy: `briefings`, `ships`, `cases`, and `events` objects keyed by source ID |
+| `data/short/day_1.json` | Day 1 short display copy: `briefings`, `ships`, `cases`, and `events` objects keyed by source ID, plus the `manual` digest |
 | `data/port_day.json` | `briefing` (text), `start_minute`, `end_minute`, `rice_target` (integers), `ships` (array ordered by arrival) |
 | `data/manual/manual_stage_a.json` | `title` (text); `entries` (array of objects with `title` and `text`, in reading order) |
 | `data/inspections/<id>.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
@@ -38,6 +38,7 @@ Write Day 1 display copy in standard written Traditional Chinese. Character limi
 - **Action hints:** use an imperative `text` of at most 14 characters for each ID: `first_ship`, `berth_free`, `tide_warning`, `anchorage_full`, `inspect_berthed`, `open_cargo`, `check_manual`, `stamp`, and `day_end`.
 - **Short lines:** give each entry a one-sentence `line` of at most 30 characters. The `briefings` keys are the Day 1 briefing ID and `port_day` for the top-level scenario briefing. Key `ships` by the IDs in the top-level `ships` array. Key `cases` by those ships’ `inspection_case` IDs and `events` by the IDs of events with `day: 1`. Briefings, cases, and events may include `speaker_id` when `res://assets/art/portraits/<speaker_id>.png` exists; omit it for narration.
 - **Inspection and event entries:** each case has an `evidence` object keyed by evidence page ID (at most 24 characters per summary) and a `rulings` object keyed by ruling ID (at most 8 characters per label). Each event has a `choices` object keyed by choice ID (at most 8 characters per label); use `{}` for an event with no choices.
+- **Manual digest:** `manual.pages` holds 2 to 5 pages, each with a `title` of at most 6 characters and 1 to 9 `lines` of at most 45 characters. Shorten the wording of `data/manual/manual_stage_a.json` without changing its rules or numbers; every number in a line must appear in the full manual, which stays one click away.
 
 Keep full text available on click from the original data. Show evidence summaries only after the associated evidence is examined; preserve the counts and weights needed for comparisons without stating the correct ruling. Neither file replaces the original rules, timing, outcomes, or history. Validate with `godot --headless --script tests/day1_text.gd`.
 

@@ -79,6 +79,8 @@ var stamp := ""
 var manual_seen := false
 var manual_open := false
 var manual_page := 0
+var manual_full := false
+var manual_full_page := 0
 var notes_open := false
 var feedback_open := false
 var notice := ""
@@ -366,6 +368,8 @@ func _reset_desk() -> void:
     stamp = ""
     manual_seen = false
     manual_page = 0
+    manual_full = false
+    manual_full_page = 0
 
 
 func _ship_token(ship: Dictionary, pos: Vector2) -> void:
@@ -653,30 +657,65 @@ func apply_stamp() -> void:
 func open_manual() -> void:
     manual_seen = true
     manual_open = true
-    # Start on packing weights; all original rules remain in the book.
-    if manual_page == 0:
-        manual_page = 8
     render()
+
+
+func manual_pages() -> Array:
+    return short_copy.get("manual", {}).get("pages", [])
 
 
 func _manual() -> void:
     var book := _modal(Rect2(170, 145, 940, 510), PAPER)
-    _text(book, MANUAL_TITLE, Rect2(28, 18, 790, 35), 25, BROWN)
+    _text(book, MANUAL_TITLE, Rect2(28, 18, 500, 35), 25, BROWN)
     _button(book, "合上手冊", Rect2(759, 17, 155, 36), func() -> void:
         manual_open = false
         render()
     )
+    var pages := manual_pages()
+    if manual_full or pages.is_empty():
+        _manual_full(book, not pages.is_empty())
+        return
+    # A one-glance digest of the rules the Day 1 cases need; the full book stays a click away.
+    manual_page = clampi(manual_page, 0, pages.size() - 1)
+    var tab_width := 880.0 / pages.size()
+    for index in pages.size():
+        var tab := _button(book, pages[index]["title"], Rect2(30 + index * tab_width, 66, tab_width - 10, 40), _manual_tab.bind(index))
+        if index != manual_page:
+            _style_paper_button(tab)
+            tab.add_theme_color_override("font_color", BROWN)
+            tab.add_theme_color_override("font_hover_color", BROWN)
+    var lines := PackedStringArray()
+    for line in pages[manual_page]["lines"]:
+        lines.append("・" + str(line))
+    _reading(book, "\n".join(lines), Rect2(30, 122, 880, 322), BROWN, 20)
+    _button(book, "閱讀完整手冊（%d頁）" % day.manual["entries"].size(), Rect2(30, 457, 300, 36), func() -> void:
+        manual_full = true
+        render()
+    )
+
+
+func _manual_full(book: Panel, has_digest: bool) -> void:
+    if has_digest:
+        _button(book, "返回摘要", Rect2(590, 17, 155, 36), func() -> void:
+            manual_full = false
+            render()
+        )
     var entries: Array = day.manual["entries"]
-    manual_page = clampi(manual_page, 0, entries.size() - 1)
-    _text(book, entries[manual_page]["title"], Rect2(30, 74, 880, 40), 25, BROWN)
-    _reading(book, entries[manual_page]["text"], Rect2(30, 127, 880, 310), BROWN, 20)
-    _button(book, "< 上一頁", Rect2(30, 457, 160, 36), _manual_turn.bind(-1)).disabled = manual_page == 0
-    _text(book, "%d / %d" % [manual_page + 1, entries.size()], Rect2(329, 457, 280, 36), 17, BROWN, true)
-    _button(book, "下一頁 >", Rect2(750, 457, 160, 36), _manual_turn.bind(1)).disabled = manual_page == entries.size() - 1
+    manual_full_page = clampi(manual_full_page, 0, entries.size() - 1)
+    _text(book, entries[manual_full_page]["title"], Rect2(30, 74, 880, 40), 25, BROWN)
+    _reading(book, entries[manual_full_page]["text"], Rect2(30, 127, 880, 310), BROWN, 20)
+    _button(book, "< 上一頁", Rect2(30, 457, 160, 36), _manual_turn.bind(-1)).disabled = manual_full_page == 0
+    _text(book, "%d / %d" % [manual_full_page + 1, entries.size()], Rect2(329, 457, 280, 36), 17, BROWN, true)
+    _button(book, "下一頁 >", Rect2(750, 457, 160, 36), _manual_turn.bind(1)).disabled = manual_full_page == entries.size() - 1
+
+
+func _manual_tab(index: int) -> void:
+    manual_page = index
+    render()
 
 
 func _manual_turn(direction: int) -> void:
-    manual_page = clampi(manual_page + direction, 0, day.manual["entries"].size() - 1)
+    manual_full_page = clampi(manual_full_page + direction, 0, day.manual["entries"].size() - 1)
     render()
 
 
