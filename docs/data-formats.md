@@ -10,6 +10,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
+| `data/offers/<id>.json` | One Stage B state purchasing offer per file: `id`, `merchant_id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices` (arrays) |
 
 - **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete. Optional `image` (ship sprite) and `cargo_image` (cargo icon) are full resource paths.
 - **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
@@ -128,6 +129,47 @@ Sample deputy (illustrative and abridged; a real file also needs the `inspection
     }
   },
   "notes": ["[GAMEPLAY] Pak Mamat is fictional."]
+}
+```
+
+## Stage B state purchasing offers
+
+Write one offer for the state/merchant panel per `data/offers/<id>.json`. The file name must match its unique `id`. Use an existing `data/merchants/` ID as `merchant_id` and name that merchant in the display text.
+
+- `id`, `merchant_id`, `title`, and `body` are non-empty text. Use `\n\n` for paragraph breaks in the body.
+- Set exactly one of `day` (positive integer) or `trigger` (non-empty condition string, e.g. `"day>=2"`). More than one offer can share a day.
+- Optional `requires` lists named flags that must all be set, in addition to the day or trigger. The conditional offers reuse `rice_short_yesterday` and `ship_lost_yesterday` from the briefings.
+- Optional `choices` contains objects with `id` (unique within the offer), `label` (button text), `outcome_text` (shown after choosing), and `effects` (object). Effects may include any of `duty`, `supply`, `reputation`, and `merchant_trust`, as integer deltas. Omit an effect for no change; use `{}` for no effects.
+
+**[FACT]** Pires describes merchants bidding together and dividing cargo at an agreed price (*Suma Oriental*, Cortesão ed., pp. 273–274). He describes the temenggung sitting as Customs Judge and receiving merchandise dues (pp. 265, 273); in play, dues and customs rulings are made in the temenggung's name.
+
+**[INFERENCE]** The specific cargo lots, buyers and competing needs in the offers are plausible reconstructions based on the commodity and trade-route notes linked under Stage B merchants.
+
+**[GAMEPLAY]** The player is a shahbandar; their port-wide authority and the state's right to buy at the normal market price before public sale are abstractions, not attested powers. The deals and their outcomes are fictional. Negative `duty` in a purchase represents public coin spent, not a change to a historical tariff. `supply` measures the benefit to state stores, not a count of physical units; `reputation` measures standing in the port, while `merchant_trust` applies to the named seller.
+
+Run `godot --headless --script tests/offers.gd` to check offer files. Sample offer (illustrative):
+
+```json
+{
+  "id": "sample_rice_offer",
+  "merchant_id": "jaka_wira",
+  "day": 1,
+  "title": "Rice on the quay",
+  "body": "Jaka Wira offers the state a share of his rice before the stallholders buy.",
+  "choices": [
+    {
+      "id": "buy_share",
+      "label": "Buy a share for the granary",
+      "outcome_text": "Jaka is paid at the market price. The stalls take the remaining sacks.",
+      "effects": {"duty": -3, "supply": 4, "merchant_trust": 1}
+    },
+    {
+      "id": "pass",
+      "label": "Leave the lot to the stalls",
+      "outcome_text": "The stalls take all the rice. The granary keeps its coin but adds no stock.",
+      "effects": {"reputation": 1}
+    }
+  ]
 }
 ```
 

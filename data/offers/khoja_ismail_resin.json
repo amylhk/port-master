@@ -1,0 +1,21 @@
+{
+  "id": "khoja_ismail_resin",
+  "merchant_id": "khoja_ismail",
+  "day": 1,
+  "title": "Resin from the Salamat",
+  "body": "Khoja Ismail comes ashore from the Salamat with a bowl of frankincense to show the buyers. His torn foresail is spread out for mending. The palace steward wants the resin, but a perfumer in the Gujarati quarter has buyers of her own. Ismail says either can take it if the money is ready today.",
+  "choices": [
+    {
+      "id": "buy_resin",
+      "label": "Buy the whole lot for the palace stores",
+      "outcome_text": "The court pays the market price, and Ismail leaves with enough coin to pay his sailmaker. The palace steward is pleased; the perfumer has to send her customers elsewhere.",
+      "effects": {"duty": -5, "supply": 4, "reputation": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "pass",
+      "label": "Leave the lot to the perfumer",
+      "outcome_text": "The perfumer buys it in the open market. Ismail pays his sailmaker either way, but the palace steward must make do with what he has.",
+      "effects": {"reputation": -1, "merchant_trust": 1}
+    }
+  ]
+}

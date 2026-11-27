@@ -1,0 +1,27 @@
+{
+  "id": "mariam_of_cambay_glass",
+  "merchant_id": "mariam_of_cambay",
+  "day": 4,
+  "title": "Glass from the Nur",
+  "body": "Mariam of Cambay has counted her glass flasks twice since they came off the Nur. She has put the cracked ones aside. The palace steward wants the sound flasks for rosewater, and the market sellers want them too. Mariam will sell either way, but won't promise to replace any broken after delivery.",
+  "choices": [
+    {
+      "id": "collect_now",
+      "label": "Buy the sound lot and send palace carriers",
+      "outcome_text": "The court pays the market price and gets all the sound flasks. The treasury pays for careful carriage; Mariam appreciates that no one asks her to make good the breakage.",
+      "effects": {"duty": -5, "supply": 3, "reputation": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "share_lot",
+      "label": "Buy one crate and leave the rest for the sellers",
+      "outcome_text": "One crate goes to the palace at the market price. The sellers take enough glass to fill their orders, though the steward will have to reuse some old flasks.",
+      "effects": {"duty": -2, "supply": 1, "reputation": 2, "merchant_trust": 1}
+    },
+    {
+      "id": "pass",
+      "label": "Let the sellers have first bid",
+      "outcome_text": "The sellers agree a price with Mariam and take the flasks from her storeroom. The palace must buy back what it needs from the stalls.",
+      "effects": {"reputation": -1}
+    }
+  ]
+}

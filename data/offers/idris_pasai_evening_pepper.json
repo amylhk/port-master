@@ -1,0 +1,27 @@
+{
+  "id": "idris_pasai_evening_pepper",
+  "merchant_id": "idris_pasai",
+  "day": 5,
+  "title": "Pepper before evening",
+  "body": "Idris of Pasai has pepper aboard the Swift and means to be gone by evening. A Zhangzhou buyer wants whatever is left before his own ship sails at noon. Idris sets a handful of pepper between you. “If the court is buying, Shahbandar, pay while the other man is still here.”",
+  "choices": [
+    {
+      "id": "buy_all",
+      "label": "Buy the lot now at the market price",
+      "outcome_text": "The royal store takes the pepper and Idris is paid at once. The Zhangzhou buyer sails short of the load he came for.",
+      "effects": {"duty": -7, "supply": 7, "reputation": -2, "merchant_trust": 2}
+    },
+    {
+      "id": "buy_part",
+      "label": "Buy a share and leave the rest to the junk",
+      "outcome_text": "The treasury pays for a share. The buyer takes the balance before noon, and Idris can sail without waiting for another customer.",
+      "effects": {"duty": -4, "supply": 3, "reputation": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "pass",
+      "label": "Leave the whole lot to the buyer",
+      "outcome_text": "The Zhangzhou buyer takes the lot off Idris's hands. The Swift has its coin and time to make the evening tide; the royal store gets no pepper.",
+      "effects": {"reputation": 2, "merchant_trust": 1}
+    }
+  ]
+}
