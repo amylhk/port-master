@@ -1,0 +1,34 @@
+{
+  "id": "day_04_rumours_from_the_west",
+  "day": 4,
+  "title": "What the Cambay captains say",
+  "body": "Shahbandar, the Cambay ships came in on the night tide and their captains talked long in the Gujarati quarter.\n\nExpected in port: the three great Cambay naus, with cloth, glass, rosewater and frankincense; a Javanese junk from Tuban with rice; and a Siamese coaster with salt fish.\n\nTides: the Cambay ships are not in a hurry. They mean to sell slowly and wait for the eastern goods. They will take a berth each, for most of the day, if you let them.\n\nMarket: the town is glad of the rice. Glass and rosewater sell well to the court. Everyone wants to know what the Gujaratis will pay for cloves and nutmeg.\n\nNews: the Cambay captains say the Franks, the men some here call white Bengalis, have built forts on the Malabar coast and beaten the fleets of Egypt and Gujarat off Diu. They say these men ask everywhere about Melaka. The captains want the court to hear it, and they want you to tell it.",
+  "choices": [
+    {
+      "id": "carry_to_bendahara",
+      "label": "Carry the captains' report to the bendahara",
+      "outcome_text": "You carry the Gujarati report to the bendahara's house yourself. He hears it out and thanks the captains through you. They see their word reached the court.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "note_and_wait",
+      "label": "Note it and wait for a second report",
+      "outcome_text": "You note the report and wait for word from another nation. The Gujarati shahbandar thinks the harbour office slow to hear warnings.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ],
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Battle of Diu (February 1509) and Portuguese forts in Malabar; 'Bengali putih' as the Melakan name for the Portuguese; Gujarati merchants hostile to the Portuguese: docs/research/1511-events.md sections 1 and 3 (Gameplay Hook: early-game rumours). 'Franks' renders Feringgi/Peranggi.",
+    "Siamese coastal traffic outside the NE monsoon is a gameplay simplification.",
+    "Ships, people and incidents are fictional. Tide times are game schedule times, not tidal data."
+  ]
+}

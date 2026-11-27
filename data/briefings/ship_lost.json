@@ -1,0 +1,14 @@
+{
+  "id": "ship_lost",
+  "trigger": "day>=2",
+  "requires": [
+    "ship_lost_yesterday"
+  ],
+  "title": "A captain who did not wait",
+  "body": "Shahbandar, a ship that came to trade yesterday sailed without landing her cargo. Her captain told the boatmen he would try Pasai next season, or Kedah.\n\nHer goods were not sold in Melaka, so their dues were not paid here, and the merchants who wanted them must wait for another ship. The nakhodas at anchor today all know what happened.\n\nWarning: captains talk to captains. Make sure today's ships see their berths come in good time.",
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Lost trade must hurt the port (blueprint section 05). Pasai and Kedah as rival Strait ports: docs/research/commodities.md (pepper origins).",
+    "Requires flag ship_lost_yesterday: at least one ship was lost the previous day for any reason."
+  ]
+}

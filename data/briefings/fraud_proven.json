@@ -1,0 +1,13 @@
+{
+  "id": "fraud_proven",
+  "trigger": "day>=2",
+  "requires": [
+    "major_fraud_ruled_yesterday"
+  ],
+  "title": "Word of yesterday's ruling",
+  "body": "Shahbandar, the whole waterfront has heard of yesterday's ruling. The temenggung's men say it was well done. The merchants say it more quietly.\n\nHonest captains are glad: a port that catches false declarations protects their prices. Others will be more careful with their papers, and some will be more careful to hide what they carry.\n\nWarning: your name is now known in the anchorage. Expect better manifests, and better lies.",
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Requires flag major_fraud_ruled_yesterday: a Major Fraud ruling was proven correct the previous day."
+  ]
+}
