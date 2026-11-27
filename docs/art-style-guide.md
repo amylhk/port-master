@@ -1,7 +1,7 @@
 # Port Master: Melaka 1511 — Art Direction & Style Guide
 
 **Version:** 1.0 (Stage A Baseline + Stages B–E Visual Bible)  
-**Target Engine:** Godot 4.3 (2D, GL Compatibility Renderer, `1280×720` base viewport)  
+**Target Engine:** Godot 4.7 (2D, GL Compatibility Renderer, `1280×720` base viewport)\
 **Period:** Melaka Sultanate, c. 1500 (pre-Portuguese conquest of August 1511)
 
 ---
@@ -101,7 +101,7 @@ All visual assets depict the **Melaka Sultanate at its commercial height around 
 
 ---
 
-## 5. Godot 4.3 Technical & Import Specifications
+## 5. Godot 4.7 Technical & Import Specifications
 
 - **Viewport:** `1280×720`, stretch mode `canvas_items`, stretch aspect `keep`.
 - **Format:** 8-bit RGBA PNG (`*.png`) with clean alpha channels for all sprites, icons, and UI frames.

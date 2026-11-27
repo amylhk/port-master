@@ -6,7 +6,7 @@ A historical trading-hub game concept set in Melaka before the Portuguese conque
 
 ## Run the experiment
 
-1. Install Godot 4.3.
+1. Install [Godot 4.7.2](https://github.com/godotengine/godot/releases/tag/4.7.2-stable).
 2. Import this folder by selecting `project.godot` in Godot Project Manager.
 3. Run the project (F5).
 4. Assign waiting ships to berths and step time forward. Read each ship's unloading duration and tide deadline before committing a berth. The closing ledger records duty, rice supply, and missed trade. Replay to try a different priority.
