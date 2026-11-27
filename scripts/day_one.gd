@@ -560,7 +560,7 @@ func apply_stamp() -> void:
     var evidence_matches: bool = method in day._citation_methods(truth)
     day.rule_with_method(stamp, method)
     # The model's legacy diagnostic scaffolding is English; the played desk is not.
-    last_feedback = day.ruling_note.split("\n\n")[0]
+    last_feedback = day.ruling_note if ruling_matches and evidence_matches else day.ruling_note.split("\n\n")[0]
     if not (ruling_matches and evidence_matches):
         var diagnosis := "判決與引用的證據均不正確。"
         if ruling_matches:
