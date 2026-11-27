@@ -17,7 +17,8 @@
       "id": "ev_tally",
       "label": "02  First tally",
       "title": "What can be seen on deck",
-      "text": "Weights: all six crates are aboard. Crate 2 is slightly lighter than the others. Glass and its fragments both weigh something, the weigher says; without lifting the lids he cannot say what was lost overboard or what is still whole.\n\nA corner of crate 2 is crushed. Crates 4 and 5 have no visible damage. The factor carries the bowl of shards with him when he leads the clerk from one crate to the next."
+      "text": "Weights: all six crates are aboard. Crate 2 is slightly lighter than the others. Glass and its fragments both weigh something, the weigher says; without lifting the lids he cannot say what was lost overboard or what is still whole.\n\nA corner of crate 2 is crushed. Crates 4 and 5 have no visible damage. The factor carries the bowl of shards with him when he leads the clerk from one crate to the next.",
+      "image": "res://assets/inspection/case_007-ev_tally.png"
     },
     {
       "id": "ev_testimony",
@@ -29,19 +30,41 @@
       "id": "ev_opened",
       "label": "04  Lift the lids",
       "title": "The bowl and the flasks",
-      "text": "Opened: crate 2 is full of broken glass. A piece of thick blue rim in the factor’s bowl fits a chipped neck still wedged in the straw. Crates 4 and 5 each hold twelve intact blue flasks, wrapped separately, with no loose chips among the straw. The other three crates and the eight bundles of beads agree with the declaration."
+      "text": "Opened: crate 2 is full of broken glass. A piece of thick blue rim in the factor’s bowl fits a chipped neck still wedged in the straw. Crates 4 and 5 each hold twelve intact blue flasks, wrapped separately, with no loose chips among the straw. The other three crates and the eight bundles of beads agree with the declaration.",
+      "image": "res://assets/inspection/case_007-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "borrowed_breakage", "label": "The shards match crate 2; crates 4 and 5 hold the sound flasks the factor meant to land without assessment."},
-    {"id": "all_broken", "label": "The bowl establishes that the glass in all three crates broke."},
-    {"id": "scales_settle", "label": "The weight of each crate proves whether its flasks are broken."}
+    {
+      "id": "borrowed_breakage",
+      "label": "The shards match crate 2; crates 4 and 5 hold the sound flasks the factor meant to land without assessment."
+    },
+    {
+      "id": "all_broken",
+      "label": "The bowl establishes that the glass in all three crates broke."
+    },
+    {
+      "id": "scales_settle",
+      "label": "The weight of each crate proves whether its flasks are broken."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "major_fraud",
@@ -62,11 +85,20 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Nur",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "major_fraud",
       "summary": "The factor uses genuine damage to crate 2 to support false duty-reducing claims on two crates intended for sale. Mariam challenges the claims.",
-      "key_clues": ["ev_manifest", "ev_testimony", "ev_opened"],
+      "key_clues": [
+        "ev_manifest",
+        "ev_testimony",
+        "ev_opened"
+      ],
       "deduction": [
         "The factor says he took shards from three crates and has removed all three from the sale value.",
         "A piece from his bowl fits a broken flask in crate 2. Neither of the other crates contains shards, and both still hold their full allotment of intact flasks.",
@@ -75,9 +107,21 @@
       "solvable_without_opening": false
     },
     "history_notes": [
-      {"topic": "Glassware from Cambay", "note": "Pires lists glass vessels and beads in the trade through Cambay. Packing fragile flasks with cushioning is plausible; see docs/research/commodities.md §3.13 and docs/research/seals-marks-packaging.md §4.", "confidence": "high"},
-      {"topic": "Valuation and authority", "note": "The shahbandar rules in the temenggung’s name. The per-lot valuation, damage adjustment and 6-plus-1 calculation are gameplay simplifications, not documented Gujarati assessment procedure; Pires notes Gujarati whole-ship valuation (docs/research/port-official.md §§5–6).", "confidence": "game_rule"},
-      {"topic": "The Nur and its papers", "note": "The incident and prices are invented. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"}
+      {
+        "topic": "Glassware from Cambay",
+        "note": "Pires lists glass vessels and beads in the trade through Cambay. Packing fragile flasks with cushioning is plausible; see docs/research/commodities.md §3.13 and docs/research/seals-marks-packaging.md §4.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Valuation and authority",
+        "note": "The shahbandar rules in the temenggung’s name. The per-lot valuation, damage adjustment and 6-plus-1 calculation are gameplay simplifications, not documented Gujarati assessment procedure; Pires notes Gujarati whole-ship valuation (docs/research/port-official.md §§5–6).",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "The Nur and its papers",
+        "note": "The incident and prices are invented. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

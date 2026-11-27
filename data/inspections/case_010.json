@@ -14,7 +14,8 @@
       "id": "ev_exterior",
       "label": "02  At the display",
       "title": "A familiar shape",
-      "text": "From the quay the crescents look the same. Up close, the twelve sale jars carry a narrow crescent pressed into the clay at the shoulder. Brown glaze runs unbroken down into each groove. One jar has a smear of red packing fibre caught at its lip."
+      "text": "From the quay the crescents look the same. Up close, the twelve sale jars carry a narrow crescent pressed into the clay at the shoulder. Brown glaze runs unbroken down into each groove. One jar has a smear of red packing fibre caught at its lip.",
+      "image": "res://assets/inspection/case_010-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -26,20 +27,45 @@
       "id": "ev_compare",
       "label": "04  Compare marks",
       "title": "The yard's remaining jar",
-      "text": "The storekeeper brings a jar from the missing set's row. Its crescent is red and brushed on top of smooth glaze. A damp rag lifts a little pigment at the end of the stroke. On the sale jars, there is no red in the grooves, on the glaze or on the rag. The stray fibre pulls away whole."
+      "text": "The storekeeper brings a jar from the missing set's row. Its crescent is red and brushed on top of smooth glaze. A damp rag lifts a little pigment at the end of the stroke. On the sale jars, there is no red in the grooves, on the glaze or on the rag. The stray fibre pulls away whole.",
+      "image": "res://assets/inspection/case_010-ev_compare.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "fired_not_painted", "label": "The sale jars have fired-in grooves, not the granary's brushed crescent."},
-    {"id": "same_owner", "label": "A matching crescent shape is enough to identify the granary's property."},
-    {"id": "stores_for_sale", "label": "The two jars at the mast are undeclared sale stock."},
-    {"id": "paint_hidden", "label": "The red at one jar's lip is what remains of a porter's mark after someone tried to remove it."}
+    {
+      "id": "fired_not_painted",
+      "label": "The sale jars have fired-in grooves, not the granary's brushed crescent."
+    },
+    {
+      "id": "same_owner",
+      "label": "A matching crescent shape is enough to identify the granary's property."
+    },
+    {
+      "id": "stores_for_sale",
+      "label": "The two jars at the mast are undeclared sale stock."
+    },
+    {
+      "id": "paint_hidden",
+      "label": "The red at one jar's lip is what remains of a porter's mark after someone tried to remove it."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "clear",
@@ -61,8 +87,16 @@
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "River Lotus",
     "history_notes": [
-      {"topic": "Regional storage jars", "note": "Southeast Asian glazed jars circulated by sea as containers and trade wares; the exact Champa cargo is a plausible reconstruction (docs/research/commodities.md, §3.12; Orillaneda 2016).", "confidence": "inference"},
-      {"topic": "Marks and paperwork", "note": "Incised and stamped shoulder marks are attested on Santa Cruz jars, but their functions are unknown (docs/research/seals-marks-packaging.md, §2; Orillaneda, pp. 317–319). The two crescents, their meanings, the manifest and the dispute are gameplay inventions.", "confidence": "game_rule"}
+      {
+        "topic": "Regional storage jars",
+        "note": "Southeast Asian glazed jars circulated by sea as containers and trade wares; the exact Champa cargo is a plausible reconstruction (docs/research/commodities.md, §3.12; Orillaneda 2016).",
+        "confidence": "inference"
+      },
+      {
+        "topic": "Marks and paperwork",
+        "note": "Incised and stamped shoulder marks are attested on Santa Cruz jars, but their functions are unknown (docs/research/seals-marks-packaging.md, §2; Orillaneda, pp. 317–319). The two crescents, their meanings, the manifest and the dispute are gameplay inventions.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

@@ -17,7 +17,8 @@
       "id": "ev_exterior",
       "label": "02  Quay tally",
       "title": "Sacks at the landing",
-      "text": "Weights: Twenty-four sacks. Each weighs between 38 and 42 kati. All twenty-four stand beside the Upeh landing plank.\n\nThe runner leaves an empty handcart by the landing and keeps asking when the regular storekeeper comes on duty."
+      "text": "Weights: Twenty-four sacks. Each weighs between 38 and 42 kati. All twenty-four stand beside the Upeh landing plank.\n\nThe runner leaves an empty handcart by the landing and keeps asking when the regular storekeeper comes on duty.",
+      "image": "res://assets/inspection/case_016-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -29,7 +30,8 @@
       "id": "ev_opened",
       "label": "04  Opened sacks",
       "title": "A sample from either end",
-      "text": "Opened: Plain dry rice in one sack from either end of the stack. No other goods lie beneath it. Jaka offers to open the rest if the weighers ask."
+      "text": "Opened: Plain dry rice in one sack from either end of the stack. No other goods lie beneath it. Jaka offers to open the rest if the weighers ask.",
+      "image": "res://assets/inspection/case_016-ev_opened.png"
     }
   ],
   "rulings": [

@@ -17,7 +17,8 @@
       "id": "ev_tally",
       "label": "02  First tally",
       "title": "Water at the hatch",
-      "text": "Weights: the four sacks nearest the hatch weigh 39, 41, 40 and 40 kati. The porter counts thirty sacks and four fish baskets.\n\nA black wet patch spreads across the woven mat over the nearest sacks. The mat is tied across the hatch frame, not around any one sack. The deck slopes down towards the patch."
+      "text": "Weights: the four sacks nearest the hatch weigh 39, 41, 40 and 40 kati. The porter counts thirty sacks and four fish baskets.\n\nA black wet patch spreads across the woven mat over the nearest sacks. The mat is tied across the hatch frame, not around any one sack. The deck slopes down towards the patch.",
+      "image": "res://assets/inspection/case_005-ev_tally.png"
     },
     {
       "id": "ev_testimony",
@@ -29,19 +30,41 @@
       "id": "ev_opened",
       "label": "04  Lift & open",
       "title": "The sacks beneath the mat",
-      "text": "Opened: the mat is damp on top. Its underside and the sackcloth beneath the stain are dry. Rice drawn from the surface and bottom of all four sacks by the hatch runs loose through the fingers; not a clump or sour smell. A sack from the dry end of the hold gives the same result.\n\nThe fish baskets are on a separate rack. Lifting their covers shows dry salt on the fish and no sign of rain."
+      "text": "Opened: the mat is damp on top. Its underside and the sackcloth beneath the stain are dry. Rice drawn from the surface and bottom of all four sacks by the hatch runs loose through the fingers; not a clump or sour smell. A sack from the dry end of the hold gives the same result.\n\nThe fish baskets are on a separate rack. Lifting their covers shows dry salt on the fish and no sign of rain.",
+      "image": "res://assets/inspection/case_005-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "dry_beneath_mat", "label": "Only the cover took rain; rice from both ends of the hold is dry."},
-    {"id": "wet_mat", "label": "The wet patch shows the rice under it must be downgraded."},
-    {"id": "normal_weights", "label": "The sacks are within the usual weight range, so none can be wet."}
+    {
+      "id": "dry_beneath_mat",
+      "label": "Only the cover took rain; rice from both ends of the hold is dry."
+    },
+    {
+      "id": "wet_mat",
+      "label": "The wet patch shows the rice under it must be downgraded."
+    },
+    {
+      "id": "normal_weights",
+      "label": "The sacks are within the usual weight range, so none can be wet."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "clear",
@@ -62,11 +85,20 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Morning Star",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "clean",
       "summary": "Rain wet a removable hatch mat, not the sacks. The porter mistook the condition of the cover for the condition of the rice.",
-      "key_clues": ["ev_tally", "ev_testimony", "ev_opened"],
+      "key_clues": [
+        "ev_tally",
+        "ev_testimony",
+        "ev_opened"
+      ],
       "deduction": [
         "The porter felt only the cover. The stain and sack weights alone cannot establish the condition of the cargo.",
         "Examine the underside of the mat and the grain nearest the stain, then compare it with a sack from the dry end of the hold."
@@ -74,9 +106,21 @@
       "solvable_without_opening": false
     },
     "history_notes": [
-      {"topic": "Java and Melaka’s rice supply", "note": "Java was a major supplier of rice to Melaka; see docs/research/commodities.md §3.2.", "confidence": "high"},
-      {"topic": "The Morning Star and its cargo", "note": "Raden Sura’s jong, its fleet deadline, the hatch mat and the sampled lots are authored game details. The sack weights follow the manual’s gameplay ranges. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"},
-      {"topic": "Customs authority", "note": "The shahbandar rules in the temenggung’s name under the game’s delegation of customs authority (docs/research/port-official.md §6).", "confidence": "game_rule"}
+      {
+        "topic": "Java and Melaka’s rice supply",
+        "note": "Java was a major supplier of rice to Melaka; see docs/research/commodities.md §3.2.",
+        "confidence": "high"
+      },
+      {
+        "topic": "The Morning Star and its cargo",
+        "note": "Raden Sura’s jong, its fleet deadline, the hatch mat and the sampled lots are authored game details. The sack weights follow the manual’s gameplay ranges. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Customs authority",
+        "note": "The shahbandar rules in the temenggung’s name under the game’s delegation of customs authority (docs/research/port-official.md §6).",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

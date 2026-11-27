@@ -14,7 +14,8 @@
       "id": "ev_exterior",
       "label": "02  Check the bales",
       "title": "Two bundles and a split basket",
-      "text": "The two bales carry the same blue thread worked into the ties. There is no third bale. A sugar basket has split at the lip and drawn flies, but the liner beneath the split has kept the sugar inside."
+      "text": "The two bales carry the same blue thread worked into the ties. There is no third bale. A sugar basket has split at the lip and drawn flies, but the liner beneath the split has kept the sugar inside.",
+      "image": "res://assets/inspection/case_012-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -26,20 +27,45 @@
       "id": "ev_opened",
       "label": "04  Open the bales",
       "title": "The cloth and its wrapping",
-      "text": "Each bale yields twenty pieces of the declared muslin. The cotton is dry. Under the outer sailcloth there is only straw packing and common coir cord; the wrapping is the same on both bales."
+      "text": "Each bale yields twenty pieces of the declared muslin. The cotton is dry. Under the outer sailcloth there is only straw packing and common coir cord; the wrapping is the same on both bales.",
+      "image": "res://assets/inspection/case_012-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "off_book_balance", "label": "The bargain and runner's instructions show that the supposed cord fee is a deliberately unreported part of the muslin price."},
-    {"id": "genuine_packing_sale", "label": "The factor sells expensive cord over and above the muslin."},
-    {"id": "sugar_shrinkage", "label": "Sugar spilled from the split basket and accounts for the disputed value."},
-    {"id": "matched_count", "label": "The correct cloth count proves the declaration needs no change."}
+    {
+      "id": "off_book_balance",
+      "label": "The bargain and runner's instructions show that the supposed cord fee is a deliberately unreported part of the muslin price."
+    },
+    {
+      "id": "genuine_packing_sale",
+      "label": "The factor sells expensive cord over and above the muslin."
+    },
+    {
+      "id": "sugar_shrinkage",
+      "label": "Sugar spilled from the split basket and accounts for the disputed value."
+    },
+    {
+      "id": "matched_count",
+      "label": "The correct cloth count proves the declaration needs no change."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "major_fraud",
@@ -61,8 +87,16 @@
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Bengal Dawn",
     "history_notes": [
-      {"topic": "Bengal cotton and western valuation", "note": "Fine Bengal muslin reached Melaka; the kodi or corge counted twenty pieces. Western traders paid 6% on assessed value (docs/research/commodities.md, §3.11; docs/research/seals-marks-packaging.md, §3; Pires, Suma Oriental, II).", "confidence": "high"},
-      {"topic": "Terms, marks and records", "note": "The price, double payment, thread markers, chits and written manifest are gameplay inventions. Evidence of merchant accounting does not establish these forms or this transaction (docs/research/seals-marks-packaging.md, §§2–3).", "confidence": "game_rule"}
+      {
+        "topic": "Bengal cotton and western valuation",
+        "note": "Fine Bengal muslin reached Melaka; the kodi or corge counted twenty pieces. Western traders paid 6% on assessed value (docs/research/commodities.md, §3.11; docs/research/seals-marks-packaging.md, §3; Pires, Suma Oriental, II).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Terms, marks and records",
+        "note": "The price, double payment, thread markers, chits and written manifest are gameplay inventions. Evidence of merchant accounting does not establish these forms or this transaction (docs/research/seals-marks-packaging.md, §§2–3).",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

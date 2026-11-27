@@ -17,7 +17,8 @@
       "id": "ev_tally",
       "label": "02  First tally",
       "title": "Two lots on deck",
-      "text": "Weights: the weighers enter A and B separately in their daybook. There are twenty plain basins and five deep ones. The quay clerk has brought across both lot letters but only one value.\n\nBoth stacks stand by the same gangplank, ready to sell."
+      "text": "Weights: the weighers enter A and B separately in their daybook. There are twenty plain basins and five deep ones. The quay clerk has brought across both lot letters but only one value.\n\nBoth stacks stand by the same gangplank, ready to sell.",
+      "image": "res://assets/inspection/case_006-ev_tally.png"
     },
     {
       "id": "ev_testimony",
@@ -29,19 +30,41 @@
       "id": "ev_opened",
       "label": "04  Unstack",
       "title": "Inside the basin stacks",
-      "text": "Opened: twenty plain copper basins come out of stack A. Five deeper copper basins come out of stack B. There is no third lot and nothing packed between the basins but dry fibre."
+      "text": "Opened: twenty plain copper basins come out of stack A. Five deeper copper basins come out of stack B. There is no third lot and nothing packed between the basins but dry fibre.",
+      "image": "res://assets/inspection/case_006-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "omitted_subtotal", "label": "Both lots are declared, but the copied total omits lot B’s line value of 100."},
-    {"id": "proper_count", "label": "The cargo count matches, so the assessment must also be right."},
-    {"id": "hidden_basins", "label": "The five deep basins are undeclared goods hidden in a second stack."}
+    {
+      "id": "omitted_subtotal",
+      "label": "Both lots are declared, but the copied total omits lot B’s line value of 100."
+    },
+    {
+      "id": "proper_count",
+      "label": "The cargo count matches, so the assessment must also be right."
+    },
+    {
+      "id": "hidden_basins",
+      "label": "The five deep basins are undeclared goods hidden in a second stack."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "minor_fault",
@@ -62,11 +85,20 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Evening Tide",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "minor_fault",
       "summary": "The quay clerk accidentally copies only the first line value into the total. Lin Wen declared both lots in full.",
-      "key_clues": ["ev_manifest", "ev_tally", "ev_testimony"],
+      "key_clues": [
+        "ev_manifest",
+        "ev_tally",
+        "ev_testimony"
+      ],
       "deduction": [
         "The declared lot values are 400 and 100. The copied valuation of 400 cannot include both.",
         "Both lots were named and put out in the open for the weighers. The clerk explains how he omitted the second line; the record needs an amendment, not a fraud charge."
@@ -74,9 +106,21 @@
       "solvable_without_opening": true
     },
     "history_notes": [
-      {"topic": "Chinese copperware", "note": "China supplied cast copper utensils to Melaka; see docs/research/commodities.md §3.5 and docs/research/ships-weights-currency.md §1.2, Chinese and Ryukyuan junks.", "confidence": "high"},
-      {"topic": "Assessment and authority", "note": "Eastern arrivals gave presents rather than paying western entry dues, and Pires records a weighing charge (docs/research/port-official.md §5). The case uses the manual’s simplified 1-in-100 weighing fee. The shahbandar rules in the temenggung’s name (ibid. §6).", "confidence": "game_rule"},
-      {"topic": "The quay record", "note": "The incident, prices and slip are fictional. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"}
+      {
+        "topic": "Chinese copperware",
+        "note": "China supplied cast copper utensils to Melaka; see docs/research/commodities.md §3.5 and docs/research/ships-weights-currency.md §1.2, Chinese and Ryukyuan junks.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Assessment and authority",
+        "note": "Eastern arrivals gave presents rather than paying western entry dues, and Pires records a weighing charge (docs/research/port-official.md §5). The case uses the manual’s simplified 1-in-100 weighing fee. The shahbandar rules in the temenggung’s name (ibid. §6).",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "The quay record",
+        "note": "The incident, prices and slip are fictional. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

@@ -17,7 +17,8 @@
       "id": "ev_exterior",
       "label": "02  Quay tally",
       "title": "Timber and cloth",
-      "text": "Weights: Twelve planks, measured and weighed as one lot against the Melaka entry.\n\nA folded cloth hangs on a peg above the planks. It bears no lot number. There is a loop at either corner."
+      "text": "Weights: Twelve planks, measured and weighed as one lot against the Melaka entry.\n\nA folded cloth hangs on a peg above the planks. It bears no lot number. There is a loop at either corner.",
+      "image": "res://assets/inspection/case_018-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -29,7 +30,8 @@
       "id": "ev_opened",
       "label": "04  Opened stack",
       "title": "Between the planks",
-      "text": "Opened: The top tier has been lifted off its wedges. More teak beneath, nothing in the gaps. The planks and their fastenings match the Melaka tally."
+      "text": "Opened: The top tier has been lifted off its wedges. More teak beneath, nothing in the gaps. The planks and their fastenings match the Melaka tally.",
+      "image": "res://assets/inspection/case_018-ev_opened.png"
     }
   ],
   "rulings": [

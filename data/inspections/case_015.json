@@ -17,7 +17,8 @@
       "id": "ev_tally",
       "label": "02  Deck tally",
       "title": "Four sacks apart",
-      "text": "Sixteen sacks stand ready by the sling. Four sit on a mat by the ladder. The same merchant mark appears on every sack. One by the ladder has a ragged outer seam, but it is as full as the others. The straw mat and sackcloth are dry."
+      "text": "Sixteen sacks stand ready by the sling. Four sit on a mat by the ladder. The same merchant mark appears on every sack. One by the ladder has a ragged outer seam, but it is as full as the others. The straw mat and sackcloth are dry.",
+      "image": "res://assets/inspection/case_015-ev_tally.png"
     },
     {
       "id": "ev_testimony",
@@ -29,20 +30,45 @@
       "id": "ev_grain",
       "label": "04  Open sacks",
       "title": "Grain from the bottom of each sack",
-      "text": "You open the sacks and draw a scoop from deep in each, emptying each scoop separately onto the mat. The sixteen at the sling pour freely and leave no insects in their samples. From every sack by the ladder, small dark beetles crawl out of the grain onto the pale mat. Many of the kernels in those four scoops have been hollowed out. The sack with the ragged seam is no worse than the other three."
+      "text": "You open the sacks and draw a scoop from deep in each, emptying each scoop separately onto the mat. The sixteen at the sling pour freely and leave no insects in their samples. From every sack by the ladder, small dark beetles crawl out of the grain onto the pale mat. Many of the kernels in those four scoops have been hollowed out. The sack with the ragged seam is no worse than the other three.",
+      "image": "res://assets/inspection/case_015-ev_grain.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "surface_insects", "label": "The sacks are full and dry; the insects have not eaten the rice."},
-    {"id": "torn_sack_only", "label": "Only the sack with the torn seam needs to be taken out of the sale."},
-    {"id": "four_infested", "label": "Four sacks contain beetles and hollow kernels; only the other sixteen can go to the food market."},
-    {"id": "all_infested", "label": "The same mark on all twenty sacks means the whole lot is spoiled."}
+    {
+      "id": "surface_insects",
+      "label": "The sacks are full and dry; the insects have not eaten the rice."
+    },
+    {
+      "id": "torn_sack_only",
+      "label": "Only the sack with the torn seam needs to be taken out of the sale."
+    },
+    {
+      "id": "four_infested",
+      "label": "Four sacks contain beetles and hollow kernels; only the other sixteen can go to the food market."
+    },
+    {
+      "id": "all_infested",
+      "label": "The same mark on all twenty sacks means the whole lot is spoiled."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "minor_fault",
@@ -63,11 +89,20 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Tuban Moon",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "minor_fault",
       "summary": "Part of a correctly counted food lot is infested. The crew isolated the suspected sacks after the entry was made and called the broker instead of passing them off as sound.",
-      "key_clues": ["ev_manifest", "ev_testimony", "ev_grain"],
+      "key_clues": [
+        "ev_manifest",
+        "ev_testimony",
+        "ev_grain"
+      ],
       "deduction": [
         "All twenty sacks were entered as sound before the crew noticed insects. Neither the dry cloth nor the torn outer seam measures spoilage.",
         "Grain samples reveal damage deep inside all four separated sacks, not just a stray insect on the cloth. The other sixteen show no such evidence."
@@ -75,8 +110,16 @@
       "solvable_without_opening": false
     },
     "history_notes": [
-      {"topic": "Tuban rice and provisioning Melaka", "note": "Melaka depended on imported rice; Tuban was a documented Javanese source. See docs/research/commodities.md §3.2 and docs/research/prices.md §4.2. Provisions paid assessed presents rather than normal western entry dues (docs/research/port-official.md §5.1).", "confidence": "high"},
-      {"topic": "Separating the rice", "note": "The written manifest, sack marks, sack counts as sale units, sampling procedure and the spoilage incident are gameplay inventions, not a documented Melaka inspection or grain-pest record.", "confidence": "game_rule"}
+      {
+        "topic": "Tuban rice and provisioning Melaka",
+        "note": "Melaka depended on imported rice; Tuban was a documented Javanese source. See docs/research/commodities.md §3.2 and docs/research/prices.md §4.2. Provisions paid assessed presents rather than normal western entry dues (docs/research/port-official.md §5.1).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Separating the rice",
+        "note": "The written manifest, sack marks, sack counts as sale units, sampling procedure and the spoilage incident are gameplay inventions, not a documented Melaka inspection or grain-pest record.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

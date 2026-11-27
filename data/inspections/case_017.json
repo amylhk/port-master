@@ -17,7 +17,8 @@
       "id": "ev_exterior",
       "label": "02  Quay tally",
       "title": "The eight baskets",
-      "text": "Weights: Eight baskets, net weight eighty kati each. The receiving tally repeats the same basket numbers as the declaration. No buyer’s name is attached to any basket."
+      "text": "Weights: Eight baskets, net weight eighty kati each. The receiving tally repeats the same basket numbers as the declaration. No buyer’s name is attached to any basket.",
+      "image": "res://assets/inspection/case_017-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -29,7 +30,8 @@
       "id": "ev_opened",
       "label": "04  Opened cargo",
       "title": "Pepper at the new stair",
-      "text": "Opened: Dry black pepper in the sampled baskets. The quantity and agreed value on the books do not change."
+      "text": "Opened: Dry black pepper in the sampled baskets. The quantity and agreed value on the books do not change.",
+      "image": "res://assets/inspection/case_017-ev_opened.png"
     }
   ],
   "rulings": [
