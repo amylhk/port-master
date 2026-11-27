@@ -45,6 +45,11 @@ func load_data(scenario_path := "res://data/port_day.json", inspection_dir := IN
         if inspection.get("id") != case_id:
             push_error("Expected inspection ID '%s' at %s." % [case_id, path])
             return false
+        for field in ["rulings", "reasons"]:
+            var choices: Variant = inspection.get(field)
+            if not choices is Array or choices.is_empty():
+                push_error("Expected a nonempty '%s' array at %s." % [field, path])
+                return false
         loaded[case_id] = inspection
     inspections = loaded
     return true

@@ -132,6 +132,15 @@ func _test_scheduled_inspections(harbour) -> void:
                 _expect(day.recovered_duty == 3, "the second case's duty is credited at unloading")
             _test_reserved_rulings(day)
 
+        for field in ["rulings", "reasons"]:
+            var invalid_case := second_case.duplicate()
+            invalid_case[field] = []
+            if _write_json(second_case_path, invalid_case):
+                print("Expecting an empty-%s error for case_002.json:" % field)
+                _expect(not day.load_data(schedule_path, fixture_dir), "reject a case with empty %s" % field)
+            else:
+                _expect(false, "write a case with empty %s" % field)
+
         schedule["ships"][2]["inspection_case"] = "case_missing"
         if _write_json(schedule_path, schedule):
             print("Expecting a missing-data error for case_missing.json:")
