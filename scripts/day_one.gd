@@ -265,6 +265,10 @@ func _morning_voice() -> void:
     var awaiting := day.awaiting_inspection()
     if not awaiting.is_empty():
         var ship: Dictionary = awaiting[0]
+        for candidate in awaiting:
+            if day.can_inspect_berthed(candidate):
+                ship = candidate
+                break
         var slot := int(ship["berth_slot"])
         if day.can_inspect_berthed(ship):
             line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記開箱檢查。" % [ship["name"], slot + 1]
