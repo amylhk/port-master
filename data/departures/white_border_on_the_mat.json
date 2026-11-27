@@ -1,0 +1,27 @@
+{
+  "id": "white_border_on_the_mat",
+  "merchant_id": "sri_rangan",
+  "chain_id": "kaveri_account",
+  "step": 3,
+  "day": 5,
+  "requires": ["kaveri_account_step_2"],
+  "title": "Two lengths on the mat",
+  "body": "Sri Rangan is back at your door with cloth from the White Border. This time he has had the lengths folded separately. He puts two of them on the mat before the porter can reach for his tally.\n\nHe will sell one lot on credit if the count and the new entry dues are read out before the buyers, in the temenggung's name. He will not ask you for a berth ahead of anybody else.",
+  "choices": [
+    {
+      "id": "hear_the_count",
+      "label": "Witness the count in front of the buyers",
+      "outcome_text": "Two small dealers take the lot on credit. Rangan leaves the other bales at his agent's store instead of sending them back aboard.",
+      "effects": {"duty": 3, "supply": 2, "merchant_trust": 2}
+    },
+    {
+      "id": "routine_assessment",
+      "label": "Keep the ordinary assessment; promise no hearing",
+      "outcome_text": "The assessment stands, but Rangan sells only to a dealer who can pay today. The small buyers go home without cloth.",
+      "effects": {"duty": 1, "merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "gameplay: The public count and offer of credit are invented responses to the Kaveri hold. Effect deltas model business gained or lost, not a change to the entry rate (data/merchants/sri_rangan.json; docs/gameplay-blueprint.md §§08–09)"
+  ]
+}

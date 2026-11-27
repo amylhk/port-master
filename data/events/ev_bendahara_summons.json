@@ -3,7 +3,7 @@
   "title": "Summoned to the bendahara",
   "day": 1,
   "requires": [
-    "case_004_held"
+    "case_004_hold"
   ],
   "body": "After the evening prayer a palace runner comes for you. The bendahara has read the sealed letter from Pedir and heard Farid out. He wishes to see the shahbandar who found him.\n\nIn the lamplight of the audience hall the bendahara asks only one question: will the Gujarati nau in harbour stay or run when they hear of eighteen Feringgi warships taking Gujarati ships off Pedir?",
   "choices": [

@@ -1,0 +1,27 @@
+{
+  "id": "arus_second_weighing",
+  "merchant_id": "awang_musa",
+  "chain_id": "arus_account",
+  "step": 3,
+  "day": 5,
+  "requires": ["arus_account_step_2"],
+  "title": "Ramli names the scale first",
+  "body": "Back from the coastal landing, Musa sends Ramli ahead of the Arus's baskets. Ramli names the scale before he says a number. Jalal of Sonargaon wants some of the tin, but his partner will not buy while the two tallies seem to disagree.\n\nMusa asks if a weigher can witness both readings before Jalal's partner closes his stall. The ordinary weighing fee will be entered in the temenggung's name either way.",
+  "choices": [
+    {
+      "id": "share_the_weigher",
+      "label": "Ask a weigher to witness both readings now",
+      "outcome_text": "The readings agree. Jalal takes his lot; two local buyers divide the rest after seeing the same weighing.",
+      "effects": {"duty": 2, "supply": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "wait_for_the_weigher",
+      "label": "Keep the weigher on the work already in hand",
+      "outcome_text": "Jalal's partner closes the stall and takes the cash home. Musa sells a little locally and keeps the rest aboard for his next stop.",
+      "effects": {"merchant_trust": -1}
+    }
+  ],
+  "notes": [
+    "gameplay: Staff scheduling, the second weighing and the effect deltas are game abstractions (docs/gameplay-blueprint.md §§02, 08; data/merchants/awang_musa.json)"
+  ]
+}

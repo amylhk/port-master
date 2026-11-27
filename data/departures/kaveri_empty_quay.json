@@ -1,0 +1,13 @@
+{
+  "id": "kaveri_empty_quay",
+  "merchant_id": "sri_rangan",
+  "chain_id": "kaveri_account",
+  "step": 2,
+  "day": 3,
+  "requires": ["kaveri_account_step_1"],
+  "title": "No bargain at the last tide",
+  "body": "Rangan stands by the Kaveri's plank as the last of the crew come aboard. The entry account is settled and there is nothing further to pay on sailing. He sends the unsold cotton back aboard rather than let the buyers name a price while the ropes are coming in.\n\nHe stays ashore himself. 'My partners have another consignment coming,' he tells you. 'I can wait to see how that one is counted.'",
+  "notes": [
+    "gameplay: The missed sale is not restored by settling the entry account. Rangan remains ashore; the inbound White Border is a separate ship (data/inspections/case_002.json; data/merchants/sri_rangan.json)"
+  ]
+}
