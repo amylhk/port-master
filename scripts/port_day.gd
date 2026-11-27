@@ -94,15 +94,16 @@ func rule(ruling_id: String, reason_id: String) -> void:
     var ship := pending_case
     pending_case = {}
     var truth: Dictionary = inspection_for(ship)["hidden_truth"]
-    if ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]:
-        ship["extra_duty"] = int(truth["extra_duty"])
-        ruling_note = truth["success"]
-    elif ruling_id == "hold":
+    var supported: bool = ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]
+    if ruling_id == "hold":
         berths.erase(ship)
         _lose(ship, "Cargo held")
-        ruling_note = truth["hold"]
+        ruling_note = truth["success"] if supported else truth["hold"]
     elif ruling_id == "clear":
-        ruling_note = truth["clear"]
+        ruling_note = truth["success"] if supported else truth["clear"]
+    elif supported:
+        ship["extra_duty"] = int(truth["extra_duty"])
+        ruling_note = truth["success"]
     else:
         ruling_note = truth["unsupported"]
     _log(ruling_note)

@@ -90,7 +90,11 @@ func _test_scheduled_inspections(harbour) -> void:
     var second_case := {
         "id": "case_002", "title": "Second inspection", "subtitle": "Test dossier", "minutes": 12,
         "evidence": [{"id": "second_page", "label": "01  Test page", "title": "Second evidence", "text": "Test evidence."}],
-        "rulings": [{"id": "amend_test", "label": "Amend test duty"}],
+        "rulings": [
+            {"id": "amend_test", "label": "Amend test duty"},
+            {"id": "clear", "label": "Clear as declared"},
+            {"id": "hold", "label": "Hold the cargo"},
+        ],
         "reasons": [{"id": "second_page", "label": "Cite the test page"}],
         "hidden_truth": {
             "ruling_id": "amend_test", "reason_id": "second_page", "extra_duty": 3,
@@ -126,6 +130,7 @@ func _test_scheduled_inspections(harbour) -> void:
                 _expect(day.ruling_note == "Second ruling accepted.", "the second case uses its own choices and hidden truth")
                 harbour._advance(60)
                 _expect(day.recovered_duty == 3, "the second case's duty is credited at unloading")
+            _test_reserved_rulings(day)
 
         schedule["ships"][2]["inspection_case"] = "case_missing"
         if _write_json(schedule_path, schedule):
@@ -137,6 +142,21 @@ func _test_scheduled_inspections(harbour) -> void:
     for path in [schedule_path, first_case_path, second_case_path, fixture_dir]:
         if FileAccess.file_exists(path) or DirAccess.dir_exists_absolute(path):
             DirAccess.remove_absolute(path)
+
+
+func _test_reserved_rulings(day) -> void:
+    for ruling in ["clear", "hold"]:
+        day.reset()
+        var truth: Dictionary = day.inspection_for(day.ship_at_anchor(2))["hidden_truth"]
+        truth["ruling_id"] = ruling
+        day.berth("second", true)
+        day.rule(ruling, "second_page")
+        day.advance(60)
+        _expect(day.ruling_note == "Second ruling accepted.", "supported %s uses the success feedback" % ruling)
+        if ruling == "clear":
+            _expect(day.duty == 10 and day.recovered_duty == 0, "supported clear trades at declared duty")
+        else:
+            _expect(day.completed == 0 and day.lost == 1 and day.duty == 0, "supported hold prevents trade")
 
 
 func _write_json(path: String, value: Dictionary) -> bool:

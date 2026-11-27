@@ -12,7 +12,7 @@ Stage A uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and 
 - **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
 - **Evidence:** each page has `id`, `label` (short button text), `title`, and `text`. Optional `image` is the full Godot resource path. Put observations on the evidence pages and generally applicable conventions in the manual. The manifest describes what was declared, never the expected correct markings or an assessment.
 - **Choices:** `rulings` and `reasons` each contain `id` and `label` pairs. The current outcome handlers reserve `clear` for clearing as declared and `hold` for stopping the sale. Other ruling IDs attempt an amendment.
-- **Hidden truth:** `ruling_id` and `reason_id` identify the one successful combination; `extra_duty` is credited only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
+- **Hidden truth:** `ruling_id` and `reason_id` identify the one successful combination. A successful amendment credits `extra_duty` only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
 
 ## Art
 
