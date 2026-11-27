@@ -1,8 +1,137 @@
 {
-  "title": "Quay reference manual",
+  "title": "Harbour Office Reference Manual (Stage A)",
   "entries": [
-    {"title":"Packing and seals", "text":"A green cord marks transit freight, but potters may reuse old cords. A cord alone does not establish undeclared goods. The tally weight includes the dry jar and its packing (the tare)."},
-    {"title":"Common bowls", "text":"A standard nested stack contains ten common bowls and weighs two catties. An intact stack is counted by its stamped spacer; loose bowls must be counted separately."},
-    {"title":"Resins", "text":"White frankincense shows clear grains where it breaks. Red-grain frankincense has red crystals in a waxy, aromatic lump. Kiln pitch is dark, dull at the break, and smells smoky. Both frankincense grades are legal but must be declared by net weight."}
-  ]
+    {
+      "title": "How to use this manual",
+      "text": "You are a shahbandar of Melaka, working from the harbour office. Every ship that wants to trade hands you a manifest. The manifest is the ship's declaration: what its people say is aboard. It is not proof.\n\nThis manual tells you what the office expects to find: the registered marks of known merchants, how lots are sealed, what goods normally weigh, and how to rule. Compare the manifest and this manual against what you actually see in the hold.\n\nA mismatch is a clue, not a verdict. Look for a second clue before you accuse anyone.\n\nHistory: Port papers are mentioned in period sources, but no pre-conquest Melaka cargo manifest survives. This game's written declaration is an invention."
+    },
+    {
+      "title": "The port and your office",
+      "text": "Melaka is a port of many nations. Ships come from Gujarat and the Coromandel coast, from Bengal and Pegu, from Java and the spice islands, from Champa and China. Each captain goes first to the shahbandar of his own nation, who receives him, presents him to the bendahara, allots him a warehouse and dispatches his goods.\n\nYou are a shahbandar of Melaka. In this game you also direct berthing and inspection for the whole harbour: you choose which ships berth, how closely to inspect them, and how to rule. Dues are collected, and every customs ruling is made, in the name of the temenggung, the Customs Judge. You do not command merchants, set every price, or control when ships arrive.\n\nHistory: Tome Pires (Suma Oriental, c. 1512-1515, pp. 264-5, 273) describes four shahbandars, one for each group of nations (Gujarat; the Klings, Bengal, Pegu and Pasai; Java and the eastern islands; China, the Ryukyus and Champa), and gives dues and the customs bench to the temenggung. Your port-wide authority over berths and inspection goes beyond the historical office: it is a game abstraction."
+    },
+    {
+      "title": "Berths, anchorage and lost ships",
+      "text": "The harbour has 2 berths. A berthed ship unloads and is processed; both berths work at the same time.\n\nShips waiting for a berth lie at the anchorage, which holds 3 ships. If a ship arrives when the anchorage is full, it sails on to another port. That trade, its dues and its goods are lost to Melaka.\n\nEvery minute you spend on one ship is a minute the anchorage keeps filling. Choose which ships deserve your time."
+    },
+    {
+      "title": "Inspection depths",
+      "text": "Skip: clear the ship on its declaration. Fast, but you will miss faults and fraud.\n\nBasic: count the lots and check their condition. Catches routine miscounts and damage.\n\nDetailed: board the ship yourself. Read the manifest, examine marks, seals and weights, open containers, and question the captain, crew and merchants. Slow, but it is the only way to uncover hidden cargo or a story behind it."
+    },
+    {
+      "title": "Detailed Inspection, step by step",
+      "text": "1. Read the manifest: ship, captain, route, owners, lots, quantities, values, and any notes the captain has written.\n2. Examine each lot from outside: packaging, merchant mark, seal, condition. The porters call out the weight of anything you point at.\n3. Check this manual: whose mark should be on the lot? How should it be sealed? What should it weigh?\n4. Investigate what does not fit: open a container, compare it with its neighbours, ask the people aboard. Listen for answers that disagree.\n5. Rule (see 'Rulings')."
+    },
+    {
+      "title": "Register of merchant marks",
+      "text": "A merchant who trades through Melaka registers a mark with the harbour office. His lots should carry his mark, pressed into the clay seal and painted or stamped on the packing.\n\nRegistered marks (this season):\n- Lim Seng, merchant of Guangzhou: a circle crossed by one upright line.\n- Khoja Ismail, merchant of Cambay: a crescent over a bar.\n- Sri Rangan, merchant of Pulicat: three dots in a triangle.\n- Ki Jaya, merchant of Gresik: two wavy lines.\n- Encik Hamzah, merchant of Pahang: a fish facing left. SUSPENDED: by order of the harbour office, Encik Hamzah may not land goods at Melaka this season, after jars of his were found hiding undeclared goods.\n\nA ship's captain (nakhoda) also registers a seal for his ship. It is used only for resealing (see 'Seals').\n\nHistory: Some period jars from the region have shoulder marks whose purpose is unknown. The merchant marks and register in this game are invented."
+    },
+    {
+      "title": "Seals and resealing",
+      "text": "Lots are closed with a clay seal at the port where they are packed, pressed with the owner's mark. A sound seal is dry, hard and the same colour as the others in its lot.\n\nA lot may be opened at sea when goods are damaged: wet, broken, or spoiling. The nakhoda then reseals it with his ship's seal and writes it on the manifest: which lot, where, and why. A resealed lot with that note is in order.\n\nWarning signs: an owner's mark that does not belong to the declared owner; fresh or differently coloured clay; a reseal with no note on the manifest.\n\nHistory: Cargo seals are not documented for Melaka in this period. This game's clay seals and resealing rules are invented."
+    },
+    {
+      "title": "Dues, presents and weighing",
+      "text": "Merchants from the west (Gujarat, the Coromandel coast, Bengal, Pegu and beyond) pay dues of 6 in every 100 on their goods, and presents worth 1 or 2 more to the king, the bendahara, the temenggung and their shahbandar.\n\nMerchants from the east (Pahang to China, Java and the spice islands) pay no dues; they give presents instead, of a reasonable amount set by the shahbandar.\n\nEveryone pays the weighing fee: 1 in every 100 of the value of all goods weighed in or out. Everything landed is weighed, so the weighers' call is your first check on a declaration.\n\nHistory: these rates follow Tome Pires (pp. 270-4). How the game calculates them is simplified."
+    },
+    {
+      "title": "Packing and weights",
+      "text": "Weights are in kati. Expected weights for the commonest packing:\n- Large storage jar, empty: 20-24 kati.\n- Large storage jar packed with small bowls in straw (the usual 30 bowls): 31-37 kati.\n- Large storage jar full of grain, spice or other dense goods: 42 kati or more.\n- Bale of silk: 9-11 kati.\n- Sack of rice: 38-42 kati.\n- Slab of tin: 1 kati (bundled in tens).\n\nA single lot heavier or lighter than its neighbours deserves a look inside.\n\nHistory: the kati (catty) and the much larger bahar were trade weights used across the region; the ranges above are game values, not period measurements."
+    },
+    {
+      "title": "Questioning people aboard",
+      "text": "You may question the nakhoda, the merchant or his factor, and the crew. People have reasons to lie, to protect a master, or simply to be wrong.\n\nAn account means most when it agrees with something you can see. Two accounts that cannot both be true mean one person is mistaken or lying; find the evidence that tells you which."
+    },
+    {
+      "title": "Rulings",
+      "text": "When you finish, rule on the ship. Your ruling is given in the temenggung's name.\n\nClean: the cargo matches the declaration, or every difference is explained and in order (for example a noted reseal). Clear the ship.\n\nMinor Fault: an honest error with nothing hidden: a miscount, a wrong grade, damaged goods not declared, a missing note. Correct the declaration and charge dues on what is really aboard.\n\nMajor Fraud: deliberate deception: goods hidden or undeclared, false or borrowed marks, seals tampered with, people lying to cover it. Hold the goods for the temenggung's judgement.\n\nStory Event: what you found is about more than trade (a letter, a passenger, a message for the court). Hold the ship and report it to the bendahara.\n\nIf you cannot decide, ask for clarification, but the ship keeps its berth while you wait."
+    }
+  ],
+  "authoring": {
+    "id": "manual_stage_a",
+    "version": "0.1",
+    "note": "In-game reference. Sections tagged 'game_rule' describe this port's rules as played; they are gameplay abstractions, not historical claims. Sections tagged 'history' carry their own confidence notes.",
+    "sections": [
+      {
+        "id": "using_manual",
+        "tags": [
+          "game_rule",
+          "inspection"
+        ]
+      },
+      {
+        "id": "port_and_office",
+        "tags": [
+          "history",
+          "game_rule"
+        ]
+      },
+      {
+        "id": "harbour",
+        "tags": [
+          "game_rule",
+          "harbour"
+        ]
+      },
+      {
+        "id": "inspection_depths",
+        "tags": [
+          "game_rule",
+          "inspection"
+        ]
+      },
+      {
+        "id": "detailed_steps",
+        "tags": [
+          "game_rule",
+          "inspection"
+        ]
+      },
+      {
+        "id": "merchant_marks",
+        "tags": [
+          "game_rule",
+          "register",
+          "inspection"
+        ]
+      },
+      {
+        "id": "seals",
+        "tags": [
+          "game_rule",
+          "inspection"
+        ]
+      },
+      {
+        "id": "dues",
+        "tags": [
+          "history",
+          "game_rule",
+          "dues"
+        ]
+      },
+      {
+        "id": "weights",
+        "tags": [
+          "game_rule",
+          "history",
+          "inspection"
+        ]
+      },
+      {
+        "id": "testimony",
+        "tags": [
+          "game_rule",
+          "inspection"
+        ]
+      },
+      {
+        "id": "rulings",
+        "tags": [
+          "game_rule",
+          "inspection",
+          "rulings"
+        ]
+      }
+    ]
+  }
 }
