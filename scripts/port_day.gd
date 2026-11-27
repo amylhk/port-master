@@ -188,7 +188,45 @@ func berth(ship_id: String, inspect: bool, berth_slot := -1) -> void:
     _berth_ship(ship_id, inspect, 0, berth_slot)
 
 
-func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := -1) -> void:
+## Berths a ship without deciding yet: a case ship stays open for inspection until the clock moves.
+func dock(ship_id: String, berth_slot := -1) -> void:
+    _berth_ship(ship_id, false, 0, berth_slot, true)
+
+
+func awaiting_inspection() -> Array[Dictionary]:
+    var open: Array[Dictionary] = []
+    for ship in berths:
+        if ship.get("inspection_open", false):
+            open.append(ship)
+    return open
+
+
+func can_inspect_berthed(ship: Dictionary) -> bool:
+    return ship.get("inspection_open", false) and can_finish(ship, true)
+
+
+func inspect_berthed(ship_id: String) -> void:
+    if closed() or not current_story().is_empty() or not pending_case.is_empty():
+        return
+    for ship in berths:
+        if ship["id"] == ship_id and can_inspect_berthed(ship):
+            ship.erase("inspection_open")
+            pending_case = ship
+            var duration := int(inspection_for(ship)["minutes"])
+            _log("Detailed Inspection occupied a berth for %d min." % duration)
+            _advance_clock(duration)
+            return
+
+
+func _clear_open_inspections() -> void:
+    for ship in awaiting_inspection():
+        if ship != pending_case:
+            ship.erase("inspection_open")
+            ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
+            _record_ruling(ship, "clear")
+
+
+func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := -1, defer_ruling := false) -> void:
     if closed() or not current_story().is_empty() or not pending_case.is_empty() or berths.size() >= BERTH_CAPACITY:
         return
     if berth_slot != -1 and (berth_slot < 0 or berth_slot >= BERTH_CAPACITY or not ship_at_berth(berth_slot).is_empty()):
@@ -215,6 +253,8 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := 
             var duration := int(inspection["minutes"]) + extra_time
             _log("Detailed Inspection occupied a berth for %d min." % duration)
             _advance_clock(duration)
+        elif not inspection.is_empty() and defer_ruling:
+            ship["inspection_open"] = true
         elif not inspection.is_empty():
             ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
             _record_ruling(ship, "clear")
@@ -674,6 +714,7 @@ static func clock(minutes: int) -> String:
 
 
 func _advance_clock(minutes: int) -> void:
+    _clear_open_inspections()
     for step in mini(minutes, int(scenario["end_minute"]) - minute_of_day):
         minute_of_day += 1
         for i in range(berths.size() - 1, -1, -1):

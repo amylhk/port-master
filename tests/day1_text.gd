@@ -4,7 +4,7 @@ const HINTS_PATH := "res://data/hints/day_1.json"
 const SHORT_PATH := "res://data/short/day_1.json"
 const HINT_IDS := [
     "first_ship", "berth_free", "tide_warning", "anchorage_full",
-    "open_cargo", "check_manual", "stamp", "day_end",
+    "inspect_berthed", "open_cargo", "check_manual", "stamp", "day_end",
 ]
 
 var cjk := RegEx.create_from_string("[㐀-鿿]")

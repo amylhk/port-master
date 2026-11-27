@@ -3,6 +3,7 @@
   {"id": "berth_free", "text": "拖曳下一艘船至空泊位。"},
   {"id": "tide_warning", "text": "趕在離港潮前靠泊卸貨。"},
   {"id": "anchorage_full", "text": "下一艘船抵達前騰出錨地。"},
+  {"id": "inspect_berthed", "text": "按船旁「驗貨」標記開箱。"},
   {"id": "open_cargo", "text": "打開貨箱，查看內容。"},
   {"id": "check_manual", "text": "查閱驗貨手冊，核對所見。"},
   {"id": "stamp", "text": "選擇裁決，蓋章確認。"},
