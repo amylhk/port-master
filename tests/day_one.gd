@@ -108,7 +108,7 @@ func _run() -> void:
     var before_manual: int = game.day.minute_of_day
     game.open_manual()
     _expect(game.manual_open and game.manual_seen and game.day.minute_of_day == before_manual, "opening the desk manual for the first time is free")
-    _expect(game.manual_pages().size() == 1 and _button_exists(game, "四枚印章") and not _button_exists(game, "封印與重封"), "the manual starts with the stamps topic, not unseen evidence")
+    _expect(game.manual_pages().size() == 2 and _button_exists(game, "四枚印章") and _button_exists(game, "重量與計數") and not _button_exists(game, "封印與重封"), "counting the bowls unlocks counting rules, not unseen seal evidence")
     for page in range(game.manual_pages().size()):
         game.manual_page = page
         game.render()
@@ -206,6 +206,7 @@ func _run() -> void:
     game.queue_free()
     await process_frame
     await _other_cases()
+    await _cargo_manual_topics()
     await _wrong_rulings()
     await _harbour_status_routing()
     await _berthed_hull_routing()
@@ -437,6 +438,30 @@ func _other_cases() -> void:
             game.apply_stamp()
             _expect(game.day.flags.has(case_id + "_" + example[2]), "%s preserves its supported ruling" % example[0])
             _expect(game.last_feedback == game.day.inspections[case_id]["hidden_truth"]["success"], "%s retains every paragraph of the authored finding" % example[0])
+        game.queue_free()
+        await process_frame
+
+
+func _cargo_manual_topics() -> void:
+    for example in [["cloth", 120, "20匹", "每戈迪20匹"], ["tin", 70, "仍是8小巴哈", "7大巴哈等於8小巴哈"]]:
+        var game = DayOne.instantiate()
+        root.add_child(game)
+        game.assign_berth("rice", 0, false)
+        game.assign_berth("pepper", 1, false)
+        game.advance(example[1])
+        game.assign_berth(example[0], 1, true)
+        game.open_manual()
+        _expect(not _button_exists(game, "重量與計數"), "conversion rules start locked")
+        _press_text(game, "合上手冊")
+        game.open_crate(0)
+        if example[0] == "tin":
+            _expect(not game.manual_topics.has("weights"), "the conversion stays locked until the tin is weighed")
+            game.open_crate(1)
+        _expect(_text_shown(game, example[2]) and not game.viewed.has("measurements"), "opening cargo exposes counting or weighing without an exterior examination")
+        game.open_manual()
+        _expect(_button_exists(game, "重量與計數"), "cargo findings unlock the conversion rules before any paid exterior check")
+        _press_text(game, "重量與計數")
+        _expect(_text_shown(game, example[3]), "the manual shows the relevant conversion")
         game.queue_free()
         await process_frame
 

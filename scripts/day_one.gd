@@ -862,8 +862,17 @@ func open_crate(index: int) -> void:
             _inspection_missed_tide()
             return
     opened_crates[index] = true
-    if rice_spot_check:
-        manual_topics["rice"] = true
+    match inspection["id"]:
+        "day_1_rice":
+            manual_topics["rice"] = true
+        "case_001":
+            if index < 2:
+                manual_topics["weights"] = true
+        "case_002":
+            manual_topics["weights"] = true
+        "case_003":
+            if opened_crates.size() == count:
+                manual_topics["weights"] = true
     selected_crate = index
     evidence_index = 3
     if rice_spot_check or opened_crates.size() == count:
