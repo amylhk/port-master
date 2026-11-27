@@ -64,9 +64,23 @@ func _run() -> void:
     _expect(not game.day.pending_case.is_empty(), "the tutorial requires checking the manual before stamping")
     game.open_manual()
     _expect(game.manual_open and game.manual_seen, "the manual opens as an object on the desk")
-    for page in range(game.day.manual["entries"].size()):
+    _expect(not game.manual_full and game.manual_pages().size() == 4, "the manual opens on its short Day 1 digest")
+    for page in range(game.manual_pages().size()):
         game.manual_page = page
         game.render()
+        await process_frame
+        var digest := game.find_children("*", "ScrollContainer", true, false)
+        _expect(not digest.is_empty() and not (digest[-1] as ScrollContainer).get_v_scroll_bar().visible, "digest page %d fits without scrolling" % (page + 1))
+    game.manual_page = 1
+    game.render()
+    _expect(_text_shown(game, "向左的魚：彭亨商人恩吉哈姆扎（已停權"), "the digest keeps the authored register")
+    _press_text(game, "閱讀完整手冊（11頁）")
+    _expect(game.manual_full, "the full 11-page manual stays one click away")
+    for page in range(game.day.manual["entries"].size()):
+        game.manual_full_page = page
+        game.render()
+    _press_text(game, "返回摘要")
+    _expect(not game.manual_full, "the full manual returns to the digest")
     game.manual_open = false
     game.apply_stamp()
     _expect(game.day.pending_case.is_empty() and game.feedback_open, "stamping files the ruling and shows its consequence")
@@ -196,6 +210,21 @@ func _button_exists(node: Node, caption: String) -> bool:
         if button.text == caption:
             return true
     return false
+
+
+func _text_shown(node: Node, part: String) -> bool:
+    for label in node.find_children("*", "Label", true, false):
+        if (label as Label).text.contains(part):
+            return true
+    return false
+
+
+func _press_text(node: Node, caption: String) -> void:
+    for button in node.find_children("*", "Button", true, false):
+        if (button as Button).text == caption:
+            (button as Button).pressed.emit()
+            return
+    _expect(false, "button %s exists" % caption)
 
 
 func _label_exists(node: Node, caption: String) -> bool:

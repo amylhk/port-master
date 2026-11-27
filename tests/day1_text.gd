@@ -2,6 +2,7 @@ extends SceneTree
 
 const HINTS_PATH := "res://data/hints/day_1.json"
 const SHORT_PATH := "res://data/short/day_1.json"
+const MANUAL_PATH := "res://data/manual/manual_stage_a.json"
 const HINT_IDS := [
     "first_ship", "berth_free", "tide_warning", "anchorage_full",
     "open_cargo", "check_manual", "stamp", "day_end",
@@ -40,7 +41,7 @@ func _initialize() -> void:
 
 func _check_short_text() -> bool:
     var short: Variant = _read_json(SHORT_PATH)
-    if not _check_keys(short, ["briefings", "ships", "cases", "events"], SHORT_PATH):
+    if not _check_keys(short, ["briefings", "ships", "cases", "events", "manual"], SHORT_PATH):
         return false
 
     var port: Dictionary = _read_json("res://data/port_day.json")
@@ -61,6 +62,8 @@ func _check_short_text() -> bool:
     if not _check_entries(short["cases"], cases, "cases", {"evidence": 24, "rulings": 8}):
         return false
     if not _check_entries(short["events"], events, "events", {"choices": 8}):
+        return false
+    if not _check_manual(short["manual"]):
         return false
 
     print("Day 1 short text checks passed: %d briefings, %d ships, %d cases, %d events." % [
@@ -98,6 +101,34 @@ func _check_entries(entries: Variant, sources: Dictionary, section: String, limi
             for item_id in ids:
                 if not _check_length(entry[field][item_id], limits[field], "%s/%s/%s" % [location, field, item_id]):
                     return false
+    return true
+
+
+func _check_manual(digest: Variant) -> bool:
+    if not _check_keys(digest, ["pages"], "manual") or not digest["pages"] is Array:
+        return false
+    var pages: Array = digest["pages"]
+    if pages.size() < 2 or pages.size() > 5:
+        return _invalid("manual/pages must hold 2 to 5 pages.")
+    var full := ""
+    for entry in _read_json(MANUAL_PATH)["entries"]:
+        full += entry["text"] + "\n"
+    var number := RegEx.create_from_string("\\d+(?:–\\d+)?")
+    for index in pages.size():
+        var location := "manual/pages/%d" % index
+        var page: Variant = pages[index]
+        if not _check_keys(page, ["title", "lines"], location) or not _check_length(page["title"], 6, location + "/title"):
+            return false
+        if not page["lines"] is Array or page["lines"].is_empty() or page["lines"].size() > 9:
+            return _invalid("%s/lines must hold 1 to 9 lines." % location)
+        for line in page["lines"]:
+            if not _check_length(line, 45, location + "/lines"):
+                return false
+            # The digest may shorten the manual's wording, never change its numbers.
+            for found in number.search_all(line):
+                if not full.contains(found.get_string()):
+                    return _invalid("%s quotes %s, which the full manual does not." % [location, found.get_string()])
+    print("Day 1 manual digest checks passed: %d pages." % pages.size())
     return true
 
 
