@@ -807,13 +807,18 @@ func show_detail(title: String, body: String, close_caption := "返回驗貨桌"
 
 
 func _detail() -> void:
+    for control: Control in surface.find_children("*", "Control", true, false):
+        control.focus_mode = Control.FOCUS_NONE
+        if control is BaseButton:
+            control.disabled = true
     var panel := _modal(Rect2(230, 145, 820, 510), PAPER)
     _text(panel, detail_title, Rect2(26, 18, 768, 56), 26, BROWN)
     _reading(panel, detail_text, Rect2(26, 87, 768, 330), BROWN, 21)
-    _button(panel, detail_close_caption, Rect2(255, 446, 310, 43), func() -> void:
+    var close := _button(panel, detail_close_caption, Rect2(255, 446, 310, 43), func() -> void:
         detail_open = false
         render()
     )
+    close.grab_focus()
 
 
 func _stamp_rack(inspection: Dictionary) -> void:

@@ -197,6 +197,7 @@ func _run() -> void:
     await _manual_across_cases()
     await _rice_spot_check()
     await _duty_score()
+    await _closing_help_focus()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, inspection and stamps, rice spot checks, immediate HUD and duty outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -481,6 +482,43 @@ func _drag(from: Vector2, to: Vector2) -> void:
     press.button_index = MOUSE_BUTTON_LEFT
     press.pressed = false
     root.push_input(press)
+    await process_frame
+
+
+func _closing_help_focus() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.advance(int(game.day.scenario["end_minute"]) - game.day.minute_of_day)
+    _press_accessible(game, "盡忠職守說明")
+    var close: Button
+    var replay: Button
+    for button: Button in game.find_children("*", "Button", true, false):
+        if button.text == "關閉說明":
+            close = button
+        elif button.text == "重玩第一日":
+            replay = button
+    _expect(close != null and replay != null, "closing-screen duty help and replay controls exist")
+    if close != null and replay != null:
+        _expect(replay.disabled and replay.focus_mode == Control.FOCUS_NONE and root.gui_get_focus_owner() == close, "duty help starts with keyboard focus and disables the controls behind it")
+        await _gui_key(KEY_TAB, true)
+        _expect(root.gui_get_focus_owner() == close, "Shift+Tab cannot focus the replay button behind duty help")
+        await _gui_key(KEY_ENTER)
+        _expect(game.day.closed() and not game.detail_open, "Enter closes duty help without replaying the completed watch")
+        _press_text(game, "重玩第一日")
+        _expect(not game.day.closed(), "replay is available again after closing duty help")
+    game.queue_free()
+    await process_frame
+
+
+func _gui_key(key: Key, shift := false) -> void:
+    var event := InputEventKey.new()
+    event.keycode = key
+    event.shift_pressed = shift
+    event.pressed = true
+    root.push_input(event)
+    await process_frame
+    event.pressed = false
+    root.push_input(event)
     await process_frame
 
 
