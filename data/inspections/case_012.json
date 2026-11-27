@@ -1,0 +1,68 @@
+{
+  "id": "case_012",
+  "title": "The price of the cord",
+  "subtitle": "Jalal of Sonargaon asks you aboard the Bengal Dawn. His factor has found a buyer for two kodi of muslin. The buyer won't take the bales ashore until someone explains why she's being asked to pay twice.",
+  "minutes": 35,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Bengal Dawn’s declaration",
+      "text": "Two kodi of fine Bengal muslin for sale, valued together at 200. Twelve baskets of sugar are listed separately. Straw, cord and sailcloth used to wrap the bales are listed as packing, not as goods for sale."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Check the bales",
+      "title": "Two bundles and a split basket",
+      "text": "The two bales carry the same blue thread worked into the ties. There is no third bale. A sugar basket has split at the lip and drawn flies, but the liner beneath the split has kept the sugar inside."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Compare accounts",
+      "title": "What the second payment buys",
+      "text": "The buyer shows his bargain chit: 300, including packing, for both kodi. “He took 200 where the runner could see. He says the remaining 100 is for the cord and won't let me take the muslin until I pay it.”\n\nThe runner shows his own instructions: collect the 100 out of sight, enter it as a cord fee, and don't give up the cloth without it. Both chits are in the factor's hand. Jalal recognises the bargain he authorised: “Three hundred for the two bales together. I never set a separate price on the packing.”"
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open the bales",
+      "title": "The cloth and its wrapping",
+      "text": "Each bale yields twenty pieces of the declared muslin. The cotton is dry. Under the outer sailcloth there is only straw packing and common coir cord; the wrapping is the same on both bales."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "off_book_balance", "label": "The bargain and runner's instructions show that the supposed cord fee is a deliberately unreported part of the muslin price."},
+    {"id": "genuine_packing_sale", "label": "The factor sells expensive cord over and above the muslin."},
+    {"id": "sugar_shrinkage", "label": "Sugar spilled from the split basket and accounts for the disputed value."},
+    {"id": "matched_count", "label": "The correct cloth count proves the declaration needs no change."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "major_fraud",
+    "reason_id": "off_book_balance",
+    "citation_method": "testimony",
+    "extra_duty": 6,
+    "feedback_by_method": {
+      "marks": "The shared blue thread identifies the pair, but says nothing about what the buyer must pay to take them.",
+      "measurements": "There are two full kodi, as declared. A correct count does not make the entered price correct.",
+      "contents": "Plain coir makes the fee worth questioning. It doesn't show that paying it was a condition of the cloth sale.",
+      "manifest": "The declaration shows only the first payment. The buyer's bargain and the runner's instructions account for the missing balance."
+    },
+    "success": "In the temenggung’s name, you set the two bales aside for judgment and assess them at the agreed 300. The temenggung permits the sale at that value, with six more in dues payable on unloading. Jalal sends the runner to fetch the buyer: “Tell her she was right to ask for the whole price.”",
+    "clear": "You clear the Bengal Dawn at the declared value. The factor pockets the rest as a cord fee. Jalal's buyer counts the silver out a second time and says nothing more.",
+    "unsupported": "The evidence cited does not support a change in the temenggung’s name. The declared value stands and no dues are recovered on the balance.",
+    "hold": "You hold the whole ship for the court. Its clerk sends the dispute back as a matter for the temenggung, but by then both the sugar sellers and the muslin buyer have gone."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Bengal Dawn",
+    "history_notes": [
+      {"topic": "Bengal cotton and western valuation", "note": "Fine Bengal muslin reached Melaka; the kodi or corge counted twenty pieces. Western traders paid 6% on assessed value (docs/research/commodities.md, §3.11; docs/research/seals-marks-packaging.md, §3; Pires, Suma Oriental, II).", "confidence": "high"},
+      {"topic": "Terms, marks and records", "note": "The price, double payment, thread markers, chits and written manifest are gameplay inventions. Evidence of merchant accounting does not establish these forms or this transaction (docs/research/seals-marks-packaging.md, §§2–3).", "confidence": "game_rule"}
+    ]
+  }
+}
