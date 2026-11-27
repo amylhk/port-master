@@ -238,12 +238,28 @@ func _rice_spot_check() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
     _expect(_label_exists(game, "國庫  0") and _label_exists(game, "存糧  12 袋") and _label_exists(game, "盡忠職守  0"), "only Day 1's three metrics start on the HUD")
+    _press_accessible(game, "盡忠職守說明")
+    _expect(game.detail_open and _text_shown(game, "正確蓋印") and _text_shown(game, "準時卸貨") and _text_shown(game, "不滿離港") and _text_shown(game, "略過驗貨不會扣分"), "the HUD explains duty gains and losses without showing a case")
+    _press_text(game, "關閉說明")
+    _expect(not game.detail_open and game.day.minute_of_day == 540 and game.day.watch_score == 0, "closing duty help does not change the watch")
     game.request_berth("rice", 0)
     game.inspect_berth(0)
     _expect(game.day.minute_of_day == 540 and game.stamp.is_empty(), "entering rice inspection is free and the chit is blank")
     _expect(not _text_shown(game, "沾上水氣") and _accessible_button(game, "開封四號袋") != null, "closed sacks do not disclose their contents")
+    var closed_paint := _sack_paint(game, "開封一號袋")
+    _expect(closed_paint != null and closed_paint.resource_path == "res://assets/art/inspection/rice_sack_closed.png", "closed sacks use the imported painting")
     _press_accessible(game, "開封一號袋")
     _expect(game.day.minute_of_day == 545 and game.viewed.has("contents") and _text_shown(game, "粒粒分明"), "one clean sack costs five minutes and can already be cited")
+    var open_paint := _sack_paint(game, "查看一號袋")
+    _expect(open_paint != null and open_paint.resource_path == "res://assets/art/inspection/rice_sack_open.png" and _sack_paint(game, "開封二號袋") == closed_paint, "only the opened sack switches paintings")
+    game.rice_sack_paint.erase(true)
+    game.render()
+    _expect(_accessible_button(game, "查看一號袋") != null and _sack_paint(game, "查看一號袋") == null and _sack_paint(game, "開封二號袋") == closed_paint, "a missing opened painting falls back without affecting the closed sacks")
+    game.rice_sack_paint[true] = open_paint
+    _press_accessible(game, "盡忠職守說明")
+    _expect(game.detail_open and not game.detail_text.contains("濕米") and game.stamp.is_empty(), "duty help does not hint at the desk's ruling")
+    _press_text(game, "關閉說明")
+    _expect(not game.detail_open and game.day.pending_case.get("id") == "rice" and game.day.minute_of_day == 545, "closing duty help returns to the same inspection")
     _press_accessible(game, "查看一號袋")
     _expect(game.day.minute_of_day == 545 and not _text_shown(game, "沾上水氣"), "revisiting the sack is free and does not reveal other sacks")
     _press_accessible(game, "開封二號袋")
@@ -480,6 +496,11 @@ func _accessible_button(node: Node, caption: String) -> Button:
         if button.accessibility_name == caption and button.is_visible_in_tree():
             return button
     return null
+
+
+func _sack_paint(node: Node, caption: String) -> Texture2D:
+    var button := _accessible_button(node, caption)
+    return button.get_child(0).get("paint") if button != null else null
 
 
 func _press_accessible(node: Node, caption: String) -> void:
