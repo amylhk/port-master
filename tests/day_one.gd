@@ -206,7 +206,8 @@ func _manual_across_cases() -> void:
     game.assign_berth("porcelain", 0, true)
     game.open_manual()
     _press_text(game, "合上手冊")
-    game.show_evidence(3)
+    for index in game.CRATE_NAMES["case_001"].size():
+        game.open_crate(index)
     game.choose_method("contents")
     game.choose_stamp("major_fraud")
     game.apply_stamp()
@@ -219,7 +220,8 @@ func _manual_across_cases() -> void:
     game.choose_stamp("hold")
     game.apply_stamp()
     _expect(game.day.pending_case.get("id") == "resin", "the second case still requires its own inspected evidence")
-    game.show_evidence(3)
+    for index in game.CRATE_NAMES["case_004"].size():
+        game.open_crate(index)
     game.choose_method("contents")
     _expect(game.find_children("*", "Button", true, false).any(func(button: Button) -> bool: return button.text == "蓋印：扣留" and not button.disabled), "the second-case filing button enables without reopening the manual")
     game.apply_stamp()
