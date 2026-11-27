@@ -2,7 +2,7 @@
 
 **Status: Early Godot 4 gameplay experiment / pre-production.**
 
-A historical trading-hub game concept set in Melaka before the Portuguese conquest of 1511. This repository contains the **Stage A core fun prototype**: one playable port day with two berths, a limited anchorage, and one Detailed Inspection case. It is **not** a complete game or finished vertical slice.
+A historical trading-hub game concept set in Melaka before the Portuguese conquest of 1511. This repository contains the **Stage A core fun prototype**: one playable port day with two berths, a limited anchorage, and four scheduled Detailed Inspection cases. It is **not** a complete game or finished vertical slice.
 
 ## Run the experiment
 
@@ -18,7 +18,7 @@ A historical trading-hub game concept set in Melaka before the Portuguese conque
 - GDScript harbour queue and berth assignment
 - Six fictional ships, timed arrivals and tide deadlines, and a three-slot anchorage
 - Parallel unloading, port log, and a closing ledger with duty, rice supply, inspection duty, and lost trade
-- One data-driven Detailed Inspection with a separate reference manual and a consequential ruling
+- Data-driven Detailed Inspections with a shared reference manual and consequential rulings
 
 ## Not implemented
 

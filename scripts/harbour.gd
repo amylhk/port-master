@@ -207,6 +207,8 @@ func _render_settlement() -> void:
     _label(report, "CLOSING LEDGER", 15, GOLD)
     _label(report, _score_line(), 22)
     _label(report, "Recovered inspection duty: %d" % day.recovered_duty, 18)
+    if day.held > 0:
+        _label(report, "Supported holds: %d" % day.held, 18)
     var shortfall := maxi(0, int(day.scenario["rice_target"]) - day.rice)
     _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
     if not day.ruling_note.is_empty():

@@ -15,6 +15,7 @@ var pending_case: Dictionary = {}
 var next_ship := 0
 var completed := 0
 var lost := 0
+var held := 0
 var duty := 0
 var rice := 0
 var recovered_duty := 0
@@ -64,6 +65,7 @@ func reset() -> void:
     next_ship = 0
     completed = 0
     lost = 0
+    held = 0
     duty = 0
     rice = 0
     recovered_duty = 0
@@ -102,8 +104,13 @@ func rule(ruling_id: String, reason_id: String) -> void:
     var supported: bool = ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]
     if ruling_id == "hold":
         berths.erase(ship)
-        _lose(ship, "Cargo held")
-        ruling_note = truth["success"] if supported else truth["hold"]
+        if supported:
+            held += 1
+            _log("Cargo held: %s." % ship["name"])
+            ruling_note = truth["success"]
+        else:
+            _lose(ship, "Cargo held")
+            ruling_note = truth["hold"]
     elif ruling_id == "clear":
         ruling_note = truth["success"] if supported else truth["clear"]
     elif supported:

@@ -66,6 +66,8 @@ func _run() -> void:
     harbour._restart()
     harbour._advance(30)
     _expect(day.waiting.size() == 3 and day.lost == 1, "a full anchorage forfeits the next arrival")
+    _test_story_inspection(harbour)
+    _test_late_inspections(harbour)
     _test_scheduled_inspections(harbour)
     if failures == 0:
         print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
@@ -73,6 +75,49 @@ func _run() -> void:
         ])
         print("Stage A checks passed: capacity, deadlines, trade-offs, inspection registration and proof, and closing ledger.")
     quit(1 if failures else 0)
+
+
+func _test_story_inspection(harbour) -> void:
+    var day = harbour.day
+    harbour._restart()
+    harbour._berth("rice", false)
+    harbour._advance(30)
+    harbour._berth("resin", false)
+    _expect(day.ruling_note == "Frankincense cleared on the declaration alone.",
+        "skipping the story case names the selected cargo")
+
+    harbour._restart()
+    harbour._berth("rice", false)
+    harbour._advance(30)
+    harbour._berth("resin", true)
+    var story: Dictionary = day.inspection_for(day.pending_case)
+    _expect(story.get("id") == "case_004", "the Frankincense Trader opens the authored story case")
+    var previous_lost: int = day.lost
+    day.rule("hold", "pedir_messenger")
+    _expect(day.held == 1 and day.lost == previous_lost and day.berths.is_empty(),
+        "the story hold resolves the ship without losing the sale or blocking a berth")
+    harbour._advance(420)
+    _expect("Supported holds: 1" in _label_texts(harbour.content) and day.duty == 8 and day.recovered_duty == 0,
+        "the ledger records the supported hold separately and credits only the rice sale")
+
+
+func _test_late_inspections(harbour) -> void:
+    var day = harbour.day
+    harbour._restart()
+    harbour._berth("rice", false)
+    harbour._berth("pepper", false)
+    harbour._advance(120)
+    harbour._berth("tin", true)
+    _expect(day.inspection_for(day.pending_case).get("id") == "case_003" and day.minute_of_day == 690,
+        "the tin trader opens the Minor Fault case for 30 minutes")
+    day.rule("minor_fault", "wrong_dacing")
+    harbour._berth("cloth", true)
+    _expect(day.inspection_for(day.pending_case).get("id") == "case_002" and day.minute_of_day == 725,
+        "the cloth trader opens the Clean case for 35 minutes")
+    day.rule("clear", "piece_count")
+    harbour._advance(60)
+    _expect(day.completed == 4 and day.duty == 54 and day.recovered_duty == 1,
+        "the minor fault adds one duty and the correct clear releases cloth at declared duty")
 
 
 func _test_scheduled_inspections(harbour) -> void:
@@ -119,9 +164,7 @@ func _test_scheduled_inspections(harbour) -> void:
             _expect(day.minute_of_day == 597 and day.pending_case.get("id") == "second",
                 "second inspection uses its own duration for the deadline and clock")
             if not day.pending_case.is_empty():
-                var captions: Array[String] = []
-                for label in harbour.content.find_children("*", "Label", true, false):
-                    captions.append(label.text)
+                var captions := _label_texts(harbour.content)
                 _expect("Second inspection" in captions and "Second evidence" in captions,
                     "the dossier displays the second case's title and evidence")
                 harbour.ruling_index = 0
@@ -165,7 +208,8 @@ func _test_reserved_rulings(day) -> void:
         if ruling == "clear":
             _expect(day.duty == 10 and day.recovered_duty == 0, "supported clear trades at declared duty")
         else:
-            _expect(day.completed == 0 and day.lost == 1 and day.duty == 0, "supported hold prevents trade")
+            _expect(day.completed == 0 and day.held == 1 and day.lost == 0 and day.duty == 0,
+                "supported hold prevents trade without loss")
 
 
 func _write_json(path: String, value: Dictionary) -> bool:
@@ -174,6 +218,13 @@ func _write_json(path: String, value: Dictionary) -> bool:
         return false
     file.store_string(JSON.stringify(value))
     return file.get_error() == OK
+
+
+func _label_texts(node: Node) -> Array[String]:
+    var captions: Array[String] = []
+    for label in node.find_children("*", "Label", true, false):
+        captions.append(label.text)
+    return captions
 
 
 func _expect(condition: bool, message: String) -> void:
