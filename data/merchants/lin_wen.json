@@ -1,0 +1,19 @@
+{
+  "id": "lin_wen",
+  "name": "Lin Wen",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Zhangzhou, Fujian",
+  "ship_ids": [
+    "zhangzhou_evening_tide"
+  ],
+  "traits": [
+    "sociable",
+    "time-conscious"
+  ],
+  "bio": "Lin Wen is the Zhangzhou captain who waits to fill his hold. He wants copperware off the ship and enough pepper and tin aboard to make sailing at noon worth the wait.",
+  "notes": [
+    "fact: Fujian junks called at Melaka; Chinese merchants brought copperware and bought tin for the return trade (docs/research/ships-weights-currency.md, Chinese and Ryukyuan Junks; docs/research/commodities.md, Copper and Tin)",
+    "gameplay: The Evening Tide is a Zhangzhou junk with copperware as trade stock and pepper and tin as return purchases. It is the same ship on days three and five, returning with more pepper from Kedah (data/briefings/day_03_cambay_fleet.json; data/briefings/day_05_strange_sails_at_pasai.json)",
+    "gameplay: Lin Wen can join Ong Kuan's dinner and offer a Gujarati broker's name while seeking a fast sailing clearance. Investigate the lead on its merits: delaying a house that bids against Lin Wen for pepper is useful to him even when the lead is thin (data/events/ev_junk_captains_dinner.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

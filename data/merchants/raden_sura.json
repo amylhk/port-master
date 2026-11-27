@@ -1,0 +1,20 @@
+{
+  "id": "raden_sura",
+  "name": "Raden Sura",
+  "bloc": "java_eastern_islands",
+  "origin": "Gresik, Java",
+  "ship_ids": [
+    "gresik_morning_star",
+    "gresik_banda_jong"
+  ],
+  "traits": [
+    "fleet-minded",
+    "shrewd"
+  ],
+  "bio": "Sura runs two ships out of Gresik. The rice jong must leave with its fleet; he can bargain longer over the mace on his other ship, provided he can still pay for repairs.",
+  "notes": [
+    "fact: Javanese carriers brought Banda nutmeg and mace to Melaka; Gresik was a north-coast Javanese trading and shipbuilding port (docs/research/commodities.md, Nutmeg; docs/research/ships-weights-currency.md, Southeast Asian Jongs)",
+    "gameplay: The Morning Star is the day-two Gresik jong with rice and salt fish. The East Wind is a different Gresik jong on day five with Banda nutmeg and mace (data/briefings/day_02_rice_before_pepper.json; data/briefings/day_05_strange_sails_at_pasai.json)",
+    "gameplay: Lose the rice jong's fleet tide and Sura will not commit the East Wind to a long unloading slot. Help him obtain Min Ye's timber without jumping the queue and he offers Salim a public bid for the mace (docs/gameplay-blueprint.md §§08–10)"
+  ]
+}

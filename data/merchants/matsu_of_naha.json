@@ -1,0 +1,19 @@
+{
+  "id": "matsu_of_naha",
+  "name": "Matsu of Naha",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Naha, Ryukyu",
+  "ship_ids": [
+    "ryukyu_white_tern"
+  ],
+  "traits": [
+    "reserved",
+    "fair-minded"
+  ],
+  "bio": "Matsu brings copper aboard the White Tern. She accepts a hard bargain, but not a present whose value changes once another ship has been assessed.",
+  "notes": [
+    "fact: Ryukyuan junks sailed to Melaka and carried Japanese copper for trade; presents were assessed instead of the usual western duty (docs/research/commodities.md, Copper; docs/research/ships-weights-currency.md, Chinese and Ryukyuan Junks)",
+    "gameplay: The White Tern is a Ryukyuan junk carrying copper ingots and silk. Matsu wants pepper for her outward cargo and compares her assessment with other eastern captains' (docs/gameplay-blueprint.md §§05, 08)",
+    "gameplay: Explain an assessment consistently and she puts her copper up for a shared purchase by Jalal and Sri Rangan. Change it to coax one ship into staying and she asks to sail with Lin Wen instead (docs/gameplay-blueprint.md §§08–10)"
+  ]
+}

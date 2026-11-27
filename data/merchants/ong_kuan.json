@@ -1,0 +1,18 @@
+{
+  "id": "ong_kuan",
+  "name": "Ong Kuan",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Guangzhou–Champa route",
+  "ship_ids": [
+    "porcelain"
+  ],
+  "traits": [
+    "taciturn",
+    "crew-first"
+  ],
+  "bio": "Ong Kuan captains the Kim Hong. He will account for silk spoiled at sea, but resents the idea that every stop for water should cost his crew a tide.",
+  "notes": [
+    "gameplay: The Guangzhou junk carries porcelain and raw silk. The Champa stop, Tioman testimony, ship seal and manifest are fictional case details (data/inspections/case_001.json)",
+    "gameplay: If the player distinguishes the wet silk from the undeclared nutmeg, Ong Kuan is willing to share the likely sailing tide with the shahbandar. If the whole ship is held, he uses the captains' dinner to press for a joint demand for clearances (data/inspections/case_001.json; data/events/ev_junk_captains_dinner.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

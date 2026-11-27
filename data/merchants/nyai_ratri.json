@@ -1,0 +1,19 @@
+{
+  "id": "nyai_ratri",
+  "name": "Nyai Ratri",
+  "bloc": "java_eastern_islands",
+  "origin": "Tuban, Java, resident in Upeh",
+  "ship_ids": [
+    "tuban_moon"
+  ],
+  "traits": [
+    "discreet",
+    "unsentimental"
+  ],
+  "bio": "Ratri brokers the Tuban Moon's rice from a rented yard in Upeh. She knows what the boatmen carry but will not speak for what they were paid to forget.",
+  "notes": [
+    "fact: Tuban supplied rice to Melaka, and Upeh housed a large Javanese community (docs/research/commodities.md, Rice; docs/research/1511-events.md, assault on Melaka)",
+    "gameplay: The Tuban Moon is a Tuban jong carrying rice. Ratri is a design candidate for the unnamed broker in the Kim Hong follow-up, not established there as the owner of Hamzah's nutmeg (data/briefings/day_04_rumours_from_the_west.json; data/events/ev_kim_hong_owner_plea.json)",
+    "gameplay: Protect a boatman's testimony and Ratri will introduce the shahbandar to the buyer who rented a corner of her yard. Publicly name her on hearsay and the yard closes just when the rice market needs it (data/events/ev_kim_hong_whispers.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

@@ -66,6 +66,25 @@ Sample event (illustrative; `data/events/` holds the real ones):
 }
 ```
 
+## Stage B merchants
+
+Write one UTF-8 JSON object per merchant in `data/merchants/<id>.json`, with exactly these fields:
+
+| Field | Type and use |
+| --- | --- |
+| `id` | Stable, unique snake_case string matching the file name without `.json`. Offers and multi-day departure/tax chains reference this value as `merchant_id`. |
+| `name`, `origin`, `bio` | Non-empty display strings: name, place or trade route, and a short fictional character biography. |
+| `bloc` | One of `gujarati`, `kling_bengal_pegu_pasai`, `java_eastern_islands`, or `china_ryukyu_champa`. The bloc is a roster grouping, not necessarily the merchant's historical jurisdiction. |
+| `ship_ids` | Non-empty array of ship ID strings. Use the exact `data/port_day.json` ID for a ship that already exists there. Planned ships use stable new IDs; a ship may be shared by its owner, factor, or captain. |
+| `traits` | Non-empty array of short personality strings. |
+| `notes` | Non-empty array of author-note strings. Each begins with `fact:`, `inference:`, or `gameplay:` and ends with its source in parentheses. Record ship types, cargoes, motives and arc hooks here. |
+
+Use `fact:` for attested history, `inference:` for plausible extrapolation, and `gameplay:` for invented characters, motives, ships, and potential outcomes. The bio and traits describe fictional gameplay characters; distinguish any supporting historical background from these inventions in the notes. Seals, cargo marks, manifests and the player's port-wide authority are gameplay abstractions. The player is a shahbandar and files customs rulings in the temenggung's name.
+
+Some research notes cited by this roster are still on separate research branches. Reference snapshots: [commodities](https://github.com/amylhk/port-master/blob/8b01dacbbacdc3b739f766322579761343d77779/docs/research/commodities.md), [ships, weights and currency](https://github.com/amylhk/port-master/blob/7f2e7589794ebd08c7ba0f894cfe38a42d1d36a3/docs/research/ships-weights-currency.md), [port officials](https://github.com/amylhk/port-master/blob/8d2af3d86744f425e987a734fbddca21e17d2c3f/docs/research/port-official.md), [seals, marks and packaging](https://github.com/amylhk/port-master/blob/d30f160dc2727677f3d4b2770fc5906d291f1e4f/docs/research/seals-marks-packaging.md), and [1511 events](https://github.com/amylhk/port-master/blob/26c9abb9568e1ef4baefcdd3feb9cf3c9e292df7/docs/research/1511-events.md).
+
+Run `godot --headless --script tests/merchants.gd` to check the roster.
+
 ## Deputies
 
 Stage B deputies live in `data/deputies/`, one deputy per file named `<id>.json`.

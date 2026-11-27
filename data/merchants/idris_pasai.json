@@ -1,0 +1,19 @@
+{
+  "id": "idris_pasai",
+  "name": "Idris of Pasai",
+  "bloc": "kling_bengal_pegu_pasai",
+  "origin": "Pasai",
+  "ship_ids": [
+    "pasai_swift"
+  ],
+  "traits": [
+    "direct",
+    "wary"
+  ],
+  "bio": "Idris captains the Swift, a pepper boat from Pasai. He wants cash before evening, and when he reports strange sails he makes a point of saying what he saw and what he only heard.",
+  "notes": [
+    "fact: Northern Sumatran communities, including Pasai, supplied pepper to Melaka (docs/research/commodities.md, Pepper; Tomé Pires, Suma Oriental, Cortesão ed.)",
+    "gameplay: The Swift is a Pasai coastal perahu carrying pepper. Idris is the nakhoda behind the day-five report; the closing tide matters more to him than a better price tomorrow (data/briefings/day_05_strange_sails_at_pasai.json)",
+    "gameplay: Pay promptly and he sends the next warning before he sends his pepper. Treat his account as proof of Salim's separate rumour and he stops passing news through the office (data/briefings/day_05_strange_sails_at_pasai.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

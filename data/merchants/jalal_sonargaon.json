@@ -1,0 +1,19 @@
+{
+  "id": "jalal_sonargaon",
+  "name": "Jalal of Sonargaon",
+  "bloc": "kling_bengal_pegu_pasai",
+  "origin": "Sonargaon, Bengal",
+  "ship_ids": [
+    "bengal_dawn"
+  ],
+  "traits": [
+    "gregarious",
+    "patient"
+  ],
+  "bio": "Jalal sells muslin and sugar from the Bengal Dawn. He remembers which buyers can make change for sugar and which must wait until they have sold their tin.",
+  "notes": [
+    "fact: Bengali merchants brought fine cottons to Melaka and took tin westward (docs/research/commodities.md, Cloth and Tin)",
+    "gameplay: The Bengal Dawn is a Bengali nau carrying fine muslins and sugar; Jalal wants commercial tin and refuses to buy a lot set aside as tribute (data/briefings/day_03_cambay_fleet.json)",
+    "gameplay: Settle a dispute over the trade lot fairly and he brings Lin Wen's tin bid to Awang Musa instead of bidding against it. Leave the lots unresolved and he turns his ship over to buyers of muslin alone (data/briefings/day_03_cambay_fleet.json; docs/gameplay-blueprint.md §08)"
+  ]
+}

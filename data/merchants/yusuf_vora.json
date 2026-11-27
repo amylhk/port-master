@@ -1,0 +1,19 @@
+{
+  "id": "yusuf_vora",
+  "name": "Yusuf Vora",
+  "bloc": "gujarati",
+  "origin": "Cambay",
+  "ship_ids": [
+    "cambay_safa"
+  ],
+  "traits": [
+    "patient",
+    "calculating"
+  ],
+  "bio": "Yusuf waits out poor cloth prices aboard the Safa. He sells a few bales at a time so that small buyers can bid without going through a rival house.",
+  "notes": [
+    "fact: Gujarat supplied cloth carried to Melaka by Gujarati traders (docs/research/commodities.md, Cloth; Tomé Pires, Suma Oriental, Cortesão ed., vols. I–II)",
+    "gameplay: The Safa is the Cambay fleet's cloth nau; Yusuf wants pepper for the westbound passage, not a quick sale for coin (data/briefings/day_04_rumours_from_the_west.json)",
+    "gameplay: Let him split the state purchase into smaller lots and he opens his bidding to Arulan; tie up his berth for a full valuation and he offers his remaining cloth in Pasai instead (docs/gameplay-blueprint.md §§07–09)"
+  ]
+}
