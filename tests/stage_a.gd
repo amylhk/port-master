@@ -21,6 +21,7 @@ func _run() -> void:
         return
     _expect(inspection["title"] == "The jars from Guangzhou", "main scene loads the authored inspection")
     _expect(day.manual["entries"].size() == 11, "main scene loads all authored manual entries")
+    _check_art(harbour, day)
 
     _expect(day.waiting.size() == 3, "morning harbour has three waiting ships")
     harbour._berth("rice", false)
@@ -240,6 +241,25 @@ func _label_texts(node: Node) -> Array[String]:
     for label in node.find_children("*", "Label", true, false):
         captions.append(label.text)
     return captions
+
+
+func _check_art(harbour, day) -> void:
+    var paths: Array = day.scenario["art"].values()
+    for ship in day.scenario["ships"]:
+        paths.append_array([ship["image"], ship["cargo_image"]])
+    for inspection in day.inspections.values():
+        paths.append_array(inspection.get("art", {}).values())
+        for page in inspection["evidence"]:
+            if page.has("image"):
+                paths.append(page["image"])
+    for path in paths:
+        _expect(ResourceLoader.exists(path, "Texture2D"), "Stage A art resolves: " + path)
+    _expect(harbour.find_children("*", "TextureRect", true, false).size() >= 8, "port day shows the harbour, ship and cargo art")
+    var holder := Control.new()
+    var fallback = harbour._art(holder, "res://assets/art/ships/missing.png", Vector2(10, 10), "Porcelain")
+    _expect(fallback is Label and fallback.text == "Porcelain", "a missing art path falls back to text")
+    _expect(harbour._art(holder, "", Vector2(10, 10)) == null, "art without a path or fallback adds nothing")
+    holder.free()
 
 
 func _expect(condition: bool, message: String) -> void:

@@ -7,12 +7,23 @@ const GOLD := Color("#f2c884")
 const SEA := Color("#17323a")
 const SLATE := Color("#203a42")
 const LINE := Color("#3b575a")
+const PAPER_INK := Color("#2a1e17")
+const PAPER_RED := Color("#7a2f22")
+const VIEW_SIZE := Vector2(1280, 720)
+const VIEW_TOP := 230.0
+const VIEW_HEIGHT := 410.0
+const SHIP_SIZE := Vector2(204, 153)
+const BERTH_SLOTS := [Vector2(105, 252), Vector2(455, 254)]
+const ANCHOR_SLOTS := [Vector2(815, 295), Vector2(150, 445), Vector2(535, 458)]
 
 var day := PortDay.new()
 var content: VBoxContainer
 var evidence_index := 0
 var ruling_index := -1
 var reason_index := -1
+var screen_art: TextureRect
+var screen_tint: ColorRect
+var missing_art := {}
 
 
 func _ready() -> void:
@@ -20,6 +31,15 @@ func _ready() -> void:
     backdrop.color = Color("#101f27")
     backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     add_child(backdrop)
+    screen_art = TextureRect.new()
+    screen_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+    screen_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+    screen_art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    add_child(screen_art)
+    screen_tint = ColorRect.new()
+    screen_tint.color = Color(0.06, 0.1, 0.12, 0.55)
+    screen_tint.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    add_child(screen_tint)
     var scroll := ScrollContainer.new()
     scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     add_child(scroll)
@@ -56,13 +76,14 @@ func _render() -> void:
     for child in content.get_children():
         content.remove_child(child)
         child.queue_free()
+    var inspecting := not day.pending_case.is_empty()
+    screen_art.texture = _texture(_case_art("desk")) if inspecting else null
+    screen_tint.visible = screen_art.texture != null
     var header := HBoxContainer.new()
     content.add_child(header)
-    var heading := VBoxContainer.new()
-    heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    header.add_child(heading)
+    var heading := _panel(header, _scenario_art("banner"))
+    heading.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     _label(heading, "PORT MASTER  /  MELAKA 1511", 14, GOLD)
-    var inspecting := not day.pending_case.is_empty()
     _label(heading, "Detailed Inspection" if inspecting else "The harbour watch", 30)
     var watch := _panel(header)
     _label(watch, "%s  /  DAY 01" % PortDay.clock(day.minute_of_day), 19, GOLD)
@@ -75,9 +96,11 @@ func _render() -> void:
 
 
 func _render_harbour() -> void:
-    var brief := _panel(content)
-    _label(brief, "MORNING BRIEF  /  QUAY OFFICE", 13, GOLD)
-    _label(brief, day.scenario["briefing"], 16, INK, true)
+    _render_view()
+    var paper := _texture(_scenario_art("panel")) != null
+    var brief := _panel(content, _scenario_art("panel"))
+    _label(brief, "MORNING BRIEF  /  QUAY OFFICE", 13, PAPER_RED if paper else GOLD)
+    _label(brief, day.scenario["briefing"], 16, PAPER_INK if paper else INK, true)
     var controls := HBoxContainer.new()
     controls.add_theme_constant_override("separation", 8)
     content.add_child(controls)
@@ -95,8 +118,15 @@ func _render_harbour() -> void:
     moored.get_parent().custom_minimum_size.x = 248
     _label(moored, "BERTHS   %d / %d" % [day.berths.size(), PortDay.BERTH_CAPACITY], 15, GOLD)
     for ship in day.berths:
-        _label(moored, ship["name"], 17, INK, true)
-        _label(moored, "%d min unloading · %s tide" % [
+        var berthed := HBoxContainer.new()
+        berthed.add_theme_constant_override("separation", 8)
+        moored.add_child(berthed)
+        _art(berthed, ship.get("cargo_image", ""), Vector2(40, 40))
+        var berth_text := VBoxContainer.new()
+        berth_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        berthed.add_child(berth_text)
+        _label(berth_text, ship["name"], 17, INK, true)
+        _label(berth_text, "%d min unloading · %s tide" % [
             ship["remaining"], PortDay.clock(int(ship["departure"]))
         ], 14, MUTED, true)
     for slot in PortDay.BERTH_CAPACITY - day.berths.size():
@@ -120,6 +150,8 @@ func _render_harbour() -> void:
         if ship.is_empty():
             _label(row, "Anchorage %d · Available" % (slot + 1), 16, MUTED)
             continue
+        _art(row, ship.get("image", ""), Vector2(88, 66))
+        _art(row, ship.get("cargo_image", ""), Vector2(44, 66))
         var details := VBoxContainer.new()
         details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         row.add_child(details)
@@ -144,7 +176,14 @@ func _render_harbour() -> void:
 
 func _render_inspection() -> void:
     var inspection := day.inspection_for(day.pending_case)
-    var dossier := _panel(content)
+    var dossier_row := _panel(content)
+    var dossier_head := HBoxContainer.new()
+    dossier_head.add_theme_constant_override("separation", 12)
+    dossier_row.add_child(dossier_head)
+    _art(dossier_head, day.pending_case.get("image", ""), Vector2(160, 120))
+    var dossier := VBoxContainer.new()
+    dossier.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+    dossier_head.add_child(dossier)
     _label(dossier, inspection["subtitle"], 14, GOLD, true)
     _label(dossier, inspection["title"], 24)
     var inspection_minutes := int(inspection["minutes"])
@@ -153,7 +192,7 @@ func _render_inspection() -> void:
     var evidence: Array = inspection["evidence"]
     var tabs := HBoxContainer.new()
     tabs.add_theme_constant_override("separation", 8)
-    dossier.add_child(tabs)
+    dossier_row.add_child(tabs)
     for i in evidence.size():
         _evidence_tab(tabs, evidence[i]["label"], i)
     _evidence_tab(tabs, "%02d  Reference manual" % (evidence.size() + 1), evidence.size())
@@ -174,13 +213,9 @@ func _render_inspection() -> void:
         spread.add_child(page)
         _label(page, clue["title"], 20, GOLD)
         _label(page, clue["text"], 17, INK, true)
-        if clue.has("image") and ResourceLoader.exists(clue["image"], "Texture2D"):
-            var picture := TextureRect.new()
-            picture.texture = load(clue["image"]) as Texture2D
-            picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-            picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-            picture.custom_minimum_size = Vector2(240, 120)
-            spread.add_child(picture)
+        var picture := _art(spread, clue.get("image", ""), Vector2(400, 200))
+        if picture:
+            picture.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 
     var decision := _panel(content)
     _label(decision, "FILE A RULING  /  ONE FINAL DECISION", 14, GOLD)
@@ -200,6 +235,64 @@ func _render_inspection() -> void:
     submit.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     decision.add_child(submit)
     submit.pressed.connect(_rule)
+
+
+func _render_view() -> void:
+    var holder := Control.new()
+    holder.clip_contents = true
+    holder.custom_minimum_size.y = VIEW_HEIGHT * maxf(content.size.x, 640.0) / VIEW_SIZE.x
+    content.add_child(holder)
+    var stage := Control.new()
+    stage.size = VIEW_SIZE
+    holder.add_child(stage)
+    holder.resized.connect(_fit_view.bind(holder, stage))
+    var backdrop := _art(stage, _scenario_art("backdrop"), VIEW_SIZE)
+    if backdrop:
+        (backdrop as TextureRect).stretch_mode = TextureRect.STRETCH_SCALE
+    else:
+        var water := ColorRect.new()
+        water.color = SLATE
+        water.size = VIEW_SIZE
+        stage.add_child(water)
+    for i in PortDay.BERTH_CAPACITY:
+        var status := "UNLOADING" if i < day.berths.size() else "AVAILABLE"
+        _plate(stage, BERTH_SLOTS[i] + Vector2(19, -20), "BERTH %d  •  %s" % [i + 1, status])
+        if i < day.berths.size():
+            _view_ship(stage, day.berths[i], BERTH_SLOTS[i])
+    for slot in PortDay.ANCHORAGE_CAPACITY:
+        var ship := day.ship_at_anchor(slot)
+        if not ship.is_empty():
+            _view_ship(stage, ship, ANCHOR_SLOTS[slot])
+
+
+func _fit_view(holder: Control, stage: Control) -> void:
+    var view_scale := holder.size.x / VIEW_SIZE.x
+    stage.scale = Vector2(view_scale, view_scale)
+    stage.position = Vector2(0, -VIEW_TOP * view_scale)
+    holder.custom_minimum_size.y = VIEW_HEIGHT * view_scale
+
+
+func _view_ship(stage: Control, ship: Dictionary, pos: Vector2) -> void:
+    var sprite := _art(stage, ship.get("image", ""), SHIP_SIZE, ship["cargo"])
+    if sprite:
+        sprite.position = pos + Vector2(12, 0)
+    var badge := _art(stage, ship.get("cargo_image", ""), Vector2(52, 52))
+    if badge:
+        badge.position = pos + Vector2(178, 96)
+    var tag := PanelContainer.new()
+    tag.add_theme_stylebox_override("panel", _box(Color(0.96, 0.93, 0.85, 0.92), PAPER_INK, 8, 2))
+    tag.position = pos + Vector2(24, 146)
+    stage.add_child(tag)
+    _label(tag, ship["name"], 13, PAPER_INK)
+
+
+func _plate(stage: Control, pos: Vector2, caption: String) -> void:
+    var plate := _panel(stage, _scenario_art("berth_marker"))
+    var frame: Control = plate.get_parent()
+    frame.position = pos
+    frame.custom_minimum_size = Vector2(168, 40)
+    var paper := _texture(_scenario_art("berth_marker")) != null
+    _label(plate, caption, 12, PAPER_INK if paper else INK).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
 func _render_settlement() -> void:
@@ -289,9 +382,65 @@ func _label(parent: Node, caption: String, size: int, color := INK, wrap := fals
     return label
 
 
-func _panel(parent: Node) -> VBoxContainer:
+func _scenario_art(key: String) -> String:
+    return str(day.scenario.get("art", {}).get(key, ""))
+
+
+func _case_art(key: String) -> String:
+    return str(day.inspection_for(day.pending_case).get("art", {}).get(key, ""))
+
+
+func _texture(path: String) -> Texture2D:
+    if path.is_empty():
+        return null
+    if not ResourceLoader.exists(path, "Texture2D"):
+        if not missing_art.has(path):
+            missing_art[path] = true
+            push_warning("Missing Stage A art, using text: " + path)
+        return null
+    return load(path) as Texture2D
+
+
+## Adds the texture at `path` fitted into `size`, or `fallback` text in its place. Returns null when neither is shown.
+func _art(parent: Node, path: String, size: Vector2, fallback := "") -> Control:
+    var texture := _texture(path)
+    if texture:
+        var picture := TextureRect.new()
+        picture.texture = texture
+        picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+        picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+        picture.custom_minimum_size = size
+        picture.size = size
+        parent.add_child(picture)
+        return picture
+    if fallback.is_empty():
+        return null
+    var label := _label(parent, fallback, 16, MUTED, true)
+    label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+    label.custom_minimum_size = size
+    label.size = size
+    return label
+
+
+func _panel(parent: Node, art := "") -> VBoxContainer:
     var panel := PanelContainer.new()
-    panel.add_theme_stylebox_override("panel", _box(SEA, LINE, 14, 9))
+    var texture := _texture(art)
+    if texture:
+        var style := StyleBoxTexture.new()
+        style.texture = texture
+        var edge := mini(24, texture.get_height() / 4)
+        style.texture_margin_left = edge
+        style.texture_margin_right = edge
+        style.texture_margin_top = edge
+        style.texture_margin_bottom = edge
+        style.content_margin_left = 28
+        style.content_margin_right = 28
+        style.content_margin_top = 16
+        style.content_margin_bottom = 16
+        panel.add_theme_stylebox_override("panel", style)
+    else:
+        panel.add_theme_stylebox_override("panel", _box(SEA, LINE, 14, 9))
     parent.add_child(panel)
     var column := VBoxContainer.new()
     column.add_theme_constant_override("separation", 4)
