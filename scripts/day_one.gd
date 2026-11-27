@@ -367,13 +367,14 @@ func _morning_voice() -> void:
             var warning := _panel(surface, Rect2(24, 419, 248, 104), PAPER)
             _text(warning, "同僚", Rect2(12, 2, 224, 23), 12, BROWN)
             _text(warning, late_line, Rect2(12, 24, 224, 73), 15, BROWN)
-    if not day.watch_rice_report.is_empty():
+    var colleague_report := "大人，" + day.watch_departure_report if day.watch_rice_report.is_empty() and not day.watch_departure_report.is_empty() else day.watch_rice_report
+    if not colleague_report.is_empty():
         if awaiting.is_empty() and late_ships.is_empty():
-            line = day.watch_rice_report
+            line = colleague_report
         else:
             var report := _panel(surface, Rect2(24, 307, 248, 104), PAPER)
             _text(report, "同僚", Rect2(12, 2, 224, 23), 12, BROWN)
-            _text(report, day.watch_rice_report, Rect2(12, 24, 224, 73), 15, BROWN)
+            _text(report, colleague_report, Rect2(12, 24, 224, 73), 15, BROWN)
     var bubble := _button(surface, "", Rect2(24, 156, 350, 142), action)
     _style_paper_button(bubble)
     var portrait: String = copy.get("speaker_id", "")
@@ -498,7 +499,7 @@ func inspect_berth(slot: int) -> void:
         return
     day.inspect_berthed(ship["id"])
     if day.pending_case.is_empty():
-        _inspection_missed_tide(ship["name"])
+        _inspection_missed_tide()
         return
     selected_ship = ""
     notice = ""
@@ -559,10 +560,9 @@ func _ship_token(ship: Dictionary, pos: Vector2) -> void:
 func ask_ship_to_leave(ship_id: String) -> void:
     if feedback_open or manual_open or notes_open or detail_open or onboarding_step >= 0:
         return
-    var ship := _waiting_ship(ship_id)
     if not day.request_departure(ship_id):
         return
-    notice = "同僚：已請%s離港。未能收稅，盡忠職守減一分。" % ship["name"]
+    notice = "同僚：" + day.watch_departure_report
     selected_ship = ""
     render()
 
@@ -618,12 +618,11 @@ func assign_berth(ship_id: String, slot: int, inspect: bool) -> void:
 func advance(minutes: int) -> void:
     if feedback_open or manual_open or notes_open or detail_open or not day.pending_case.is_empty():
         return
-    var lost_before := day.lost
     var completed_before := day.completed
     day.advance(minutes)
     notice = ""
-    if day.lost > lost_before:
-        notice = "有船錯過潮汐而離去，請留意離港時間。"
+    if not day.watch_departure_report.is_empty():
+        notice = "同僚：" + day.watch_departure_report
     elif day.completed > completed_before:
         notice = "貨物已卸妥，可以安排下一艘船靠泊。"
     selected_ship = ""
@@ -669,10 +668,11 @@ func _desk() -> void:
             instruction = "請逐一打開貨箱，查看各箱內容。"
     elif _can_file_stamp():
         instruction = "按下申報單蓋印：" + STAMPS[stamp]
-    elif not stamp.is_empty():
-        instruction = "請先查驗，再選擇要引用的證據。"
-    elif method.is_empty():
-        instruction = "請先查驗再引用證據；也可不引用證據，按申報放行。"
+    elif not stamp.is_empty() or method.is_empty():
+        var can_cite := PortDay.CITATION_METHODS.any(func(choice: Dictionary) -> bool: return _can_cite(choice["id"], selected_crate))
+        instruction = "可選擇已查驗的證據引用。" if can_cite else "請先查驗，再選擇要引用的證據。"
+        if stamp.is_empty():
+            instruction += "也可不引用證據，按申報放行。"
     else:
         instruction = _hint_text("stamp", "選擇印章，再按下申報單蓋印。")
     if rice_spot_check and stamp.is_empty() and not manual_seen:
@@ -836,10 +836,9 @@ func open_crate(index: int) -> void:
     if index < 0 or index >= count:
         return
     if rice_spot_check:
-        var ship_name: String = day.pending_case["name"]
         day.open_rice_sack(index)
         if day.pending_case.is_empty():
-            _inspection_missed_tide(ship_name)
+            _inspection_missed_tide()
             return
     opened_crates[index] = true
     selected_crate = index
@@ -877,17 +876,16 @@ func _examine_source(source: String, minutes: int) -> bool:
     if day.pending_case.is_empty() or manual_open or detail_open:
         return false
     if not examined_sources.has(source):
-        var ship_name: String = day.pending_case["name"]
         day.spend_inspection_time(minutes)
         if day.pending_case.is_empty():
-            _inspection_missed_tide(ship_name)
+            _inspection_missed_tide()
             return false
         examined_sources[source] = true
     return true
 
 
-func _inspection_missed_tide(ship_name: String) -> void:
-    notice = "同僚：%s未能及時蓋印，已隨潮離港。未能收稅，盡忠職守減兩分。" % ship_name
+func _inspection_missed_tide() -> void:
+    notice = "同僚：" + day.watch_departure_report
     render()
 
 

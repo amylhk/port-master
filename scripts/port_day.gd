@@ -55,6 +55,7 @@ var rice := 0
 var watch_stock := 0
 var watch_score := 0
 var watch_rice_report := ""
+var watch_departure_report := ""
 var rice_relief_cost := 0
 var recovered_duty := 0
 var ruling_note := ""
@@ -183,6 +184,7 @@ func reset() -> void:
     watch_stock = WATCH_OPENING_STOCK if _watch_active() else 0
     watch_score = 0
     watch_rice_report = ""
+    watch_departure_report = ""
     rice_relief_cost = 0
     recovered_duty = 0
     ruling_note = ""
@@ -326,6 +328,7 @@ func _rule_rice(ruling_id: String, cited_sack: int) -> void:
     var sacks: Array = inspection["sacks"]
     var opened: Dictionary = ship.get("opened_sacks", {})
     var supported: bool = opened.has(cited_sack) and sacks[cited_sack].get("wet", false)
+    var unloaded: bool = ship["remaining"] == 0
     pending_case = {}
     flags[ship["inspection_case"] + "_inspected"] = true
     var outcome := "clear"
@@ -339,10 +342,12 @@ func _rule_rice(ruling_id: String, cited_sack: int) -> void:
             ruling_note = "同僚：已記下受潮的米袋。搬運工會在卸貨時挑出這些米袋，留在船上；只就乾米收稅。"
         else:
             ruling_note = "同僚：已記下受潮的米袋，船主須受罰。搬運工會在卸貨時剔除受潮的米袋，這批貨的稅收因而減少。"
+        if unloaded:
+            ruling_note = "同僚：已扣留受潮的米袋；乾米已入庫，只就乾米收稅。" if ruling_id == "hold" else "同僚：船主須受罰。受潮的米袋已剔除，乾米已入庫，這批貨的稅收已減少。"
     elif ruling_id == "clear":
-        ruling_note = "同僚：已按貨單放行；卸貨完成後會向您報告。"
+        ruling_note = "同僚：米貨已卸妥，已按貨單放行並收稅。" if unloaded else "同僚：已按貨單放行；卸貨完成後會向您報告。"
     else:
-        ruling_note = "同僚：引用的證據未能支持這項裁決，仍按貨單卸貨。"
+        ruling_note = "同僚：引用的證據未能支持這項裁決。米貨已卸妥，仍按貨單放行並收稅。" if unloaded else "同僚：引用的證據未能支持這項裁決，仍按貨單卸貨。"
     _record_ruling(ship, outcome)
     _log(ruling_note)
     _complete_watch_trade_if_ready(ship)
@@ -811,6 +816,7 @@ func request_departure(ship_id: String) -> bool:
     for ship in waiting:
         if ship["id"] == ship_id and can_request_departure(ship):
             waiting.erase(ship)
+            watch_rice_report = ""
             _lose(ship, "Requested departure", true)
             return true
     return false
@@ -853,6 +859,8 @@ static func clock(minutes: int) -> String:
 
 
 func _advance_clock(minutes: int) -> void:
+    watch_departure_report = ""
+    var missed_inspection_report := ""
     if not _watch_active():
         _clear_open_inspections()
     for step in mini(minutes, int(scenario["end_minute"]) - minute_of_day):
@@ -873,9 +881,10 @@ func _advance_clock(minutes: int) -> void:
                 _complete_trade(ship)
             elif deadline_reached:
                 berths.remove_at(i)
-                if _watch_active() and pending_case == ship:
-                    pending_case = {}
                 _lose(ship, "Trade deadline" if not closed() else "Closing bell")
+                if _watch_active() and pending_case == ship:
+                    missed_inspection_report = watch_departure_report
+                    pending_case = {}
         if not closed():
             for i in range(waiting.size() - 1, -1, -1):
                 if minute_of_day >= int(waiting[i]["departure"]):
@@ -899,6 +908,8 @@ func _advance_clock(minutes: int) -> void:
                     story_queue.append(departure)
         else:
             _arrivals()
+    if not missed_inspection_report.is_empty():
+        watch_departure_report = missed_inspection_report
 
 
 func _complete_watch_trade_if_ready(ship: Dictionary) -> void:
@@ -968,8 +979,24 @@ func _lose(ship: Dictionary, reason: String, requested := false) -> void:
     if _watch_active():
         watch_score -= WATCH_REQUESTED_DEPARTURE if requested else WATCH_UNHAPPY_DEPARTURE
         flags[ship["id"] + ("_requested_departure" if requested else "_unhappy_departure")] = true
-        if is_rice_spot_check(ship):
-            watch_rice_report = "大人，米船已離港；未能及時蓋印，米貨未入市，也未能收稅。" if ship["remaining"] == 0 else "大人，米船已離港，未能卸貨，也未能收稅。"
+        var ship_name: String = ship["name"]
+        if requested:
+            watch_departure_report = "已請%s離港。未能收稅，盡忠職守減一分。" % ship_name
+        else:
+            match reason:
+                "No berth before departure":
+                    watch_departure_report = "%s已離港，未能及時靠泊，也未能收稅。" % ship_name
+                "Anchorage full":
+                    watch_departure_report = "錨地已滿，%s未能入港，未能收稅。" % ship_name
+                "Cargo held":
+                    watch_departure_report = "%s遭扣留後未能交易，港口未能收稅。" % ship_name
+                "Wrongful fine":
+                    watch_departure_report = "%s因不滿罰款而離港，未能收稅。" % ship_name
+                _:
+                    if pending_case == ship:
+                        watch_departure_report = "%s未能及時蓋印，已隨潮離港。未能收稅，盡忠職守減兩分。" % ship_name
+                    else:
+                        watch_departure_report = "%s未能及時卸妥，已隨潮離港，未能收稅。" % ship_name
     _offer_ship_departures.erase(ship["id"])
     flags["ship_lost"] = true
     _log("%s: %s lost (%d duty%s foregone)." % [
