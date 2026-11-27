@@ -1,0 +1,30 @@
+{
+  "id": "nyai_ratri_yard_rice",
+  "merchant_id": "nyai_ratri",
+  "trigger": "day>=2",
+  "requires": [
+    "rice_short_yesterday"
+  ],
+  "title": "Rice already in Upeh",
+  "body": "Nyai Ratri has rice from Tuban in her yard. She had meant to release a few sacks at a time so the Upeh stalls could keep selling until the next boat. With yesterday's short landing, she can sell you the whole lot at once, but asks you to say whether it's for the stalls or for the granary.",
+  "choices": [
+    {
+      "id": "buy_for_reserve",
+      "label": "Buy the lot for the royal reserve",
+      "outcome_text": "Ratri is paid the market price and the granary gets more rice. The Upeh sellers ask why rice that was already in their quarter has been carried away.",
+      "effects": {"duty": -6, "supply": 7, "reputation": -2, "merchant_trust": 1}
+    },
+    {
+      "id": "split_for_stalls",
+      "label": "Buy half for reserve; leave the rest in Upeh",
+      "outcome_text": "The treasury pays for half at the market price. Ratri sends the rest to the stallholders she had promised to supply; the royal reserve still runs thin.",
+      "effects": {"duty": -3, "supply": 3, "reputation": 2, "merchant_trust": 2}
+    },
+    {
+      "id": "pass",
+      "label": "Leave the rice with Ratri",
+      "outcome_text": "Ratri sells it to the stalls as planned. There is rice to buy in Upeh, but the treasury has put none aside against another short day.",
+      "effects": {"reputation": 1, "merchant_trust": 1}
+    }
+  ]
+}

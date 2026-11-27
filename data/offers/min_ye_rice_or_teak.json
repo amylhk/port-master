@@ -1,0 +1,27 @@
+{
+  "id": "min_ye_rice_or_teak",
+  "merchant_id": "min_ye",
+  "day": 2,
+  "title": "Rice or teak from the River Hen",
+  "body": "Min Ye can sell the state rice from Pegu or teak for the shipwrights. The granary has room for the rice, but the yard has no men free to haul teak until the next tide. “Buy the logs and I'll wait for your men,” Min Ye says. “But tell me which tide. I won't keep my crew here on a maybe.”",
+  "choices": [
+    {
+      "id": "buy_rice",
+      "label": "Buy rice for the granary",
+      "outcome_text": "The treasury pays the market price for the rice, and it goes straight into reserve. Min Ye makes his tide, but the yard puts off work on two hulls for want of good timber.",
+      "effects": {"duty": -4, "supply": 6, "merchant_trust": 2}
+    },
+    {
+      "id": "buy_teak",
+      "label": "Buy teak and arrange a crew for the next tide",
+      "outcome_text": "The shipwrights have the teak they need. The treasury pays the market price and hires the carriers; Min Ye stays for the promised crew, though he would rather have sailed.",
+      "effects": {"duty": -7, "supply": 3, "reputation": 3, "merchant_trust": -1}
+    },
+    {
+      "id": "pass",
+      "label": "Leave both lots to private buyers",
+      "outcome_text": "Min Ye can sell to whoever is ready to carry the goods. The state keeps its coin and goes without rice or timber from this ship.",
+      "effects": {}
+    }
+  ]
+}

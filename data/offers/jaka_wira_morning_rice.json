@@ -1,0 +1,27 @@
+{
+  "id": "jaka_wira_morning_rice",
+  "merchant_id": "jaka_wira",
+  "day": 1,
+  "title": "Twenty-four sacks before the tide",
+  "body": "Jaka Wira has twenty-four sacks of Demak rice and a tide he cannot miss. The stallholders have asked him to set aside half. “If the treasury needs them all, Shahbandar, say so now. Those women will have to send their carriers home.”",
+  "choices": [
+    {
+      "id": "buy_all",
+      "label": "Buy all twenty-four for the granary",
+      "outcome_text": "All twenty-four sacks go into reserve at the market price. Jaka is paid before the tide, but the stallholders who sent carriers down to the quay go home empty.",
+      "effects": {"duty": -6, "supply": 8, "reputation": -2, "merchant_trust": 1}
+    },
+    {
+      "id": "split_lot",
+      "label": "Buy twelve and leave twelve for the stalls",
+      "outcome_text": "The treasury pays for twelve sacks, and Jaka calls the stallholders' carriers over for the rest. Both the granary and the stalls have rice, but neither has much to spare.",
+      "effects": {"duty": -3, "supply": 4, "reputation": 2, "merchant_trust": 1}
+    },
+    {
+      "id": "pass",
+      "label": "Leave the full lot to the stalls",
+      "outcome_text": "The treasury keeps its coin. The stalls take the rice, and nothing from Jaka's boat goes into reserve.",
+      "effects": {"reputation": 1}
+    }
+  ]
+}

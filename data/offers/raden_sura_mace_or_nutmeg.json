@@ -1,0 +1,27 @@
+{
+  "id": "raden_sura_mace_or_nutmeg",
+  "merchant_id": "raden_sura",
+  "day": 5,
+  "title": "Mace or nutmeg from Banda",
+  "body": "Raden Sura wants to pay for repairs to his jong. He offers you a small parcel of mace with the husks picked out, or a much larger parcel of nutmeg. The court steward is asking for mace for gifts. The storekeeper says a reserve of nutmeg will be easier to sell on to ordinary buyers.",
+  "choices": [
+    {
+      "id": "buy_mace",
+      "label": "Buy the mace for court gifts",
+      "outcome_text": "The court pays the market price for the mace. The steward has his gifts and Sura can pay for repairs at once, but the purchase takes most of the coin set aside for spices.",
+      "effects": {"duty": -7, "supply": 2, "reputation": 3, "merchant_trust": 2}
+    },
+    {
+      "id": "buy_nutmeg",
+      "label": "Buy the nutmeg for reserve stock",
+      "outcome_text": "The treasury pays market price for nutmeg and fills more of the reserve. Sura can start on repairs, but must still find a buyer for his mace; the steward goes back to court empty-handed.",
+      "effects": {"duty": -4, "supply": 6, "merchant_trust": 1}
+    },
+    {
+      "id": "pass",
+      "label": "Let Sura take both lots to market",
+      "outcome_text": "The state keeps its coin. Sura takes both parcels to market and pays his shipwright only once he has a buyer.",
+      "effects": {}
+    }
+  ]
+}

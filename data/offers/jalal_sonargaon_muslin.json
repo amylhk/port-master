@@ -1,0 +1,21 @@
+{
+  "id": "jalal_sonargaon_muslin",
+  "merchant_id": "jalal_sonargaon",
+  "day": 3,
+  "title": "Muslin in small lots",
+  "body": "Jalal of Sonargaon opens a bale of Bengal muslin. The palace steward asks for the finest pieces for gifts. The cloth sellers waiting behind him cannot buy a bale between them today. Jalal offers to sell the state a few pieces at the going price or let the sellers pool their coin and make a bid.",
+  "choices": [
+    {
+      "id": "buy_fine_pieces",
+      "label": "Buy the finest pieces for the court",
+      "outcome_text": "The steward has cloth fit for gifts. Jalal is paid on the spot, but the sellers say the pieces their customers wanted never reached the market.",
+      "effects": {"duty": -5, "supply": 3, "reputation": -1, "merchant_trust": 2}
+    },
+    {
+      "id": "leave_to_panel",
+      "label": "Let the cloth sellers bid together",
+      "outcome_text": "The sellers pool their coin, agree a price with Jalal, and divide the muslin. They can sell by the piece, but the palace steward leaves without his gifts.",
+      "effects": {"reputation": 2}
+    }
+  ]
+}

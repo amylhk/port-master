@@ -1,0 +1,27 @@
+{
+  "id": "yusuf_vora_safa_cloth",
+  "merchant_id": "yusuf_vora",
+  "day": 4,
+  "title": "Room on the Safa",
+  "body": "Yusuf Vora has stout Cambay cotton aboard the Safa. He sells a bale at a time so the small cloth sellers don't have to buy through a rival house. The state storekeeper wants enough cloth to issue to the boat crews. Yusuf will sell that much at the market price, but the next small buyers will have to wait for another ship.",
+  "choices": [
+    {
+      "id": "buy_crew_lot",
+      "label": "Buy the storekeeper's full lot",
+      "outcome_text": "The storekeeper has enough cloth for the crews, and Yusuf is paid at the market price. Two small buyers who waited all morning have to bargain with the larger houses after all.",
+      "effects": {"duty": -6, "supply": 6, "reputation": -2, "merchant_trust": 2}
+    },
+    {
+      "id": "buy_one_bale",
+      "label": "Buy one bale and leave the rest for small buyers",
+      "outcome_text": "One bale goes into state stores at the market price. Yusuf is glad to keep selling to his regulars, but the storekeeper cannot issue cloth to all the crews.",
+      "effects": {"duty": -2, "supply": 2, "reputation": 1, "merchant_trust": 2}
+    },
+    {
+      "id": "pass",
+      "label": "Make no purchase today",
+      "outcome_text": "Yusuf keeps selling by the bale. The treasury spends nothing, but the boat crews make their worn cloth last another day.",
+      "effects": {"reputation": -1, "merchant_trust": 1}
+    }
+  ]
+}
