@@ -86,8 +86,11 @@ func _run() -> void:
     _expect(not submit.disabled and submit.tooltip_text.is_empty(), "the hint clears once the ruling can be filed")
     _button_named(harbour, "02  Seals & weights").pressed.emit()
     _button_named(harbour, "04  Open cargo").pressed.emit()
+    _button_named(harbour, "01  Manifest").pressed.emit()
     _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, "45, 46, 45 and 47 kati"),
         "viewing another evidence page retains the recorded weights")
+    _expect(_has_label(harbour, "about 18 kati of them"),
+        "the opened jar's nutmeg weight remains in the measurements after switching tabs")
     var scroll := harbour.find_children("*", "ScrollContainer", true, false)[0] as ScrollContainer
     harbour.evidence_index = inspection["evidence"].size()
     harbour._render()

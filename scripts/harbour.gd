@@ -21,7 +21,7 @@ var content: VBoxContainer
 var evidence_index := 0
 var ruling_index := -1
 var reason_index := -1
-var recorded_measurements := ""
+var recorded_measurements: Dictionary = {}
 var screen_art: TextureRect
 var screen_tint: ColorRect
 var missing_art := {}
@@ -234,7 +234,11 @@ func _render_inspection() -> void:
     else:
         var clue: Dictionary = evidence[evidence_index]
         if clue["id"] in ["ev_exterior", "ev_tally"]:
-            recorded_measurements = _measurement_excerpt(clue["text"])
+            recorded_measurements[clue["id"]] = _measurement_excerpt(clue["text"])
+        elif clue["id"] == "ev_opened" and not recorded_measurements.has(clue["id"]):
+            var opened_measurements := _opened_measurements(clue["text"])
+            if not opened_measurements.is_empty():
+                recorded_measurements[clue["id"]] = opened_measurements
         var spread := HBoxContainer.new()
         spread.add_theme_constant_override("separation", 12)
         reading.add_child(spread)
@@ -282,6 +286,17 @@ func _measurement_excerpt(text: String) -> String:
     return text if readings.is_empty() else "\n\n".join(readings)
 
 
+func _opened_measurements(text: String) -> String:
+    var quantity := "(?:[0-9]+(?:[.,][0-9]+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty)"
+    var units := "(?:kati|bahar|kodi|bowls?|flasks?|lengths?|pieces?|rolls?)"
+    var measurement := RegEx.create_from_string("(?i)\\b%s\\s+(?:(?:small|large|separate)\\s+)?%s\\b" % [quantity, units])
+    var readings := PackedStringArray()
+    for paragraph in text.split("\n\n", false):
+        if measurement.search(paragraph) != null:
+            readings.append(paragraph)
+    return "\n\n".join(readings)
+
+
 func _render_findings(parent: Node) -> void:
     var notes := _panel(parent)
     var panel := notes.get_parent() as Control
@@ -292,7 +307,7 @@ func _render_findings(parent: Node) -> void:
     scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
     scroll.custom_minimum_size.y = 280
     notes.add_child(scroll)
-    var measurements := _label(scroll, recorded_measurements, 14, INK, true)
+    var measurements := _label(scroll, "\n\n".join(recorded_measurements.values()), 14, INK, true)
     measurements.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 
@@ -445,7 +460,7 @@ func _berth(ship_id: String, inspect: bool) -> void:
         evidence_index = 0
         ruling_index = -1
         reason_index = -1
-        recorded_measurements = ""
+        recorded_measurements.clear()
     _render()
 
 
