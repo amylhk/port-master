@@ -7,9 +7,63 @@
   "ships": [
     {"id":"rice", "name":"Javanese Rice Trader", "cargo":"24 sacks of rice", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24, "image":"res://assets/art/ships/ship_javanese_jong.png", "cargo_image":"res://assets/art/cargo/cargo_rice.png"},
     {"id":"pepper", "name":"Indian Pepper Trader", "cargo":"Pepper", "arrival":540, "departure":615, "minutes":60, "duty":14, "rice":0, "image":"res://assets/art/ships/ship_indian_merchant.png", "cargo_image":"res://assets/art/cargo/cargo_pepper.png"},
-    {"id":"porcelain", "name":"Chinese Porcelain Trader", "cargo":"Porcelain", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001", "image":"res://assets/art/ships/ship_chinese_junk.png", "cargo_image":"res://assets/art/cargo/cargo_porcelain.png"},
-    {"id":"resin", "name":"Arabian Frankincense Trader", "cargo":"Frankincense", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0, "inspection_case":"case_004", "image":"res://assets/art/ships/ship_arabian_dhow.png", "cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},
-    {"id":"tin", "name":"Regional Tin Trader", "cargo":"Tin", "arrival":610, "departure":840, "minutes":45, "duty":10, "rice":0, "inspection_case":"case_003", "image":"res://assets/art/ships/ship_regional_perahu.png", "cargo_image":"res://assets/art/cargo/cargo_tin.png"},
-    {"id":"cloth", "name":"Coromandel Cloth Trader", "cargo":"Dyed cloth", "arrival":660, "departure":900, "minutes":60, "duty":13, "rice":0, "inspection_case":"case_002", "image":"res://assets/art/ships/ship_coromandel_cloth.png", "cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
+    {"id":"porcelain", "name":"Kim Hong", "cargo":"Porcelain", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001", "image":"res://assets/art/ships/ship_chinese_junk.png", "cargo_image":"res://assets/art/cargo/cargo_porcelain.png"},
+    {"id":"resin", "name":"Salamat", "cargo":"Frankincense", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0, "inspection_case":"case_004", "image":"res://assets/art/ships/ship_arabian_dhow.png", "cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},
+    {"id":"tin", "name":"Arus", "cargo":"Tin", "arrival":610, "departure":840, "minutes":45, "duty":10, "rice":0, "inspection_case":"case_003", "image":"res://assets/art/ships/ship_regional_perahu.png", "cargo_image":"res://assets/art/cargo/cargo_tin.png"},
+    {"id":"cloth", "name":"Kaveri", "cargo":"Dyed cloth", "arrival":660, "departure":900, "minutes":60, "duty":13, "rice":0, "inspection_case":"case_002", "image":"res://assets/art/ships/ship_coromandel_cloth.png", "cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
+  ],
+  "following_days": [
+    {"rice_target":24, "ships":[
+      {"id":"pegu_river_hen","name":"River Hen","cargo":"Pegu rice and ship timber","arrival":540,"departure":840,"minutes":60,"duty":12,"rice":24,"cargo_image":"res://assets/art/cargo/cargo_rice.png"},
+      {"id":"gresik_morning_star","name":"Morning Star","cargo":"30 sacks of rice and salt fish","arrival":540,"departure":720,"minutes":60,"duty":8,"rice":30,"inspection_case":"case_005","cargo_image":"res://assets/art/cargo/cargo_rice.png"},
+      {"id":"pulicat_white_border","name":"White Border","cargo":"Bordered cotton","arrival":600,"departure":900,"minutes":60,"duty":13,"rice":0,"cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"bengal_dawn","name":"Bengal Dawn","cargo":"Fine muslins and sugar","arrival":540,"departure":825,"minutes":60,"duty":12,"rice":0},
+      {"id":"zhangzhou_evening_tide","name":"Evening Tide","cargo":"Copper basins","arrival":570,"departure":840,"minutes":60,"duty":10,"rice":0,"inspection_case":"case_006"},
+      {"id":"tioman_coaster","name":"Pulau Star","cargo":"Nutmeg","arrival":900,"departure":1020,"minutes":45,"duty":6,"rice":0}
+    ]},
+    {"rice_target":24, "ships":[
+      {"id":"cambay_nur","name":"Nur","cargo":"Glass beads and empty flasks","arrival":540,"departure":900,"minutes":90,"duty":10,"rice":0,"inspection_case":"case_007"},
+      {"id":"cambay_safa","name":"Safa","cargo":"Gujarati cotton","arrival":540,"departure":960,"minutes":120,"duty":13,"rice":0,"cargo_image":"res://assets/art/cargo/cargo_cloth.png"},
+      {"id":"cambay_aman","name":"Aman","cargo":"Rosewater and frankincense","arrival":540,"departure":960,"minutes":120,"duty":9,"rice":0,"cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},
+      {"id":"tuban_moon","name":"Tuban Moon","cargo":"24 sacks of rice","arrival":600,"departure":840,"minutes":60,"duty":8,"rice":24,"cargo_image":"res://assets/art/cargo/cargo_rice.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"pasai_swift","name":"Swift","cargo":"Pepper","arrival":540,"departure":990,"minutes":45,"duty":10,"rice":0,"inspection_case":"case_008","cargo_image":"res://assets/art/cargo/cargo_pepper.png"},
+      {"id":"gresik_banda_jong","name":"East Wind","cargo":"Banda nutmeg and mace","arrival":570,"departure":900,"minutes":65,"duty":14,"rice":0},
+      {"id":"pulicat_white_border","name":"White Border","cargo":"Bordered cotton","arrival":615,"departure":900,"minutes":60,"duty":13,"rice":0,"cargo_image":"res://assets/art/cargo/cargo_cloth.png"},
+      {"id":"zhangzhou_evening_tide","name":"Evening Tide","cargo":"Pepper","arrival":630,"departure":720,"minutes":60,"duty":10,"rice":0,"cargo_image":"res://assets/art/cargo/cargo_pepper.png"}
+    ]},
+    {"rice_target":16, "ships":[
+      {"id":"pegu_river_hen","name":"River Hen","cargo":"Rice and ship timber","arrival":540,"departure":780,"minutes":60,"duty":12,"rice":16,"inspection_case":"case_009","cargo_image":"res://assets/art/cargo/cargo_rice.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"champa_river_lotus","name":"River Lotus","cargo":"Glazed storage jars","arrival":610,"departure":840,"minutes":50,"duty":3,"rice":0,"inspection_case":"case_010"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"cambay_aman","name":"Aman","cargo":"Rosewater and frankincense","arrival":750,"departure":975,"minutes":50,"duty":9,"rice":0,"inspection_case":"case_011","cargo_image":"res://assets/art/cargo/cargo_frankincense.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"bengal_dawn","name":"Bengal Dawn","cargo":"Muslin and sugar","arrival":560,"departure":825,"minutes":60,"duty":12,"rice":0,"inspection_case":"case_012"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"cambay_safa","name":"Safa","cargo":"Gujarati cotton","arrival":570,"departure":840,"minutes":60,"duty":13,"rice":0,"inspection_case":"case_013","cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"ryukyu_white_tern","name":"White Tern","cargo":"Copper ingots and silk","arrival":610,"departure":900,"minutes":60,"duty":5,"rice":0,"inspection_case":"case_014"}
+    ]},
+    {"rice_target":16, "ships":[
+      {"id":"tuban_moon","name":"Tuban Moon","cargo":"Milled rice","arrival":540,"departure":720,"minutes":60,"duty":8,"rice":16,"inspection_case":"case_015","cargo_image":"res://assets/art/cargo/cargo_rice.png"}
+    ]},
+    {"rice_target":24, "ships":[
+      {"id":"rice","name":"Javanese Rice Trader","cargo":"24 sacks of Demak rice","arrival":540,"departure":660,"minutes":60,"duty":8,"rice":24,"inspection_case":"case_016","image":"res://assets/art/ships/ship_javanese_jong.png","cargo_image":"res://assets/art/cargo/cargo_rice.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"three_reeds","name":"Three Reeds","cargo":"8 baskets of Pasai pepper","arrival":570,"departure":780,"minutes":45,"duty":10,"rice":0,"inspection_case":"case_017","cargo_image":"res://assets/art/cargo/cargo_pepper.png"}
+    ]},
+    {"rice_target":0, "ships":[
+      {"id":"north_bank_jong","name":"North Bank Jong","cargo":"12 teak planks","arrival":610,"departure":840,"minutes":60,"duty":5,"rice":0,"inspection_case":"case_018"}
+    ]}
   ]
 }
