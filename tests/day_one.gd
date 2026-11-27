@@ -115,6 +115,11 @@ func _run() -> void:
     game.inspect_berth(0)
     _expect(game.day.pending_case.get("id") == "resin" and game.day.flags.has("case_003_clear"), "inspecting one berth unloads the other waiting case on its declaration")
     game.restart()
+    game.request_berth("porcelain", 0)
+    game.selected_ship = "rice"
+    game.inspect_berth(0)
+    _expect(game.day.pending_case.is_empty() and not game.notice.is_empty() and game.day.ship_at_berth(0).get("inspection_open", false), "clicking the marker while placing a ship reports the occupied berth instead of inspecting")
+    game.restart()
     game.day.berth("rice", false, -2)
     game.day.berth("rice", false, 2)
     _expect(game.day.berths.is_empty() and game.day.waiting.size() == 3, "the model rejects out-of-range explicit slots before removing a ship")

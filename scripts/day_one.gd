@@ -318,6 +318,7 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     var can_inspect := day.can_inspect_berthed(ship)
     var marker := _button(target, "", Rect2(area.x * 0.5, area.y * 0.2, area.x * 0.47, area.y * 0.5), inspect_berth.bind(slot))
     marker.accessibility_name = "驗貨"
+    marker.set_drag_forwarding(Callable(), target._can_drop_data, target._drop_data)
     marker.disabled = not can_inspect
     marker.tooltip_text = "開箱詳細驗貨，佔用此泊位 %d 分鐘。" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及在潮汐前完成驗貨。"
     for state in ["normal", "hover", "pressed", "focus"]:
@@ -338,6 +339,9 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
 
 
 func inspect_berth(slot: int) -> void:
+    if not selected_ship.is_empty():
+        request_berth(selected_ship, slot)
+        return
     var ship := day.ship_at_berth(slot)
     if ship.is_empty() or day.closed() or not day.pending_case.is_empty() or feedback_open or notes_open or manual_open or detail_open:
         return
