@@ -1,0 +1,41 @@
+{
+  "id": "ev_bendahara_summons",
+  "title": "Summoned to the bendahara",
+  "day": 1,
+  "requires": [
+    "case_004_held"
+  ],
+  "body": "After the evening prayer a palace runner comes for you. The bendahara has read the sealed letter from Pedir and heard Farid out. He wishes to see the shahbandar who found him.\n\nIn the lamplight of the audience hall the bendahara asks only one question: will the Gujarati nau in harbour stay or run when they hear of eighteen Feringgi warships taking Gujarati ships off Pedir?",
+  "choices": [
+    {
+      "id": "keep_quiet",
+      "label": "Advise keeping the news inside the court",
+      "outcome_text": "The bendahara agrees to let no word reach the waterfront until the council has met. Tomorrow’s Gujarati ships will trade as usual, for now. You leave knowing what the harbour does not.",
+      "effects": {
+        "duty": 2,
+        "supply": 0,
+        "reputation": 0
+      }
+    },
+    {
+      "id": "warn_merchants",
+      "label": "Advise warning the Gujarati merchants",
+      "outcome_text": "The bendahara hesitates, then allows you to tell the Gujarati shahbandar quietly. By dawn some Cambay captains are asking for early clearance; others bring their goods ashore for safekeeping. They will remember who warned them.",
+      "effects": {
+        "duty": -2,
+        "supply": 0,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "press_for_rice",
+      "label": "Advise buying rice for the stores",
+      "outcome_text": "If warships come, you say, the city will need food before it needs news. The bendahara nods and sends word to the Treasurer. The court’s agents will be at the Javanese rice boats early tomorrow.",
+      "effects": {
+        "duty": -1,
+        "supply": 2,
+        "reputation": 0
+      }
+    }
+  ]
+}

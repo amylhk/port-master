@@ -1,0 +1,31 @@
+{
+  "id": "ev_lost_ship_agent",
+  "title": "The broker of a lost ship",
+  "day": 1,
+  "requires": [
+    "ship_lost"
+  ],
+  "body": "A broker who works for the foreign captains visits you after dark. One of the ships that waited at anchor today gave up on a berth and sailed with her cargo still aboard. Her captain, he says, will tell every port between here and Pasai that Melaka keeps its berths for favourites.\n\nHe offers to write to the captain’s owners with the shahbandar’s apology, for a fee.",
+  "choices": [
+    {
+      "id": "pay_broker",
+      "label": "Pay the broker to write",
+      "outcome_text": "You pay from the office’s funds. The letter will travel faster than the rumour, the broker promises. You hope he is right.",
+      "effects": {
+        "duty": -2,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "refuse_broker",
+      "label": "Refuse and let the matter rest",
+      "outcome_text": "You send him away. Ships come and go; this one went. Somewhere up the coast, a captain is telling his story his own way.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ]
+}

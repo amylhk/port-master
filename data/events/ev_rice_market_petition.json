@@ -1,0 +1,31 @@
+{
+  "id": "ev_rice_market_petition",
+  "title": "The rice sellers’ petition",
+  "day": 1,
+  "requires": [
+    "rice_target_missed"
+  ],
+  "body": "A small crowd waits at your gate as the light goes: rice sellers from the market and two headmen of the Malay kampung. The price of a gantang rose twice this afternoon. They say the shahbandar gave the berths to pepper and porcelain while the city’s rice sat waiting, and they ask what you will do before the next boats come from Java.",
+  "choices": [
+    {
+      "id": "promise_berth",
+      "label": "Promise rice the first berth tomorrow",
+      "outcome_text": "You give your word: the first rice boat tomorrow berths before any other cargo. The headmen leave satisfied; the pepper merchants will not be.",
+      "effects": {
+        "duty": -2,
+        "supply": 2,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "explain_dues",
+      "label": "Explain that duty keeps the city",
+      "outcome_text": "You tell them the pepper’s dues pay for the guards on their own streets. They hear you out in silence, and the price of rice is the talk of every lane by morning.",
+      "effects": {
+        "duty": 1,
+        "supply": 0,
+        "reputation": -2
+      }
+    }
+  ]
+}

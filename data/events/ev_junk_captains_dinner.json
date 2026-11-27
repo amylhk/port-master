@@ -1,0 +1,39 @@
+{
+  "id": "ev_junk_captains_dinner",
+  "title": "Dinner aboard a Chinese junk",
+  "trigger": "day>=2",
+  "requires": [],
+  "body": "The captains of two Chinese junks at anchor invite you aboard for the evening meal. Over the fish they ask, politely, how quickly a junk may be cleared to sail if the winds turn. Then one mentions, as if in passing, that a Gujarati broker has been asking who in Melaka buys guns.\n\nThe Chinese captains have their own quarrels with the Gujarati merchants. What they tell you may be true, or it may be useful to them.",
+  "choices": [
+    {
+      "id": "ask_more",
+      "label": "Ask who the broker is",
+      "outcome_text": "The captain names a broker in Upeh and the house where he lodges. He smiles as he says it. Tomorrow you will have to decide whether to watch that broker’s ships or the men who named him.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "promise_clearance",
+      "label": "Promise quick clearance when the wind turns",
+      "outcome_text": "You promise the junks will not wait on your office when the monsoon shifts. The captains raise their cups. Some other ship will wait instead.",
+      "effects": {
+        "duty": 1,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "leave_early",
+      "label": "Thank them and leave early",
+      "outcome_text": "You take your leave before the second dish. The captains are courteous at the ladder, and they tell you nothing more.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ]
+}
