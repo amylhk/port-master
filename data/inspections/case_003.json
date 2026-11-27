@@ -1,0 +1,178 @@
+{
+  "id": "case_003",
+  "title": "The heavier counterweight",
+  "subtitle": "A shallow-draught perahu from Perak brings tin down the coast. At the first lift, the weighers doubt the weight on her declaration. As shahbandar, you go aboard to settle it before the afternoon tide.",
+  "minutes": 30,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Arus’s declaration",
+      "text": "Arus — Malay coastal perahu from Perak\nOwner: Awang Musa of Perak\n\nCast tin, seven baskets\nDeclared net weight: 7 small bahar\nAgreed price: 140 per small bahar · Declared value: 980"
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Weigh the tin",
+      "title": "Two readings for the same load",
+      "text": "All seven baskets are laid out on deck. A grey crust clings to the outside of the lowest one.\n\nThe weighers deduct the usual weight of the baskets. On the small dacing the tin comes to 8 bahar. Without adding or taking away any tin, they move the load to the large dacing, where it comes to 7 bahar."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Which scale did they use?",
+      "text": "The nakhoda says his factor had already drawn up the declaration with ‘small bahar’ against the tin. When the baskets came from the landing, the nakhoda called out ‘seven bahar’; the factor filled in seven without going ashore.\n\nThe boatman who worked the scale at Perak says the hook on the small dacing had cracked that morning. He used the large dacing instead and entered ‘7 — large’ in his own weighing tally. He shows you the entry, made between the weights of two other boats’ loads."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open cargo",
+      "title": "What made the basket heavy?",
+      "text": "The porters lift the tin slabs out of the stained basket. The crust is dried mud on the outside; there is no mud or ballast under the slabs. They tip the other baskets out as well, then weigh the bare slabs on the small dacing. The reading is still 8 small bahar."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "either_scale",
+      "label": "The large dacing reads seven, so the declaration needs no correction."
+    },
+    {
+      "id": "mud_weight",
+      "label": "Mud on the basket accounts for the extra weight."
+    },
+    {
+      "id": "added_tin",
+      "label": "The extra weight means tin was secretly loaded after the weighing at Perak."
+    },
+    {
+      "id": "wrong_dacing",
+      "label": "The Perak tally used the large dacing; the declaration kept its number but used the small unit."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "minor_fault",
+    "reason_id": "wrong_dacing",
+    "extra_duty": 1,
+    "success": "In the temenggung’s name, you correct the Arus’s declaration to 8 small bahar of tin, worth 1,120. Seven large bahar is the same load, just weighed on a different scale. The Perak tally and both readings agree; the error was in the declaration, not the baskets. You clear the tin to trade and assess 1 more in weighing fees.",
+    "clear": "In the temenggung’s name, you clear the Arus as declared. The office assesses its weighing fee on seven small bahar even though eight go to market.",
+    "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no additional weighing fee is recovered.",
+    "hold": "In the temenggung’s name, you hold the boat and send word to the court. Its men find two scales and a mistake in the declaration. The Arus loses her sale."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Regional Tin Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "minor_fault",
+      "summary": "The factor entered a large-dacing reading in the declaration’s small-bahar field without converting it.",
+      "explanation": "When the small dacing broke at Perak, the boatman used the large one and recorded its reading under the correct unit. The number, but not the unit, was relayed to the factor. Melaka’s two weighings independently reproduce both readings on the same load. The entire shipment was presented, and the bare tin alone accounts for all of its weight.",
+      "key_clues": [
+        "ev_manifest",
+        "ev_exterior",
+        "ev_testimony",
+        "ev_opened"
+      ],
+      "deduction": [
+        "The manual says Melaka weighs tin by the small bahar. Seven large bahar balances eight small ones under the game’s conversion.",
+        "Both Melaka readings are for the same seven baskets. The large-dacing result reproduces the original Perak tally exactly; the small-dacing result is one small bahar above the declaration.",
+        "The broken hook and the nakhoda’s account of how he relayed the number explain why the declaration used the wrong unit. The conversion accounts for the entire discrepancy, without any missing baskets or later loading.",
+        "Weighing the bare slabs confirms that the crust is not responsible. Correct the weight and value rather than detaining the cargo for fraud: Minor Fault."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": [
+        {
+          "evidence": "ev_exterior",
+          "why_not_guilt": "The crust is surface mud on the basket. The bare tin has the same net weight."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "You clear the tin as declared and understate the weight by one small bahar.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "In the temenggung’s name, you correct the declaration to eight small bahar and clear the tin for trade.",
+        "effects": {
+          "revenue": 1,
+          "merchant_trust": 1,
+          "office_reputation": 1
+        },
+        "correct": true
+      },
+      "major_fraud": {
+        "text": "You mistake two readings of the same load for concealment. The weighing tally does not support a fraud charge.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "You hold the Arus for the court. Its men find a weight-unit error, not a matter of state, and the sale is lost.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -2,
+          "office_reputation": -1
+        },
+        "correct": false
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Perak and the tin trade",
+        "note": "The western Malay Peninsula supplied tin, including from Perak (Pires, Suma Oriental, vol. II). Small coastal craft carried tin to Melaka.",
+        "confidence": "high"
+      },
+      {
+        "topic": "The two dacing standards",
+        "note": "Nunes (Livro dos Pesos da India, 1554, fol. 31) describes Melaka’s small bahar for tin and large bahar for goods such as pepper. Both had 200 kati, but their kati differed in mass.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Player role",
+        "note": "The player is a shahbandar and rules in the temenggung’s name. Port-wide authority over berthing and inspection is a gameplay abstraction.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Conversion and documents",
+        "note": "Seven large bahar to eight small is a rounded ratio treated as exact in play, not a historical conversion. The manifest and the boatman’s written tally are invented for the game. The boat, people and incident are fictional.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_exterior": "inspect",
+      "ev_testimony": "inspect",
+      "ev_opened": "open"
+    },
+    "question_prerequisites": {}
+  }
+}
