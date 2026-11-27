@@ -28,9 +28,6 @@ var recorded_measurements: Dictionary = {}
 var screen_art: TextureRect
 var screen_tint: ColorRect
 var missing_art := {}
-var cast_open := false
-var selected_faction := ""
-var selected_person := ""
 
 
 func _ready() -> void:
@@ -92,14 +89,9 @@ func _render() -> void:
     heading.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     _label(heading, "PORT MASTER  /  MELAKA 1511", 14, GOLD)
     var story := day.current_story()
-    var historical := day.history.has(story.get("id"))
     var heading_text := "The harbour watch"
-    if cast_open:
-        heading_text = "People & factions"
-    elif inspecting:
+    if inspecting:
         heading_text = "Detailed Inspection"
-    elif historical:
-        heading_text = "The fall of Melaka" if day.day_number >= 16 else "Harbour chronicles"
     elif not story.is_empty():
         if not day.active_offer.is_empty():
             heading_text = "State purchasing"
@@ -107,22 +99,14 @@ func _render() -> void:
             heading_text = "Evening at the port" if day.closed() else "Morning briefing"
     elif day.closed():
         heading_text = "End of Day"
-    var screen_key := "%s/%s" % [heading_text, story.get("id", "")]
-    if screen_key != screen:
-        screen = screen_key
+    if heading_text != screen:
+        screen = heading_text
         scroll.scroll_vertical = 0
         scroll.scroll_horizontal = 0
     _label(heading, heading_text, 30)
     var watch := _panel(header)
     _label(watch, "%s  /  DAY %02d" % [PortDay.clock(day.minute_of_day), day.day_number], 19, GOLD)
-    if not inspecting:
-        _button(watch, "Return to campaign" if cast_open else "People & factions", func() -> void:
-            cast_open = not cast_open
-            _render()
-        )
-    if cast_open:
-        _render_factions()
-    elif inspecting:
+    if inspecting:
         _render_inspection()
     elif not story.is_empty():
         _render_story(story)
@@ -130,43 +114,6 @@ func _render() -> void:
         _render_settlement()
     else:
         _render_harbour()
-
-
-func _render_factions() -> void:
-    var panel := _panel(content)
-    var faction_ids := day.factions.keys()
-    if selected_faction.is_empty():
-        selected_faction = faction_ids[0]
-    var factions := OptionButton.new()
-    panel.add_child(factions)
-    for id in faction_ids:
-        factions.add_item(day.factions[id]["name"])
-    factions.select(faction_ids.find(selected_faction))
-    factions.item_selected.connect(func(index: int) -> void:
-        selected_faction = faction_ids[index]
-        selected_person = ""
-        _render()
-    )
-    var faction: Dictionary = day.factions[selected_faction]
-    _label(panel, faction["bio"], 17, INK, true)
-    _label(panel, "Standing: %+d" % day.faction_standing[selected_faction], 16, GOLD)
-    var people := [faction["leader_id"]]
-    for id in faction["member_ids"]:
-        if id not in people:
-            people.append(id)
-    if selected_person.is_empty():
-        selected_person = people[0]
-    var members := OptionButton.new()
-    panel.add_child(members)
-    for id in people:
-        var person := day.person(id)
-        members.add_item("%s (leader)" % person["name"] if id == faction["leader_id"] else person["name"])
-    members.select(people.find(selected_person))
-    members.item_selected.connect(func(index: int) -> void:
-        selected_person = people[index]
-        _render()
-    )
-    _render_cast(panel, day.person(selected_person))
 
 
 func _render_harbour() -> void:
@@ -545,41 +492,26 @@ func _render_settlement() -> void:
                 _render()
             ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
         else:
-            _label(report, "End of the campaign", 18, GOLD)
+            _label(report, "End of the Stage B schedule", 18, GOLD)
         _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     _render_log(true)
 
 
 func _render_story(story: Dictionary) -> void:
-    var columns := HBoxContainer.new()
-    columns.add_theme_constant_override("separation", 12)
-    content.add_child(columns)
-    var panel := _panel(columns)
-    var frame := panel.get_parent() as Control
-    frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    frame.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+    var panel := _panel(content)
     var phase := "EVENING EVENT" if day.closed() else "QUAY OFFICE"
     var is_offer := not day.active_offer.is_empty()
-    var historical := day.history.has(story["id"])
     if is_offer:
         _label(panel, "STATE PURCHASE OFFER", 15, GOLD)
     else:
-        if historical:
-            phase = "AFTERMATH" if story.has("priority") else "HISTORY"
-            _label(panel, phase, 15, GOLD)
-        else:
-            if story.has("chain_id"):
-                phase = "DEPARTURE & TAX ACCOUNT"
-            _label(panel, "%s  /  %d OF %d" % [phase, day.story_index + 1, day.story_queue.size()], 15, GOLD)
+        if story.has("chain_id"):
+            phase = "DEPARTURE & TAX ACCOUNT"
+        _label(panel, "%s  /  %d OF %d" % [phase, day.story_index + 1, day.story_queue.size()], 15, GOLD)
     _label(panel, story["title"], 24, INK, true)
     var merchant_id: String = story.get("merchant_id", "")
     if day.merchants.has(merchant_id):
         _render_cast(panel, day.merchants[merchant_id])
     _label(panel, story["body"], 17, INK, true)
-    if historical and day.day_number >= 16:
-        var art_id: String = "last_quay_roll" if day.day_number <= 17 else story["id"]
-        var path := _optional_texture_path("res://assets/art/finale/%s.png" % art_id)
-        _art(columns, path, Vector2(384, 216))
     if not day.story_outcome.is_empty():
         _label(panel, day.story_outcome["label"], 18, GOLD, true)
         _label(panel, day.story_outcome["outcome_text"], 17, INK, true)
@@ -589,9 +521,6 @@ func _render_story(story: Dictionary) -> void:
         ], 16, GOLD, true)
         if effects.has("merchant_trust"):
             _label(panel, "Merchant trust %+d" % int(effects["merchant_trust"]), 16, GOLD, true)
-        var standings: Dictionary = effects.get("faction_standing", {})
-        for id in standings:
-            _label(panel, "%s standing %+d" % [day.factions[id]["name"], int(standings[id])], 16, GOLD, true)
     var choices: Array = story.get("choices", [])
     if choices.is_empty() or not day.story_outcome.is_empty():
         _button(panel, "Continue", func() -> void:

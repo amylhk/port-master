@@ -15,8 +15,7 @@
       "outcome_text": "At the first inland halt, your clerk reads the names. A family that lost sight of its youngest at the landing hears which party she left with.",
       "effects": {
         "supply": -1,
-        "reputation": 3,
-        "faction_standing": {"mahmuds_household": 2}
+        "reputation": 3
       }
     },
     {

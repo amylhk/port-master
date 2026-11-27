@@ -66,8 +66,7 @@ func _schedule(day: PortDay) -> void:
             _expect(day.waiting.size() == 1 and day.waiting[0]["id"] == "tioman_coaster"
                 and day.flags.has("ships_held_over"), "Pulau Star remains at anchor at the bell")
         _finish_evening(day)
-        if number < 15:
-            day.begin_next_day()
+        day.begin_next_day()
         if number == 3:
             _expect(day.briefing_flags.has("ships_held_over") and day.ship_at_anchor(0).get("id") == "tioman_coaster",
                 "the overnight ship takes its own slot before the Cambay arrivals")
@@ -76,7 +75,7 @@ func _schedule(day: PortDay) -> void:
             _expect(day.waiting.size() == 3 and day.lost == 1, "an occupied anchorage prevents the fourth immediate arrival")
         if number == 4:
             _expect(not day.briefing_flags.has("ships_held_over"), "the carry-over flag clears when no ships remain at anchor")
-    _expect(day.day_number == 15 and day.has_next_day(), "day 15 closes the Stage B port schedule before the finale")
+    _expect(day.day_number == 15 and not day.has_next_day(), "day 15 is the last playable day")
     for merchant in day.merchants.values():
         for ship_id in merchant["ship_ids"]:
             _expect(played_ships.has(ship_id), "%s has a port call" % ship_id)

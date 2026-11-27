@@ -24,8 +24,7 @@
       "outcome_text": "Several claimants recover goods at once. No one can promise a safe journey for the books tomorrow.",
       "effects": {
         "supply": 2,
-        "reputation": -1,
-        "faction_standing": {"chatu_contacts": 2}
+        "reputation": -1
       }
     }
   ],
