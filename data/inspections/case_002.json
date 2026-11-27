@@ -1,7 +1,7 @@
 {
   "id": "case_002",
-  "title": "The missing length",
-  "subtitle": "While the Kaveri waited at anchor, a harbour porter went aboard to tally her bales of dyed cotton. He swears a piece is missing. You board the nau from Pulicat to check before she unloads.",
+  "title": "少了一匹布",
+  "subtitle": "卡韋里號在錨地等候時，一名碼頭搬運工登船點算染色棉布，堅稱少了一匹。您在這艘普利卡特大帆船卸貨前登船查驗。",
   "minutes": 35,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
@@ -9,78 +9,78 @@
   "evidence": [
     {
       "id": "ev_manifest",
-      "label": "01  Manifest",
-      "title": "The Kaveri’s declaration",
-      "text": "Kaveri — Nau from Pulicat, on the Coromandel coast\nOwner of the goods: Sri Rangan of Pulicat\n\nIndigo-dyed cotton, each length finished with a white border\nQuantity: 2 kodi · Packing: bales A and B, 1 kodi each\nGrade: Common · Declared value: 180"
+      "label": "01  貨單",
+      "title": "卡韋里號的申報",
+      "text": "卡韋里號——科羅曼德爾海岸普利卡特的大帆船\n貨主：普利卡特商人斯里蘭甘\n\n靛藍染色棉布，每匹均有縫妥的白邊\n數量：2戈迪｜包裝：甲、乙兩包，每包1戈迪\n等級：普通｜申報貨值：180"
     },
     {
       "id": "ev_tally",
-      "label": "02  First tally",
-      "title": "The porter’s first count",
-      "text": "The harbour clerk was aboard when the porter broke the seals for the tally. Both were hard and dry, impressed with three dots in a triangle; the same mark is painted on both bale wrappers.\n\nBale A: twenty rolls of blue cotton, all about as thick as a wrist.\n\nBale B: nineteen rolls. One is thicker than the rest and has two loops of cord instead of one.\n\nThe porter has marked a shortfall beside B. He counted the rolls without taking off their cords."
+      "label": "02  初次點算",
+      "title": "搬運工初次點算",
+      "text": "搬運工拆封點算時，港務署書記也在船上。兩個封印乾燥而堅硬，均印有排成三角形的三點；兩包外裹也有同樣標記。\n\n甲包：20卷藍色棉布，約有手腕般粗。\n\n乙包：19卷，其中一卷較粗，繫了兩圈繩，不只一圈。\n\n搬運工在乙包旁註記短少一匹。他沒有解繩，只數了布卷。"
     },
     {
       "id": "ev_testimony",
-      "label": "03  Testimony",
-      "title": "Those who counted and those who packed",
-      "text": "Muthu — Nakhoda (captain)\nThe owner had me count the lengths on the bench before we packed them. I called twenty for each bale. If your man counted nineteen, ask him what he counted.\n\nArulan — Deckhand who helped pack the bales\nThere was one reed core left when I got to the bottom of the pile for B. I wound one length over the other on it. I tied two loops because the thick roll kept springing loose.\n\nKassim — Porter\nNineteen rolls came out of that bale. I didn't untie them. The clerk wanted his tally before the buyers came to the quay."
+      "label": "03  問話",
+      "title": "點算與打包的人",
+      "text": "穆圖——船長\n打包前，貨主讓我在工作臺上點算布匹。每包我都點了20匹。若你的人只數到19，就問問他數的是甚麼。\n\n阿魯蘭——協助打包的水手\n打包乙包最後那疊布時，只剩一根蘆葦芯。我在一匹外面又捲了一匹。那粗布卷會彈開，所以繫了兩圈。\n\n卡西姆——搬運工\n那包裡有19卷。我沒解繩，書記要趕在買家來碼頭前拿到點算結果。"
     },
     {
       "id": "ev_opened",
-      "label": "04  Open rolls",
-      "title": "What lies under the cords",
-      "text": "Bale A: the rolls yield twenty separate lengths. Each is coarse blue cotton with a finished white border.\n\nBale B: eighteen of the rolls yield one length apiece. When you cut both loops on the thick roll, one length comes away and another is still wound around the reed. They are not stitched together. You lay them side by side: the same coarse weave, the same length, and a finished white border on each. Both match the rest of the bale. Nothing else is wrapped around the reed."
+      "label": "04  拆開布卷",
+      "title": "繩索下的布匹",
+      "text": "甲包：布卷拆開後共有20匹各自完整的粗織藍棉布，每匹均有縫妥的白邊。\n\n乙包：18卷各有一匹。剪開粗卷上的兩圈繩後，一匹布鬆開，另一匹仍捲在蘆葦芯上。兩匹並未縫在一起。並排放好後，可見織法同樣粗、長度相同，各有縫妥的白邊，與其餘布匹一致。芯上沒再捲著其他東西。"
     }
   ],
   "rulings": [
     {
       "id": "clear",
-      "label": "Clean — clear as declared"
+      "label": "無誤——按申報放行"
     },
     {
       "id": "major_fraud",
-      "label": "Major Fraud — hold the suspect cargo"
+      "label": "重大欺詐——扣留可疑貨物"
     },
     {
       "id": "minor_fault",
-      "label": "Minor Fault — correct the declaration"
+      "label": "輕微錯漏——更正申報"
     },
     {
       "id": "hold",
-      "label": "Story Event — hold the ship and notify the court"
+      "label": "特殊事件——扣船通報朝廷"
     }
   ],
   "reasons": [
     {
       "id": "roll_count",
-      "label": "The first tally shows that bale B is one length short."
+      "label": "初次點算顯示乙包少了一匹。"
     },
     {
       "id": "sound_seals",
-      "label": "The matching owner’s seals alone prove the declared count."
+      "label": "相同的貨主封印足以證明申報數量。"
     },
     {
       "id": "piece_count",
-      "label": "B’s doubled roll holds two separate lengths: twenty pieces per bale."
+      "label": "乙包粗卷有兩匹各自完整的布，因此每包各有20匹。"
     },
     {
       "id": "substitute",
-      "label": "The thicker roll hides a lower grade of cotton."
+      "label": "粗卷裡藏了等級較低的棉布。"
     }
   ],
   "hidden_truth": {
     "ruling_id": "clear",
     "reason_id": "piece_count",
     "feedback_by_method": {
-      "marks": "Both seals bear the same three-dot mark, but a seal cannot tell you that one roll in bale B holds two lengths.",
-      "testimony": "Arulan tells you how he wound two lengths on one reed, but his account cannot show that both are separate and match the declared cloth.",
-      "manifest": "The declaration lists one kodi per bale, but does not tell you why nineteen rolls in bale B still yield twenty lengths."
+      "marks": "兩枚封印的三點標記相同；但封印不能證明乙包有一卷含兩匹。",
+      "testimony": "阿魯蘭說他把兩匹布捲在同一根蘆葦芯上，但證詞無法證明兩匹各自完整且符合申報。",
+      "manifest": "申報列明每包一戈迪，卻沒有說明乙包為何19卷仍有20匹。"
     },
     "extra_duty": 0,
-    "success": "In the temenggung’s name, you clear the Kaveri as declared. The porter counts the two lengths on the mat, then strikes the shortfall from his tally.\n\nA kodi is twenty pieces, not twenty rolls. The two cords pointed to the roll Arulan described; opening it confirmed two separate lengths of the declared cloth. Both bales are full.",
-    "clear": "The Kaveri is cleared, but the reason you filed does not settle the shortage on the tally. A sound seal does not tell the buyers how many lengths are inside.",
-    "unsupported": "The evidence does not support an amendment in the temenggung’s name. The declaration stands. Count the separate lengths before assessing a shortage or a substitution.",
-    "hold": "You hold the Kaveri and send word to the court. The court’s men find only the declared cotton. The buyers leave the quay empty-handed."
+    "success": "您以天猛公的名義准卡韋里號按申報放行。搬運工點了蓆上的兩匹布，劃掉短少的註記。\n\n一戈迪是二十匹，不是二十卷。兩圈繩標出了阿魯蘭提到的粗卷；解開後證實內有兩匹相互獨立、符合申報的布。兩包數量齊全。",
+    "clear": "卡韋里號獲准放行，但所填理由無法解釋點算短少。封印完好，也不能告知買家包內有多少匹。",
+    "unsupported": "證據不足以支持以天猛公名義更正申報。原申報不變。認定短少或調包前，請點算各自完整的布匹。",
+    "hold": "您扣住卡韋里號並通報朝廷。朝廷的人只找到申報的棉布，買家空手離開碼頭。"
   },
   "authoring": {
     "manual_id": "manual_stage_a",

@@ -1,16 +1,16 @@
 {
   "id": "ev_rice_market_petition",
-  "title": "The rice sellers’ petition",
+  "title": "米商請願",
   "day": 1,
   "requires": [
     "rice_target_missed"
   ],
-  "body": "A small crowd waits at your gate as the light goes: rice sellers from the market and two headmen of the Malay kampung. The price of a gantang rose twice this afternoon. They say the shahbandar gave the berths to pepper and porcelain while the city’s rice sat waiting, and they ask what you will do before the next boats come from Java.",
+  "body": "暮色漸深，幾名市場的米商和兩位馬來村長在您門前等候。今天下午，每甘當米的價格漲了兩次。他們說，沙班達爾把泊位讓給胡椒和瓷器，卻讓全城的米滯留錨地。他們問，下一批爪哇船抵達前，您有何打算？",
   "choices": [
     {
       "id": "promise_berth",
-      "label": "Promise rice the first berth tomorrow",
-      "outcome_text": "You give your word: the first rice boat tomorrow berths before any other cargo. The headmen leave satisfied; the pepper merchants will not be.",
+      "label": "答應明天先讓米船靠泊",
+      "outcome_text": "您承諾，明天第一艘米船會比其他貨船先靠泊。村長們滿意地離開，胡椒商卻不會高興。",
       "effects": {
         "duty": -2,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "explain_dues",
-      "label": "Explain that duty keeps the city",
-      "outcome_text": "You tell them the pepper’s dues pay for the guards on their own streets. They hear you out in silence, and the price of rice is the talk of every lane by morning.",
+      "label": "說明稅款如何維持城中開支",
+      "outcome_text": "您說，胡椒的稅款用來支付他們街上的巡守開支。他們默默聽完；到了早晨，各條街巷仍在談論米價。",
       "effects": {
         "duty": 1,
         "supply": 0,

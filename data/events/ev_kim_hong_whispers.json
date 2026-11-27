@@ -1,16 +1,16 @@
 {
   "id": "ev_kim_hong_whispers",
-  "title": "Nutmeg in the bazaar",
+  "title": "市集裡的肉豆蔻",
   "day": 1,
   "requires": [
     "case_001_cleared"
   ],
-  "body": "At dusk your clerk returns from the market with an uneasy face. Nutmeg is selling cheap in the Upeh lanes tonight, out of plain sacks, and the sellers will not say who brought it. Everyone knows the Kim Hong cleared this morning with nothing but bowls on her declaration.\n\nA porter adds that the sacks smell of straw, the kind packed around porcelain.",
+  "body": "黃昏時，書記從市場回來，神色不安。今夜烏佩的街巷有人以素袋賣便宜的肉豆蔻，卻不肯說貨物從哪裡來。眾人都知道，金豐號今早獲准放行，貨單上申報的只有碗。\n\n一名搬運工說，袋子有稻草味，正像包裹瓷器用的稻草。",
   "choices": [
     {
       "id": "send_clerk",
-      "label": "Send your clerk to trace the sacks",
-      "outcome_text": "Your clerk follows the sacks to a broker’s yard and comes back with a name, not proof. The nutmeg is gone by morning, but the broker now knows the shahbandar is watching.",
+      "label": "派書記追查貨袋",
+      "outcome_text": "書記循著貨袋查到掮客的院子，帶回一個名字，卻沒有證據。天亮前肉豆蔻已不見蹤影，但掮客知道沙班達爾已在留意。",
       "effects": {
         "duty": 0,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "let_it_go",
-      "label": "Let the market have its bargain",
-      "outcome_text": "You let it pass. The nutmeg sells, the buyers are pleased, and the merchants who paid their dues in full remember who did not.",
+      "label": "任由市場交易",
+      "outcome_text": "您沒有追究。肉豆蔻賣了出去，買家很高興；足額納稅的商人卻記得誰沒有繳稅。",
       "effects": {
         "duty": 0,
         "supply": 1,
