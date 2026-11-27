@@ -90,6 +90,7 @@ func _run() -> void:
     game.queue_free()
     await process_frame
     await _other_cases()
+    await _wrong_rulings()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -116,6 +117,33 @@ func _other_cases() -> void:
             game.apply_stamp()
             _expect(game.day.flags.has(case_id + "_" + example[2]), "%s preserves its supported ruling" % example[0])
             _expect(game.last_feedback == game.day.inspections[case_id]["hidden_truth"]["success"], "%s retains every paragraph of the authored finding" % example[0])
+        game.queue_free()
+        await process_frame
+
+
+func _wrong_rulings() -> void:
+    for example in [["porcelain", 0, "clear", "罰款"], ["resin", 60, "clear", "扣留"], ["tin", 70, "clear", "更正"], ["cloth", 120, "minor_fault", "放行"]]:
+        var game = DayOne.instantiate()
+        root.add_child(game)
+        if example[1] > 0:
+            game.assign_berth("rice", 0, false)
+            game.assign_berth("pepper", 1, false)
+            game.advance(example[1])
+        game.assign_berth(example[0], 1, true)
+        _expect(not game.day.pending_case.is_empty(), "%s opens for wrong-ruling feedback" % example[0])
+        if not game.day.pending_case.is_empty():
+            var inspection: Dictionary = game.day.inspection_for(game.day.pending_case)
+            var explanation: String = inspection["hidden_truth"]["feedback_by_method"]["manifest"]
+            var correction := "正確判決：應蓋「%s」" % example[3]
+            game.choose_method("manifest")
+            game.choose_stamp(example[2])
+            game.apply_stamp()
+            _expect(not game.feedback_open and not game.day.pending_case.is_empty(), "%s reveals no feedback before filing" % example[0])
+            game.open_manual()
+            game.manual_open = false
+            game.apply_stamp()
+            _expect(game.feedback_open and game.day.pending_case.is_empty(), "%s displays feedback after filing" % example[0])
+            _expect(game.last_feedback.ends_with(correction + "\n" + explanation), "%s names the correct stamp and keeps the evidence explanation" % example[0])
         game.queue_free()
         await process_frame
 
