@@ -148,8 +148,8 @@ All visual assets depict the **Melaka Sultanate at its commercial height around 
 | `assets/art/cargo/cargo_cloth.png` | `128×128` | Bound bolts of Coromandel dyed cotton/chintz in Kling indigo, madder red, and saffron ochre. |
 | `assets/art/cargo/porcelain_jar_closed.png` | `256×256` | Inspection close-up: sealed Martaban stoneware jar (Santa Cruz profile) bound with hemp cord and wax/lac closure. |
 | `assets/art/cargo/porcelain_jar_open.png` | `256×256` | Inspection close-up: opened Martaban jar revealing straw packing and nested Ming blue-and-white bowls inside. |
-| `assets/inspection/lot-seven-exterior.png` | `640×320` | Stage A `case_001` evidence plate (2:1): Lot Seven jar tied with green transit cord on quay *dacing* scale (18 catties gross, 3 catties tare stamp). |
-| `assets/inspection/lot-seven-open.png` | `640×320` | Stage A `case_001` evidence plate (2:1): Opened Lot Seven showing dry bowl stacks and unlisted cloth packet with three red-grain resin lumps. |
+| `assets/inspection/lot-seven-exterior.png` | `640×320` | Stage A `case_001` ("The jars from Guangzhou") evidence plate (2:1): forward-row jars (dry grey circle-and-line seals, 32–36 kati) vs. after-row jars (soft reddish fish-facing-left seals, loose straw, 45–47 kati). |
+| `assets/inspection/lot-seven-open.png` | `640×320` | Stage A `case_001` ("The jars from Guangzhou") evidence plate (2:1): opened forward-row jar (30 blue-and-white bowls in straw, 2 chipped) vs. opened after-row jar (8 bowls over straw mat and ~18 kati whole nutmegs). |
 | `assets/art/inspection/inspection_desk_bg.png` | `1024×640` | Top-down/angled teak customs table with brass *dacing* steelyard, bamboo reed pen, inkpot, and woven mat. |
 | `assets/art/inspection/manifest_scroll.png` | `384×512` | Aged rag-paper manifest parchment with hand-ruled ink columns and Malay geometric border. |
 | `assets/art/inspection/seal_wax_intact.png` | `96×96` | Intact cinnabar lac/wax merchant seal with raised maritime emblem. |
