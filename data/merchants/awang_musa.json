@@ -1,0 +1,19 @@
+{
+  "id": "awang_musa",
+  "name": "Awang Musa",
+  "bloc": "java_eastern_islands",
+  "origin": "Perak",
+  "ship_ids": [
+    "tin"
+  ],
+  "traits": [
+    "proud",
+    "frugal"
+  ],
+  "bio": "Awang Musa owns the Arus and its cast tin. A wrong tally costs him money; a full tide under guard costs him the buyers who cannot wait.",
+  "notes": [
+    "fact: Perak was a tin source, and small Malay vessels brought tin to Melaka as both trade and tribute (docs/research/commodities.md, Tin)",
+    "gameplay: The Arus is the Perak tin perahu. Musa is indexed with the regional bloc for play; this is not a claim that Perak belonged to the Javanese shahbandar's historical constituency (data/inspections/case_003.json; docs/research/port-official.md §3)",
+    "gameplay: Correct the unit in the temenggung's name and Musa keeps selling to Jalal and Lin Wen. Hold the Arus unnecessarily and his captain threatens to try Pasai, taking the next lot of tin out of Melaka's market (data/inspections/case_003.json; data/events/ev_awang_musa_grievance.json)"
+  ]
+}

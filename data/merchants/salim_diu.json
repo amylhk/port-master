@@ -1,0 +1,19 @@
+{
+  "id": "salim_diu",
+  "name": "Salim of Diu",
+  "bloc": "gujarati",
+  "origin": "Diu, sailing with the Cambay fleet",
+  "ship_ids": [
+    "cambay_aman"
+  ],
+  "traits": [
+    "restless",
+    "persuasive"
+  ],
+  "bio": "Salim asks people to smell the Aman's rosewater before they name a price. He is in less of a hurry to sell than to have the court hear what captains in the west are saying.",
+  "notes": [
+    "gameplay: The Aman is a Cambay nau carrying rosewater and frankincense; Salim plans to barter for Banda mace and can wait a tide for Sura's ship (data/briefings/day_04_rumours_from_the_west.json; data/briefings/day_05_strange_sails_at_pasai.json)",
+    "gameplay: Salim presses the shahbandar to pass on reports from the west. If the player repeats an unchecked report as certainty, Pasai's Idris can contradict him and split the fleet on whether to sail (data/briefings/day_04_rumours_from_the_west.json; docs/gameplay-blueprint.md §09)",
+    "fact: Portuguese ships captured Gujarati merchant vessels on the way to Melaka in 1511 (docs/research/1511-events.md, Phase III; Commentaries of Afonso Dalboquerque, III chs. 16–18)"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "jaka_wira",
+  "name": "Jaka Wira",
+  "bloc": "java_eastern_islands",
+  "origin": "Demak, Java",
+  "ship_ids": [
+    "rice"
+  ],
+  "traits": [
+    "practical",
+    "impatient"
+  ],
+  "bio": "Jaka Wira brings the twenty-four sacks of morning rice. He tells the stalls how much he has before he tells the treasury, because the stallholders pay him on days the court does not buy.",
+  "notes": [
+    "fact: North-coast Java was a major source of the rice Melaka imported (docs/research/commodities.md, Rice; Tomé Pires, Suma Oriental, Cortesão ed.)",
+    "gameplay: His cargo is the day-one rice on a Javanese jong; Demak and the vessel type are fictional assignments to the existing ship slot (data/briefings/day_01_turn_of_the_monsoon.json; data/port_day.json)",
+    "gameplay: Land the cargo before the market runs short and he offers to reserve part of a later shipment for the town. Miss the tide after promising him a berth and he tells Sura to sell to the stalls himself next time (data/events/ev_rice_market_petition.json; data/events/ev_rice_market_thanks.json; docs/gameplay-blueprint.md §§08–09)"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "encik_hamzah",
+  "name": "Encik Hamzah",
+  "bloc": "java_eastern_islands",
+  "origin": "Melaka waterfront",
+  "ship_ids": [
+    "tioman_coaster"
+  ],
+  "traits": [
+    "evasive",
+    "persistent"
+  ],
+  "bio": "Hamzah is the suspended dealer behind the Kim Hong nutmeg. He still has buyers, but needs someone else to stand at the scales.",
+  "notes": [
+    "gameplay: Hamzah owns the nutmeg in case_001, not the Kim Hong. His home port and regional bloc are roster choices, not a documented origin or office. The fish mark and the cargo seals are gameplay inventions (data/inspections/case_001.json; docs/research/seals-marks-packaging.md)",
+    "gameplay: The Pulau Star is a proposed coastal perahu carrying nutmeg near Tioman. The existing case only describes an unnamed prau coming alongside (data/inspections/case_001.json)",
+    "gameplay: If the nutmeg reaches the bazaar he funds another cheap lot through the broker's yard; if held, he asks the temenggung for a hearing and tries to keep Tan Bo from giving a full account (data/events/ev_kim_hong_whispers.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

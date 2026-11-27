@@ -1,0 +1,18 @@
+{
+  "id": "tan_bo",
+  "name": "Tan Bo",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Sailing out of Guangzhou",
+  "ship_ids": [
+    "porcelain"
+  ],
+  "traits": [
+    "glib",
+    "defensive"
+  ],
+  "bio": "Tan Bo sells for Lim Seng aboard the Kim Hong. He answers a question about the cargo with a story about the packing, and wants his employer to hear his account before anyone else's.",
+  "notes": [
+    "gameplay: Tan Bo is the factor on the Guangzhou junk carrying porcelain bowls and raw silk. He handles the suspect nutmeg jars; the jar marks, seals and manifest are inventions (data/inspections/case_001.json; docs/research/seals-marks-packaging.md)",
+    "gameplay: If the jars are held, Tan Bo can offer names at a later hearing in exchange for having his testimony heard by the temenggung. If cleared, he puts distance between himself and Hamzah before another transaction (data/inspections/case_001.json; data/events/ev_kim_hong_whispers.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

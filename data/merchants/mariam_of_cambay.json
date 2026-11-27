@@ -1,0 +1,20 @@
+{
+  "id": "mariam_of_cambay",
+  "name": "Mariam of Cambay",
+  "bloc": "gujarati",
+  "origin": "Cambay, resident in Melaka",
+  "ship_ids": [
+    "cambay_nur",
+    "pepper"
+  ],
+  "traits": [
+    "precise",
+    "unhurried"
+  ],
+  "bio": "Mariam leases a dry storeroom for the Nur's glassware and holds a share in the Malabar pepper cargo. She will recount broken flasks herself before she asks anyone to make good the loss.",
+  "notes": [
+    "inference: A resident factor arranging dry storage for imported glass is a plausible trading role, not a documented appointment for this character (docs/research/commodities.md, Glassware; docs/research/port-official.md, Warehousing)",
+    "gameplay: The Nur is a Cambay nau carrying glass beads and empty flasks. Mariam stays ashore and finances a share of the day-one Malabar pepper run without owning its vessel (data/briefings/day_01_turn_of_the_monsoon.json; data/briefings/day_04_rumours_from_the_west.json)",
+    "gameplay: Give her a reliable place to store glass and she advances flasks to the rosewater trade; break a promise on storage and she lets Ratri's buyers take the pepper instead of reserving it for Lin Wen (docs/gameplay-blueprint.md §§08–09)"
+  ]
+}

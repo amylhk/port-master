@@ -1,0 +1,19 @@
+{
+  "id": "arulan",
+  "name": "Arulan",
+  "bloc": "kling_bengal_pegu_pasai",
+  "origin": "Sailing out of Pulicat, Coromandel coast",
+  "ship_ids": [
+    "cloth",
+    "pulicat_white_border"
+  ],
+  "traits": [
+    "observant",
+    "plain-spoken"
+  ],
+  "bio": "Arulan is the Kaveri deckhand who packed the two lengths on one reed core. He knows what was packed rather than what the tally says, and wants a single bale he can sell on his own account.",
+  "notes": [
+    "gameplay: Arulan helped pack the Kaveri's indigo cotton; Muthu is its captain and Sri Rangan owns the goods (data/inspections/case_002.json)",
+    "gameplay: Between the Kaveri and the White Border calls, Arulan offers to count cloth for smaller buyers. Back him after a fair ruling in the temenggung's name and he can put his first bale into Yusuf's sale; after a needless hold he takes a packing job instead (data/inspections/case_002.json; data/briefings/day_05_strange_sails_at_pasai.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

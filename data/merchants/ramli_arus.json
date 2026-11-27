@@ -1,0 +1,19 @@
+{
+  "id": "ramli_arus",
+  "name": "Ramli of the Arus",
+  "bloc": "java_eastern_islands",
+  "origin": "Perak coastal trade",
+  "ship_ids": [
+    "tin"
+  ],
+  "traits": [
+    "anxious",
+    "methodical"
+  ],
+  "bio": "Ramli is the Arus's factor. After entering the wrong unit he will ask a boatman to repeat the measure even when a buyer is waiting over his shoulder.",
+  "notes": [
+    "gameplay: Ramli is a new name for the previously unnamed factor on Awang Musa's Arus, a Perak perahu carrying cast tin. His mistake is a copied number without its scale, not concealment (data/inspections/case_003.json)",
+    "gameplay: His regional bloc is an indexing convenience, not a historical assignment of Perak to the Javanese shahbandar (docs/research/port-official.md §3)",
+    "gameplay: Name the scale on tin declarations and Ramli helps the weighers apply the rule to later arrivals; leave it to judgement and he pays for a second weighing rather than risk another hold (data/events/ev_two_dacing_petition.json; docs/gameplay-blueprint.md §08)"
+  ]
+}

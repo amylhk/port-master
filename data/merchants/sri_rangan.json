@@ -1,0 +1,20 @@
+{
+  "id": "sri_rangan",
+  "name": "Sri Rangan",
+  "bloc": "kling_bengal_pegu_pasai",
+  "origin": "Pulicat, Coromandel coast",
+  "ship_ids": [
+    "cloth",
+    "pulicat_white_border"
+  ],
+  "traits": [
+    "formal",
+    "proud"
+  ],
+  "bio": "Sri Rangan owns the Kaveri's indigo cotton. He sends an agent with his invitations and complaints; he counts a lost day on the wharf as a cost someone must pay.",
+  "notes": [
+    "fact: Coromandel cotton reached Melaka in the trade handled by the Kling merchant community (docs/research/commodities.md, Cloth; docs/research/port-official.md §3)",
+    "gameplay: The Kaveri is a Pulicat nau with indigo-dyed cotton. His later consignment of bordered cotton comes on the White Border, a different Pulicat nau (data/inspections/case_002.json; data/briefings/day_05_strange_sails_at_pasai.json)",
+    "gameplay: A fair count wins a dinner invitation; an unsupported hold brings a complaint. At a later purchase he offers cloth on credit if the shahbandar settles the earlier dispute openly, not if he is promised a berth in private (data/events/ev_kaveri_keling_invitation.json; data/events/ev_kaveri_held_complaint.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

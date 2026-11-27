@@ -1,0 +1,20 @@
+{
+  "id": "po_dara",
+  "name": "Po Dara",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Champa",
+  "ship_ids": [
+    "champa_river_lotus"
+  ],
+  "traits": [
+    "observant",
+    "diplomatic"
+  ],
+  "bio": "Po Dara brings the River Lotus from Champa with ceramic jars. He does not trust a trader who cannot tell a jar he bought from one he merely used for packing.",
+  "notes": [
+    "fact: Champa was served with the China and Ryukyu communities by one shahbandar, and Champa traffic came with the northeast monsoon (docs/research/port-official.md §3; docs/research/commodities.md, Monsoon Patterns)",
+    "inference: Regional ceramic traffic makes a coaster with ceramic jars plausible, without establishing Po Dara's exact cargo or port (docs/research/commodities.md, Porcelain)",
+    "gameplay: The River Lotus is a Champa coaster with glazed jars for sale. Po Dara wants return pepper and seeks business independent of the Guangzhou owners (docs/gameplay-blueprint.md §08)",
+    "gameplay: Ask about the Champa stop and he can corroborate the wet-silk story, not the Tioman stop. Accuse him of Hamzah's dealings on that evidence and he takes his jars to buyers outside Melaka (data/inspections/case_001.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

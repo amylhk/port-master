@@ -1,0 +1,19 @@
+{
+  "id": "lim_seng",
+  "name": "Lim Seng",
+  "bloc": "china_ryukyu_champa",
+  "origin": "Guangzhou",
+  "ship_ids": [
+    "porcelain"
+  ],
+  "traits": [
+    "courteous",
+    "reputation-conscious"
+  ],
+  "bio": "Lim Seng owns the Kim Hong and its declared porcelain and silk. He wants the honest part of the cargo and his house's name kept separate from his factor's dealings.",
+  "notes": [
+    "fact: Junks from Guangdong traded at Melaka, and Guangdong and Fujian merchants carried Chinese silk and ceramics (docs/research/ships-weights-currency.md, Chinese and Ryukyuan Junks; docs/research/commodities.md, Silk and Porcelain)",
+    "gameplay: The Kim Hong is a Guangzhou junk with porcelain bowls and raw silk. Lim Seng disclaims ownership of the nutmeg, not the whole cargo (data/inspections/case_001.json; data/events/ev_kim_hong_owner_plea.json)",
+    "gameplay: If the clean lots are kept distinct in a note to the temenggung, Lim Seng supplies a useful lead about Upeh; if the tea gift becomes the story, his fellow captains seek separate assurances before trading (data/events/ev_kim_hong_owner_plea.json; docs/gameplay-blueprint.md §09)"
+  ]
+}

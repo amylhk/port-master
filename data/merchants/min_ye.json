@@ -1,0 +1,19 @@
+{
+  "id": "min_ye",
+  "name": "Min Ye",
+  "bloc": "kling_bengal_pegu_pasai",
+  "origin": "Pegu",
+  "ship_ids": [
+    "pegu_river_hen"
+  ],
+  "traits": [
+    "deliberate",
+    "hard to hurry"
+  ],
+  "bio": "Min Ye sells rice and ship timber from the River Hen. He can wait longer than the Javanese fleet, but will not keep his crew at anchor on the strength of a vague promise.",
+  "notes": [
+    "fact: Pegu supplied both rice and teak for shipbuilding; Pegu-built jongs were also sold in Melaka (docs/research/commodities.md, Rice and Timber; Tomé Pires, Suma Oriental, Cortesão ed., I p. 195)",
+    "gameplay: The River Hen is a Pegu-built jong carrying rice and ship timber. Min Ye asks for the first berth before accepting a wait (data/briefings/day_02_rice_before_pepper.json)",
+    "gameplay: Keep the promised berth and he offers spare planks on a later repair day. Break it and he takes the timber upriver, leaving Sura to find another supplier before his next run (docs/gameplay-blueprint.md §§08–10)"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "khoja_ismail",
+  "name": "Khoja Ismail",
+  "bloc": "gujarati",
+  "origin": "Cambay",
+  "ship_ids": [
+    "resin"
+  ],
+  "traits": [
+    "guarded",
+    "protective"
+  ],
+  "bio": "Khoja Ismail owns the Salamat, the Cambay nau with frankincense and rosewater. He would rather miss a sale than put a crewman's name into waterfront talk.",
+  "notes": [
+    "fact: Cambay companies carried western Indian Ocean wares to Melaka on Gujarati naus (Tomé Pires, Suma Oriental, Cortesão ed., I pp. 43, II pp. 268–270; docs/research/ships-weights-currency.md)",
+    "gameplay: The Salamat carries Arabian frankincense and rosewater in glass flasks; Hassan is the factor and Dawud the captain. The manifest, seal and undeclared passenger are fictional (data/inspections/case_004.json)",
+    "gameplay: If Farid is heard by the bendahara, Ismail offers to keep part of his resin ashore while the fleet decides whether to stay. If Farid vanishes, Ismail asks for an early departure and takes his rosewater buyers with him (data/events/ev_bendahara_summons.json; data/events/ev_stranger_in_upeh.json; docs/gameplay-blueprint.md §09)"
+  ]
+}
