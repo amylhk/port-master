@@ -220,12 +220,12 @@ func _harbour_hint() -> String:
         return notice
     if day.all_ships_resolved():
         return "港口已漸平靜，可以結束首次值勤。"
+    if day.berths.size() == PortDay.BERTH_CAPACITY:
+        return "兩個泊位均已佔用，請推進至下次港鐘。"
     if day.waiting.size() == PortDay.ANCHORAGE_CAPACITY and day.minute_of_day > 540:
         return _hint_text("anchorage_full", "錨地已滿，請安排等候的船隻靠泊。")
     if day.minute_of_day == 540 and day.berths.is_empty():
         return _hint_text("first_ship", "將船隻拖至空泊位，讓稻米供應市集。")
-    if day.berths.size() == PortDay.BERTH_CAPACITY:
-        return "兩個泊位均在卸貨，請推進至下次港鐘。"
     for ship in day.waiting:
         if int(ship["departure"]) - day.minute_of_day <= 75:
             return _hint_text("tide_warning", "留意潮汐！船隻將於限時離港。")
