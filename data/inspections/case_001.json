@@ -1,34 +1,225 @@
 {
   "id": "case_001",
-  "title": "The weight of Lot Seven",
-  "subtitle": "Port of Melaka / Inbound customs docket 007",
+  "title": "The jars from Guangzhou",
+  "subtitle": "A junk from Guangzhou rides at anchor, deep in the water. Last night a porter said the factor aboard paid a boatman well to keep quiet about something. You board her for a Detailed Inspection.",
   "minutes": 45,
   "evidence": [
-    {"id":"manifest", "label":"01  Manifest", "title":"Signed declaration", "text":"Chinese Porcelain Trader • Captain Lin • from Quanzhou\nOwner: Lin trading house\nLot 7: six standard stacks of common bowls (60 bowls). No other goods declared."},
-    {"id":"exterior", "label":"02  Exterior", "title":"Lot Seven on the quay scale", "text":"The lid is tied with a green cord. The scale reads 18 catties gross. The bonded jar and its packing are stamped 3 catties tare.", "image":"res://assets/inspection/lot-seven.svg"},
-    {"id":"contents", "label":"03  Open jar", "title":"Beneath the lowest stack", "text":"All six stacks have intact stamped spacers. The reeds and paper are dry. Beneath them is an unlisted packet: three waxy, aromatic lumps with red crystalline grains on a broken edge."},
-    {"id":"testimony", "label":"04  Captain", "title":"Captain Lin's account", "text":"“We weighed it at eighteen. I told the clerk it was damp packing. The cord came off an older shipment. Count the bowls if you like.”"}
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Kim Hong’s declaration",
+      "text": "Kim Hong — Junk from Guangzhou\nMorning, first day of inspection season\n\nOwner Lim Seng of Guangzhou. 24 jars of bowls, 10 bales of silk. Route Guangzhou - Champa - Melaka. One note: silk bale 7 resealed at Champa after sea water. No other note.\n\nPorcelain: large storage jars, each packed with 30 small bowls in straw\nQuantity: 24 jars · Grade: Fine · Declared value: 480\n\nSilk, raw, in bales\nQuantity: 10 bales · Grade: Fine · Declared value: 600\n\nManifest note: Silk bale 7 opened at Champa after sea water; dried and resealed by the nakhoda with the ship's seal."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Seals & weights",
+      "title": "Marks, seals and the weighers’ call",
+      "text": "Jar seals: forward rows (20 jars)\nDry, grey clay seals pressed with a circle crossed by one upright line. All alike.\n\nJar seals: after row (4 jars)\nReddish clay, still slightly soft at the edges, pressed with a fish facing left. Straw around these jars is loose and freshly scattered.\n\nWeights: forward-row jars\nThe porters call out 33, 34, 32, 35, 34 kati... every forward jar between 32 and 36 kati.\n\nWeights: after-row jars\nThe four after-row jars weigh 45, 46, 45 and 47 kati.\n\nSilk bale seals\nNine bales carry Lim Seng's circle-and-line mark. Bale 7 carries a square seal with a notched corner, the nakhoda's registered ship's seal.\n\nWeights: silk bales\nAll ten bales between 9 and 11 kati. Bale 7 weighs 10 kati.\n\nOng Kuan\nWhy does silk bale 7 carry your seal?\nIt was soaked in the squall off Champa. I dried it and resealed it myself. It is written on the manifest.\n\nTan Bo\nWhy do four jars carry a fish mark, not your master's?\nJars rub against each other in the hold. Perhaps a porter at Champa pressed a new seal. It means nothing.\n\nTan Bo\nWhy are the after-row jars so heavy?\nThicker clay. Some kilns make heavier jars."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "The people aboard",
+      "text": "Tan Bo — Factor (agent) of Lim Seng, merchant of Guangzhou\nEvery jar was packed and sealed in my master's warehouse at Guangzhou, under his mark. Porcelain bowls and silk, nothing more. Lim Seng has traded honestly here for years.\n\nOng Kuan — Nakhoda (captain)\nGuangzhou to Champa, then straight down to Melaka. We stopped nowhere after Champa. Bale 7 of the silk was soaked in a squall off Champa; I dried it, resealed it with my ship's seal, and wrote it on the manifest.\n\nLiang — Helmsman\nOff Pulau Tioman we lay two nights taking on water, same as every junk coming down this coast.\n\nAh Fu — Cook\nAt Tioman a prau came alongside after dark. The factor sent us all below. Next morning the jars in the after row had been stacked again, and the straw was everywhere.\n\nSumantri — Deckhand, from Java\nThe squall off Champa put sea water in the hold. One silk bale was soaked. The nakhoda had it opened and dried on deck for three days, then sealed it again himself.\n\nOng Kuan\nDid you stop anywhere after Champa?\nNowhere. Straight down the coast to Melaka.\n\nLiang\nWhere did you stop on the way down?\nChampa for trade, then two nights off Pulau Tioman for water.\n\nAh Fu\nWhat happened at Tioman?\nA prau came alongside after dark. The factor sent us below. In the morning the after row of jars had been restacked.\n\nSumantri\nWhat happened to the silk?\nThe squall off Champa soaked one bale. The nakhoda dried it on deck for three days and sealed it again himself.\n\nOng Kuan\nYour helmsman says you lay off Tioman two nights.\nWater. A ship must drink. It was not worth writing down."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open cargo",
+      "title": "Inside the jars and the silk bale",
+      "text": "Opened: a forward-row jar\nThirty small blue-and-white bowls nested in straw. Two are chipped. Nothing else.\n\nOpened: an after-row jar\nOne layer of eight bowls on top. Beneath a straw mat, the jar is packed tight with whole nutmegs, about 18 kati of them.\n\nOpened: silk bale 7\nRaw silk, dry, with a faint pale tide-line from sea water along one edge. Nothing else inside.\n\nTan Bo\nWhat is this nutmeg doing under your bowls?\nHe says nothing for a long moment, then asks that the matter go before the temenggung himself."
+    }
   ],
   "rulings": [
-    {"id":"clear", "label":"Clear the declaration as filed"},
-    {"id":"amend", "label":"Add 3 catties of red-grain frankincense"},
-    {"id":"amend_white", "label":"Add 3 catties of white frankincense"},
-    {"id":"amend_six", "label":"Add 6 catties of red-grain frankincense"},
-    {"id":"hold", "label":"Hold the lot for prohibited cargo"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id":"cord", "label":"Use the green transit cord as proof of the contents."},
-    {"id":"damp", "label":"Use the captain’s account of damp packing."},
-    {"id":"gross", "label":"Compare the gross scale reading directly against the bowl weight."},
-    {"id":"weight_resin", "label":"Deduct the stamped tare and intact bowls; match the parcel to the manual."}
+    {
+      "id": "foreign_seal",
+      "label": "Silk bale 7 was resealed with a foreign seal."
+    },
+    {
+      "id": "breakage",
+      "label": "The chipped bowls suggest an honest failure to declare damage."
+    },
+    {
+      "id": "thick_clay",
+      "label": "Thicker clay accounts for the heavier jars."
+    },
+    {
+      "id": "marks_weight_route",
+      "label": "The fish marks, excess weight and conflicting Tioman accounts point to concealment."
+    }
   ],
   "hidden_truth": {
-    "ruling_id":"amend",
-    "reason_id":"weight_resin",
-    "extra_duty":18,
-    "success":"Amendment accepted. The intact bowls account for twelve catties; the dry jar and packing account for three. The remaining three are legal red-grain frankincense, liable for 18 extra duty when the ship trades.",
-    "clear":"Cleared as filed. No additional duty assessed.",
-    "unsupported":"The evidence cited did not support the amendment. The declaration stands; no additional duty assessed.",
-    "hold":"The hold stopped lawful trade: red-grain frankincense is declarable, not prohibited."
+    "ruling_id": "major_fraud",
+    "reason_id": "marks_weight_route",
+    "extra_duty": 18,
+    "success": "In the temenggung's name, you hold the four after-row jars and send Tan Bo and the nakhoda to his judgement. The rest of Lim Seng's porcelain and silk is cleared. Word spreads that the shahbandar reads seals closely.\n\nThe fish marks belong to a suspended merchant. The heavier jars and the crew’s account of Tioman explain why the nakhoda denied the stop; the nutmeg beneath the bowls confirms concealment. The weighers assess 18 in fees when the rest of the cargo trades: 1 in every 100 on 72 kati of nutmeg valued at 1,800. No western dues apply.",
+    "clear": "You clear the Kim Hong. The nutmeg lands as bowls, never declared. Within days the market whispers that a suspended merchant's goods walked past the shahbandar.",
+    "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no fee is recovered on the undeclared cargo.",
+    "hold": "You hold the whole ship and send word to the court of a matter of state. The court's men find spice, not secrets, and ask why they were troubled. The day's sale is lost."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Chinese Porcelain Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "major_fraud",
+      "summary": "Four jars of Encik Hamzah's nutmeg were loaded at night off Tioman and passed off as Lim Seng's porcelain.",
+      "explanation": "Encik Hamzah, suspended from landing goods at Melaka, sold nutmeg to Tan Bo off Pulau Tioman. Four jars sealed with Hamzah's fish mark were swung aboard from a prau at night and stowed in the after row to pass as Lim Seng's bowls, so the nutmeg would land undeclared and Hamzah's ban would be evaded. The nakhoda left the Tioman stop out to cover it. Silk bale 7 is a red herring: its reseal is noted on the manifest, matches the deckhand's account and the bale's contents, and is in order under the manual.",
+      "key_clues": [
+        "ev_jar_seals_after",
+        "ev_jar_weights_after",
+        "q_helmsman_route",
+        "q_cook_tioman",
+        "ev_jar_open_after"
+      ],
+      "deduction": [
+        "The manual's register gives the fish facing left to Encik Hamzah of Pahang, who is suspended. Those four jars cannot be Lim Seng's lots as declared.",
+        "The manual says a jar of bowls weighs 31-37 kati and a jar of dense goods 42 or more. The after-row jars weigh 45-47: they hold something denser than bowls.",
+        "The nakhoda says there were no stops after Champa; the helmsman says two nights at Tioman; the cook saw a prau come alongside there and the after row restacked. The captain's account is false and points to when the jars came aboard.",
+        "Opening an after-row jar confirms it: about 18 kati of undeclared nutmeg under a thin layer of bowls.",
+        "Hidden goods, a suspended merchant's mark and a lie to cover the stop are deliberate deception, not an honest error: Major Fraud. Nothing points beyond trade, so it is not a Story Event."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": [
+        {
+          "evidence": "ev_silk_seals",
+          "why_not_guilt": "Resealing with the nakhoda's registered seal is permitted when the manifest notes it. The note, the deckhand's account, the normal weight and the tide-line all agree."
+        },
+        {
+          "evidence": "ev_jar_open_main",
+          "why_not_guilt": "Two chipped bowls in an otherwise normal jar are ordinary breakage."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "You clear the Kim Hong. The nutmeg lands as bowls, never declared. Within days the market whispers that a suspended merchant's goods walked past the shahbandar.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -2
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "You correct the manifest to add four jars of nutmeg, and the weighers charge their fee on them. Tan Bo pays quickly, relieved. Encik Hamzah's ban has been quietly broken, and the nakhoda's lie goes unanswered.",
+        "effects": {
+          "revenue": 1,
+          "merchant_trust": 0,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "major_fraud": {
+        "text": "In the temenggung's name, you hold the four after-row jars and send Tan Bo and the nakhoda to his judgement. The rest of Lim Seng's porcelain and silk is cleared. Word spreads that the shahbandar reads seals closely.",
+        "effects": {
+          "revenue": 2,
+          "merchant_trust": -1,
+          "office_reputation": 2
+        },
+        "correct": true
+      },
+      "story_event": {
+        "text": "You hold the whole ship and send word to the court of a matter of state. The court's men find spice, not secrets, and ask why they were troubled. The Kim Hong loses a day at the berth.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -2,
+          "office_reputation": -1
+        },
+        "correct": false
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Nakhoda",
+        "note": "Malay term for a ship's master or captain, widely used in the period's trade.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Pulau Tioman",
+        "note": "A well-known landmark and watering stop for ships sailing the coast of the Malay peninsula.",
+        "confidence": "medium"
+      },
+      {
+        "topic": "Chinese junks at Melaka",
+        "note": "Junks from China traded at Melaka before 1511 and were received by the shahbandar for China, the Ryukyus and Champa; as eastern ships they paid presents rather than the 6% dues, plus the 1% weighing fee (Pires pp. 265, 274).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Customs judge",
+        "note": "The temenggung received dues and sat as Customs Judge (Pires pp. 265, 273); rulings are made in his name.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Player role",
+        "note": "The player is a shahbandar; port-wide authority over berths and inspection is a game abstraction.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Merchant marks, seals and weight ranges",
+        "note": "The register, sealing rules and weights are this game's own rules. They are not documented period conventions.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "People",
+        "note": "All named merchants, crew and the ship are fictional.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_jar_seals_main": "inspect",
+      "ev_jar_seals_after": "inspect",
+      "ev_jar_weights_main": "inspect",
+      "ev_jar_weights_after": "inspect",
+      "ev_jar_open_main": "open",
+      "ev_jar_open_after": "open",
+      "ev_silk_seals": "inspect",
+      "ev_silk_weights": "inspect",
+      "ev_silk_open": "open"
+    },
+    "question_prerequisites": {
+      "q_captain_route": [],
+      "q_captain_tioman": [
+        "q_helmsman_route"
+      ],
+      "q_captain_silk": [
+        "ev_silk_seals"
+      ],
+      "q_factor_fish": [
+        "ev_jar_seals_after"
+      ],
+      "q_factor_weight": [
+        "ev_jar_weights_after"
+      ],
+      "q_factor_nutmeg": [
+        "ev_jar_open_after"
+      ],
+      "q_helmsman_route": [],
+      "q_cook_tioman": [],
+      "q_deckhand_silk": []
+    }
   }
 }

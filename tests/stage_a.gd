@@ -17,6 +17,8 @@ func _run() -> void:
         _expect(false, "main scene loads the day, case, and manual")
         quit(1)
         return
+    _expect(day.inspection["title"] == "The jars from Guangzhou", "main scene loads the authored inspection")
+    _expect(day.manual["entries"].size() == 11, "main scene loads all authored manual entries")
 
     _expect(day.waiting.size() == 3, "morning harbour has three waiting ships")
     harbour._berth("rice", false)
@@ -42,7 +44,7 @@ func _run() -> void:
     harbour.ruling_index = 1
     harbour.reason_index = 3
     harbour._rule()
-    _expect(day.recovered_duty == 0, "the amendment pays only when trade completes")
+    _expect(day.recovered_duty == 0, "the weighing fee is credited only when trade completes")
     harbour._advance(60)
     _expect(day.rice == 24 and day.lost == 1 and day.duty == 38 and day.recovered_duty == 18, "correct proof recovers duty at the cost of the pepper tide")
     harbour._advance(420)
@@ -51,19 +53,22 @@ func _run() -> void:
     harbour._restart()
     harbour._berth("pepper", false)
     harbour._berth("porcelain", true)
-    day.rule("amend", "damp")
+    day.rule("major_fraud", "foreign_seal")
     harbour._advance(60)
-    _expect(day.rice == 0 and day.duty == 34 and day.recovered_duty == 0 and day.lost == 1, "guessing the amendment with bad evidence recovers nothing")
+    _expect(day.rice == 0 and day.duty == 34 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
 
     harbour._restart()
     harbour._berth("porcelain", true)
-    day.rule("hold", "cord")
+    day.rule("hold", "foreign_seal")
     _expect(day.lost == 1 and day.berths.is_empty(), "an unjustified hold forfeits the porcelain sale")
 
     harbour._restart()
     harbour._advance(30)
     _expect(day.waiting.size() == 3 and day.lost == 1, "a full anchorage forfeits the next arrival")
     if failures == 0:
+        print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
+            day.manual["entries"].size(), day.inspection["id"], day.inspection["title"], day.inspection["evidence"].size(),
+        ])
         print("Stage A checks passed: capacity, deadlines, trade-offs, inspection proof, and closing ledger.")
     quit(1 if failures else 0)
 
