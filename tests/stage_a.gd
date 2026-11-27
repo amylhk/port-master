@@ -52,7 +52,7 @@ func _run() -> void:
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text == "Both berths are occupied."
         and _has_label(harbour, blocked_inspection.tooltip_text), "occupied berths explain the disabled inspection")
     harbour._advance(60)
-    _expect(day.rice == 24 and day.duty == 30, "two berths unload in parallel")
+    _expect(day.rice == 24 and day.duty == 22, "two berths unload in parallel")
     _expect(day.ship_at_anchor(0).get("id") == "resin" and day.ship_at_anchor(2).get("id") == "porcelain",
         "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
@@ -63,7 +63,7 @@ func _run() -> void:
     harbour._berth("porcelain", false)
     _expect(day.flags.has("case_001_cleared"), "berthing without inspection records case clearance")
     harbour._advance(60)
-    _expect(day.completed == 3 and day.duty == 42, "cleared porcelain trades exactly on the deadline")
+    _expect(day.completed == 3 and day.duty == 34, "cleared porcelain trades exactly on the deadline")
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -126,7 +126,7 @@ func _run() -> void:
         and day.ruling_note.contains("Correct ruling: Major Fraud")
         and day.ruling_note.contains("fish marks"), "wrong-proof feedback names the right ruling and decisive finding")
     harbour._advance(60)
-    _expect(day.rice == 0 and day.duty == 34 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
+    _expect(day.rice == 0 and day.duty == 26 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -166,6 +166,7 @@ func _run() -> void:
     await process_frame
     _expect(scroll.get_h_scroll_bar().visible, "the harbour remains horizontally scrollable at 460px")
     root.size = Vector2i(1280, 960)
+    _test_closing_tradeoff(harbour)
     _check_evenings(harbour)
     await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
@@ -248,7 +249,7 @@ func _test_late_inspections(harbour) -> void:
     _expect(day.flags.has("case_003_minor_fault") and day.flags.has("case_002_cleared"),
         "the tin amendment and cloth clearance record different case outcomes")
     harbour._advance(60)
-    _expect(day.completed == 4 and day.duty == 54 and day.recovered_duty == 1,
+    _expect(day.completed == 4 and day.duty == 46 and day.recovered_duty == 1,
         "the minor fault adds one duty and the correct clear releases cloth at declared duty")
 
 
@@ -565,3 +566,45 @@ func _expect(condition: bool, message: String) -> void:
     if not condition:
         failures += 1
         push_error("FAILED: " + message)
+
+
+func _test_closing_tradeoff(harbour) -> void:
+    var safe := _replay_plan(harbour, "Efficient skip", "pepper")
+    var correct := _replay_plan(harbour, "Correct inspection", "porcelain", "marks_weight_route")
+    var wrong := _replay_plan(harbour, "Unsupported inspection", "porcelain", "foreign_seal")
+    var naive := _replay_plan(harbour, "Porcelain-first skip", "porcelain")
+    var target := int(harbour.day.scenario["rice_target"])
+    _expect(correct.rice == target and safe.rice == target, "both main plans meet the rice target")
+    _expect(correct.duty > safe.duty and correct.recovered > 0,
+        "a correct porcelain inspection earns more closing duty than the efficient skip")
+    _expect(safe.lost == 0 and safe.lost < correct.lost and safe.traded > correct.traded,
+        "the efficient skip saves a sale that inspection costs")
+    _expect(wrong.recovered == 0 and wrong.duty < safe.duty and naive.duty < safe.duty,
+        "an unsupported ruling and a porcelain-first skip earn less than the efficient skip")
+
+
+func _replay_plan(harbour, plan: String, second_ship: String, reason: String = "") -> Dictionary:
+    harbour._restart()
+    _press(harbour, "Continue")
+    var day = harbour.day
+    harbour._berth("rice", false)
+    harbour._berth(second_ship, not reason.is_empty())
+    if not reason.is_empty():
+        day.rule("major_fraud", reason)
+    if second_ship == "pepper":
+        harbour._advance(60)
+        harbour._berth("porcelain", false)
+
+    harbour._advance(660 - day.minute_of_day)
+    harbour._berth("resin", false)
+    harbour._berth("tin", false)
+    harbour._advance(60)
+    harbour._berth("cloth", false)
+    harbour._advance(int(day.scenario["end_minute"]) - day.minute_of_day)
+    _expect(day.closed() and "CLOSING LEDGER" in _label_texts(harbour.content),
+        "%s reaches the closing ledger" % plan)
+    print("%s: %d duty, %d/%d rice, %d traded, %d lost, %d held, %d recovered duty, %d supply, %d reputation" % [
+        plan, day.duty, day.rice, day.scenario["rice_target"], day.completed, day.lost, day.held, day.recovered_duty,
+        day.supply, day.reputation,
+    ])
+    return {"duty": day.duty, "rice": day.rice, "traded": day.completed, "lost": day.lost, "recovered": day.recovered_duty}
