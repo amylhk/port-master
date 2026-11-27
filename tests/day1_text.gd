@@ -7,6 +7,8 @@ const HINT_IDS := [
     "open_cargo", "check_manual", "stamp", "day_end",
 ]
 
+var cjk := RegEx.create_from_string("[㐀-鿿]")
+
 
 func _initialize() -> void:
     var hints: Variant = JSON.parse_string(FileAccess.get_file_as_string(HINTS_PATH))
@@ -14,7 +16,6 @@ func _initialize() -> void:
         _fail("Expected %d hints in %s." % [HINT_IDS.size(), HINTS_PATH])
         return
 
-    var words := RegEx.create_from_string("\\S+")
     var remaining := HINT_IDS.duplicate()
     for hint in hints:
         if not hint is Dictionary or hint.size() != 2:
@@ -25,19 +26,19 @@ func _initialize() -> void:
         if not id is String or not remaining.has(id):
             _fail("Unexpected or duplicate hint ID: %s." % str(id))
             return
-        if not line is String or line.strip_edges().is_empty() or words.search_all(line).size() >= 10:
-            _fail("Hint %s must contain one to nine words." % id)
+        if not _check_length(line, 14, "hint " + id):
+            quit(1)
             return
         remaining.erase(id)
 
-    print("Day 1 hint checks passed: %d hints under 10 words each." % hints.size())
-    if not _check_short_text(words):
+    print("Day 1 hint checks passed: %d hints, up to 14 characters each." % hints.size())
+    if not _check_short_text():
         quit(1)
         return
     quit()
 
 
-func _check_short_text(words: RegEx) -> bool:
+func _check_short_text() -> bool:
     var short: Variant = _read_json(SHORT_PATH)
     if not _check_keys(short, ["briefings", "ships", "cases", "events"], SHORT_PATH):
         return false
@@ -53,13 +54,13 @@ func _check_short_text(words: RegEx) -> bool:
     var briefings := _day_one_stories("res://data/briefings")
     briefings["port_day"] = port
     var events := _day_one_stories("res://data/events")
-    if not _check_entries(short["briefings"], briefings, "briefings", words):
+    if not _check_entries(short["briefings"], briefings, "briefings"):
         return false
-    if not _check_entries(short["ships"], ships, "ships", words):
+    if not _check_entries(short["ships"], ships, "ships"):
         return false
-    if not _check_entries(short["cases"], cases, "cases", words, {"evidence": 12, "rulings": 5}):
+    if not _check_entries(short["cases"], cases, "cases", {"evidence": 24, "rulings": 8}):
         return false
-    if not _check_entries(short["events"], events, "events", words, {"choices": 5}):
+    if not _check_entries(short["events"], events, "events", {"choices": 8}):
         return false
 
     print("Day 1 short text checks passed: %d briefings, %d ships, %d cases, %d events." % [
@@ -68,7 +69,7 @@ func _check_short_text(words: RegEx) -> bool:
     return true
 
 
-func _check_entries(entries: Variant, sources: Dictionary, section: String, words: RegEx, limits := {}) -> bool:
+func _check_entries(entries: Variant, sources: Dictionary, section: String, limits := {}) -> bool:
     if not _check_keys(entries, sources.keys(), section):
         return false
     for id in sources:
@@ -86,7 +87,7 @@ func _check_entries(entries: Variant, sources: Dictionary, section: String, word
                 return _invalid("%s must name an existing speaker portrait." % location)
         if not _check_keys(entry, fields, location):
             return false
-        if not _check_length(entry["line"], 15, location + "/line", words):
+        if not _check_length(entry["line"], 30, location + "/line"):
             return false
         for field in limits:
             var ids := []
@@ -95,7 +96,7 @@ func _check_entries(entries: Variant, sources: Dictionary, section: String, word
             if not _check_keys(entry[field], ids, location + "/" + field):
                 return false
             for item_id in ids:
-                if not _check_length(entry[field][item_id], limits[field], "%s/%s/%s" % [location, field, item_id], words):
+                if not _check_length(entry[field][item_id], limits[field], "%s/%s/%s" % [location, field, item_id]):
                     return false
     return true
 
@@ -106,9 +107,9 @@ func _check_keys(value: Variant, keys: Array, location: String) -> bool:
     return true
 
 
-func _check_length(value: Variant, limit: int, location: String, words: RegEx) -> bool:
-    if not value is String or value.strip_edges().is_empty() or words.search_all(value).size() > limit:
-        return _invalid("%s must contain one to %d words." % [location, limit])
+func _check_length(value: Variant, limit: int, location: String) -> bool:
+    if not value is String or value.length() > limit or cjk.search(value) == null:
+        return _invalid("%s must contain Chinese text and at most %d characters." % [location, limit])
     return true
 
 

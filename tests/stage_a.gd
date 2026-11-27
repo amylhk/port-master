@@ -10,10 +10,10 @@ const CITATION_MENU := [
     "Check the declaration",
 ]
 const INSPECTION_EXAMPLES := [
-    ["case_001", "porcelain", "major_fraud", "Examine opened cargo", "45, 46, 45 and 47 kati"],
-    ["case_002", "cloth", "clear", "Compare counts and weights", "Bale B: nineteen rolls"],
-    ["case_003", "tin", "minor_fault", "Cross-check testimony and records", "8 bahar"],
-    ["case_004", "resin", "hold", "Examine opened cargo", "94 kati"],
+    ["case_001", "porcelain", "major_fraud", "Examine opened cargo", "45、46、45和47斤"],
+    ["case_002", "cloth", "clear", "Compare counts and weights", "乙包：19卷"],
+    ["case_003", "tin", "minor_fault", "Cross-check testimony and records", "8巴哈"],
+    ["case_004", "resin", "hold", "Examine opened cargo", "94斤"],
 ]
 
 var failures := 0
@@ -27,13 +27,19 @@ func _run() -> void:
     root.size = Vector2i(1280, 960)
     var harbour = Harbour.instantiate()
     root.add_child(harbour)
+    var label := harbour.find_children("*", "Label", true, false)[0] as Label
+    var font := label.get_theme_font("font")
+    _expect(font is FontVariation and font.variation_opentype.get(0x77676874) == 400,
+        "the harbour uses the project's Regular font")
+    _expect(font.has_char("驗".unicode_at(0)) and font.has_char("A".unicode_at(0)),
+        "the harbour font includes Traditional Chinese and Latin glyphs")
     var day = harbour.day
     var inspection: Dictionary = day.inspection_for(day.ship_at_anchor(2))
     if day.scenario.is_empty() or inspection.is_empty() or day.manual.is_empty():
         _expect(false, "main scene loads the day, case, and manual")
         quit(1)
         return
-    _expect(inspection["title"] == "The jars from Guangzhou", "main scene loads the authored inspection")
+    _expect(inspection["title"] == "廣州來的貨甕", "main scene loads the authored inspection")
     _expect(day.manual["entries"].size() == 11, "main scene loads all authored manual entries")
     _expect(day.events.size() == 14, "main scene loads all authored evening events")
     _expect(day.briefings.size() == 9 and day.current_story().get("id") == "day_01_turn_of_the_monsoon",
@@ -48,7 +54,7 @@ func _run() -> void:
     _expect(day.ship_at_anchor(0).is_empty() and day.ship_at_anchor(1).get("id") == "pepper",
         "assigning one ship keeps the other ship in its original row")
     harbour._berth("pepper", false)
-    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "Kim Hong")
+    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "金豐號")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text == "Both berths are occupied."
         and _has_label(harbour, blocked_inspection.tooltip_text), "occupied berths explain the disabled inspection")
     harbour._advance(60)
@@ -57,7 +63,7 @@ func _run() -> void:
         "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
     _expect(day.pending_case.is_empty(), "serving both early ships misses the inspection window")
-    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "Kim Hong")
+    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "金豐號")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text.contains("before departure")
         and _has_label(harbour, blocked_inspection.tooltip_text), "a missed tide explains the disabled inspection")
     harbour._berth("porcelain", false)
@@ -84,15 +90,20 @@ func _run() -> void:
         and _has_label(harbour, submit.tooltip_text), "filing explains the remaining missing choice")
     citation.item_selected.emit(4)
     _expect(not submit.disabled and submit.tooltip_text.is_empty(), "the hint clears once the ruling can be filed")
-    _button_named(harbour, "02  Seals & weights").pressed.emit()
-    _button_named(harbour, "04  Open cargo").pressed.emit()
-    _button_named(harbour, "01  Manifest").pressed.emit()
-    _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, "45, 46, 45 and 47 kati"),
+    _button_named(harbour, "02  封印與重量").pressed.emit()
+    _button_named(harbour, "04  開箱驗貨").pressed.emit()
+    _button_named(harbour, "01  貨單").pressed.emit()
+    _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, "45、46、45和47斤"),
         "viewing another evidence page retains the recorded weights")
-    _expect(_has_label(harbour, "about 18 kati of them"),
+    _expect(_has_label(harbour, "約18斤"),
         "the opened jar's nutmeg weight remains in the measurements after switching tabs")
-    _expect(_has_label(harbour, "Thirty small blue-and-white bowls"),
+    _expect(_has_label(harbour, "30隻青花小碗"),
         "the opened comparison jar's written count remains in the measurements after switching tabs")
+    _expect(harbour.recorded_measurements["ev_exterior"].begins_with("重量：")
+        and harbour.recorded_measurements["ev_opened"].begins_with("開箱：")
+        and not harbour.recorded_measurements["ev_exterior"].contains("為何")
+        and not harbour.recorded_measurements["ev_opened"].contains("為何"),
+        "the translated headings retain measurement excerpts without unrelated questions")
     var scroll := harbour.find_children("*", "ScrollContainer", true, false)[0] as ScrollContainer
     harbour.evidence_index = inspection["evidence"].size()
     harbour._render()
@@ -123,8 +134,8 @@ func _run() -> void:
         and not day.flags.has("any_ruling_amended") and not day.flags.has("major_fraud_ruled"),
         "an unsupported fraud ruling clears the case and records neither an amendment nor proven fraud")
     _expect(day.ruling_note.contains("The ruling was right, but the cited evidence")
-        and day.ruling_note.contains("Correct ruling: Major Fraud")
-        and day.ruling_note.contains("fish marks"), "wrong-proof feedback names the right ruling and decisive finding")
+        and day.ruling_note.contains("Correct ruling: 重大欺詐")
+        and day.ruling_note.contains("魚紋"), "wrong-proof feedback names the right ruling and decisive finding")
     harbour._advance(60)
     _expect(day.rice == 0 and day.duty == 26 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
 
@@ -192,7 +203,7 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     harbour._berth("rice", false)
     harbour._advance(30)
     harbour._berth("resin", false)
-    _expect(day.ruling_note == "Frankincense cleared on the declaration alone.",
+    _expect(day.ruling_note == "乳香 cleared on the declaration alone.",
         "skipping the story case names the selected cargo")
     _expect(day.flags.has("case_004_cleared"), "clearing the story ship without inspecting records its own case")
 
@@ -408,13 +419,13 @@ func _check_evenings(harbour: Control) -> void:
     day.choose_story("missing_choice")
     _expect(day.current_story().get("id") == "ev_lost_ship_agent" and day.story_outcome.is_empty() and day.duty == -12,
         "an unknown or unselected choice cannot apply effects or skip an event")
-    _press(harbour, "Pay the broker to write")
+    _press(harbour, "付費請掮客寫信")
     day.choose_story("pay_broker")
     _expect(day.story_outcome.get("id") == "pay_broker" and day.duty == -14 and day.reputation == 1,
         "the selected outcome applies its effects exactly once")
     _press(harbour, "Continue")
     _expect(day.current_story().get("id") == "ev_rice_market_petition", "continuing shows the next match")
-    _press(harbour, "Promise rice the first berth tomorrow")
+    _press(harbour, "答應明天先讓米船靠泊")
     _expect(day.duty == -16 and day.supply == 0 and day.reputation == 2,
         "the two evening choices add their duty and reputation changes, but the promise brings no rice today")
     _press(harbour, "Continue")
@@ -449,7 +460,7 @@ func _check_evenings(harbour: Control) -> void:
     harbour._berth("rice", false)
     harbour._advance(600)
     _press(harbour, "Continue to evening")
-    _press(harbour, "Refuse and let the matter rest")
+    _press(harbour, "拒絕掮客，讓此事作罷")
     _press(harbour, "Continue")
     _expect(day.current_story().get("id") == "ev_rice_market_thanks", "the event without choices is shown")
     _press(harbour, "Continue")
@@ -642,14 +653,14 @@ func _test_rice_balance() -> void:
 
 func _finish_rice_balance_evening(harbour) -> void:
     _press(harbour, "Continue to evening")
-    _press(harbour, "Speak for Lim Seng’s good name")
+    _press(harbour, "為林成的名聲說項")
     _press(harbour, "Continue")
-    _press(harbour, "Pay the broker to write")
+    _press(harbour, "付費請掮客寫信")
     _press(harbour, "Continue")
     if harbour.day.current_story().get("id") == "ev_rice_market_petition":
-        _press(harbour, "Promise rice the first berth tomorrow")
+        _press(harbour, "答應明天先讓米船靠泊")
     _press(harbour, "Continue")
-    _press(harbour, "Leave it to the temenggung’s watch")
+    _press(harbour, "交由天猛公的巡守處理")
     _press(harbour, "Continue")
     _expect(harbour.day.current_story().is_empty(), "the rice balance replay finishes its evening events")
 

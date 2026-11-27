@@ -1,8 +1,8 @@
 {
   "id": "day_01_turn_of_the_monsoon",
   "day": 1,
-  "title": "The first day of inspection season",
-  "body": "Shahbandar, the southwest winds have set in. The western ships are coming down the Strait, and the last China junks are making ready to sail home.\n\nExpected in port: a Javanese rice trader and a pepper ship from the Malabar coast at first light; the Kim Hong, a junk from Guangzhou with porcelain and silk; the Salamat, a Gujarati nau from Cambay with frankincense, seen at the river mouth with a torn foresail; the Arus, a perahu from Perak with tin, mid-morning; and the Kaveri from Pulicat with dyed cotton before noon.\n\nTides: the 10:15 tide takes both the rice and the pepper ship. The Kim Hong sails at 11:00. The others can wait into the afternoon, but the anchorage holds only three.\n\nMarket: the rice stalls are thin. The town wants all twenty-four sacks ashore today. Pepper earns more in dues, and the Chinese buyers will take every bahar of it.\n\nNews: a porter says the Kim Hong's factor paid a boatman well last night to keep quiet. It may be nothing. File any customs ruling in the temenggung's name.",
+  "title": "驗貨季第一天",
+  "body": "大人，西南季風已起。西方商船正沿海峽南下，最後一批中式帆船也準備返航。\n\n今日來船：清晨有爪哇米船和一艘來自馬拉巴爾海岸的胡椒船；廣州中式帆船金豐號載來瓷器和生絲；來自坎貝、載著乳香的古吉拉特大帆船薩拉馬特號前帆已破，有人在河口看見它；霹靂沿岸小船阿魯斯號上午稍後運錫抵達；普利卡特的卡韋里號午前載染色棉布到港。\n\n潮水：米船和胡椒船趕10:15的離港潮，金豐號於11:00離港。其餘船隻可等到下午，但錨地只有三個位置。\n\n市場：米攤存貨不足，城中盼望今天能卸下全數二十四袋米。胡椒的稅款較高，華商願買下每一巴哈的貨。\n\n消息：一名搬運工說，金豐號的代理人昨晚給了一名船夫一大筆錢，要他別聲張。此事也可能不足為奇。請以天猛公的名義作出海關裁決。",
   "notes": [
     "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
     "Monsoon timing follows docs/research/commodities.md (Pires 1944; Meilink-Roelofsz 1962): western ships arrive on the southwest monsoon (about May to September), Javanese rice on the east winds, China junks sail home on the southwest winds.",

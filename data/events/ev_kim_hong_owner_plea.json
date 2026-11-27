@@ -1,16 +1,16 @@
 {
   "id": "ev_kim_hong_owner_plea",
-  "title": "Lim Seng at your door",
+  "title": "林成登門求情",
   "day": 1,
   "requires": [
     "case_001_major_fraud"
   ],
-  "body": "After the evening prayer, Lim Seng of Guangzhou waits outside your house with a lacquered box of tea. He has traded here for years, he says, and never knew his factor carried another man’s jars. Tan Bo is held for the temenggung’s judgement; the fish-marked nutmeg belongs to a merchant the court has suspended.\n\nLim Seng asks one thing: that you tell the temenggung the porcelain and silk were honestly his, so his name is not struck with his factor’s.",
+  "body": "晚禱過後，廣州商人林成捧著一漆盒茶，在您家門外等候。他說自己在這裡做了多年生意，從不知道代理人載了別人的貨甕。陳茂已遭扣留，等待天猛公裁決；印有魚紋的甕裡，肉豆蔻屬於一名被朝廷停權的商人。\n\n林成只求您向天猛公說明，瓷器和生絲確是他正當取得的，不要因代理人的事一併將他除名。",
   "choices": [
     {
       "id": "speak_for_him",
-      "label": "Speak for Lim Seng’s good name",
-      "outcome_text": "You send a note to the temenggung’s house: the cleared cargo was Lim Seng’s, the after-row jars were not. Lim Seng bows low. Before he leaves he says the boatman who rowed the fish-marked jars out to the Kim Hong works for a Javanese broker in Upeh.",
+      "label": "為林成的名聲說項",
+      "outcome_text": "您致函天猛公府上：獲准放行的貨物屬於林成，後排的甕卻不是。林成深深一揖，臨走前說，把魚紋甕划送到金豐號的船夫受僱於烏佩的一名爪哇掮客。",
       "effects": {
         "duty": 0,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "refuse_gift",
-      "label": "Return the tea and say nothing",
-      "outcome_text": "You hand back the box unopened. A shahbandar who takes gifts on the night of a ruling is a shahbandar whose rulings can be bought. Lim Seng leaves stiffly; the Chinese captains at anchor will hear that you could not be moved.",
+      "label": "退還茶禮，不作表態",
+      "outcome_text": "您原封退回茶盒。沙班達爾若在裁決當晚收禮，旁人便會以為裁決可以收買。林成板著臉離開，錨地的華人船長都會聽說您沒有動搖。",
       "effects": {
         "duty": 0,
         "supply": 0,
@@ -29,8 +29,8 @@
     },
     {
       "id": "accept_gift",
-      "label": "Accept the tea, promise nothing",
-      "outcome_text": "You take the box and promise to consider it. By the morning tide half the waterfront says the shahbandar was paid after the Kim Hong ruling, and nobody is sure for what.",
+      "label": "收下茶禮，不作承諾",
+      "outcome_text": "您收下茶盒，表示會考慮。到翌日晨潮，半個碼頭都在說沙班達爾在金豐號裁決後收了好處，卻沒有人知道是為了甚麼。",
       "effects": {
         "duty": 2,
         "supply": 0,

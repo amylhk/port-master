@@ -1,16 +1,16 @@
 {
   "id": "ev_kaveri_held_complaint",
-  "title": "Sri Rangan’s agent complains",
+  "title": "斯里蘭甘的代理人前來申訴",
   "day": 1,
   "requires": [
     "case_002_hold"
   ],
-  "body": "Sri Rangan’s agent finds you as the lamps are lit. The court’s men found only the declared cotton aboard the Kaveri, two full bales of it, and his buyers have spent the day waiting on the wharf. He asks who will pay for a day lost to a porter who cannot tell a roll from a length.",
+  "body": "掌燈時，斯里蘭甘的代理人來找您。朝廷的人在卡韋里號只找到申報的棉布，足足兩包；買家卻在碼頭等了一整天。他問，搬運工分不清一卷與一匹，這一天的損失該由誰賠償？",
   "choices": [
     {
       "id": "apologise",
-      "label": "Admit the error and waive the anchorage gift",
-      "outcome_text": "You admit the count was wrong and forgo the customary present. The agent is mollified, and tomorrow the Pulicat ships will say the shahbandar owns his mistakes.",
+      "label": "承認錯誤，免收錨地贈禮",
+      "outcome_text": "您承認點算有誤，免收慣例上的贈禮。代理人接受了；明天普利卡特的船家會說，這位沙班達爾肯認錯。",
       "effects": {
         "duty": -2,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "stand_firm",
-      "label": "Say the hold was a fair caution",
-      "outcome_text": "You tell him a doubtful tally must be settled before cloth is sold. He bows and leaves. The Keling quarter will remember the day their buyers waited.",
+      "label": "堅持扣留是必要的",
+      "outcome_text": "您說，點算有疑問，必須弄清楚才能出售棉布。他鞠躬離去。吉靈街區的商人不會忘記買家白等的這一天。",
       "effects": {
         "duty": 0,
         "supply": 0,

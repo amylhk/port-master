@@ -1,7 +1,7 @@
 {
   "id": "case_003",
-  "title": "The heavier counterweight",
-  "subtitle": "A shallow-draught perahu from Perak brings tin down the coast. At the first lift, the weighers doubt the weight on her declaration. As shahbandar, you go aboard to settle it before the afternoon tide.",
+  "title": "較重的秤砣",
+  "subtitle": "一艘來自霹靂、吃水淺的沿岸小船運錫南下。首次起貨時，磅手對申報重量有疑問。您以沙班達爾身分登船，要在午後離港潮前查明。",
   "minutes": 30,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
@@ -9,78 +9,78 @@
   "evidence": [
     {
       "id": "ev_manifest",
-      "label": "01  Manifest",
-      "title": "The Arus’s declaration",
-      "text": "Arus — Malay coastal perahu from Perak\nOwner: Awang Musa of Perak\n\nCast tin, seven baskets\nDeclared net weight: 7 small bahar\nAgreed price: 140 per small bahar · Declared value: 980"
+      "label": "01  貨單",
+      "title": "阿魯斯號的申報",
+      "text": "阿魯斯號——來自霹靂的馬來沿岸小船\n貨主：霹靂商人阿旺穆薩\n\n錫錠，共七籃\n申報淨重：7小巴哈\n議定單價：每小巴哈140｜申報貨值：980"
     },
     {
       "id": "ev_exterior",
-      "label": "02  Weigh the tin",
-      "title": "Two readings for the same load",
-      "text": "All seven baskets are laid out on deck. A grey crust clings to the outside of the lowest one.\n\nThe weighers deduct the usual weight of the baskets. On the small dacing the tin comes to 8 bahar. Without adding or taking away any tin, they move the load to the large dacing, where it comes to 7 bahar."
+      "label": "02  秤錫",
+      "title": "同一批錫的兩個讀數",
+      "text": "七籃錫全放在甲板上，最底下一籃的外側有一層灰色硬皮。\n\n重量：錫錠\n磅手扣除籃子的通常重量。以小桿秤秤得8巴哈；沒有增減錫，移到大桿秤後讀數為7巴哈。"
     },
     {
       "id": "ev_testimony",
-      "label": "03  Testimony",
-      "title": "Which scale did they use?",
-      "text": "The nakhoda says his factor had already drawn up the declaration with ‘small bahar’ against the tin. When the baskets came from the landing, the nakhoda called out ‘seven bahar’; the factor filled in seven without going ashore.\n\nThe boatman who worked the scale at Perak says the hook on the small dacing had cracked that morning. He used the large dacing instead and entered ‘7 — large’ in his own weighing tally. He shows you the entry, made between the weights of two other boats’ loads."
+      "label": "03  問話",
+      "title": "當時用的是哪種秤？",
+      "text": "船長說，代理人早已在申報的錫貨一欄填了「小巴哈」。籃子從岸邊送來時，船長報了「七巴哈」；代理人沒上岸察看，便填上了七。\n\n在霹靂操作秤的船夫說，小桿秤的鉤子當天早上裂了。他改用大桿秤，並在自己的秤量簿上記下「7——大」。他出示這筆記錄，寫在另外兩艘船的貨重之間。"
     },
     {
       "id": "ev_opened",
-      "label": "04  Open cargo",
-      "title": "What made the basket heavy?",
-      "text": "The porters lift the tin slabs out of the stained basket. The crust is dried mud on the outside; there is no mud or ballast under the slabs. They tip the other baskets out as well, then weigh the bare slabs on the small dacing. The reading is still 8 small bahar."
+      "label": "04  開箱驗貨",
+      "title": "籃子因何變重？",
+      "text": "開箱：沾有灰泥的籃子\n搬運工取出錫錠。硬皮是籃外的乾泥；錫錠下沒有泥或壓艙物。他們再倒出其他籃內的錫，用小桿秤秤量裸錠，仍是8小巴哈。"
     }
   ],
   "rulings": [
     {
       "id": "clear",
-      "label": "Clean — clear as declared"
+      "label": "無誤——按申報放行"
     },
     {
       "id": "major_fraud",
-      "label": "Major Fraud — hold the suspect cargo"
+      "label": "重大欺詐——扣留可疑貨物"
     },
     {
       "id": "minor_fault",
-      "label": "Minor Fault — correct the declaration"
+      "label": "輕微錯漏——更正申報"
     },
     {
       "id": "hold",
-      "label": "Story Event — hold the ship and notify the court"
+      "label": "特殊事件——扣船通報朝廷"
     }
   ],
   "reasons": [
     {
       "id": "either_scale",
-      "label": "The large dacing reads seven, so the declaration needs no correction."
+      "label": "大桿秤讀數是七，申報無須更正。"
     },
     {
       "id": "mud_weight",
-      "label": "Mud on the basket accounts for the extra weight."
+      "label": "籃外的泥解釋了多出的重量。"
     },
     {
       "id": "added_tin",
-      "label": "The extra weight means tin was secretly loaded after the weighing at Perak."
+      "label": "重量增加說明，有人在霹靂秤量之後偷偷添了錫。"
     },
     {
       "id": "wrong_dacing",
-      "label": "The Perak tally used the large dacing; the declaration kept its number but used the small unit."
+      "label": "霹靂用大桿秤；申報沿用其數字，卻寫成小巴哈。"
     }
   ],
   "hidden_truth": {
     "ruling_id": "minor_fault",
     "reason_id": "wrong_dacing",
     "feedback_by_method": {
-      "marks": "The grey crust on the basket tells you nothing about which dacing the boatman used at Perak.",
-      "contents": "Lifting the slabs shows there is no ballast under the tin, but does not explain why the Perak tally reads seven.",
-      "manifest": "The declaration says seven small bahar, but does not show that the boatman weighed the tin on the large dacing."
+      "marks": "籃外的灰色硬皮無法說明船夫在霹靂用了哪種桿秤。",
+      "contents": "取出錫錠可看出底下沒有壓艙物，但不能解釋霹靂的秤量簿為何寫七。",
+      "manifest": "申報寫七小巴哈，沒有說明船夫其實用的是大桿秤。"
     },
     "extra_duty": 1,
-    "success": "In the temenggung’s name, you correct the Arus’s declaration to 8 small bahar of tin, worth 1,120. Seven large bahar is the same load, just weighed on a different scale. The Perak tally and both readings agree; the error was in the declaration, not the baskets. You clear the tin to trade and assess 1 more in weighing fees.",
-    "clear": "In the temenggung’s name, you clear the Arus as declared. The office assesses its weighing fee on seven small bahar even though eight go to market.",
-    "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no additional weighing fee is recovered.",
-    "hold": "In the temenggung’s name, you hold the boat and send word to the court. Its men find two scales and a mistake in the declaration. The Arus loses her sale."
+    "success": "您以天猛公的名義將阿魯斯號的申報更正為8小巴哈、貨值1,120。七大巴哈是同一批錫，只用另一種秤量。霹靂的記錄和兩個讀數相符；錯在申報，而不在籃內。您准錫貨交易，並補徵1的磅費。",
+    "clear": "您以天猛公的名義准阿魯斯號按申報放行。即使有八小巴哈進入市場，港務署仍按七小巴哈收磅費。",
+    "unsupported": "所引用的證據不足以支持以天猛公名義作出的裁決。原申報不變，也不補徵磅費。",
+    "hold": "您以天猛公的名義扣船並通報朝廷。朝廷的人發現兩種秤和一處申報錯誤。阿魯斯號失去了這筆交易。"
   },
   "authoring": {
     "manual_id": "manual_stage_a",

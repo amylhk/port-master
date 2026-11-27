@@ -1,7 +1,7 @@
 {
   "id": "case_001",
-  "title": "The jars from Guangzhou",
-  "subtitle": "A junk from Guangzhou rides at anchor, deep in the water. Last night a porter said the factor aboard paid a boatman well to keep quiet about something. You board her for a Detailed Inspection.",
+  "title": "廣州來的貨甕",
+  "subtitle": "一艘來自廣州的中式帆船停在錨地，吃水很深。昨晚一名搬運工說，船上的代理人給了船夫一大筆錢，要他對某件事保密。您登船詳細驗貨。",
   "minutes": 45,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
@@ -9,65 +9,65 @@
   "evidence": [
     {
       "id": "ev_manifest",
-      "label": "01  Manifest",
-      "title": "The Kim Hong’s declaration",
-      "text": "Kim Hong — Junk from Guangzhou\nMorning, first day of inspection season\n\nOwner Lim Seng of Guangzhou. 24 jars of bowls, 10 bales of silk. Route Guangzhou - Champa - Melaka. One note: silk bale 7 resealed at Champa after sea water. No other note.\n\nPorcelain: large storage jars, each packed with 30 small bowls in straw\nQuantity: 24 jars · Grade: Fine · Declared value: 480\n\nSilk, raw, in bales\nQuantity: 10 bales · Grade: Fine · Declared value: 600\n\nManifest note: Silk bale 7 opened at Champa after sea water; dried and resealed by the nakhoda with the ship's seal."
+      "label": "01  貨單",
+      "title": "金豐號的申報",
+      "text": "金豐號——來自廣州的中式帆船\n驗貨季第一天上午\n\n貨主是廣州商人林成。貨物有24甕瓷碗、10包生絲。航線：廣州－占城－馬六甲。唯一附註：第7包生絲遭海水浸濕，在占城重封。\n\n瓷器：大型貨甕，每甕以稻草包著30隻小碗\n數量：24甕｜等級：上等｜申報貨值：480\n\n生絲，成包裝運\n數量：10包｜等級：上等｜申報貨值：600\n\n貨單附註：第7包生絲在占城因海水浸濕而開封，由船長晾乾後以船印重封。"
     },
     {
       "id": "ev_exterior",
       "image": "res://assets/inspection/lot-seven-exterior.png",
-      "label": "02  Seals & weights",
-      "title": "Marks, seals and the weighers’ call",
-      "text": "Jar seals: forward rows (20 jars)\nDry, grey clay seals pressed with a circle crossed by one upright line. All alike.\n\nJar seals: after row (4 jars)\nReddish clay, still slightly soft at the edges, pressed with a fish facing left. Straw around these jars is loose and freshly scattered.\n\nWeights: forward-row jars\nThe porters call out 33, 34, 32, 35, 34 kati... every forward jar between 32 and 36 kati.\n\nWeights: after-row jars\nThe four after-row jars weigh 45, 46, 45 and 47 kati.\n\nSilk bale seals\nNine bales carry Lim Seng's circle-and-line mark. Bale 7 carries a square seal with a notched corner, the nakhoda's registered ship's seal.\n\nWeights: silk bales\nAll ten bales between 9 and 11 kati. Bale 7 weighs 10 kati.\n\nOng Kuan\nWhy does silk bale 7 carry your seal?\nIt was soaked in the squall off Champa. I dried it and resealed it myself. It is written on the manifest.\n\nTan Bo\nWhy do four jars carry a fish mark, not your master's?\nJars rub against each other in the hold. Perhaps a porter at Champa pressed a new seal. It means nothing.\n\nTan Bo\nWhy are the after-row jars so heavy?\nThicker clay. Some kilns make heavier jars."
+      "label": "02  封印與重量",
+      "title": "標記、封印和磅手報重",
+      "text": "甕封：前排（20甕）\n灰色泥封乾燥，印有一條豎線穿過的圓形；各甕相同。\n\n甕封：後排（4甕）\n泥封呈紅色，邊緣仍偏軟，上印一條向左的魚。甕邊的稻草鬆散，像是不久前才散落的。\n\n重量：前排貨甕\n搬運工報出33、34、32、35、34斤……前排每甕介於32至36斤。\n\n重量：後排貨甕\n後排四甕重45、46、45和47斤。\n\n生絲封印\n九包有林成的圓形豎線標記；第7包印有缺角方形，是船長登記的船印。\n\n重量：生絲\n十包均介於9至11斤，第7包重10斤。\n\n王寬\n為何第7包生絲有您的船印？\n在占城外遇風暴，生絲濕了。我親自晾乾再重封，貨單上有記載。\n\n陳茂\n為何有四甕用魚紋，而不是貨主的標記？\n甕在貨艙內互相碰撞，也許是占城的搬運工換了個封印，沒甚麼大不了。\n\n陳茂\n為何後排的甕這麼重？\n甕壁厚些，有些窯燒的甕就是比較重。"
     },
     {
       "id": "ev_testimony",
-      "label": "03  Testimony",
-      "title": "The people aboard",
-      "text": "Tan Bo — Factor (agent) of Lim Seng, merchant of Guangzhou\nEvery jar was packed and sealed in my master's warehouse at Guangzhou, under his mark. Porcelain bowls and silk, nothing more. Lim Seng has traded honestly here for years.\n\nOng Kuan — Nakhoda (captain)\nGuangzhou to Champa, then straight down to Melaka. We stopped nowhere after Champa. Bale 7 of the silk was soaked in a squall off Champa; I dried it, resealed it with my ship's seal, and wrote it on the manifest.\n\nLiang — Helmsman\nOff Pulau Tioman we lay two nights taking on water, same as every junk coming down this coast.\n\nAh Fu — Cook\nAt Tioman a prau came alongside after dark. The factor sent us all below. Next morning the jars in the after row had been stacked again, and the straw was everywhere.\n\nSumantri — Deckhand, from Java\nThe squall off Champa put sea water in the hold. One silk bale was soaked. The nakhoda had it opened and dried on deck for three days, then sealed it again himself.\n\nOng Kuan\nDid you stop anywhere after Champa?\nNowhere. Straight down the coast to Melaka.\n\nLiang\nWhere did you stop on the way down?\nChampa for trade, then two nights off Pulau Tioman for water.\n\nAh Fu\nWhat happened at Tioman?\nA prau came alongside after dark. The factor sent us below. In the morning the after row of jars had been restacked.\n\nSumantri\nWhat happened to the silk?\nThe squall off Champa soaked one bale. The nakhoda dried it on deck for three days and sealed it again himself.\n\nOng Kuan\nYour helmsman says you lay off Tioman two nights.\nWater. A ship must drink. It was not worth writing down."
+      "label": "03  問話",
+      "title": "船上的人",
+      "text": "陳茂——廣州商人林成的代理人\n每一甕都是在我東家的廣州貨倉裝好、封好，印的是他的標記。除了瓷碗和生絲，別無他物。林成多年來都在這裡正當交易。\n\n王寬——船長\n從廣州到占城，之後直下馬六甲。離開占城便沒再停靠。第7包生絲在占城外遇風暴，浸了海水。我晾乾後以船印重封，記在貨單上。\n\n阿良——舵手\n在刁曼島外停了兩夜補水；沿岸南下的帆船都這樣做。\n\n阿福——廚子\n在刁曼島，一艘沿岸小船在天黑後靠過來。代理人要我們全都下艙。次日早上，後排的甕重新堆過，稻草散得到處都是。\n\n蘇曼特里——來自爪哇的水手\n占城外的風暴讓海水灌進貨艙，浸濕了一包生絲。船長命人打開，在甲板上晾了三天，再親自重封。\n\n王寬\n離開占城後還有停靠嗎？\n沒有，沿海岸直下馬六甲。\n\n阿良\n途中在哪裡停靠過？\n在占城做買賣，然後在刁曼島外停了兩夜補水。\n\n阿福\n在刁曼島發生了甚麼事？\n天黑後有艘小船靠過來，代理人叫我們下艙。早上後排的甕已重新堆過。\n\n蘇曼特里\n生絲出了甚麼事？\n占城外的風暴浸濕了一包。船長在甲板上晾了三天，親自封好。\n\n王寬\n舵手說，你們在刁曼島外停了兩夜。\n補水罷了。船也得喝水，沒必要記下來。"
     },
     {
       "id": "ev_opened",
       "image": "res://assets/inspection/lot-seven-open.png",
-      "label": "04  Open cargo",
-      "title": "Inside the jars and the silk bale",
-      "text": "Opened: a forward-row jar\nThirty small blue-and-white bowls nested in straw. Two are chipped. Nothing else.\n\nOpened: an after-row jar\nOne layer of eight bowls on top. Beneath a straw mat, the jar is packed tight with whole nutmegs, about 18 kati of them.\n\nOpened: silk bale 7\nRaw silk, dry, with a faint pale tide-line from sea water along one edge. Nothing else inside.\n\nTan Bo\nWhat is this nutmeg doing under your bowls?\nHe says nothing for a long moment, then asks that the matter go before the temenggung himself."
+      "label": "04  開箱驗貨",
+      "title": "甕與生絲包內部",
+      "text": "開箱：前排的一甕\n30隻青花小碗以稻草墊放，其中兩隻有缺口，沒有其他東西。\n\n開箱：後排的一甕\n最上面只有一層，共8隻碗。掀開稻草墊，下面塞滿完整的肉豆蔻，約18斤。\n\n開箱：第7包生絲\n生絲已乾，其中一邊留有淡淡的海水痕跡，沒有其他東西。\n\n陳茂\n瓷碗下面為何有肉豆蔻？\n他沉默許久，才要求把此事交由天猛公親自裁決。"
     }
   ],
   "rulings": [
     {
       "id": "clear",
-      "label": "Clean — clear as declared"
+      "label": "無誤——按申報放行"
     },
     {
       "id": "major_fraud",
-      "label": "Major Fraud — hold the suspect cargo"
+      "label": "重大欺詐——扣留可疑貨物"
     },
     {
       "id": "minor_fault",
-      "label": "Minor Fault — correct the declaration"
+      "label": "輕微錯漏——更正申報"
     },
     {
       "id": "hold",
-      "label": "Story Event — hold the ship and notify the court"
+      "label": "特殊事件——扣船通報朝廷"
     }
   ],
   "reasons": [
     {
       "id": "foreign_seal",
-      "label": "Silk bale 7 was resealed with a foreign seal."
+      "label": "第7包生絲以非貨主的封印重封。"
     },
     {
       "id": "breakage",
-      "label": "The chipped bowls suggest an honest failure to declare damage."
+      "label": "瓷碗的缺口顯示，船方可能無意漏報破損。"
     },
     {
       "id": "thick_clay",
-      "label": "Thicker clay accounts for the heavier jars."
+      "label": "較厚的甕壁解釋了重量差異。"
     },
     {
       "id": "marks_weight_route",
-      "label": "The fish marks, excess weight and conflicting Tioman accounts point to concealment."
+      "label": "魚紋、額外重量和互相矛盾的刁曼島證詞指向藏匿貨物。"
     }
   ],
   "hidden_truth": {
@@ -75,12 +75,12 @@
     "reason_id": "marks_weight_route",
     "extra_duty": 18,
     "feedback_by_method": {
-      "manifest": "The declaration explains why silk bale 7 was resealed at Champa, but says nothing of the Tioman stop or the nutmeg under the bowls."
+      "manifest": "申報解釋了第7包生絲為何在占城重封，卻沒有提到停靠刁曼島，也沒提到碗下的肉豆蔻。"
     },
-    "success": "In the temenggung's name, you hold the four after-row jars and send Tan Bo and the nakhoda to his judgement. The rest of Lim Seng's porcelain and silk is cleared. Word spreads that the shahbandar reads seals closely.\n\nThe fish marks belong to a suspended merchant. The heavier jars and the crew’s account of Tioman explain why the nakhoda denied the stop; the nutmeg beneath the bowls confirms concealment. The weighers assess 18 in fees when the rest of the cargo trades: 1 in every 100 on 72 kati of nutmeg valued at 1,800. No western dues apply.",
-    "clear": "You clear the Kim Hong. The nutmeg lands as bowls, never declared. Within days the market whispers that a suspended merchant's goods walked past the shahbandar.",
-    "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no fee is recovered on the undeclared cargo.",
-    "hold": "You hold the whole ship and send word to the court of a matter of state. The court's men find spice, not secrets, and ask why they were troubled. The day's sale is lost."
+    "success": "以天猛公的名義，您扣留後排四甕，把陳茂和船長交他裁決。林成其餘瓷器和生絲獲准放行。碼頭上開始流傳，這位沙班達爾會仔細查封印。\n\n魚紋屬於一名被停權的商人。較重的甕和船員對刁曼島的說法解釋了船長為何否認停靠，碗下的肉豆蔻證實貨物遭藏匿。其餘貨物成交時，磅手按72斤肉豆蔻、貨值1,800，每100徵1，合計18磅費。不徵西方商人的稅款。",
+    "clear": "您放行金豐號。肉豆蔻以瓷碗的名目上岸，始終未經申報。沒過幾天，市場便開始傳言，一名被停權商人的貨物瞞過了沙班達爾。",
+    "unsupported": "所引用的證據不足以支持以天猛公名義作出的裁決。原申報不變，未申報的貨物沒有補繳磅費。",
+    "hold": "您扣留全船，通報朝廷有國事。朝廷的人找到的是香料，不是機密，反問何以勞動他們。當日的交易因而告吹。"
   },
   "authoring": {
     "manual_id": "manual_stage_a",

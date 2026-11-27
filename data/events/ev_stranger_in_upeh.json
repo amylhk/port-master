@@ -1,16 +1,16 @@
 {
   "id": "ev_stranger_in_upeh",
-  "title": "A stranger in the lanes of Upeh",
+  "title": "烏佩街巷的陌生人",
   "day": 1,
   "requires": [
     "case_004_cleared"
   ],
-  "body": "Your clerk mentions it in passing while he trims the lamp. A thin man with a cut on his scalp was seen in the lanes of Upeh this evening, asking which Gujarati houses could hide a guest. He spoke the Malay of Pedir. The Salamat cleared this morning with fourteen crates of frankincense, six of rosewater, and no passengers declared.",
+  "body": "書記剪燈芯時順口提到，今晚有人在烏佩街巷看見一名身形瘦削、頭皮有傷的男子，四處打聽哪家古吉拉特人願收留客人。他說一口皮迪爾的馬來語。薩拉馬特號今早獲准放行，申報有十四箱乳香、六箱玫瑰水，沒有乘客。",
   "choices": [
     {
       "id": "search",
-      "label": "Send men to find him",
-      "outcome_text": "Your men search until midnight and find only a rented mat, still warm, in a house that swears no one was there. Whatever he carried has gone deeper into the city.",
+      "label": "派人尋找陌生人",
+      "outcome_text": "您的人找至午夜，只找到一張還有餘溫的租用草蓆，屋主人堅稱沒人來過。無論他帶著甚麼，都已消失在城中深處。",
       "effects": {
         "duty": 0,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "ignore",
-      "label": "Leave it to the temenggung’s watch",
-      "outcome_text": "It is not the shahbandar’s business who sleeps in Upeh. The watch hears of it days later, too late to ask him anything.",
+      "label": "交由天猛公的巡守處理",
+      "outcome_text": "誰在烏佩留宿並非沙班達爾的職責。巡守在幾天後才得知此事，已來不及問話。",
       "effects": {
         "duty": 0,
         "supply": 0,
