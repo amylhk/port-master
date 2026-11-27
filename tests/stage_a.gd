@@ -27,6 +27,12 @@ func _run() -> void:
     root.size = Vector2i(1280, 960)
     var harbour = Harbour.instantiate()
     root.add_child(harbour)
+    var label := harbour.find_children("*", "Label", true, false)[0] as Label
+    var font := label.get_theme_font("font")
+    _expect(font is FontVariation and font.variation_opentype.get(0x77676874) == 400,
+        "the harbour uses the project's Regular font")
+    _expect(font.has_char("驗".unicode_at(0)) and font.has_char("A".unicode_at(0)),
+        "the harbour font includes Traditional Chinese and Latin glyphs")
     var day = harbour.day
     var inspection: Dictionary = day.inspection_for(day.ship_at_anchor(2))
     if day.scenario.is_empty() or inspection.is_empty() or day.manual.is_empty():
