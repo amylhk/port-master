@@ -529,16 +529,14 @@ func _stamp_rack(inspection: Dictionary) -> void:
         var id: String = ruling["id"]
         var button := _button(surface, "", Rect2(334 + index * 226, 626, 214, 61), choose_stamp.bind(id))
         _style_paper_button(button)
-        button.tooltip_text = ruling["label"]
+        button.tooltip_text = STAMPS[id]
         if stamp == id:
             button.add_theme_stylebox_override("normal", _style(Color("#dfccac"), GOLD, 3))
         var path: String = {"clear": "stamp_clear", "major_fraud": "stamp_fine", "hold": "stamp_hold"}.get(id, "")
         var has_face := not path.is_empty() and ResourceLoader.exists("res://assets/inspection/%s.png" % path, "Texture2D")
         if has_face:
             _image(button, "res://assets/inspection/%s.png" % path, Rect2(4, 2, 102, 55))
-        else:
-            _text(button, STAMPS.get(id, ""), Rect2(6, 5, 202, 26), 20, Color("#315f52") if id == "clear" else Color("#8e493e"), true)
-        _text(button, STAMP_CATEGORIES.get(id, ""), Rect2(108, 4, 100, 52) if has_face else Rect2(6, 31, 202, 23), 15, BROWN, true)
+        _text(button, STAMPS[id], Rect2(108, 4, 100, 52) if has_face else Rect2(6, 4, 202, 52), 24, BROWN, true)
 
 
 func choose_method(id: String) -> void:
