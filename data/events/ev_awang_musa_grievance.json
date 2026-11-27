@@ -1,0 +1,31 @@
+{
+  "id": "ev_awang_musa_grievance",
+  "title": "A grievance from Perak",
+  "day": 1,
+  "requires": [
+    "case_003_hold"
+  ],
+  "body": "Awang Musa’s nakhoda comes ashore angry. His tin sat a whole tide under guard, and the court’s men found nothing but a factor who wrote the wrong unit. The Perak boats are small and run on thin margins; he says some will try the Pasai market instead if Melaka holds them for a clerk’s mistake.",
+  "choices": [
+    {
+      "id": "smooth_over",
+      "label": "Promise his next boat an early berth",
+      "outcome_text": "You promise the Arus’s next voyage a berth on arrival. The nakhoda leaves calmer, and the tin keeps coming down the coast.",
+      "effects": {
+        "duty": 0,
+        "supply": 1,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "dismiss",
+      "label": "Tell him to fix his factor’s papers",
+      "outcome_text": "You tell him a correct declaration would have saved the tide. He does not argue, but you hear later that two Perak boats turned north for Pasai.",
+      "effects": {
+        "duty": 0,
+        "supply": -1,
+        "reputation": -1
+      }
+    }
+  ]
+}

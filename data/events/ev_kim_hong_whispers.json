@@ -1,0 +1,31 @@
+{
+  "id": "ev_kim_hong_whispers",
+  "title": "Nutmeg in the bazaar",
+  "day": 1,
+  "requires": [
+    "case_001_cleared"
+  ],
+  "body": "At dusk your clerk returns from the market with an uneasy face. Nutmeg is selling cheap in the Upeh lanes tonight, out of plain sacks, and the sellers will not say who brought it. Everyone knows the Kim Hong cleared this morning with nothing but bowls on her declaration.\n\nA porter adds that the sacks smell of straw, the kind packed around porcelain.",
+  "choices": [
+    {
+      "id": "send_clerk",
+      "label": "Send your clerk to trace the sacks",
+      "outcome_text": "Your clerk follows the sacks to a broker’s yard and comes back with a name, not proof. The nutmeg is gone by morning, but the broker now knows the shahbandar is watching.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "let_it_go",
+      "label": "Let the market have its bargain",
+      "outcome_text": "You let it pass. The nutmeg sells, the buyers are pleased, and the merchants who paid their dues in full remember who did not.",
+      "effects": {
+        "duty": 0,
+        "supply": 1,
+        "reputation": -2
+      }
+    }
+  ]
+}

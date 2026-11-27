@@ -1,0 +1,31 @@
+{
+  "id": "ev_temenggung_court",
+  "title": "A summons to the temenggung’s court",
+  "trigger": "day>=2",
+  "requires": [
+    "any_ruling_amended"
+  ],
+  "body": "A guard from the temenggung’s house brings word: a merchant whose cargo you amended today has appealed to the Customs Judge. The temenggung will hear the matter after the evening prayer, and asks the shahbandar who filed the ruling in his name to attend.",
+  "choices": [
+    {
+      "id": "attend_court",
+      "label": "Attend and defend the ruling",
+      "outcome_text": "You stand before the temenggung and set out what you saw: the marks, the weights, the account of the crew. He hears the merchant, then you, and lets your ruling stand. The appeal costs you an evening and earns you a reputation for rulings that hold.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "send_clerk_court",
+      "label": "Send your clerk with your notes",
+      "outcome_text": "Your clerk reads your notes well enough. The temenggung lets the ruling stand but halves the extra dues, saying a shahbandar sure of his case comes to defend it.",
+      "effects": {
+        "duty": -1,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ]
+}

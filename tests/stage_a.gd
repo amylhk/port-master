@@ -10,6 +10,7 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+    root.size = Vector2i(1280, 960)
     var harbour = Harbour.instantiate()
     root.add_child(harbour)
     var day = harbour.day
@@ -42,6 +43,12 @@ func _run() -> void:
     _expect(day.minute_of_day == 585 and day.berths[0]["remaining"] == 15, "one fixed inspection cost advances the other berth")
     _expect(day.waiting.size() == 2 and day.pending_case["remaining"] == 60, "scheduled arrival proceeds while porcelain awaits ruling")
     _expect(harbour.ruling_index == -1 and harbour.reason_index == -1, "ruling starts unanswered")
+    var scroll := harbour.find_children("*", "ScrollContainer", true, false)[0] as ScrollContainer
+    harbour.evidence_index = inspection["evidence"].size()
+    harbour._render()
+    await process_frame
+    await process_frame
+    _expect(not scroll.get_h_scroll_bar().visible, "the reference manual fits within a 1280px-wide window")
     harbour.ruling_index = 1
     harbour.reason_index = 3
     harbour._rule()
@@ -66,7 +73,12 @@ func _run() -> void:
     harbour._restart()
     harbour._advance(30)
     _expect(day.waiting.size() == 3 and day.lost == 1, "a full anchorage forfeits the next arrival")
-    _test_story_inspection(harbour)
+    root.size = Vector2i(460, 960)
+    await process_frame
+    await process_frame
+    _expect(scroll.get_h_scroll_bar().visible, "the harbour remains horizontally scrollable at 460px")
+    root.size = Vector2i(1280, 960)
+    await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
     _test_scheduled_inspections(harbour)
     if failures == 0:
@@ -77,7 +89,7 @@ func _run() -> void:
     quit(1 if failures else 0)
 
 
-func _test_story_inspection(harbour) -> void:
+func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     var day = harbour.day
     harbour._restart()
     harbour._berth("rice", false)
@@ -92,6 +104,9 @@ func _test_story_inspection(harbour) -> void:
     harbour._berth("resin", true)
     var story: Dictionary = day.inspection_for(day.pending_case)
     _expect(story.get("id") == "case_004", "the Frankincense Trader opens the authored story case")
+    await process_frame
+    await process_frame
+    _expect(not scroll.get_h_scroll_bar().visible, "the story dossier fits within a 1280px-wide window")
     var previous_lost: int = day.lost
     day.rule("hold", "pedir_messenger")
     _expect(day.held == 1 and day.lost == previous_lost and day.berths.is_empty(),
