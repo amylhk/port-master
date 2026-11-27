@@ -48,7 +48,7 @@ func _run() -> void:
     _expect(day.ship_at_anchor(0).is_empty() and day.ship_at_anchor(1).get("id") == "pepper",
         "assigning one ship keeps the other ship in its original row")
     harbour._berth("pepper", false)
-    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
+    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "Kim Hong")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text == "Both berths are occupied."
         and _has_label(harbour, blocked_inspection.tooltip_text), "occupied berths explain the disabled inspection")
     harbour._advance(60)
@@ -57,7 +57,7 @@ func _run() -> void:
         "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
     _expect(day.pending_case.is_empty(), "serving both early ships misses the inspection window")
-    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
+    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "Kim Hong")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text.contains("before departure")
         and _has_label(harbour, blocked_inspection.tooltip_text), "a missed tide explains the disabled inspection")
     harbour._berth("porcelain", false)
@@ -208,8 +208,9 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     _expect(not scroll.get_h_scroll_bar().visible, "the story dossier fits within a 1280px-wide window")
     var previous_lost: int = day.lost
     day.rule("hold", "pedir_messenger")
-    _expect(day.held == 1 and day.lost == previous_lost and day.berths.is_empty(),
-        "the story hold resolves the ship without losing the sale or blocking a berth")
+    _expect(day.held == 1 and day.lost == previous_lost and day.berths.size() == 1
+        and day.ship_at_berth(0).is_empty() and day.ship_at_berth(1).get("id") == "resin",
+        "the story hold leaves Salamat in its own berth and does not block the other berth")
     _expect(day.flags.has("case_004_hold"), "a supported hold records the canonical hold flag for its own case")
     harbour._advance(420)
     _expect("Supported holds: 1" in _label_texts(harbour.content) and day.duty == 8 and day.recovered_duty == 0,
@@ -262,6 +263,7 @@ func _test_scheduled_inspections(harbour) -> void:
     var first_case_path := fixture_dir.path_join("case_001.json")
     var second_case_path := fixture_dir.path_join("case_002.json")
     var schedule: Dictionary = day.scenario.duplicate(true)
+    schedule.erase("following_days")
     schedule["ships"] = [
         {"id": "plain", "name": "Plain trader", "cargo": "Rice", "arrival": 540, "departure": 660, "minutes": 60, "duty": 8, "rice": 24},
         {"id": "first", "name": "First trader", "cargo": "Porcelain", "arrival": 540, "departure": 660, "minutes": 60, "duty": 12, "rice": 0, "inspection_case": "case_001"},

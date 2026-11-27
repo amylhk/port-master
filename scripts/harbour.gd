@@ -18,6 +18,9 @@ const ANCHOR_SLOTS := [Vector2(815, 295), Vector2(150, 445), Vector2(535, 458)]
 
 var day := PortDay.new()
 var content: VBoxContainer
+var scroll: ScrollContainer
+var screen := ""
+var selected_deputy := ""
 var evidence_index := 0
 var ruling_index := -1
 var reason_index := -1
@@ -41,7 +44,7 @@ func _ready() -> void:
     screen_tint.color = Color(0.06, 0.1, 0.12, 0.55)
     screen_tint.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     add_child(screen_tint)
-    var scroll := ScrollContainer.new()
+    scroll = ScrollContainer.new()
     scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     add_child(scroll)
     var margin := MarginContainer.new()
@@ -90,7 +93,16 @@ func _render() -> void:
     if inspecting:
         heading_text = "Detailed Inspection"
     elif not story.is_empty():
-        heading_text = "Evening at the port" if day.closed() else "Morning briefing"
+        if not day.active_offer.is_empty():
+            heading_text = "State purchasing"
+        else:
+            heading_text = "Evening at the port" if day.closed() else "Morning briefing"
+    elif day.closed():
+        heading_text = "End of Day"
+    if heading_text != screen:
+        screen = heading_text
+        scroll.scroll_vertical = 0
+        scroll.scroll_horizontal = 0
     _label(heading, heading_text, 30)
     var watch := _panel(header)
     _label(watch, "%s  /  DAY %02d" % [PortDay.clock(day.minute_of_day), day.day_number], 19, GOLD)
@@ -131,7 +143,11 @@ func _render_harbour() -> void:
     var moored := _panel(board)
     moored.get_parent().custom_minimum_size.x = 248
     _label(moored, "BERTHS   %d / %d" % [day.berths.size(), PortDay.BERTH_CAPACITY], 15, GOLD)
-    for ship in day.berths:
+    for slot in PortDay.BERTH_CAPACITY:
+        var ship := day.ship_at_berth(slot)
+        if ship.is_empty():
+            _label(moored, "Berth %d · Available" % (slot + 1), 16, MUTED)
+            continue
         var berthed := HBoxContainer.new()
         berthed.add_theme_constant_override("separation", 8)
         moored.add_child(berthed)
@@ -140,11 +156,9 @@ func _render_harbour() -> void:
         berth_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         berthed.add_child(berth_text)
         _label(berth_text, ship["name"], 17, INK, true)
-        _label(berth_text, "%d min unloading · %s tide" % [
+        _label(berth_text, "Held at berth until closing" if ship.get("held_at_berth", false) else "%d min unloading · %s tide" % [
             ship["remaining"], PortDay.clock(int(ship["departure"]))
         ], 14, MUTED, true)
-    for slot in PortDay.BERTH_CAPACITY - day.berths.size():
-        _label(moored, "Berth %d · Available" % (day.berths.size() + slot + 1), 16, MUTED)
     var next_arrival := ""
     if day.next_ship < day.scenario["ships"].size():
         var ship: Dictionary = day.scenario["ships"][day.next_ship]
@@ -164,7 +178,7 @@ func _render_harbour() -> void:
         if ship.is_empty():
             _label(row, "Anchorage %d · Available" % (slot + 1), 16, MUTED)
             continue
-        _art(row, ship.get("image", ""), Vector2(88, 66))
+        _art(row, _ship_art(ship), Vector2(88, 66))
         _art(row, ship.get("cargo_image", ""), Vector2(44, 66))
         var details := VBoxContainer.new()
         details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -185,7 +199,81 @@ func _render_harbour() -> void:
                 _berth.bind(ship["id"], true))
             _set_disabled_reason(inspect, _label(actions, "", 13, GOLD, true), _berth_block(ship, true),
                 "Takes a berth and advances the clock before unloading. Other ships keep working.")
+            if not selected_deputy.is_empty():
+                var delegate := _button(actions, "Delegate inspection", func() -> void:
+                    day.delegate_inspection(selected_deputy, ship["id"])
+                    _render()
+                )
+                delegate.disabled = day.berths.size() >= PortDay.BERTH_CAPACITY or not day.can_finish(
+                    ship, true, day.inspection_delay(selected_deputy))
+    _render_deputies(true)
+    _render_offers()
     _render_log()
+
+
+func _render_deputies(at_quay: bool) -> void:
+    var staff := _panel(content)
+    _label(staff, "DEPUTY ASSIGNMENT", 15, GOLD)
+    var picker := OptionButton.new()
+    picker.add_item("Choose a deputy")
+    picker.selected = 0
+    var ids := day.deputies.keys()
+    for index in ids.size():
+        picker.add_item(day.deputies[ids[index]]["name"])
+        if ids[index] == selected_deputy:
+            picker.select(index + 1)
+    picker.item_selected.connect(func(index: int) -> void:
+        selected_deputy = ids[index - 1] if index > 0 else ""
+        _render()
+    )
+    staff.add_child(picker)
+    if not selected_deputy.is_empty():
+        var deputy: Dictionary = day.deputies[selected_deputy]
+        _render_cast(staff, deputy)
+        var skills: Dictionary = deputy["skills"]
+        var duties := HBoxContainer.new()
+        duties.add_theme_constant_override("separation", 16)
+        staff.add_child(duties)
+        for task in ["berth", "inspection", "purchasing"]:
+            var duty_row := HBoxContainer.new()
+            duties.add_child(duty_row)
+            _art(duty_row, _optional_texture_path("res://assets/art/icons/%s.png" % task), Vector2(32, 32))
+            _label(duty_row, "%s %d" % [task.capitalize(), skills[task]], 15, GOLD)
+        _label(staff, deputy["flaw"]["text"], 15, MUTED, true)
+        if at_quay:
+            var assign := _button(staff, "Delegate berth assignment", func() -> void:
+                day.delegate_berth(selected_deputy)
+                _render()
+            )
+            assign.disabled = day.berths.size() >= PortDay.BERTH_CAPACITY or not day.waiting.any(
+                func(ship: Dictionary) -> bool: return day.can_finish(ship, false))
+
+
+func _render_offers() -> void:
+    var offers := day.available_offers()
+    if not offers.is_empty():
+        var merchants := _panel(content)
+        _label(merchants, "MERCHANT OFFERS", 15, GOLD)
+        for offer in offers:
+            _button(merchants, offer["title"], func() -> void:
+                day.open_offer(offer["id"])
+                _render()
+            )
+
+
+func _render_cast(parent: Node, person: Dictionary) -> void:
+    var cast := HBoxContainer.new()
+    cast.add_theme_constant_override("separation", 12)
+    parent.add_child(cast)
+    var frame := _panel(cast)
+    var path := "res://assets/art/portraits/%s.png" % person["id"]
+    _art(frame, _optional_texture_path(path), Vector2(96, 96), person["name"])
+    var details := VBoxContainer.new()
+    details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+    cast.add_child(details)
+    _label(details, person["name"], 18, GOLD, true)
+    _label(details, person.get("role", person.get("origin", "")), 15, MUTED, true)
+    _label(details, person["bio"], 15, INK, true)
 
 
 func _berth_block(ship: Dictionary, inspect: bool) -> String:
@@ -204,7 +292,7 @@ func _render_inspection() -> void:
     var dossier_head := HBoxContainer.new()
     dossier_head.add_theme_constant_override("separation", 12)
     dossier_row.add_child(dossier_head)
-    _art(dossier_head, day.pending_case.get("image", ""), Vector2(160, 120))
+    _art(dossier_head, _ship_art(day.pending_case), Vector2(160, 120))
     var dossier := VBoxContainer.new()
     dossier.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     dossier_head.add_child(dossier)
@@ -332,10 +420,11 @@ func _render_view() -> void:
         water.size = VIEW_SIZE
         stage.add_child(water)
     for i in PortDay.BERTH_CAPACITY:
-        var status := "UNLOADING" if i < day.berths.size() else "AVAILABLE"
+        var ship := day.ship_at_berth(i)
+        var status := "AVAILABLE" if ship.is_empty() else ("HELD" if ship.get("held_at_berth", false) else "UNLOADING")
         _plate(stage, BERTH_SLOTS[i] + Vector2(19, -20), "BERTH %d  •  %s" % [i + 1, status])
-        if i < day.berths.size():
-            _view_ship(stage, day.berths[i], BERTH_SLOTS[i])
+        if not ship.is_empty():
+            _view_ship(stage, ship, BERTH_SLOTS[i])
     for slot in PortDay.ANCHORAGE_CAPACITY:
         var ship := day.ship_at_anchor(slot)
         if not ship.is_empty():
@@ -350,7 +439,7 @@ func _fit_view(holder: Control, stage: Control) -> void:
 
 
 func _view_ship(stage: Control, ship: Dictionary, pos: Vector2) -> void:
-    var sprite := _art(stage, ship.get("image", ""), SHIP_SIZE, ship["cargo"])
+    var sprite := _art(stage, _ship_art(ship), SHIP_SIZE, ship["cargo"])
     if sprite:
         sprite.position = pos + Vector2(12, 0)
     var badge := _art(stage, ship.get("cargo_image", ""), Vector2(52, 52))
@@ -380,8 +469,11 @@ func _render_settlement() -> void:
     _label(report, "Recovered inspection duty: %d" % day.recovered_duty, 18)
     if day.held > 0:
         _label(report, "Supported holds: %d" % day.held, 18)
+    if not day.waiting.is_empty():
+        _label(report, "Ships still at anchor: %d" % day.waiting.size(), 18)
     var shortfall := day.rice_shortfall()
-    _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
+    if int(day.scenario["rice_target"]) > 0:
+        _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
     if day.rice_relief_cost > 0:
         _label(report, "Emergency rice relief: -%d duty" % day.rice_relief_cost, 17, GOLD)
     if not day.ruling_note.is_empty():
@@ -392,10 +484,13 @@ func _render_settlement() -> void:
             _render()
         ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     else:
-        _button(report, "Begin day %d" % (day.day_number + 1), func() -> void:
-            day.begin_next_day()
-            _render()
-        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        if day.has_next_day():
+            _button(report, "Begin day %d" % (day.day_number + 1), func() -> void:
+                day.begin_next_day()
+                _render()
+            ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        else:
+            _label(report, "End of the Stage B schedule", 18, GOLD)
         _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     _render_log(true)
 
@@ -403,8 +498,17 @@ func _render_settlement() -> void:
 func _render_story(story: Dictionary) -> void:
     var panel := _panel(content)
     var phase := "EVENING EVENT" if day.closed() else "QUAY OFFICE"
-    _label(panel, "%s  /  %d OF %d" % [phase, day.story_index + 1, day.story_queue.size()], 15, GOLD)
+    var is_offer := not day.active_offer.is_empty()
+    if is_offer:
+        _label(panel, "STATE PURCHASE OFFER", 15, GOLD)
+    else:
+        if story.has("chain_id"):
+            phase = "DEPARTURE & TAX ACCOUNT"
+        _label(panel, "%s  /  %d OF %d" % [phase, day.story_index + 1, day.story_queue.size()], 15, GOLD)
     _label(panel, story["title"], 24, INK, true)
+    var merchant_id: String = story.get("merchant_id", "")
+    if day.merchants.has(merchant_id):
+        _render_cast(panel, day.merchants[merchant_id])
     _label(panel, story["body"], 17, INK, true)
     if not day.story_outcome.is_empty():
         _label(panel, day.story_outcome["label"], 18, GOLD, true)
@@ -413,6 +517,8 @@ func _render_story(story: Dictionary) -> void:
         _label(panel, "Duty %+d   ·   Supply %+d   ·   Reputation %+d" % [
             int(effects.get("duty", 0)), int(effects.get("supply", 0)), int(effects.get("reputation", 0))
         ], 16, GOLD, true)
+        if effects.has("merchant_trust"):
+            _label(panel, "Merchant trust %+d" % int(effects["merchant_trust"]), 16, GOLD, true)
     var choices: Array = story.get("choices", [])
     if choices.is_empty() or not day.story_outcome.is_empty():
         _button(panel, "Continue", func() -> void:
@@ -422,6 +528,18 @@ func _render_story(story: Dictionary) -> void:
     else:
         for choice in choices:
             _button(panel, choice["label"], _choose_story.bind(choice["id"])).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        if is_offer:
+            if not selected_deputy.is_empty():
+                _button(panel, "Delegate purchase", func() -> void:
+                    day.delegate_purchase(selected_deputy)
+                    _render()
+                ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+            _button(panel, "Return without deciding", func() -> void:
+                day.active_offer = {}
+                _render()
+            ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    if not day.closed() and not is_offer:
+        _render_deputies(false)
 
 
 func _choose_story(choice_id: String) -> void:
@@ -512,13 +630,22 @@ func _case_art(key: String) -> String:
     return str(day.inspection_for(day.pending_case).get("art", {}).get(key, ""))
 
 
+func _ship_art(ship: Dictionary) -> String:
+    var path := _optional_texture_path("res://assets/art/ships/%s.png" % ship["id"])
+    return ship.get("image", "") if path.is_empty() else path
+
+
+func _optional_texture_path(path: String) -> String:
+    return path if ResourceLoader.exists(path, "Texture2D") else ""
+
+
 func _texture(path: String) -> Texture2D:
     if path.is_empty():
         return null
     if not ResourceLoader.exists(path, "Texture2D"):
         if not missing_art.has(path):
             missing_art[path] = true
-            push_warning("Missing Stage A art, using text: " + path)
+            push_warning("Missing port art, using text: " + path)
         return null
     return load(path) as Texture2D
 

@@ -70,6 +70,7 @@
   ],
   "hidden_truth": {
     "ruling_id": "hold",
+    "hold_at_berth": true,
     "reason_id": "pedir_messenger",
     "feedback_by_method": {
       "marks": "The crooked seal makes the hidden stern crate worth opening, but it does not reveal the messenger or his warning.",

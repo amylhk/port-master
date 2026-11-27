@@ -16,13 +16,15 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/factions/<id>.json` | One Stage D faction per file: `id`, `name`, `kind`, `leader_id`, `bio` (text); `bloc` (text or null); `member_ids`, `goals`, `notes` (arrays) |
 | `data/characters/<id>.json` | One Stage D persistent character per file: Stage B merchant shape with `faction_id` and `role` in place of `bloc` and `ship_ids` |
 
-- **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete. Optional `image` (ship sprite) and `cargo_image` (cargo icon) are full resource paths.
+- **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete. The game checks `res://assets/art/ships/<id>.png` first, then the optional full `image` resource path, then text. Optional `cargo_image` is the full resource path of the cargo icon.
 - **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
+- **Linked days:** The top-level schedule is day 1. Optional `following_days` lists subsequent days in order. Each entry has its own `ships` and `rice_target` and can override `briefing`; time and art default to day 1. A target of zero means no scheduled rice quota. Ships still at anchor at the closing bell retain their slots the following morning, before new arrivals are admitted.
 - **Port day art (optional):** `art` object in `data/port_day.json` with `backdrop` (harbour view), `banner` (screen header), `berth_marker` (berth plates) and `panel` (briefing parchment), each a full resource path.
 - **Case art (optional):** `art` object in an inspection case with `desk` (inspection screen backdrop).
 - **Evidence:** each page has `id`, `label` (short button text), `title`, and `text`. Optional `image` is the full Godot resource path. Put observations on the evidence pages and generally applicable conventions in the manual. The manifest describes what was declared, never the expected correct markings or an assessment.
 - **Choices:** `rulings` and `reasons` must each contain at least one `id` and `label` pair. The current outcome handlers reserve `clear` for clearing as declared and `hold` for stopping the sale. A hold with the correct evidence is recorded separately in the closing ledger; it earns no duty and does not count as a lost sale. Other ruling IDs attempt an amendment.
 - **Hidden truth:** `ruling_id` identifies the correct decision and `reason_id` identifies the decisive finding in `reasons`. A successful amendment credits `extra_duty` only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
+- **Berth holds (optional):** Set `hidden_truth.hold_at_berth` to `true` when the supported hold keeps the ship at its berth until closing. The occupied berth earns no trade and does not block the other berth.
 - **Citation and review (optional):** Set `hidden_truth.citation_method` only when a case should require one specific supporting method. Use one of `marks`, `measurements`, `testimony`, `contents`, or `manifest`. Players see the same neutral menu in every case, not the authored reason labels. If the field is absent or unrecognized, the existing cases accept any method supported by their authored findings; other cases default to `contents`. `hidden_truth.feedback_by_method` maps a wrongly cited method ID to a short explanation of what that method missed or misinterpreted (for example, `"feedback_by_method": {"marks": "Explain why the marks alone are not decisive."}`). The game shows the correct ruling and, for a wrong citation, the supporting methods; a missing or blank explanation falls back to the decisive reason label.
 
 
@@ -33,6 +35,7 @@ Morning briefings live in `data/briefings/` and evening events in `data/events/`
 - `id`, `title`, `body` (text). `body` is what the player reads; use `\n\n` between paragraphs.
 - Exactly one of `day` (integer, the day it is read) or `trigger` (a condition string such as `"day>=2"`).
 - Optional `requires`: named flags that must all be set, for conditions a `trigger` cannot express. The loader defines each flag.
+- Optional `conditions`: a list of numeric conditions, all of which must hold when the item would open. See the two forms under Stage D historical events; the same grammar is also used for Stage B offers and departure accounts.
 - Optional `choices`: each has `id`, `label` (button text), `outcome_text` (shown after picking) and `effects`, an object of integer deltas with any of `duty`, `supply` and `reputation`.
 - Optional `notes`: author notes on sources and game abstractions, never shown in play.
 
@@ -134,6 +137,7 @@ Stage B deputies live in `data/deputies/`, one deputy per file named `<id>.json`
 
 - `id`, `name`, `role`, `bio` (non-empty text).
 - `skills`: integer ratings from 0 to 5 for exactly three delegable tasks: `berth`, `inspection`, and `purchasing`.
+- The assignment panel looks for duty icons at `res://assets/art/icons/<task>.png` (64×64 transparent PNG); the skill name and rating remain readable without an icon.
 - `flaw`: `id` identifies the flaw, and `text` describes it (both non-empty text). The game decides how the flaw changes outcomes; the prose does not set a numerical modifier.
 - `delegation_lines`: keyed by the same three task IDs. Each task has `assign` (spoken when given the work) and `good`, `mixed`, and `bad` (spoken when reporting the result). Each is a non-empty array of non-empty strings. The game could pick a line at random from the matching array when it has multiple variants.
 - Optional `notes`: authoring-only strings, never shown in play. Start every note with `[FACT]` (source-backed), `[INFERENCE]` (plausible reconstruction), or `[GAMEPLAY]` (fiction or design abstraction).
@@ -177,6 +181,7 @@ Sample deputy (illustrative and abridged; a real file also needs the `inspection
 Write one offer for the state/merchant panel per `data/offers/<id>.json`. The file name must match its unique `id`. Use an existing `data/merchants/` ID as `merchant_id` and name that merchant in the display text.
 
 - `id`, `merchant_id`, `title`, and `body` are non-empty text. Use `\n\n` for paragraph breaks in the body.
+- Optional `ship_id` links cargo still aboard to one of the merchant's scheduled ships. The offer is unavailable if the cargo is held, the ship is lost, or its departure tide passes. Omit it when the cargo is already ashore.
 - Set exactly one of `day` (positive integer) or `trigger` (non-empty condition string, e.g. `"day>=2"`). More than one offer can share a day.
 - Optional `requires` lists named flags that must all be set, in addition to the day or trigger. The conditional offers reuse `rice_short_yesterday` and `ship_lost_yesterday` from the briefings.
 - Optional `choices` contains objects with `id` (unique within the offer), `label` (button text), `outcome_text` (shown after choosing), and `effects` (object). Effects may include any of `duty`, `supply`, `reputation`, and `merchant_trust`, as integer deltas. Omit an effect for no change; use `{}` for no effects.
