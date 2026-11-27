@@ -25,11 +25,11 @@ const VESSELS := [
         "id": "porcelain",
         "name": "Chinese Porcelain Trader",
         "vessel_type": "Ming Chuan Junk",
-        "cargo": "Porcelain (Lot Seven)",
+        "cargo": "Porcelain & Silk (Kim Hong)",
         "ship_tex": "res://assets/art/ships/ship_chinese_junk.png",
         "cargo_tex": "res://assets/art/cargo/cargo_porcelain.png",
         "slot": "berth_2",
-        "manifest": "Vessel: Chinese Porcelain Trader\nCaptain Lin • Origin: Quanzhou\nLot 7: Six stacks of common bowls\n(60 bowls). No other goods declared.",
+        "manifest": "Kim Hong — Junk from Guangzhou\nOwner: Lim Seng • Route: Guangzhou–Champa–Melaka\nCargo: 24 jars of bowls (30/jar), 10 silk bales\nNote: Silk bale 7 resealed at Champa after sea water.",
     },
     {
         "id": "pepper",
@@ -176,14 +176,14 @@ func _build_harbour_layer() -> void:
     strip.add_child(row)
 
     var info := Label.new()
-    info.text = "Berths 2/2  |  Anchorage 4 vessels  |  Click 'Inspect Lot Seven' to open the Detailed Inspection Desk"
+    info.text = "Berths 2/2  |  Anchorage 4 vessels  |  Click 'Inspect Kim Hong' to open the Detailed Inspection Desk"
     info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     info.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
     info.add_theme_font_size_override("font_size", 15)
     info.add_theme_color_override("font_color", INK)
     row.add_child(info)
 
-    var inspect_btn := _styled_button("Inspect Lot Seven (Porcelain)")
+    var inspect_btn := _styled_button("Inspect Kim Hong (Guangzhou)")
     inspect_btn.pressed.connect(_open_inspection.bind(VESSELS[1], false))
     row.add_child(inspect_btn)
 
