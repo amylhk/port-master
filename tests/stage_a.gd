@@ -131,10 +131,15 @@ func _run() -> void:
     _expect(day.lost == 1 and day.berths.is_empty(), "an unjustified hold forfeits the porcelain sale")
     _expect(day.flags.has("case_001_hold"), "a hold on a non-hold case records the canonical hold flag")
 
+    var truth: Dictionary = inspection["hidden_truth"]
+    for method in ["marks", "measurements", "testimony", "contents"]:
+        harbour._restart()
+        harbour._berth("porcelain", true)
+        day.rule_with_method("major_fraud", method)
+        _expect(day.ruling_note == truth["success"], "the porcelain finding accepts %s" % method)
     harbour._restart()
     _press(harbour, "Continue")
     harbour._berth("porcelain", true)
-    var truth: Dictionary = inspection["hidden_truth"]
     truth["citation_method"] = "testimony"
     truth["feedback_by_method"] = {"marks": "The seal alone does not establish the discrepancy."}
     day.rule_with_method("clear", "marks")
@@ -501,7 +506,7 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
         _expect(menu == CITATION_MENU, "%s offers all neutral methods in the same order" % case_id)
 
         _select_option(_button_named(harbour, "Choose a ruling") as OptionButton, correct_ruling if correct else wrong_ruling)
-        _select_option(citation, example[3] if correct else "Compare marks and seals")
+        _select_option(citation, example[3] if correct else "Check the declaration")
         var submit := _button_named(harbour, "File ruling & return to the quay")
         _expect(not submit.disabled, "%s enables filing after both choices" % case_id)
         if submit.disabled:
@@ -520,7 +525,8 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
         else:
             _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
                 and day.ruling_note.contains("Correct ruling: " + correct_ruling)
-                and day.ruling_note.contains("Supporting method: " + example[3])
+                and day.ruling_note.contains("Supporting methods:")
+                and day.ruling_note.contains(example[3])
                 and day.ruling_note.contains("Decisive finding: "),
                 "%s diagnoses both wrong choices and explains the correct answer" % case_id)
 

@@ -18,10 +18,10 @@ const CITATION_METHODS := [
     {"id": "manifest", "label": "Check the declaration"},
 ]
 const LEGACY_CITATIONS := {
-    "marks_weight_route": "contents",
-    "piece_count": "measurements",
-    "wrong_dacing": "testimony",
-    "pedir_messenger": "contents",
+    "marks_weight_route": ["marks", "measurements", "testimony", "contents"],
+    "piece_count": ["measurements", "contents"],
+    "wrong_dacing": ["measurements", "testimony"],
+    "pedir_messenger": ["testimony", "contents"],
 }
 
 var scenario: Dictionary
@@ -157,16 +157,15 @@ func rule_with_method(ruling_id: String, method_id: String) -> void:
     if pending_case.is_empty() or ruling_id.is_empty() or method_id.is_empty():
         return
     var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
-    var expected := _citation_method(truth)
-    _resolve_ruling(ruling_id, method_id == expected, method_id)
+    _resolve_ruling(ruling_id, method_id in _citation_methods(truth), method_id)
 
 
-func _citation_method(truth: Dictionary) -> String:
+func _citation_methods(truth: Dictionary) -> Array:
     var authored: Variant = truth.get("citation_method")
     for method in CITATION_METHODS:
         if method["id"] == authored:
-            return authored
-    return LEGACY_CITATIONS.get(truth["reason_id"], "contents")
+            return [authored]
+    return LEGACY_CITATIONS.get(truth["reason_id"], ["contents"])
 
 
 func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: String) -> void:
@@ -315,7 +314,11 @@ func _ruling_feedback(case_data: Dictionary, ruling_matches: bool, evidence_matc
     if explanation.is_empty():
         explanation = "Decisive finding: %s" % _choice_label(case_data["reasons"], truth["reason_id"])
     if not evidence_matches and not method_id.is_empty():
-        diagnosis += "\nSupporting method: %s" % _choice_label(CITATION_METHODS, _citation_method(truth))
+        var methods := PackedStringArray()
+        for method in _citation_methods(truth):
+            methods.append(_choice_label(CITATION_METHODS, method))
+        var caption := "Supporting method" if methods.size() == 1 else "Supporting methods"
+        diagnosis += "\n%s: %s" % [caption, ", ".join(methods)]
     return "%s\nCorrect ruling: %s\n%s" % [
         diagnosis, _choice_label(case_data["rulings"], truth["ruling_id"]), explanation,
     ]
