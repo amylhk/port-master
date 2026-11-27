@@ -173,7 +173,8 @@ func _harbour() -> void:
     for slot in PortDay.BERTH_CAPACITY:
         _berth_target(slot)
     _morning_voice()
-    _text(surface, "外港錨地   /   %d 艘等候（上限三艘）" % day.waiting.size(), Rect2(120, 453, 580, 30), 16)
+    _panel(surface, Rect2(110, 447, 600, 36), PAPER)
+    _text(surface, "外港錨地   /   %d 艘等候（上限三艘）" % day.waiting.size(), Rect2(120, 450, 580, 30), 16, BROWN)
     for slot in PortDay.ANCHORAGE_CAPACITY:
         var ship := day.ship_at_anchor(slot)
         if ship.is_empty():
@@ -191,7 +192,8 @@ func _harbour() -> void:
     _button(surface, "推進十五分鐘", Rect2(697, 672, 165, 38), advance.bind(15))
     _button(surface, "下次港鐘  %s  >" % PortDay.clock(_next_bell_minute()), Rect2(878, 672, 244, 38), next_bell)
     _button(surface, "結束值勤", Rect2(1134, 672, 124, 38), close_watch).disabled = not day.all_ships_resolved()
-    _text(surface, "只有推進港鐘或進行驗貨時，時間才會流逝。", Rect2(43, 145, 680, 30), 15, INK)
+    _panel(surface, Rect2(32, 148, 705, 34), PAPER)
+    _text(surface, "只有推進港鐘或進行驗貨時，時間才會流逝。", Rect2(43, 150, 680, 30), 15, BROWN)
     if not selected_ship.is_empty():
         _text(surface, "已選取船隻。按下空泊位，或把船拖過去。", Rect2(728, 157, 500, 48), 16, GOLD)
     if not proposed_ship.is_empty():
@@ -644,7 +646,8 @@ func _closing() -> void:
         _text(panel, captions[index], Rect2(30 + index * 156, 182, 150, 35), 16, GOLD, true)
     _text(panel, "已記錄 %d 次驗貨判決。%s" % [inspections_filed, "市集已有足夠稻米。" if day.rice_shortfall() == 0 else "市集仍需更多稻米。"], Rect2(30, 246, 780, 47), 21, INK, true)
     _button(panel, "重玩第一日", Rect2(260, 323, 320, 55), restart)
-    _text(surface, "目前僅開放第一日，其餘日程與官署事務暫停。", Rect2(290, 615, 700, 32), 17, INK, true)
+    _panel(surface, Rect2(280, 609, 720, 44), PAPER)
+    _text(surface, "目前僅開放第一日，其餘日程與官署事務暫停。", Rect2(290, 615, 700, 32), 17, BROWN, true)
 
 
 func _waiting_ship(id: String) -> Dictionary:
