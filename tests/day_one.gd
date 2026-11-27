@@ -23,18 +23,18 @@ func _run() -> void:
     _expect(game.day.day_number == 1 and game.day.minute_of_day == 540, "Day 1 begins at 09:00")
 
     # Exercise Godot's real GUI drag routing, not only the controller's callback.
-    await _drag(Vector2(245, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 0), _berth_point(game, 1))
     _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.ship_at_berth(0).is_empty(), "a dragged rice ship occupies the exact right-hand berth")
     _expect(game.day.minute_of_day == 540, "berthing does not secretly advance the clock")
     if game.day.berths.is_empty():
         # Keep diagnostics meaningful if the native drag assertion fails.
         game.assign_berth("rice", 1, false)
     var before: Array = game.day.waiting.duplicate()
-    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 1))
     _expect(game.day.waiting == before and game.day.berths.size() == 1, "occupied drops never move a second ship")
     _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.minute_of_day == 540, "an occupied drop leaves the berth and clock unchanged")
     _expect(_label_exists(game, "此泊位已有船隻，請使用另一泊位。"), "an occupied drop shows the reason and points to the open berth")
-    await _drag(Vector2(1025, 550), Vector2(215, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 0))
     _expect(game.day.ship_at_berth(0).get("id") == "porcelain" and game.day.pending_case.is_empty() and game.day.minute_of_day == 540, "dropping case cargo berths it at once without a choice dialog")
     _expect(game.day.ship_at_berth(0).get("inspection_open", false), "a berthed case ship stays open for inspection")
     _expect(game.notice.is_empty(), "a successful retry clears the refusal")
@@ -145,13 +145,14 @@ func _run() -> void:
     _expect(game.day.berths.size() == 1 and game.day.ship_at_berth(1)["id"] == "rice", "the model rejects occupied explicit slots")
     game.assign_berth("pepper", 0, false)
     await process_frame
-    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 1))
     _expect(game.day.berths.size() == 2 and game.day.waiting.size() == 1, "a drop when both berths are full leaves the remaining ship waiting")
     _expect(game.notice == "兩個泊位均已佔用，請推進至下次港鐘。", "a full harbour points to the next bell rather than another berth")
     game.queue_free()
     await process_frame
     await _other_cases()
     await _wrong_rulings()
+    await _harbour_status_routing()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -207,6 +208,28 @@ func _wrong_rulings() -> void:
             _expect(game.last_feedback.ends_with(correction + "\n" + explanation), "%s names the correct stamp and keeps the evidence explanation" % example[0])
         game.queue_free()
         await process_frame
+
+
+func _harbour_status_routing() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.assign_berth("rice", 0, false)
+    await process_frame
+    var status: Control = game.surface.get_node("Berth0/UnloadingStatus")
+    var other: Control = game.surface.get_node("Berth1")
+    _expect(not status.get_global_rect().intersects(other.get_global_rect()), "berth 1's unloading status never covers berth 2's drop target")
+    await _drag(_anchor_point(game, 1), status.get_global_rect().get_center())
+    _expect(game.day.ship_at_berth(1).is_empty() and game.day.waiting.size() == 2, "dropping on berth 1's status cannot silently berth a ship at berth 2")
+    game.queue_free()
+    await process_frame
+
+
+func _anchor_point(game: Control, slot: int) -> Vector2:
+    return game.surface.position + game.ANCHOR_POS[slot] + Vector2(115, 75)
+
+
+func _berth_point(game: Control, slot: int) -> Vector2:
+    return game.surface.position + game.BERTH_POS[slot] + Vector2(140, 83)
 
 
 func _drag(from: Vector2, to: Vector2) -> void:
