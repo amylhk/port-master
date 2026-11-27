@@ -86,7 +86,7 @@
 
 ## Suggested Detailed Inspection case
 
-**Design proposal, not a historical incident.** The declaration lists a lot of porcelain cups with a quantity and owner. Opening a stoneware jar exposes the cups, which is supported by Santa Cruz. A repeated brush mark underneath some cups (an older regional analogue) gives the player a lead. The manual associates it with a fictional trading partnership, not a country. A second lot or a merchant’s explanation can clarify why some cups carry a different mark; pursue the count, weight, contents and testimony rather than making the mark a guilt flag. Leave an official permit, if used, separate from the cargo declaration. [Orillaneda, p. 305][santa]; [Li 2020, §2][li]; [Raman, introduction][raman]; [Blueprint, §06 and “Example Play Scenario”][blueprint].
+**Design proposal, not a historical incident.** The declaration lists a lot of porcelain cups with a quantity and owner. Opening a stoneware jar exposes the cups, which is supported by Santa Cruz. A repeated brush mark underneath some cups (an older regional analogue) gives the player a lead. The manual associates it with a fictional trading partnership, not a country. A second lot or a merchant’s explanation can clarify why some cups carry a different mark; pursue the count, weight, contents and testimony rather than making the mark a guilt flag. Leave an official permit, if used, separate from the cargo declaration. [Orillaneda, p. 305][santa]; [Li 2020, §2][li]; [Raman, introduction][raman]; [Blueprint, §§06 and 12][blueprint].
 
 ## Bibliography
 
@@ -131,7 +131,7 @@
 
 ### Design reference
 
-- [*Port Master: Melaka 1511 — Ideal Gameplay Blueprint*, v0.5][blueprint]. §§06–07 and example play scenario.
+- [*Port Master: Melaka 1511 — Ideal Gameplay Blueprint*, v0.5][blueprint]. §§06–07 and 12.
 
 [albu]: https://archive.org/details/in.ernet.dli.2015.46954
 [baker]: https://so06.tci-thaijo.org/index.php/pub_jss/article/download/260286/174750/981503
