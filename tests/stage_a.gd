@@ -91,6 +91,8 @@ func _run() -> void:
         "viewing another evidence page retains the recorded weights")
     _expect(_has_label(harbour, "about 18 kati of them"),
         "the opened jar's nutmeg weight remains in the measurements after switching tabs")
+    _expect(_has_label(harbour, "Thirty small blue-and-white bowls"),
+        "the opened comparison jar's written count remains in the measurements after switching tabs")
     var scroll := harbour.find_children("*", "ScrollContainer", true, false)[0] as ScrollContainer
     harbour.evidence_index = inspection["evidence"].size()
     harbour._render()

@@ -233,12 +233,9 @@ func _render_inspection() -> void:
             _label(reading, entry["text"], 16, INK, true)
     else:
         var clue: Dictionary = evidence[evidence_index]
-        if clue["id"] in ["ev_exterior", "ev_tally"]:
-            recorded_measurements[clue["id"]] = _measurement_excerpt(clue["text"])
-        elif clue["id"] == "ev_opened" and not recorded_measurements.has(clue["id"]):
-            var opened_measurements := _opened_measurements(clue["text"])
-            if not opened_measurements.is_empty():
-                recorded_measurements[clue["id"]] = opened_measurements
+        if clue["id"] in ["ev_exterior", "ev_tally", "ev_opened"]:
+            var heading := "Opened:" if clue["id"] == "ev_opened" else "Weights:"
+            recorded_measurements[clue["id"]] = _finding_excerpt(clue["text"], heading)
         var spread := HBoxContainer.new()
         spread.add_theme_constant_override("separation", 12)
         reading.add_child(spread)
@@ -278,23 +275,12 @@ func _render_inspection() -> void:
     _set_disabled_reason(submit, hint, _ruling_block())
 
 
-func _measurement_excerpt(text: String) -> String:
+func _finding_excerpt(text: String, heading: String) -> String:
     var readings := PackedStringArray()
     for paragraph in text.split("\n\n", false):
-        if paragraph.begins_with("Weights:"):
+        if paragraph.begins_with(heading):
             readings.append(paragraph)
     return text if readings.is_empty() else "\n\n".join(readings)
-
-
-func _opened_measurements(text: String) -> String:
-    var quantity := "(?:[0-9]+(?:[.,][0-9]+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty)"
-    var units := "(?:kati|bahar|kodi|bowls?|flasks?|lengths?|pieces?|rolls?)"
-    var measurement := RegEx.create_from_string("(?i)\\b%s\\s+(?:(?:small|large|separate)\\s+)?%s\\b" % [quantity, units])
-    var readings := PackedStringArray()
-    for paragraph in text.split("\n\n", false):
-        if measurement.search(paragraph) != null:
-            readings.append(paragraph)
-    return "\n\n".join(readings)
 
 
 func _render_findings(parent: Node) -> void:
