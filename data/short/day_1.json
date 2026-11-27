@@ -1,0 +1,163 @@
+{
+  "briefings": {
+    "day_01_turn_of_the_monsoon": {
+      "speaker_id": "salmah_quay_watch",
+      "line": "Shahbandar, land all 24 sacks of rice before the 10:15 tide."
+    },
+    "port_day": {
+      "speaker_id": "salmah_quay_watch",
+      "line": "Rice and pepper sail at 10:15, but the Kim Hong stays until 11:00."
+    }
+  },
+  "ships": {
+    "rice": {"line": "This trader carries the market’s 24 sacks of rice."},
+    "pepper": {"line": "Pepper pays more duty than rice, but both ships leave at 10:15."},
+    "porcelain": {"line": "The Kim Hong brings porcelain from Guangzhou and sails at 11:00."},
+    "resin": {"line": "The Salamat brings frankincense from Cambay with a torn foresail."},
+    "tin": {"line": "The Arus brings baskets of tin from Perak."},
+    "cloth": {"line": "The Kaveri brings dyed cotton from Pulicat."}
+  },
+  "cases": {
+    "case_001": {
+      "speaker_id": "ong_kuan",
+      "line": "My ship carries porcelain and silk from Guangzhou, Shahbandar.",
+      "evidence": {
+        "ev_manifest": "Declared: 24 jars, 30 bowls each; 10 silk bales.",
+        "ev_exterior": "20 forward: 32–36 kati; 4 aft: 45, 46, 45, 47 kati.",
+        "ev_testimony": "Captain denies stopping after Champa; helmsman recalls two nights off Tioman.",
+        "ev_opened": "Forward: 30 bowls; aft: 8 bowls over about 18 kati of nutmeg."
+      },
+      "rulings": {
+        "clear": "Clear as declared",
+        "major_fraud": "Hold suspect cargo",
+        "minor_fault": "Correct the declaration",
+        "hold": "Hold ship and notify court"
+      }
+    },
+    "case_002": {
+      "line": "A porter says the Kaveri’s tally comes up one short.",
+      "evidence": {
+        "ev_manifest": "Declared: 2 kodi of cotton, one per bale.",
+        "ev_tally": "Bale A: 20 rolls; bale B: 19, one with two loops.",
+        "ev_testimony": "The captain counted 20 lengths per bale; the porter counted rolls.",
+        "ev_opened": "Bale A yields 20 lengths; bale B’s thick roll yields two."
+      },
+      "rulings": {
+        "clear": "Clear as declared",
+        "major_fraud": "Hold suspect cargo",
+        "minor_fault": "Correct the declaration",
+        "hold": "Hold ship and notify court"
+      }
+    },
+    "case_003": {
+      "line": "The quay weighers doubt the weight written on the Arus’s tin declaration.",
+      "evidence": {
+        "ev_manifest": "Seven baskets of tin, declared at 7 small bahar.",
+        "ev_exterior": "The same tin reads 8 bahar on small scales, 7 on large.",
+        "ev_testimony": "The boatman used the large scale and recorded 7 bahar.",
+        "ev_opened": "Mud only outside; bare slabs still weigh 8 small bahar."
+      },
+      "rulings": {
+        "clear": "Clear as declared",
+        "major_fraud": "Hold suspect cargo",
+        "minor_fault": "Correct the declaration",
+        "hold": "Hold ship and notify court"
+      }
+    },
+    "case_004": {
+      "line": "The Salamat’s captain won’t let porters behind the rear stack.",
+      "evidence": {
+        "ev_manifest": "14 frankincense crates, 6 rosewater crates, no passengers; crate 11 resealed.",
+        "ev_exterior": "Frankincense: 34–36 kati; crate 15: 94 kati; rosewater: 22–24 kati.",
+        "ev_testimony": "The captain denies stopping in Sumatra; two crew recount Pedir.",
+        "ev_opened": "Crate 3: two cracked flasks; crate 15: a man and letter."
+      },
+      "rulings": {
+        "clear": "Clear as declared",
+        "major_fraud": "Hold suspect cargo",
+        "minor_fault": "Correct the declaration",
+        "hold": "Hold ship and notify court"
+      }
+    }
+  },
+  "events": {
+    "ev_awang_musa_grievance": {
+      "line": "Awang Musa’s captain says more Perak boats will trade elsewhere if you hold them.",
+      "choices": {
+        "smooth_over": "Promise an early berth",
+        "dismiss": "Demand correct papers"
+      }
+    },
+    "ev_bendahara_summons": {
+      "speaker_id": "tun_mutahir",
+      "line": "Will the Gujarati ships stay when they hear of the warships off Pedir?",
+      "choices": {
+        "keep_quiet": "Keep it in court",
+        "warn_merchants": "Warn the Gujarati merchants",
+        "press_for_rice": "Buy rice for stores"
+      }
+    },
+    "ev_kaveri_held_complaint": {
+      "line": "Sri Rangan’s agent asks who will pay for the Kaveri’s lost day.",
+      "choices": {
+        "apologise": "Apologise and waive gift",
+        "stand_firm": "Defend the hold"
+      }
+    },
+    "ev_kaveri_keling_invitation": {
+      "line": "A messenger from Sri Rangan’s house invites you to dine with the Pulicat merchants.",
+      "choices": {
+        "attend": "Dine with the merchants",
+        "decline": "Send thanks and decline"
+      }
+    },
+    "ev_kim_hong_owner_plea": {
+      "speaker_id": "lim_seng",
+      "line": "Tell the temenggung the porcelain and silk were honestly mine.",
+      "choices": {
+        "speak_for_him": "Speak for Lim Seng",
+        "refuse_gift": "Return tea, say nothing",
+        "accept_gift": "Take tea, promise nothing"
+      }
+    },
+    "ev_kim_hong_whispers": {
+      "line": "Your clerk hears nutmeg is cheap in Upeh, but nobody says who brought it.",
+      "choices": {
+        "send_clerk": "Trace the sacks",
+        "let_it_go": "Let it go"
+      }
+    },
+    "ev_lost_ship_agent": {
+      "line": "A broker offers to send your apology to a lost ship’s owners for a fee.",
+      "choices": {
+        "pay_broker": "Pay the broker",
+        "refuse_broker": "Refuse the broker"
+      }
+    },
+    "ev_rice_market_petition": {
+      "line": "The price of rice rose twice today; the sellers ask what you’ll do tomorrow.",
+      "choices": {
+        "promise_berth": "Give rice first berth",
+        "explain_dues": "Explain what dues pay"
+      }
+    },
+    "ev_rice_market_thanks": {
+      "line": "The price of rice held, and a headman sends mangosteens in thanks.",
+      "choices": {}
+    },
+    "ev_stranger_in_upeh": {
+      "line": "Your clerk heard that a wounded stranger from Pedir was seeking shelter in Upeh.",
+      "choices": {
+        "search": "Send men to find him",
+        "ignore": "Leave it to the watch"
+      }
+    },
+    "ev_two_dacing_petition": {
+      "line": "The head weigher asks you to make traders name the scale on tin declarations.",
+      "choices": {
+        "order_scale": "Require the scale’s name",
+        "leave_custom": "Leave it to weighers"
+      }
+    }
+  }
+}
