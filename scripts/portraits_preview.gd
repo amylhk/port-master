@@ -161,11 +161,13 @@ func _build_gallery() -> void:
 
 	batch2_layer = Control.new()
 	batch2_layer.size = DESIGN_SIZE
+	batch2_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(batch2_layer)
 	_build_batch2()
 
 	batch1_layer = Control.new()
 	batch1_layer.size = DESIGN_SIZE
+	batch1_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(batch1_layer)
 	_build_batch1()
 
