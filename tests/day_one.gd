@@ -72,11 +72,24 @@ func _run() -> void:
     game.choose_method("contents")
     game.apply_stamp()
     _expect(game.method.is_empty() and not game.day.pending_case.is_empty(), "unexamined evidence cannot be cited")
-    game.show_evidence(3)
+    _expect(_accessible_button(game, "開封前排陶甕") != null and _accessible_button(game, "開封後排陶甕") != null and _accessible_button(game, "開封第7包生絲") != null, "each package starts closed and can be opened individually")
+    _expect(not _text_shown(game, "30隻青花小碗") and not _text_shown(game, "肉豆蔻，約18斤"), "closed packages reveal none of their findings")
+    _press_accessible(game, "開封前排陶甕")
+    _expect(_text_shown(game, "30隻青花小碗") and not _text_shown(game, "肉豆蔻，約18斤"), "opening the front jar reveals only that jar's contents")
+    _expect(_accessible_button(game, "查看前排陶甕") != null and _accessible_button(game, "開封後排陶甕") != null and _accessible_button(game, "開封第7包生絲") != null, "opening one package leaves its neighbours closed")
+    _press_text(game, "查看完整證據")
+    _expect(game.detail_open and not game.detail_text.contains("肉豆蔻"), "the full reading cannot reveal a closed package")
+    _press_text(game, "返回驗貨桌")
+    _press_accessible(game, "開封後排陶甕")
     _press_text(game, "查看完整證據")
     _expect(game.detail_open and not game.detail_text.contains("天猛公") and game.detail_text.contains("肉豆蔻，約18斤"), "full desk evidence keeps the observations without suggesting a referral")
     _expect(game.day.inspections["case_001"]["evidence"][3]["text"].contains("天猛公"), "neutral presentation leaves the authored case unchanged")
     _press_text(game, "返回驗貨桌")
+    _expect(not game.viewed.has("contents"), "cargo is not ready to cite while a package remains closed")
+    _press_accessible(game, "開封第7包生絲")
+    _expect(_text_shown(game, "生絲已乾") and not _text_shown(game, "肉豆蔻，約18斤"), "opening the silk does not combine findings")
+    _press_accessible(game, "查看後排陶甕")
+    _expect(game.viewed.has("contents") and _text_shown(game, "肉豆蔻，約18斤") and not game.feedback_open, "revisiting a package retains its findings without returning a verdict")
     game.choose_method("contents")
     game.apply_stamp()
     _expect(not game.day.pending_case.is_empty(), "the tutorial requires checking the manual before stamping")
@@ -228,10 +241,13 @@ func _other_cases() -> void:
         _expect(not game.day.pending_case.is_empty(), "%s opens its original case" % example[0])
         if not game.day.pending_case.is_empty():
             var case_id: String = game.day.pending_case["inspection_case"]
-            for index in 4:
+            for index in 3:
                 game.show_evidence(index)
                 game._evidence_turn(1)
                 game._evidence_turn(-1)
+            _expect(game.opened_crates.is_empty() and not game.viewed.has("contents"), "%s starts with all packages closed" % example[0])
+            for index in game.CRATE_NAMES[case_id].size():
+                game.open_crate(index)
             game.manual_seen = true
             game.choose_method(example[3])
             game.choose_stamp(example[2])
@@ -344,6 +360,13 @@ func _accessible_button(node: Node, caption: String) -> Button:
         if button.accessibility_name == caption and button.is_visible_in_tree():
             return button
     return null
+
+
+func _press_accessible(node: Node, caption: String) -> void:
+    var button := _accessible_button(node, caption)
+    _expect(button != null, "button %s exists" % caption)
+    if button != null:
+        button.pressed.emit()
 
 
 func _expired_rice_reminder() -> void:

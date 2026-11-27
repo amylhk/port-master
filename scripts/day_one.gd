@@ -20,6 +20,30 @@ const SHIP_SIZE := Vector2(230, 160)
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
 const METHOD_TITLES := {"marks": "比對商號標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱貨單"}
 const STAMPS := {"clear": "放行", "minor_fault": "更正", "major_fraud": "罰款", "hold": "扣留"}
+const CRATE_NAMES := {
+    "case_001": ["前排陶甕", "後排陶甕", "第7包生絲"],
+    "case_002": ["甲包", "乙包"],
+    "case_003": ["沾泥的籃子", "其餘的籃子"],
+    "case_004": ["第11箱", "第3箱", "無編號箱"],
+}
+
+class CratePicture extends Control:
+    var opened: bool
+
+    func _draw() -> void:
+        _face([Vector2(8, 31), Vector2(46, 41), Vector2(46, 63), Vector2(8, 52)], Color("#a9794c"))
+        _face([Vector2(46, 41), Vector2(66, 28), Vector2(66, 50), Vector2(46, 63)], Color("#89603d"))
+        if opened:
+            _face([Vector2(8, 31), Vector2(28, 18), Vector2(66, 28), Vector2(46, 41)], Color("#4e3929"))
+            _face([Vector2(28, 18), Vector2(26, 3), Vector2(64, 13), Vector2(66, 28)], Color("#d4aa73"))
+        else:
+            _face([Vector2(8, 31), Vector2(28, 18), Vector2(66, 28), Vector2(46, 41)], Color("#d4aa73"))
+        draw_line(Vector2(8, 41), Vector2(46, 51), Color("#6d4b33"), 1.0, true)
+
+    func _face(points: PackedVector2Array, fill: Color) -> void:
+        draw_colored_polygon(points, fill)
+        points.append(points[0])
+        draw_polyline(points, BROWN, 1.5, true)
 
 class ShipToken extends Button:
     var ship: Dictionary
@@ -98,6 +122,8 @@ var surface: Control
 var selected_ship := ""
 var evidence_index := 0
 var evidence_page := 0
+var opened_crates := {}
+var selected_crate := 0
 var viewed := {}
 var method := ""
 var stamp := ""
@@ -409,6 +435,8 @@ func inspect_berth(slot: int) -> void:
 func _reset_desk() -> void:
     evidence_index = 0
     evidence_page = 0
+    opened_crates.clear()
+    selected_crate = 0
     viewed = {"manifest": true}
     method = ""
     stamp = ""
@@ -535,9 +563,14 @@ func _desk() -> void:
     var inspection := day.inspection_for(day.pending_case)
     _image(surface, inspection.get("art", {}).get("desk", ""), Rect2(0, 0, 1280, 720))
     _header("驗貨桌  /  " + day.pending_case["name"], PortDay.clock(day.minute_of_day) + "   /   時間暫停")
-    var instruction := "打開貨物、核對手冊，再選擇證據及判決印章。"
+    var instruction := "逐一打開貨箱、核對手冊，再選擇證據及判決印章。"
     if not manual_seen:
-        instruction = _hint_text("check_manual", "請對照手冊，核實驗貨發現。") if viewed.has("contents") else _hint_text("open_cargo", "打開貨物，看看包裝內藏有甚麼。")
+        if viewed.has("contents"):
+            instruction = _hint_text("check_manual", "請對照手冊，核實驗貨發現。")
+        elif opened_crates.is_empty():
+            instruction = _hint_text("open_cargo", "打開貨箱，查看內容。")
+        else:
+            instruction = "請逐一打開貨箱，查看各箱內容。"
     elif method.is_empty():
         instruction = "先選擇引用的證據，再選判決印章。"
     elif not stamp.is_empty():
@@ -548,14 +581,7 @@ func _desk() -> void:
     # Physical tools live on the left; the declaration and findings share the desk.
     _panel(surface, Rect2(16, 151, 284, 552), PAPER)
     _text(surface, "驗貨工具", Rect2(28, 155, 260, 30), 16, BROWN)
-    var cargo := _button(surface, "", Rect2(28, 192, 260, 171), show_evidence.bind(3))
-    _style_paper_button(cargo)
-    cargo.tooltip_text = "打開貨物"
-    var cargo_path: String = day.pending_case.get("cargo_image", "")
-    if day.pending_case["id"] == "porcelain":
-        cargo_path = "res://assets/art/cargo/porcelain_jar_open.png" if viewed.has("contents") else "res://assets/art/cargo/porcelain_jar_closed.png"
-    _image(cargo, cargo_path, Rect2(58, 1, 145, 128))
-    _text(cargo, "打開貨物" if not viewed.has("contents") else "貨物已開封", Rect2(8, 133, 244, 30), 19, BROWN, true)
+    _cargo_crates(inspection["id"])
     _button(surface, "查驗封印與過磅", Rect2(28, 377, 260, 49), show_evidence.bind(1))
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
@@ -566,6 +592,25 @@ func _desk() -> void:
     _declaration(inspection)
     _findings(inspection)
     _stamp_rack(inspection)
+
+
+func _cargo_crates(case_id: String) -> void:
+    var names: Array = CRATE_NAMES[case_id]
+    var pitch := 264.0 / names.size()
+    for index in names.size():
+        var opened := opened_crates.has(index)
+        var button := _button(surface, "", Rect2(28 + index * pitch, 192, pitch - 4, 171), open_crate.bind(index))
+        _style_paper_button(button)
+        if evidence_index == 3 and selected_crate == index:
+            button.add_theme_stylebox_override("normal", _style(Color("#dfccac"), GOLD, 3))
+        button.accessibility_name = ("查看" if opened else "開封") + names[index]
+        var picture := CratePicture.new()
+        picture.position = Vector2((pitch - 78) * 0.5, 17)
+        picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+        picture.opened = opened
+        button.add_child(picture)
+        _text(button, names[index], Rect2(2, 90, pitch - 8, 39), 15, BROWN, true)
+        _text(button, "已開封" if opened else "按下開封", Rect2(2, 131, pitch - 8, 28), 14, BROWN, true)
 
 
 func _declaration(inspection: Dictionary) -> void:
@@ -589,13 +634,13 @@ func _declaration(inspection: Dictionary) -> void:
 
 
 func _findings(inspection: Dictionary) -> void:
-    var evidence: Dictionary = inspection["evidence"][evidence_index]
     var panel := _panel(surface, Rect2(740, 161, 512, 360), PAPER)
+    if evidence_index == 3:
+        _crate_findings(panel, inspection)
+        return
+    var evidence: Dictionary = inspection["evidence"][evidence_index]
     _text(panel, evidence["title"], Rect2(18, 12, 476, 50), 22, BROWN)
     var evidence_text := str(evidence["text"])
-    # The desk shows observations, not a suggested referral; retain authored case data.
-    if inspection["id"] == "case_001" and evidence["id"] == "ev_opened":
-        evidence_text = evidence_text.replace("他沉默許久，才要求把此事交由天猛公親自裁決。", "他沉默許久，沒有回答。")
     var paragraphs := evidence_text.split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
     var short_line: String = short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
@@ -611,10 +656,53 @@ func _findings(inspection: Dictionary) -> void:
         _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence_text))
 
 
-func show_evidence(index: int) -> void:
+func _crate_findings(panel: Control, inspection: Dictionary) -> void:
+    var case_id: String = inspection["id"]
+    var title: String = CRATE_NAMES[case_id][selected_crate]
+    var evidence: Dictionary = inspection["evidence"][3]
+    var findings := str(evidence["text"]).split("\n\n", false)
+    match case_id:
+        "case_001":
+            # The captain's reply belongs with the jar that prompted it, not the silk.
+            findings[1] += "\n\n" + findings[3].replace("他沉默許久，才要求把此事交由天猛公親自裁決。", "他沉默許久，沒有回答。")
+        "case_003":
+            findings = findings[0].split("他們再", false, 1)
+            findings[1] = "他們再" + findings[1]
+        "case_004":
+            findings[2] += "\n\n" + findings[3]
+    var body := findings[selected_crate]
+    _text(panel, title, Rect2(18, 12, 476, 50), 22, BROWN)
+    var has_art := case_id == "case_001" and selected_crate < 2 and ResourceLoader.exists(evidence["image"], "Texture2D")
+    if has_art:
+        var picture := _image(panel, evidence["image"], Rect2(17, 65, 478, 135))
+        var crop := AtlasTexture.new()
+        crop.atlas = picture.texture
+        var half_width := picture.texture.get_width() / 2.0
+        crop.region = Rect2(selected_crate * half_width, 0, half_width, picture.texture.get_height())
+        crop.filter_clip = true
+        picture.texture = crop
+    _reading(panel, body, Rect2(18, 205 if has_art else 74, 476, 96 if has_art else 227), BROWN, 18)
+    _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(title, body))
+
+
+func open_crate(index: int) -> void:
     if day.pending_case.is_empty() or manual_open or detail_open:
         return
-    evidence_index = clampi(index, 0, day.inspection_for(day.pending_case)["evidence"].size() - 1)
+    var names: Array = CRATE_NAMES[day.inspection_for(day.pending_case)["id"]]
+    if index < 0 or index >= names.size():
+        return
+    opened_crates[index] = true
+    selected_crate = index
+    evidence_index = 3
+    if opened_crates.size() == names.size():
+        viewed["contents"] = true
+    render()
+
+
+func show_evidence(index: int) -> void:
+    if day.pending_case.is_empty() or manual_open or detail_open or index < 0 or index > 2:
+        return
+    evidence_index = index
     evidence_page = 0
     match evidence_index:
         0: viewed["manifest"] = true
@@ -622,7 +710,6 @@ func show_evidence(index: int) -> void:
             viewed["marks"] = true
             viewed["measurements"] = true
         2: viewed["testimony"] = true
-        3: viewed["contents"] = true
     render()
 
 
