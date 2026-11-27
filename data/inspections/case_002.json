@@ -1,0 +1,115 @@
+{
+  "id": "case_002",
+  "title": "The missing length",
+  "subtitle": "While the Kaveri waited at anchor, a harbour porter went aboard to tally her bales of dyed cotton. He swears a piece is missing. You board the nau from Pulicat to check before she unloads.",
+  "minutes": 35,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Kaveri’s declaration",
+      "text": "Kaveri — Nau from Pulicat, on the Coromandel coast\nOwner of the goods: Sri Rangan of Pulicat\n\nIndigo-dyed cotton, each length finished with a white border\nQuantity: 2 kodi · Packing: bales A and B, 1 kodi each\nGrade: Common · Declared value: 180"
+    },
+    {
+      "id": "ev_tally",
+      "label": "02  First tally",
+      "title": "The porter’s first count",
+      "text": "The harbour clerk was aboard when the porter broke the seals for the tally. Both were hard and dry, impressed with three dots in a triangle; the same mark is painted on both bale wrappers.\n\nBale A: twenty rolls of blue cotton, all about as thick as a wrist.\n\nBale B: nineteen rolls. One is thicker than the rest and has two loops of cord instead of one.\n\nThe porter has marked a shortfall beside B. He counted the rolls without taking off their cords."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Those who counted and those who packed",
+      "text": "Muthu — Nakhoda (captain)\nThe owner had me count the lengths on the bench before we packed them. I called twenty for each bale. If your man counted nineteen, ask him what he counted.\n\nArulan — Deckhand who helped pack the bales\nThere was one reed core left when I got to the bottom of the pile for B. I wound one length over the other on it. I tied two loops because the thick roll kept springing loose.\n\nKassim — Porter\nNineteen rolls came out of that bale. I didn't untie them. The clerk wanted his tally before the buyers came to the quay."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open rolls",
+      "title": "What lies under the cords",
+      "text": "Bale A: the rolls yield twenty separate lengths. Each is coarse blue cotton with a finished white border.\n\nBale B: eighteen of the rolls yield one length apiece. When you cut both loops on the thick roll, one length comes away and another is still wound around the reed. They are not stitched together. You lay them side by side: the same coarse weave, the same length, and a finished white border on each. Both match the rest of the bale. Nothing else is wrapped around the reed."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "roll_count",
+      "label": "The first tally shows that bale B is one length short."
+    },
+    {
+      "id": "sound_seals",
+      "label": "The matching owner’s seals alone prove the declared count."
+    },
+    {
+      "id": "piece_count",
+      "label": "B’s doubled roll holds two separate lengths: twenty pieces per bale."
+    },
+    {
+      "id": "substitute",
+      "label": "The thicker roll hides a lower grade of cotton."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "clear",
+    "reason_id": "piece_count",
+    "extra_duty": 0,
+    "success": "In the temenggung’s name, you clear the Kaveri as declared. The porter counts the two lengths on the mat, then strikes the shortfall from his tally.\n\nA kodi is twenty pieces, not twenty rolls. The two cords pointed to the roll Arulan described; opening it confirmed two separate lengths of the declared cloth. Both bales are full.",
+    "clear": "The Kaveri is cleared, but the reason you filed does not settle the shortage on the tally. A sound seal does not tell the buyers how many lengths are inside.",
+    "unsupported": "The evidence does not support an amendment in the temenggung’s name. The declaration stands. Count the separate lengths before assessing a shortage or a substitution.",
+    "hold": "You hold the Kaveri and send word to the court. The court’s men find only the declared cotton. The buyers leave the quay empty-handed."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Coromandel Cloth Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "clean",
+      "summary": "A porter mistook nineteen rolls in bale B for nineteen lengths. One roll holds two lengths, making a full kodi.",
+      "key_clues": [
+        "ev_manifest",
+        "ev_tally",
+        "ev_testimony",
+        "ev_opened"
+      ],
+      "deduction": [
+        "The manifest declares one kodi in each bale. The manual defines a kodi as twenty pieces, independent of how they are rolled.",
+        "The captain and porter counted different things. Arulan explains the doubled roll and identifies it by its two cords.",
+        "Unrolling it confirms two separate lengths, both of the declared cloth. Each bale contains twenty, so the declaration needs no change."
+      ],
+      "solvable_without_opening": false
+    },
+    "history_notes": [
+      {
+        "topic": "Pulicat cloth trade and the kodi",
+        "note": "Pulicat supplied textiles to Melaka in ocean-going ships described by Pires. A kodi (corge) was a count of twenty pieces, not a unit of weight.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Cargo and harbour practice",
+        "note": "The ship, characters and packing incident are fictional. The written manifest, marks register, cargo seals and quay inspection procedure are game inventions.",
+        "confidence": "game_rule"
+      }
+    ]
+  }
+}
