@@ -590,7 +590,11 @@ func _findings(inspection: Dictionary) -> void:
     var evidence: Dictionary = inspection["evidence"][evidence_index]
     var panel := _panel(surface, Rect2(740, 161, 512, 360), PAPER)
     _text(panel, evidence["title"], Rect2(18, 12, 476, 50), 22, BROWN)
-    var paragraphs := str(evidence["text"]).split("\n\n", false)
+    var evidence_text := str(evidence["text"])
+    # The desk shows observations, not a suggested referral; retain authored case data.
+    if inspection["id"] == "case_001" and evidence["id"] == "ev_opened":
+        evidence_text = evidence_text.replace("他沉默許久，才要求把此事交由天猛公親自裁決。", "他沉默許久，沒有回答。")
+    var paragraphs := evidence_text.split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
     var short_line: String = short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
     var has_art: bool = evidence.has("image") and (evidence_page == 0 or not short_line.is_empty())
@@ -602,7 +606,7 @@ func _findings(inspection: Dictionary) -> void:
         _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, BROWN, true)
         _button(panel, ">", Rect2(439, 312, 55, 34), _evidence_turn.bind(1)).disabled = evidence_page == paragraphs.size() - 1
     else:
-        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence["text"]))
+        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence_text))
 
 
 func show_evidence(index: int) -> void:
