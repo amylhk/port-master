@@ -17,7 +17,9 @@ The previous fifteen-day Stage B prototype remains available in `scenes/harbour.
 
 ## Day 1 rebuild
 
-- Guided harbour with native drag/drop, click fallback and explicit berth targets
+- Sea-view harbour with unboxed draggable ships, pier-side moorings and click fallback
+- Isometric harbour art uses the existing asset paths; the scene remains playable with older art
+- The painted sea extends beyond the centered play surface on non-16:9 windows
 - Original six Day 1 ships, departure deadlines, two berths and three anchorage slots
 - Original parallel unloading, fixed inspection time costs and four authored cases
 - Hands-on cargo, seals, scales, testimony, paged manual and unselected plain stamps

@@ -13,8 +13,10 @@ const BROWN := Color("#38291e")
 const GREEN := Color("#65be98")
 const RED := Color("#dd8773")
 const FULL_BERTHS_HINT := "兩個泊位均已佔用，請推進至下次港鐘。"
-const BERTH_POS := [Vector2(64, 265), Vector2(426, 265)]
-const ANCHOR_POS := [Vector2(120, 490), Vector2(510, 490), Vector2(900, 490)]
+const BERTH_POS := [Vector2(460, 218), Vector2(520, 378)]
+const BERTH_SIZE := Vector2(280, 160)
+const ANCHOR_POS := [Vector2(925, 152), Vector2(925, 317), Vector2(925, 482)]
+const SHIP_SIZE := Vector2(230, 160)
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
 const METHOD_TITLES := {"marks": "比對商號標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱貨單"}
 const STAMPS := {"clear": "放行", "minor_fault": "更正", "major_fraud": "罰款", "hold": "扣留"}
@@ -34,13 +36,44 @@ class ShipToken extends Button:
 
     func _process(_delta: float) -> void:
         if is_instance_valid(picture):
-            picture.position.y = 3.0 + sin(Time.get_ticks_msec() / 650.0 + float(ship["arrival"])) * 2.0
+            picture.position.y = -8.0 + sin(Time.get_ticks_msec() / 900.0 + float(ship["arrival"])) * 2.0
 
-class BerthTarget extends Panel:
+class BerthTarget extends Control:
     var slot: int
     var validate: Callable
     var request: Callable
     var drag_state := -2
+    var occupied := false
+    var hovered := false
+
+    func _ready() -> void:
+        mouse_entered.connect(func() -> void:
+            hovered = true
+            queue_redraw()
+        )
+        mouse_exited.connect(func() -> void:
+            hovered = false
+            queue_redraw()
+        )
+
+    func _draw() -> void:
+        if occupied and drag_state < 0:
+            return
+        var tint := Color("#efd59a")
+        if drag_state >= 0:
+            tint = Color("#7ad6ac") if drag_state == 1 else Color("#e49a87")
+        var center := Vector2(140, 83)
+        var points := PackedVector2Array()
+        for index in 65:
+            var angle := TAU * index / 64.0
+            points.append(center + Vector2(cos(angle) * 116, sin(angle) * 43))
+        if hovered or drag_state >= 0:
+            draw_colored_polygon(points, Color(tint, 0.16))
+        for index in range(0, 64, 4):
+            draw_polyline(points.slice(index, index + 3), Color(tint, 0.9 if drag_state >= 0 or hovered else 0.55), 2.0, true)
+        if not occupied:
+            draw_line(center - Vector2(10, 0), center + Vector2(10, 0), tint, 2.0, true)
+            draw_line(center - Vector2(0, 10), center + Vector2(0, 10), tint, 2.0, true)
 
     func _process(_delta: float) -> void:
         var data: Variant = get_viewport().gui_get_drag_data()
@@ -51,15 +84,7 @@ class BerthTarget extends Panel:
         if next_state == drag_state:
             return
         drag_state = next_state
-        var style := get_theme_stylebox("panel").duplicate() as StyleBoxFlat
-        if dragging:
-            var available := drag_state == 1
-            style.border_color = Color("#65be98") if available else Color("#dd8773")
-            style.bg_color = Color(0.08, 0.29, 0.28, 0.94) if available else Color(0.25, 0.12, 0.11, 0.94)
-        else:
-            style.border_color = Color("#f1c774")
-            style.bg_color = Color(0.04, 0.14, 0.17, 0.88)
-        add_theme_stylebox_override("panel", style)
+        queue_redraw()
 
     func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
         # Receive ship releases even when docking is blocked so the request can show why.
@@ -102,7 +127,8 @@ func _ready() -> void:
     get_window().title = window_title
     get_window().content_scale_size = Vector2i(1280, 720)
     get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-    get_window().content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP
+    # Extend the painted sea instead of adding black bars on taller/wider windows.
+    get_window().content_scale_aspect = Window.CONTENT_SCALE_ASPECT_EXPAND
     var game_theme := Theme.new()
     # Noto TC is variable: select a readable weight rather than its thin default.
     var game_font := FontVariation.new()
@@ -117,6 +143,7 @@ func _ready() -> void:
     game_theme.set_color("font_color", "Button", INK)
     game_theme.set_color("font_disabled_color", "Button", Color("#83908b"))
     theme = game_theme
+    resized.connect(func() -> void: render.call_deferred())
     if FileAccess.file_exists("res://data/hints/day_1.json"):
         var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/hints/day_1.json"))
         if data is Array:
@@ -169,7 +196,10 @@ func render() -> void:
         remove_child(surface)
         surface.queue_free()
     surface = Control.new()
-    surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    # Keep desk tools at a readable, consistent scale; center the 16:9 play area
+    # within the expanded canvas while the harbour paint fills the whole window.
+    surface.position = (get_viewport_rect().size - Vector2(1280, 720)) * 0.5
+    surface.size = Vector2(1280, 720)
     add_child(surface)
     if day.closed():
         _closing()
@@ -188,19 +218,18 @@ func render() -> void:
 
 
 func _harbour() -> void:
-    _image(surface, day.scenario["art"]["backdrop"], Rect2(0, 0, 1280, 720))
+    _harbour_backdrop()
     _header("港口值勤", "第一日   /   " + PortDay.clock(day.minute_of_day))
     _hint(_harbour_hint())
     for slot in PortDay.BERTH_CAPACITY:
         _berth_target(slot)
     _morning_voice()
-    _panel(surface, Rect2(110, 447, 600, 36), PAPER)
-    _text(surface, "外港錨地   /   %d 艘等候（上限三艘）" % day.waiting.size(), Rect2(120, 450, 580, 30), 16, BROWN)
+    _text(surface, "外港錨地  ·  %d / 3 艘" % day.waiting.size(), Rect2(726, 151, 190, 32), 15, BROWN, true)
     for slot in PortDay.ANCHORAGE_CAPACITY:
         var ship := day.ship_at_anchor(slot)
         if ship.is_empty():
-            var empty := _panel(surface, Rect2(ANCHOR_POS[slot], Vector2(260, 160)), Color(0.04, 0.18, 0.21, 0.4))
-            _text(empty, "~  空置錨位  ~", Rect2(10, 55, 240, 40), 15, MUTED, true)
+            var empty := _image(surface, "res://assets/art/harbour/anchorage_marker.png", Rect2(ANCHOR_POS[slot] + Vector2(65, 20), Vector2(100, 100)))
+            empty.modulate.a = 0.5
         else:
             _ship_token(ship, ANCHOR_POS[slot])
     _panel(surface, Rect2(0, 662, 1280, 58), DARK)
@@ -213,10 +242,14 @@ func _harbour() -> void:
     _button(surface, "推進十五分鐘", Rect2(697, 672, 165, 38), advance.bind(15))
     _button(surface, "下次港鐘  %s  >" % PortDay.clock(_next_bell_minute()), Rect2(878, 672, 244, 38), next_bell)
     _button(surface, "結束值勤", Rect2(1134, 672, 124, 38), close_watch).disabled = not day.all_ships_resolved()
-    _panel(surface, Rect2(32, 148, 705, 34), PAPER)
-    _text(surface, "只有推進港鐘或進行驗貨時，時間才會流逝。", Rect2(43, 150, 680, 30), 15, BROWN)
-    if not selected_ship.is_empty():
-        _text(surface, "已選取船隻。按下空泊位，或把船拖過去。", Rect2(728, 157, 500, 48), 16, GOLD)
+    _panel(surface, Rect2(24, 611, 510, 33), PAPER).mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _text(surface, "只有推進港鐘或進行驗貨時，時間才會流逝。", Rect2(35, 611, 488, 33), 14, BROWN)
+
+
+func _harbour_backdrop() -> void:
+    var viewport_size := get_viewport_rect().size
+    var backdrop := _image(surface, day.scenario["art"]["backdrop"], Rect2(-surface.position, viewport_size))
+    backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 
 
 func _morning_voice() -> void:
@@ -224,33 +257,43 @@ func _morning_voice() -> void:
     if copy.is_empty():
         return
     var line: String = copy.get("line", "")
-    var caption := "按下聽取詳情"
+    var caption := "港口同僚  ·  按下聽取詳情"
     var action := func() -> void:
         notes_id = "day_01_turn_of_the_monsoon"
         notes_open = true
         render()
     var awaiting := day.awaiting_inspection()
+    if day.rice_shortfall() == 0:
+        line = "大人，稻米已全數卸妥，請繼續安排船隻靠泊。"
+    elif not day.waiting.any(func(ship: Dictionary) -> bool: return ship["id"] == "rice") and not day.berths.any(func(ship: Dictionary) -> bool: return ship["id"] == "rice"):
+        line = "大人，米船已離港，請繼續安排其餘船隻靠泊。"
     if not awaiting.is_empty():
         var ship: Dictionary = awaiting[0]
+        for candidate in awaiting:
+            if day.can_inspect_berthed(candidate):
+                ship = candidate
+                break
         var slot := int(ship["berth_slot"])
         if day.can_inspect_berthed(ship):
             line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記開箱檢查。" % [ship["name"], slot + 1]
-            caption = "按下開始驗貨；不驗貨則推進時間，按申報卸貨"
+            caption = "按此驗貨；推進時間即按申報卸貨"
             action = inspect_berth.bind(slot)
         else:
             line = "大人，%s已來不及在潮汐前驗貨，推進時間便按申報卸貨。" % ship["name"]
-    var bubble := _button(surface, "", Rect2(831, 236, 407, 163), action)
+    var bubble := _button(surface, "", Rect2(24, 156, 350, 142), action)
     _style_paper_button(bubble)
     var portrait: String = copy.get("speaker_id", "")
     if not portrait.is_empty():
-        _image(bubble, "res://assets/art/portraits/%s.png" % portrait, Rect2(10, 17, 100, 119))
-    _text(bubble, line, Rect2(123, 12, 270, 108), 19 if awaiting.is_empty() else 18, BROWN)
-    _text(bubble, caption, Rect2(123, 120, 276, 38), 13, BROWN)
+        _image(bubble, "res://assets/art/portraits/%s.png" % portrait, Rect2(8, 17, 84, 106))
+    _text(bubble, line, Rect2(103, 10, 232, 94), 18, BROWN)
+    _text(bubble, caption, Rect2(103, 108, 232, 24), 12, BROWN)
 
 
 func _harbour_hint() -> String:
     if not notice.is_empty():
         return notice
+    if not selected_ship.is_empty():
+        return "已選取船隻，請按下空泊位，或將船拖往碼頭。"
     if day.all_ships_resolved():
         return "港口已漸平靜，可以結束首次值勤。"
     for ship in day.awaiting_inspection():
@@ -275,39 +318,41 @@ func _berth_target(slot: int) -> void:
     target.validate = drop_block
     target.request = request_berth
     target.position = BERTH_POS[slot]
-    target.size = Vector2(310, 172)
-    target.add_theme_stylebox_override("panel", _style(Color(0.04, 0.14, 0.17, 0.88), GOLD if ship.is_empty() else Color("#547a79"), 2))
+    target.size = BERTH_SIZE
+    target.occupied = not ship.is_empty()
+    target.name = "Berth%d" % slot
+    target.mouse_filter = Control.MOUSE_FILTER_STOP
+    target.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+    target.accessibility_name = "泊位 %d" % (slot + 1)
     target.gui_input.connect(func(event: InputEvent) -> void:
         if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not selected_ship.is_empty():
             request_berth(selected_ship, slot)
     )
     surface.add_child(target)
-    _text(target, "泊位 %d" % (slot + 1), Rect2(14, 8, 282, 28), 17, GOLD)
+    var plaque := _panel(target, Rect2(5, 125, 270, 35), Color(0.12, 0.27, 0.28, 0.94))
+    plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _text(plaque, "泊位 %d" % (slot + 1), Rect2(9, 0, 78, 35), 16, GOLD)
     if ship.is_empty():
-        _text(target, "+", Rect2(112, 30, 86, 62), 43, GOLD, true)
-        _text(target, "將船隻拖至此處", Rect2(12, 107, 286, 30), 18, INK, true)
-        _text(target, "亦可先選船，再按此泊位", Rect2(10, 140, 290, 22), 13, MUTED, true)
-    elif ship.get("inspection_open", false):
-        _image(target, _ship_art(ship), Rect2(6, 33, 135, 100))
-        _berth_inspection_marker(target, ship, slot)
+        _text(plaque, "將船拖往此處", Rect2(88, 0, 173, 35), 16, INK, true)
     else:
-        _image(target, _ship_art(ship), Rect2(6, 33, 135, 100))
-        _text(target, ship["name"], Rect2(142, 43, 159, 54), 17)
-        _text(target, "扣留至收港" if ship.get("held_at_berth", false) else "尚餘 %d 分鐘" % ship["remaining"], Rect2(144, 100, 156, 30), 17, GREEN)
-        var progress := ProgressBar.new()
-        progress.position = Vector2(15, 144)
-        progress.size = Vector2(280, 12)
-        progress.max_value = int(ship["minutes"])
-        progress.value = int(ship["minutes"]) - int(ship["remaining"])
-        progress.show_percentage = false
-        progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
-        target.add_child(progress)
+        # Hull and wake stay above the plaque and inside their own drop row.
+        _image(target, _ship_art(ship), Rect2(25, 0, 230, 120))
+        _text(plaque, ship["name"], Rect2(88, 0, 173, 35), 16, INK, true)
+        if ship.get("inspection_open", false):
+            _berth_inspection_marker(target, ship, slot)
+            return
+        # Keep berth 1's status outside berth 2's water target. A panel below
+        # the pier would visually belong to berth 1 but route drops to berth 2.
+        var status := _panel(target, Rect2(-175, 130, 170, 27), Color(0.12, 0.27, 0.28, 0.9))
+        status.name = "UnloadingStatus"
+        status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+        _text(status, "扣留至收港" if ship.get("held_at_berth", false) else "卸貨中 · 尚餘 %d 分鐘" % ship["remaining"], Rect2(5, 0, 160, 27), 13, INK, true)
 
 
-## Crates on the quay and a 驗貨 callout, laid out within the berth target's own size.
+## Crates on the quay, with the 驗貨 callout in clear water beside the hull.
 func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> void:
     var area := target.size
-    var crates_rect := Rect2(area.x * 0.27, area.y * 0.55, area.x * 0.22, area.y * 0.32)
+    var crates_rect := Rect2(area.x * 0.04, area.y * 0.48, area.x * 0.24, area.y * 0.27)
     if ResourceLoader.exists("res://assets/art/harbour/berth_crates.png", "Texture2D"):
         _image(target, "res://assets/art/harbour/berth_crates.png", crates_rect)
     else:
@@ -318,7 +363,7 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
             crate.mouse_filter = Control.MOUSE_FILTER_IGNORE
         _image(target, ship.get("cargo_image", ""), Rect2(crates_rect.position + crates_rect.size * Vector2(0.25, 0), crates_rect.size * Vector2(0.5, 0.55)))
     var can_inspect := day.can_inspect_berthed(ship)
-    var marker := _button(target, "", Rect2(area.x * 0.5, area.y * 0.2, area.x * 0.47, area.y * 0.5), inspect_berth.bind(slot))
+    var marker := _button(surface, "", Rect2(target.position + Vector2(area.x - 15, 20), Vector2(128, 96)), inspect_berth.bind(slot))
     marker.accessibility_name = "驗貨"
     marker.set_drag_forwarding(Callable(), target._can_drop_data, target._drop_data)
     marker.disabled = not can_inspect
@@ -326,18 +371,16 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     for state in ["normal", "hover", "pressed", "focus"]:
         marker.add_theme_stylebox_override(state, _style(PAPER if state == "normal" else Color("#fff3d6"), GOLD, 3))
     marker.add_theme_stylebox_override("disabled", _style(Color("#8d8a80"), Color("#547a79"), 2))
-    var face := Rect2(Vector2.ZERO, marker.size)
     if ResourceLoader.exists("res://assets/art/harbour/inspect_marker.png", "Texture2D"):
-        _image(marker, "res://assets/art/harbour/inspect_marker.png", face.grow(-3))
+        _image(marker, "res://assets/art/harbour/inspect_marker.png", Rect2(4, 2, 120, 66))
     else:
-        _image(marker, "res://assets/art/icons/inspection.png", Rect2(4, 4, face.size.y - 8, face.size.y - 8))
-        _text(marker, "驗貨", Rect2(face.size.y - 2, 2, face.size.x - face.size.y, face.size.y * 0.6), 24, BROWN, true)
-    _text(marker, "＋%d 分鐘" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及", Rect2(face.size.y - 2, face.size.y * 0.58, face.size.x - face.size.y, face.size.y * 0.4), 13, BROWN, true)
+        _image(marker, "res://assets/art/icons/inspection.png", Rect2(7, 12, 42, 42))
+        _text(marker, "驗貨", Rect2(49, 8, 73, 50), 24, BROWN, true)
+    _text(marker, "＋%d 分鐘" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及", Rect2(4, 68, 120, 24), 13, BROWN, true)
     if can_inspect:
         var pulse := marker.create_tween().set_loops()
         pulse.tween_property(marker, "modulate", Color(1.15, 1.05, 0.8), 0.7)
         pulse.tween_property(marker, "modulate", Color.WHITE, 0.7)
-    _text(target, ship["name"] + "  ·  待驗貨", Rect2(area.x * 0.05, area.y * 0.86, area.x * 0.9, area.y * 0.14), 13, MUTED, true)
 
 
 func inspect_berth(slot: int) -> void:
@@ -378,22 +421,29 @@ func _ship_token(ship: Dictionary, pos: Vector2) -> void:
     var token := ShipToken.new()
     token.ship = ship
     token.position = pos
-    token.size = Vector2(260, 160)
+    token.size = SHIP_SIZE
+    token.name = "Ship_" + str(ship["id"])
+    token.accessibility_name = ship["name"] + "，拖往泊位"
     token.tooltip_text = "拖至泊位，或先選船再按泊位。"
     token.mouse_default_cursor_shape = Control.CURSOR_DRAG
-    if selected_ship == ship["id"]:
-        token.add_theme_stylebox_override("normal", _style(DARK, GOLD, 3))
+    for state in ["normal", "hover", "pressed", "focus"]:
+        token.add_theme_stylebox_override(state, StyleBoxEmpty.new())
     token.pressed.connect(func() -> void:
         selected_ship = ship["id"]
         notice = ""
         render()
     )
     surface.add_child(token)
-    token.picture = _image(token, _ship_art(ship), Rect2(3, 3, 155, 101))
-    _image(token, ship.get("cargo_image", ""), Rect2(187, 12, 54, 54))
-    _text(token, ship["name"], Rect2(10, 98, 240, 27), 17)
+    # No card behind the hull: the actual ship is the draggable object on water.
+    token.picture = _image(token, _ship_art(ship), Rect2(0, -8, 230, 144))
+    var tag := _panel(token, Rect2(0, 124, 230, 40), Color(0.12, 0.27, 0.28, 0.94))
+    tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    if selected_ship == ship["id"]:
+        tag.add_theme_stylebox_override("panel", _style(DARK, GOLD, 2))
+    _image(tag, ship.get("cargo_image", ""), Rect2(5, 4, 30, 30))
+    _text(tag, ship["name"], Rect2(42, 0, 180, 22), 15)
     var urgent: bool = int(ship["departure"]) - day.minute_of_day <= 75
-    _text(token, "%s 離港  ·  卸貨 %d 分鐘" % [PortDay.clock(ship["departure"]), ship["minutes"]], Rect2(10, 129, 245, 24), 14, GOLD if urgent else MUTED)
+    _text(tag, "%s 離港 · 卸貨 %d 分鐘" % [PortDay.clock(ship["departure"]), ship["minutes"]], Rect2(42, 21, 184, 18), 11, GOLD if urgent else MUTED)
 
 
 func drop_block(ship_id: String, slot: int) -> String:
@@ -542,7 +592,11 @@ func _findings(inspection: Dictionary) -> void:
     var evidence: Dictionary = inspection["evidence"][evidence_index]
     var panel := _panel(surface, Rect2(740, 161, 512, 360), PAPER)
     _text(panel, evidence["title"], Rect2(18, 12, 476, 50), 22, BROWN)
-    var paragraphs := str(evidence["text"]).split("\n\n", false)
+    var evidence_text := str(evidence["text"])
+    # The desk shows observations, not a suggested referral; retain authored case data.
+    if inspection["id"] == "case_001" and evidence["id"] == "ev_opened":
+        evidence_text = evidence_text.replace("他沉默許久，才要求把此事交由天猛公親自裁決。", "他沉默許久，沒有回答。")
+    var paragraphs := evidence_text.split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
     var short_line: String = short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
     var has_art: bool = evidence.has("image") and (evidence_page == 0 or not short_line.is_empty())
@@ -554,7 +608,7 @@ func _findings(inspection: Dictionary) -> void:
         _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, BROWN, true)
         _button(panel, ">", Rect2(439, 312, 55, 34), _evidence_turn.bind(1)).disabled = evidence_page == paragraphs.size() - 1
     else:
-        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence["text"]))
+        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence_text))
 
 
 func show_evidence(index: int) -> void:
@@ -604,9 +658,12 @@ func _stamp_rack(inspection: Dictionary) -> void:
         button.tooltip_text = METHOD_TITLES[id] + ("" if viewed.has(id) else "：請先使用相應的驗貨工具")
         if method == id:
             button.add_theme_stylebox_override("normal", _style(Color("#346052"), GOLD, 2))
-    for index in inspection["rulings"].size():
-        var ruling: Dictionary = inspection["rulings"][index]
-        var id: String = ruling["id"]
+    var ordered_rulings: Array[String] = []
+    for id in STAMPS:
+        if inspection["rulings"].any(func(r: Dictionary) -> bool: return r["id"] == id):
+            ordered_rulings.append(id)
+    for index in ordered_rulings.size():
+        var id: String = ordered_rulings[index]
         var button := _button(surface, "", Rect2(334 + index * 226, 626, 214, 61), choose_stamp.bind(id))
         _style_paper_button(button)
         button.tooltip_text = STAMPS[id]

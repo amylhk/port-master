@@ -23,18 +23,18 @@ func _run() -> void:
     _expect(game.day.day_number == 1 and game.day.minute_of_day == 540, "Day 1 begins at 09:00")
 
     # Exercise Godot's real GUI drag routing, not only the controller's callback.
-    await _drag(Vector2(245, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 0), _berth_point(game, 1))
     _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.ship_at_berth(0).is_empty(), "a dragged rice ship occupies the exact right-hand berth")
     _expect(game.day.minute_of_day == 540, "berthing does not secretly advance the clock")
     if game.day.berths.is_empty():
         # Keep diagnostics meaningful if the native drag assertion fails.
         game.assign_berth("rice", 1, false)
     var before: Array = game.day.waiting.duplicate()
-    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 1))
     _expect(game.day.waiting == before and game.day.berths.size() == 1, "occupied drops never move a second ship")
     _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.minute_of_day == 540, "an occupied drop leaves the berth and clock unchanged")
     _expect(_label_exists(game, "此泊位已有船隻，請使用另一泊位。"), "an occupied drop shows the reason and points to the open berth")
-    await _drag(Vector2(1025, 550), Vector2(215, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 0))
     _expect(game.day.ship_at_berth(0).get("id") == "porcelain" and game.day.pending_case.is_empty() and game.day.minute_of_day == 540, "dropping case cargo berths it at once without a choice dialog")
     _expect(game.day.ship_at_berth(0).get("inspection_open", false), "a berthed case ship stays open for inspection")
     _expect(game.notice.is_empty(), "a successful retry clears the refusal")
@@ -50,6 +50,7 @@ func _run() -> void:
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
     _expect(game.viewed == {"manifest": true}, "opened cargo and measurements are not revealed in advance")
     var stamp_buttons := 0
+    var stamp_order: Array[String] = []
     var manual_found := false
     for button in game.find_children("*", "Button", true, false):
         if button.accessibility_name == "驗貨手冊":
@@ -58,15 +59,24 @@ func _run() -> void:
                 manual_found = manual_found or label.text.begins_with("驗貨手冊\n")
         if button.tooltip_text in game.STAMPS.values():
             stamp_buttons += 1
+            stamp_order.append(button.tooltip_text)
             for label in button.find_children("*", "Label", true, false):
                 _expect(label.text == button.tooltip_text, "stamp faces and tooltips show only the plain action, never a ruling description")
     _expect(stamp_buttons == 4, "the desk offers four plain-name stamps without verdict hints")
+    var digest_order: Array[String] = []
+    for line in game.manual_pages()[-1]["lines"]:
+        digest_order.append(str(line).get_slice("：", 0))
+    _expect(stamp_order == digest_order, "the desk stamps follow the same order as the manual digest")
     _expect(manual_found, "the manual has a visible Traditional Chinese caption and accessible name")
     game.choose_stamp("major_fraud")
     game.choose_method("contents")
     game.apply_stamp()
     _expect(game.method.is_empty() and not game.day.pending_case.is_empty(), "unexamined evidence cannot be cited")
     game.show_evidence(3)
+    _press_text(game, "查看完整證據")
+    _expect(game.detail_open and not game.detail_text.contains("天猛公") and game.detail_text.contains("肉豆蔻，約18斤"), "full desk evidence keeps the observations without suggesting a referral")
+    _expect(game.day.inspections["case_001"]["evidence"][3]["text"].contains("天猛公"), "neutral presentation leaves the authored case unchanged")
+    _press_text(game, "返回驗貨桌")
     game.choose_method("contents")
     game.apply_stamp()
     _expect(not game.day.pending_case.is_empty(), "the tutorial requires checking the manual before stamping")
@@ -97,6 +107,11 @@ func _run() -> void:
     game.feedback_open = false
     game.advance(75)
     _expect(game.day.rice == 24 and game.day.recovered_duty == 18 and game.day.completed == 2, "rice and inspected porcelain finish with their original consequences")
+    _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the completed rice task no longer shows its urgent reminder")
+    _expect(_label_containing(game, "稻米已全數卸妥"), "the colleague acknowledges the completed rice task")
+    _press_text(game, "港口同僚")
+    _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the full Day 1 briefing remains accessible after rice delivery")
+    _press_text(game, "返回港口")
     game.assign_berth("resin", 0, false)
     game.assign_berth("tin", 1, false)
     game.advance(60)
@@ -137,6 +152,17 @@ func _run() -> void:
     game.inspect_berth(0)
     _expect(game.day.pending_case.get("id") == "porcelain", "the marker inspects once nothing is being placed")
     game.restart()
+    game.assign_berth("rice", 0, false)
+    game.assign_berth("pepper", 1, false)
+    game.advance(70)
+    game.request_berth("resin", 0)
+    game.request_berth("tin", 1)
+    game.day.ship_at_berth(0)["departure"] = game.day.minute_of_day + 61
+    game.render()
+    _expect(not game.day.can_inspect_berthed(game.day.ship_at_berth(0)) and game.day.can_inspect_berthed(game.day.ship_at_berth(1)), "the first case is too late but the second can still be inspected")
+    _expect(_label_containing(game, game.day.ship_at_berth(1)["name"] + "已靠泊位2"), "the colleague points to the inspectable second case rather than advising a clock advance")
+    _expect(game._harbour_hint() == game._hint_text("inspect_berthed", ""), "the top hint also offers inspection while any case remains eligible")
+    game.restart()
     game.day.berth("rice", false, -2)
     game.day.berth("rice", false, 2)
     _expect(game.day.berths.is_empty() and game.day.waiting.size() == 3, "the model rejects out-of-range explicit slots before removing a ship")
@@ -145,13 +171,16 @@ func _run() -> void:
     _expect(game.day.berths.size() == 1 and game.day.ship_at_berth(1)["id"] == "rice", "the model rejects occupied explicit slots")
     game.assign_berth("pepper", 0, false)
     await process_frame
-    await _drag(Vector2(1025, 550), Vector2(575, 350))
+    await _drag(_anchor_point(game, 2), _berth_point(game, 1))
     _expect(game.day.berths.size() == 2 and game.day.waiting.size() == 1, "a drop when both berths are full leaves the remaining ship waiting")
     _expect(game.notice == "兩個泊位均已佔用，請推進至下次港鐘。", "a full harbour points to the next bell rather than another berth")
     game.queue_free()
     await process_frame
     await _other_cases()
     await _wrong_rulings()
+    await _harbour_status_routing()
+    await _berthed_hull_routing()
+    await _expired_rice_reminder()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -209,6 +238,43 @@ func _wrong_rulings() -> void:
         await process_frame
 
 
+func _harbour_status_routing() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.assign_berth("rice", 0, false)
+    await process_frame
+    var status: Control = game.surface.get_node("Berth0/UnloadingStatus")
+    var other: Control = game.surface.get_node("Berth1")
+    _expect(not status.get_global_rect().intersects(other.get_global_rect()), "berth 1's unloading status never covers berth 2's drop target")
+    await _drag(_anchor_point(game, 1), status.get_global_rect().get_center())
+    _expect(game.day.ship_at_berth(1).is_empty() and game.day.waiting.size() == 2, "dropping on berth 1's status cannot silently berth a ship at berth 2")
+    game.queue_free()
+    await process_frame
+
+
+func _berthed_hull_routing() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.request_berth("porcelain", 1)
+    await process_frame
+    var target: Control = game.surface.get_node("Berth1")
+    var hull: Control = target.find_children("*", "TextureRect", false, false)[0]
+    var other: Control = game.surface.get_node("Berth0")
+    _expect(not hull.get_global_rect().intersects(other.get_global_rect()), "a docked hull never draws inside the other berth's drop target")
+    await _drag(_anchor_point(game, 0), hull.get_global_rect().position + Vector2(115, 20))
+    _expect(game.day.ship_at_berth(0).is_empty() and game.day.ship_at_berth(1).get("id") == "porcelain" and game.day.waiting.size() == 2, "dropping onto an occupied hull cannot dock the incoming ship at the other berth")
+    game.queue_free()
+    await process_frame
+
+
+func _anchor_point(game: Control, slot: int) -> Vector2:
+    return game.surface.position + game.ANCHOR_POS[slot] + Vector2(115, 75)
+
+
+func _berth_point(game: Control, slot: int) -> Vector2:
+    return game.surface.position + game.BERTH_POS[slot] + Vector2(140, 83)
+
+
 func _drag(from: Vector2, to: Vector2) -> void:
     var motion := InputEventMouseMotion.new()
     motion.position = from
@@ -249,6 +315,19 @@ func _accessible_button(node: Node, caption: String) -> Button:
     return null
 
 
+func _expired_rice_reminder() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    _expect(_label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the rice reminder is present before the opening tide")
+    game.advance(75)
+    _expect(game.day.minute_of_day == 615 and game.day.rice == 0, "the missed-rice path reaches its 10:15 departure tide")
+    _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米") and _label_containing(game, "米船已離港"), "the expired reminder changes to the departed status")
+    _press_text(game, "港口同僚")
+    _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the colleague still opens the full briefing after the tide")
+    game.queue_free()
+    await process_frame
+
+
 func _label_containing(node: Node, fragment: String) -> bool:
     for label in node.find_children("*", "Label", true, false):
         if label.text.contains(fragment):
@@ -265,7 +344,7 @@ func _text_shown(node: Node, part: String) -> bool:
 
 func _press_text(node: Node, caption: String) -> void:
     for button in node.find_children("*", "Button", true, false):
-        if (button as Button).text == caption:
+        if (button as Button).text == caption or _label_containing(button, caption):
             (button as Button).pressed.emit()
             return
     _expect(false, "button %s exists" % caption)
