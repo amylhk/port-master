@@ -31,13 +31,21 @@ func _run() -> void:
         game.assign_berth("rice", 1, false)
     var before: Array = game.day.waiting.duplicate()
     await _drag(Vector2(1025, 550), Vector2(575, 350))
-    _expect(game.day.waiting == before and game.proposed_ship.is_empty(), "occupied drops never move a second ship")
+    _expect(game.day.waiting == before and game.day.berths.size() == 1, "occupied drops never move a second ship")
     _expect(game.day.ship_at_berth(1).get("id") == "rice" and game.day.minute_of_day == 540, "an occupied drop leaves the berth and clock unchanged")
     _expect(_label_exists(game, "此泊位已有船隻，請使用另一泊位。"), "an occupied drop shows the reason and points to the open berth")
     await _drag(Vector2(1025, 550), Vector2(215, 350))
-    _expect(game.proposed_ship == "porcelain" and game.day.pending_case.is_empty(), "dropping case cargo offers unload or inspect before committing")
+    _expect(game.day.ship_at_berth(0).get("id") == "porcelain" and game.day.pending_case.is_empty() and game.day.minute_of_day == 540, "dropping case cargo berths it at once without a choice dialog")
+    _expect(game.day.ship_at_berth(0).get("inspection_open", false), "a berthed case ship stays open for inspection")
     _expect(game.notice.is_empty(), "a successful retry clears the refusal")
-    game.assign_berth("porcelain", 0, true)
+    var marker := _accessible_button(game, "驗貨")
+    _expect(marker != null and not marker.disabled, "the berthed ship shows a clickable 驗貨 marker")
+    _expect(_label_containing(game, "請按船旁的「驗貨」標記"), "the assistant says where to click to inspect")
+    _expect(game._harbour_hint() == game._hint_text("inspect_berthed", ""), "the harbour hint points to the berth marker")
+    if marker != null:
+        marker.pressed.emit()
+    else:
+        game.inspect_berth(0)
     _expect(game.day.pending_case.get("id") == "porcelain" and game.day.minute_of_day == 585, "inspection opens the existing case and charges its fixed 45 minutes")
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
     _expect(game.viewed == {"manifest": true}, "opened cargo and measurements are not revealed in advance")
@@ -101,11 +109,33 @@ func _run() -> void:
     _expect(game.day.day_number == 1 and game.day.minute_of_day == 540 and game.day.waiting.size() == 3 and game.inspections_filed == 0, "replay restores a clean Day 1")
     game.advance(30)
     game.request_berth("porcelain", 1)
-    game.assign_berth("porcelain", 1, true)
-    _expect(game.day.pending_case.is_empty() and game.day.ship_at_berth(1).is_empty(), "the inspection deadline cannot be bypassed through a stale action")
+    marker = _accessible_button(game, "驗貨")
+    _expect(marker != null and marker.disabled and _label_containing(game, "已來不及在潮汐前驗貨"), "a late case ship shows the marker as too late and the assistant says so")
+    game.inspect_berth(1)
+    game.day.inspect_berthed("porcelain")
+    _expect(game.day.pending_case.is_empty() and game.day.minute_of_day == 570, "the inspection deadline cannot be bypassed through a stale action")
     game.request_berth("missing_ship", 0)
     game.request_berth("rice", -2)
-    _expect(game.day.berths.is_empty(), "invalid ship and berth data never mutate the port")
+    _expect(game.day.berths.size() == 1, "invalid ship and berth data never mutate the port")
+    game.advance(15)
+    _expect(game.day.flags.has("case_001_clear") and not game.day.ship_at_berth(1).get("inspection_open", false) and game.day.ship_at_berth(1)["remaining"] == 45, "moving the clock unloads an uninspected ship on its declaration")
+    _expect(_accessible_button(game, "驗貨") == null, "the marker leaves once unloading begins")
+    game.restart()
+    game.assign_berth("rice", 0, false)
+    game.assign_berth("pepper", 1, false)
+    game.advance(70)
+    game.request_berth("resin", 0)
+    game.request_berth("tin", 1)
+    game.inspect_berth(0)
+    _expect(game.day.pending_case.get("id") == "resin" and game.day.flags.has("case_003_clear"), "inspecting one berth unloads the other waiting case on its declaration")
+    game.restart()
+    game.request_berth("porcelain", 0)
+    game.selected_ship = "rice"
+    game.inspect_berth(0)
+    _expect(game.day.pending_case.is_empty() and not game.notice.is_empty() and game.day.ship_at_berth(0).get("inspection_open", false), "clicking the marker while placing a ship reports the occupied berth instead of inspecting")
+    _expect(game.selected_ship.is_empty(), "a rejected placement on the marker drops the selection so the next click inspects")
+    game.inspect_berth(0)
+    _expect(game.day.pending_case.get("id") == "porcelain", "the marker inspects once nothing is being placed")
     game.restart()
     game.day.berth("rice", false, -2)
     game.day.berth("rice", false, 2)
@@ -116,7 +146,7 @@ func _run() -> void:
     game.assign_berth("pepper", 0, false)
     await process_frame
     await _drag(Vector2(1025, 550), Vector2(575, 350))
-    _expect(game.day.berths.size() == 2 and game.day.waiting.size() == 1 and game.proposed_ship.is_empty(), "a drop when both berths are full leaves the remaining ship waiting")
+    _expect(game.day.berths.size() == 2 and game.day.waiting.size() == 1, "a drop when both berths are full leaves the remaining ship waiting")
     _expect(game.notice == "兩個泊位均已佔用，請推進至下次港鐘。", "a full harbour points to the next bell rather than another berth")
     game.queue_free()
     await process_frame
@@ -208,6 +238,20 @@ func _drag(from: Vector2, to: Vector2) -> void:
 func _button_exists(node: Node, caption: String) -> bool:
     for button in node.find_children("*", "Button", true, false):
         if button.text == caption:
+            return true
+    return false
+
+
+func _accessible_button(node: Node, caption: String) -> Button:
+    for button in node.find_children("*", "Button", true, false):
+        if button.accessibility_name == caption and button.is_visible_in_tree():
+            return button
+    return null
+
+
+func _label_containing(node: Node, fragment: String) -> bool:
+    for label in node.find_children("*", "Label", true, false):
+        if label.text.contains(fragment):
             return true
     return false
 

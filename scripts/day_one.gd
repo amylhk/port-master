@@ -71,8 +71,6 @@ class BerthTarget extends Panel:
 var day := PortDay.new()
 var surface: Control
 var selected_ship := ""
-var proposed_ship := ""
-var proposed_slot := -1
 var evidence_index := 0
 var evidence_page := 0
 var viewed := {}
@@ -157,8 +155,6 @@ func restart() -> void:
     day.story_queue.clear()
     day.story_index = 0
     selected_ship = ""
-    proposed_ship = ""
-    proposed_slot = -1
     notice = ""
     feedback_open = false
     manual_open = false
@@ -221,25 +217,35 @@ func _harbour() -> void:
     _text(surface, "只有推進港鐘或進行驗貨時，時間才會流逝。", Rect2(43, 150, 680, 30), 15, BROWN)
     if not selected_ship.is_empty():
         _text(surface, "已選取船隻。按下空泊位，或把船拖過去。", Rect2(728, 157, 500, 48), 16, GOLD)
-    if not proposed_ship.is_empty():
-        _boarding()
 
 
 func _morning_voice() -> void:
     var copy: Dictionary = short_copy.get("briefings", {}).get("day_01_turn_of_the_monsoon", {})
     if copy.is_empty():
         return
-    var bubble := _button(surface, "", Rect2(831, 236, 407, 163), func() -> void:
+    var line: String = copy.get("line", "")
+    var caption := "按下聽取詳情"
+    var action := func() -> void:
         notes_id = "day_01_turn_of_the_monsoon"
         notes_open = true
         render()
-    )
+    var awaiting := day.awaiting_inspection()
+    if not awaiting.is_empty():
+        var ship: Dictionary = awaiting[0]
+        var slot := int(ship["berth_slot"])
+        if day.can_inspect_berthed(ship):
+            line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記開箱檢查。" % [ship["name"], slot + 1]
+            caption = "按下開始驗貨；不驗貨則推進時間，按申報卸貨"
+            action = inspect_berth.bind(slot)
+        else:
+            line = "大人，%s已來不及在潮汐前驗貨，推進時間便按申報卸貨。" % ship["name"]
+    var bubble := _button(surface, "", Rect2(831, 236, 407, 163), action)
     _style_paper_button(bubble)
     var portrait: String = copy.get("speaker_id", "")
     if not portrait.is_empty():
         _image(bubble, "res://assets/art/portraits/%s.png" % portrait, Rect2(10, 17, 100, 119))
-    _text(bubble, copy.get("line", ""), Rect2(123, 12, 270, 116), 20, BROWN)
-    _text(bubble, "按下聽取詳情", Rect2(123, 125, 270, 28), 13, BROWN)
+    _text(bubble, line, Rect2(123, 12, 270, 108), 19 if awaiting.is_empty() else 18, BROWN)
+    _text(bubble, caption, Rect2(123, 120, 276, 38), 13, BROWN)
 
 
 func _harbour_hint() -> String:
@@ -247,6 +253,9 @@ func _harbour_hint() -> String:
         return notice
     if day.all_ships_resolved():
         return "港口已漸平靜，可以結束首次值勤。"
+    for ship in day.awaiting_inspection():
+        if day.can_inspect_berthed(ship):
+            return _hint_text("inspect_berthed", "按船旁「驗貨」標記開箱。")
     if day.berths.size() == PortDay.BERTH_CAPACITY:
         return FULL_BERTHS_HINT
     if day.waiting.size() == PortDay.ANCHORAGE_CAPACITY and day.minute_of_day > 540:
@@ -278,6 +287,9 @@ func _berth_target(slot: int) -> void:
         _text(target, "+", Rect2(112, 30, 86, 62), 43, GOLD, true)
         _text(target, "將船隻拖至此處", Rect2(12, 107, 286, 30), 18, INK, true)
         _text(target, "亦可先選船，再按此泊位", Rect2(10, 140, 290, 22), 13, MUTED, true)
+    elif ship.get("inspection_open", false):
+        _image(target, _ship_art(ship), Rect2(6, 33, 135, 100))
+        _berth_inspection_marker(target, ship, slot)
     else:
         _image(target, _ship_art(ship), Rect2(6, 33, 135, 100))
         _text(target, ship["name"], Rect2(142, 43, 159, 54), 17)
@@ -290,6 +302,76 @@ func _berth_target(slot: int) -> void:
         progress.show_percentage = false
         progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
         target.add_child(progress)
+
+
+## Crates on the quay and a 驗貨 callout, laid out within the berth target's own size.
+func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> void:
+    var area := target.size
+    var crates_rect := Rect2(area.x * 0.27, area.y * 0.55, area.x * 0.22, area.y * 0.32)
+    if ResourceLoader.exists("res://assets/art/harbour/berth_crates.png", "Texture2D"):
+        _image(target, "res://assets/art/harbour/berth_crates.png", crates_rect)
+    else:
+        for index in 3:
+            var offset: Vector2 = [Vector2(0, 0.45), Vector2(0.5, 0.45), Vector2(0.25, 0)][index]
+            var crate := _panel(target, Rect2(crates_rect.position + offset * crates_rect.size, crates_rect.size * Vector2(0.5, 0.55)), Color("#9b6b3f"))
+            crate.add_theme_stylebox_override("panel", _style(Color("#9b6b3f"), Color("#4d331f"), 2))
+            crate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+        _image(target, ship.get("cargo_image", ""), Rect2(crates_rect.position + crates_rect.size * Vector2(0.25, 0), crates_rect.size * Vector2(0.5, 0.55)))
+    var can_inspect := day.can_inspect_berthed(ship)
+    var marker := _button(target, "", Rect2(area.x * 0.5, area.y * 0.2, area.x * 0.47, area.y * 0.5), inspect_berth.bind(slot))
+    marker.accessibility_name = "驗貨"
+    marker.set_drag_forwarding(Callable(), target._can_drop_data, target._drop_data)
+    marker.disabled = not can_inspect
+    marker.tooltip_text = "開箱詳細驗貨，佔用此泊位 %d 分鐘。" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及在潮汐前完成驗貨。"
+    for state in ["normal", "hover", "pressed", "focus"]:
+        marker.add_theme_stylebox_override(state, _style(PAPER if state == "normal" else Color("#fff3d6"), GOLD, 3))
+    marker.add_theme_stylebox_override("disabled", _style(Color("#8d8a80"), Color("#547a79"), 2))
+    var face := Rect2(Vector2.ZERO, marker.size)
+    if ResourceLoader.exists("res://assets/art/harbour/inspect_marker.png", "Texture2D"):
+        _image(marker, "res://assets/art/harbour/inspect_marker.png", face.grow(-3))
+    else:
+        _image(marker, "res://assets/art/icons/inspection.png", Rect2(4, 4, face.size.y - 8, face.size.y - 8))
+        _text(marker, "驗貨", Rect2(face.size.y - 2, 2, face.size.x - face.size.y, face.size.y * 0.6), 24, BROWN, true)
+    _text(marker, "＋%d 分鐘" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及", Rect2(face.size.y - 2, face.size.y * 0.58, face.size.x - face.size.y, face.size.y * 0.4), 13, BROWN, true)
+    if can_inspect:
+        var pulse := marker.create_tween().set_loops()
+        pulse.tween_property(marker, "modulate", Color(1.15, 1.05, 0.8), 0.7)
+        pulse.tween_property(marker, "modulate", Color.WHITE, 0.7)
+    _text(target, ship["name"] + "  ·  待驗貨", Rect2(area.x * 0.05, area.y * 0.86, area.x * 0.9, area.y * 0.14), 13, MUTED, true)
+
+
+func inspect_berth(slot: int) -> void:
+    if not selected_ship.is_empty():
+        var placing := selected_ship
+        selected_ship = ""
+        request_berth(placing, slot)
+        return
+    var ship := day.ship_at_berth(slot)
+    if ship.is_empty() or day.closed() or not day.pending_case.is_empty() or feedback_open or notes_open or manual_open or detail_open:
+        return
+    if not day.can_inspect_berthed(ship):
+        notice = "已來不及在潮汐前完成驗貨。"
+        render()
+        return
+    day.inspect_berthed(ship["id"])
+    if day.pending_case.is_empty():
+        return
+    selected_ship = ""
+    notice = ""
+    _reset_desk()
+    render()
+
+
+func _reset_desk() -> void:
+    evidence_index = 0
+    evidence_page = 0
+    viewed = {"manifest": true}
+    method = ""
+    stamp = ""
+    manual_seen = false
+    manual_page = 0
+    manual_full = false
+    manual_full_page = 0
 
 
 func _ship_token(ship: Dictionary, pos: Vector2) -> void:
@@ -315,7 +397,7 @@ func _ship_token(ship: Dictionary, pos: Vector2) -> void:
 
 
 func drop_block(ship_id: String, slot: int) -> String:
-    if day.closed() or not day.pending_case.is_empty() or not proposed_ship.is_empty() or feedback_open or notes_open or manual_open or detail_open:
+    if day.closed() or not day.pending_case.is_empty() or feedback_open or notes_open or manual_open or detail_open:
         return "請先完成目前的工作。"
     if slot < 0 or slot >= PortDay.BERTH_CAPACITY:
         return "請選擇其中一個泊位。"
@@ -337,66 +419,33 @@ func request_berth(ship_id: String, slot: int) -> void:
         notice = block
         render()
         return
+    day.dock(ship_id, slot)
+    selected_ship = ""
     notice = ""
-    var ship := _waiting_ship(ship_id)
-    if day.inspection_for(ship).is_empty():
-        assign_berth(ship_id, slot, false)
-    else:
-        proposed_ship = ship_id
-        proposed_slot = slot
-        render()
+    render()
 
 
-func _boarding() -> void:
-    var ship := _waiting_ship(proposed_ship)
-    var inspection := day.inspection_for(ship)
-    var panel := _modal(Rect2(340, 195, 600, 360))
-    _image(panel, _ship_art(ship), Rect2(28, 25, 180, 125))
-    _text(panel, "泊位 %d  /  %s 離港" % [proposed_slot + 1, PortDay.clock(ship["departure"])], Rect2(225, 27, 345, 32), 17, GOLD)
-    _text(panel, ship["name"], Rect2(225, 69, 345, 60), 27)
-    _text(panel, "%s  ·  卸貨需時 %d 分鐘" % [ship["cargo"], ship["minutes"]], Rect2(28, 168, 545, 40), 20)
-    var copy: Dictionary = short_copy.get("ships", {}).get(ship["id"], {})
-    if not copy.is_empty():
-        _text(panel, copy.get("line", ""), Rect2(225, 119, 345, 44), 16, MUTED)
-    _button(panel, "按申報卸貨", Rect2(27, 221, 262, 58), assign_berth.bind(proposed_ship, proposed_slot, false))
-    var inspect := _button(panel, "詳細驗貨  ＋%d 分鐘" % inspection["minutes"], Rect2(307, 221, 266, 58), assign_berth.bind(proposed_ship, proposed_slot, true))
-    inspect.disabled = not day.can_finish(ship, true)
-    _text(panel, "無法在離港潮汐前完成驗貨及卸貨。" if inspect.disabled else "驗貨會佔用此泊位，另一泊位將繼續卸貨。", Rect2(28, 291, 545, 28), 15, GOLD)
-    _button(panel, "取消", Rect2(225, 323, 150, 29), func() -> void:
-        proposed_ship = ""
-        proposed_slot = -1
-        render()
-    )
-
-
+## Direct decision used by tests and shortcuts: unload on the declaration or inspect at once.
 func assign_berth(ship_id: String, slot: int, inspect: bool) -> void:
     # Revalidate at the model boundary; no selection or stale prompt can bypass it.
-    proposed_ship = ""
-    proposed_slot = -1
     var block := drop_block(ship_id, slot)
     var ship := _waiting_ship(ship_id)
     if not block.is_empty() or (inspect and not day.can_finish(ship, true)):
         notice = block if not block.is_empty() else "已來不及在潮汐前完成驗貨。"
         render()
         return
-    day.berth(ship_id, inspect, slot)
+    if inspect:
+        day.dock(ship_id, slot)
+        inspect_berth(slot)
+        return
+    day.berth(ship_id, false, slot)
     selected_ship = ""
     notice = ""
-    if inspect:
-        evidence_index = 0
-        evidence_page = 0
-        viewed = {"manifest": true}
-        method = ""
-        stamp = ""
-        manual_seen = false
-        manual_page = 0
-        manual_full = false
-        manual_full_page = 0
     render()
 
 
 func advance(minutes: int) -> void:
-    if not proposed_ship.is_empty() or feedback_open or manual_open or notes_open or detail_open or not day.pending_case.is_empty():
+    if feedback_open or manual_open or notes_open or detail_open or not day.pending_case.is_empty():
         return
     var lost_before := day.lost
     var completed_before := day.completed
