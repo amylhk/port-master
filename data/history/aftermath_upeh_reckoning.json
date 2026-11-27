@@ -3,6 +3,7 @@
   "chain_id": "aftermath_upeh_reckoning",
   "step": 1,
   "day": 18,
+  "priority": 2,
   "requires": [
     "melaka_siege_step_5"
   ],

@@ -3,13 +3,9 @@
   "chain_id": "aftermath_strait_passage",
   "step": 1,
   "day": 18,
+  "priority": 4,
   "requires": [
     "melaka_siege_step_5"
-  ],
-  "conditions": [
-    "faction_standing.mahmuds_household<2",
-    "faction_standing.chatu_contacts<2",
-    "faction_standing.upeh_household<2"
   ],
   "title": "A ledger on the monsoon",
   "body": "Late 1511, the Strait of Melaka. Neither the exiled court upriver nor the fortress-port under Albuquerque's factor has a seat left for a shahbandar without a patron. Already the single entrepôt is splitting: Gujarati cloth ships are calling at Pasai and Aceh, Malay vessels gather off Bintan, and Pegu rice captains bargain separately with the fortress.\n\nAboard a hired coaster bound up the Strait, you tie the cord around the last ledger from the old quay. The office is gone, but the weights, names and shipping seasons still follow the wind.",

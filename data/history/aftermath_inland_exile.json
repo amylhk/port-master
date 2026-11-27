@@ -3,6 +3,7 @@
   "chain_id": "aftermath_inland_exile",
   "step": 1,
   "day": 18,
+  "priority": 1,
   "requires": [
     "melaka_siege_step_5"
   ],

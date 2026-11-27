@@ -10,7 +10,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
 | `data/departures/<id>.json` | One Stage B departure or tax event per file: evening event shape plus `merchant_id`, `chain_id` (text) and `step` (integer) |
-| `data/history/<id>.json` | One Stage D historical event per file: departure-chain shape with optional `conditions` (array) and `merchant_id` only for merchant-centred chains |
+| `data/history/<id>.json` | One Stage D historical event per file: departure-chain shape with optional `conditions` (array), `priority` (integer), and `merchant_id` only for merchant-centred chains |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 | `data/offers/<id>.json` | One Stage B state purchasing offer per file: `id`, `merchant_id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices` (arrays) |
 | `data/factions/<id>.json` | One Stage D faction per file: `id`, `name`, `kind`, `leader_id`, `bio` (text); `bloc` (text or null); `member_ids`, `goals`, `notes` (arrays) |
@@ -90,7 +90,7 @@ Validate with `godot --headless --script tests/departures.gd`. These are Stage B
 
 ## Stage D historical chains
 
-Put each step in its own `data/history/<id>.json` file. Reuse the departure-chain format above: `id`, `title`, `body`, exactly one of `day` or `trigger`, `chain_id`, integer `step`, and the evening-event `requires`, `choices` and `notes` arrays, plus optional `conditions` (array of condition strings). Include `merchant_id` from `data/merchants/` on each step of a merchant-centred chain; omit it on port-wide chains. Choice effects are integer deltas for `duty`, `supply`, `reputation` and, only with a named merchant, `merchant_trust`.
+Put each step in its own `data/history/<id>.json` file. Reuse the departure-chain format above: `id`, `title`, `body`, exactly one of `day` or `trigger`, `chain_id`, integer `step`, and the evening-event `requires`, `choices` and `notes` arrays, plus optional `conditions` (array of condition strings) and optional `priority` (positive integer). Include `merchant_id` from `data/merchants/` on each step of a merchant-centred chain; omit it on port-wide chains. Choice effects are integer deltas for `duty`, `supply`, `reputation` and, only with a named merchant, `merchant_trust`.
 
 Ruling outcomes gate through existing `requires` flags (for example, `case_004_hold`, `case_002_cleared`, `case_002_hold`, `case_001_major_fraud`). Optional `conditions` lists numeric checks that must all hold for the step to play; if any condition fails, the step is skipped. Each entry matches one of two forms with no spaces:
 
@@ -98,6 +98,8 @@ Ruling outcomes gate through existing `requires` flags (for example, `case_004_h
 - `<stat><op><int>` for bare port stats `duty`, `supply`, or `reputation`, e.g. `reputation>=2` or `supply<=0`.
 
 Allowed operators `<op>` are `>=`, `<=`, `>`, `<`, and `==`; `<int>` is a signed base-10 integer.
+
+Optional `priority` is a positive integer (lower wins) for mutually exclusive steps sharing a `day`: the loader plays only the first matching step in ascending `priority` order, and priorities must be unique within that day. Day 18 aftermath steps use `priority` (`aftermath_inland_exile` 1, `aftermath_upeh_reckoning` 2, `aftermath_fortress_quay` 3, `aftermath_strait_passage` 4 as fallback) so every run plays exactly one fate.
 
 Set `<chain_id>_step_<n>` when the step plays, regardless of choice. List the previous step's flag in `requires` for each step after the first; a chain may also require a flag from another chain. The main sequence is `sequeira_visit` → `captives_and_court` → `melaka_siege`. The day 4 and 5 briefings seed the first fleet's approach; the optional `ismail_pedir_warning` chain follows the 1511 messenger episode and starts only with `case_004_hold`. That flag does not gate the fleet's arrival or the finale. Branching finale (`day` 17) and aftermath (`day` 18) chains require `melaka_siege_step_5` and gate on `requires` ruling flags and `conditions` so who stands by the shahbandar, who flees, and what becomes of the shahbandar vary with the player's earlier record while the fall of Melaka stays fixed. The Stage A day-1 inspection and evening-event fixtures are not the Stage D calendar.
 

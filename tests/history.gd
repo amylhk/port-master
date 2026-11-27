@@ -3,7 +3,7 @@ extends SceneTree
 const DIR := "res://data/history"
 const MERCHANTS_DIR := "res://data/merchants"
 const FACTIONS_DIR := "res://data/factions"
-const EVENT_KEYS := ["id", "title", "body", "day", "trigger", "requires", "conditions", "choices", "notes", "chain_id", "step", "merchant_id"]
+const EVENT_KEYS := ["id", "title", "body", "day", "trigger", "requires", "conditions", "priority", "choices", "notes", "chain_id", "step", "merchant_id"]
 const EFFECT_KEYS := ["duty", "supply", "reputation", "merchant_trust"]
 
 var failures := 0
@@ -14,6 +14,7 @@ var qualified_condition := RegEx.create_from_string("^(merchant_trust|faction_st
 func _initialize() -> void:
     var chains := {}
     var steps_by_flag := {}
+    var priorities_by_day := {}
     var count := 0
     for file in DirAccess.get_files_at(DIR):
         if not file.ends_with(".json"):
@@ -49,6 +50,15 @@ func _initialize() -> void:
             _fail(path, "requires must include %s_step_%d" % [chain, step - 1])
         var flag := "%s_step_%d" % [chain, step]
         steps_by_flag[flag] = {"path": path, "day": data.get("day"), "requires": requirements}
+        if data.has("priority") and _is_integer(data["priority"]) and data["priority"] >= 1 and _is_integer(data.get("day")):
+            var day_key := int(data["day"])
+            var priority_val := int(data["priority"])
+            if not priorities_by_day.has(day_key):
+                priorities_by_day[day_key] = {}
+            if priorities_by_day[day_key].has(priority_val):
+                _fail(path, "duplicate priority %d on day %d" % [priority_val, day_key])
+            else:
+                priorities_by_day[day_key][priority_val] = path
 
     for chain in chains:
         var steps: Dictionary = chains[chain]["steps"]
@@ -99,6 +109,9 @@ func _check_event(path: String, data: Dictionary) -> void:
             _fail(path, "unknown merchant_id %s" % merchant_id)
     if data.has("conditions"):
         _check_conditions(path, data["conditions"])
+    if data.has("priority"):
+        if not _is_integer(data["priority"]) or data["priority"] < 1:
+            _fail(path, "priority must be a positive integer")
     var notes: Variant = data.get("notes")
     if not notes is Array or notes.is_empty():
         _fail(path, "needs source or gameplay notes")
