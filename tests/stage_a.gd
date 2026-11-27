@@ -1,6 +1,20 @@
 extends SceneTree
 
 const Harbour = preload("res://scenes/harbour.tscn")
+const CITATION_MENU := [
+    "Cite your evidence",
+    "Compare marks and seals",
+    "Compare counts and weights",
+    "Cross-check testimony and records",
+    "Examine opened cargo",
+    "Check the declaration",
+]
+const INSPECTION_EXAMPLES := [
+    ["case_001", "porcelain", "major_fraud", "Examine opened cargo", "45, 46, 45 and 47 kati"],
+    ["case_002", "cloth", "clear", "Compare counts and weights", "Bale B: nineteen rolls"],
+    ["case_003", "tin", "minor_fault", "Cross-check testimony and records", "8 bahar"],
+    ["case_004", "resin", "hold", "Examine opened cargo", "94 kati"],
+]
 
 var failures := 0
 
@@ -34,12 +48,18 @@ func _run() -> void:
     _expect(day.ship_at_anchor(0).is_empty() and day.ship_at_anchor(1).get("id") == "pepper",
         "assigning one ship keeps the other ship in its original row")
     harbour._berth("pepper", false)
+    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
+    _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text == "Both berths are occupied."
+        and _has_label(harbour, blocked_inspection.tooltip_text), "occupied berths explain the disabled inspection")
     harbour._advance(60)
     _expect(day.rice == 24 and day.duty == 30, "two berths unload in parallel")
     _expect(day.ship_at_anchor(0).get("id") == "resin" and day.ship_at_anchor(2).get("id") == "porcelain",
         "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
     _expect(day.pending_case.is_empty(), "serving both early ships misses the inspection window")
+    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
+    _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text.contains("before departure")
+        and _has_label(harbour, blocked_inspection.tooltip_text), "a missed tide explains the disabled inspection")
     harbour._berth("porcelain", false)
     _expect(day.flags.has("case_001_cleared"), "berthing without inspection records case clearance")
     harbour._advance(60)
@@ -52,6 +72,27 @@ func _run() -> void:
     _expect(day.minute_of_day == 585 and day.berths[0]["remaining"] == 15, "one fixed inspection cost advances the other berth")
     _expect(day.waiting.size() == 2 and day.pending_case["remaining"] == 60, "scheduled arrival proceeds while porcelain awaits ruling")
     _expect(harbour.ruling_index == -1 and harbour.reason_index == -1, "ruling starts unanswered")
+    var submit := _button_named(harbour, "File ruling & return to the quay")
+    _expect(submit.disabled and submit.tooltip_text == "Choose a ruling and cite evidence before filing."
+        and _has_label(harbour, submit.tooltip_text), "filing explains both missing choices")
+    var ruling := _button_named(harbour, "Choose a ruling") as OptionButton
+    var citation := _button_named(harbour, "Cite your evidence") as OptionButton
+    _expect(citation.item_count == 6 and citation.get_item_text(1) == "Compare marks and seals"
+        and citation.get_item_text(4) == "Examine opened cargo", "citation menu uses the shared neutral methods")
+    ruling.item_selected.emit(2)
+    _expect(submit.disabled and submit.tooltip_text == "Cite evidence before filing."
+        and _has_label(harbour, submit.tooltip_text), "filing explains the remaining missing choice")
+    citation.item_selected.emit(4)
+    _expect(not submit.disabled and submit.tooltip_text.is_empty(), "the hint clears once the ruling can be filed")
+    _button_named(harbour, "02  Seals & weights").pressed.emit()
+    _button_named(harbour, "04  Open cargo").pressed.emit()
+    _button_named(harbour, "01  Manifest").pressed.emit()
+    _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, "45, 46, 45 and 47 kati"),
+        "viewing another evidence page retains the recorded weights")
+    _expect(_has_label(harbour, "about 18 kati of them"),
+        "the opened jar's nutmeg weight remains in the measurements after switching tabs")
+    _expect(_has_label(harbour, "Thirty small blue-and-white bowls"),
+        "the opened comparison jar's written count remains in the measurements after switching tabs")
     var scroll := harbour.find_children("*", "ScrollContainer", true, false)[0] as ScrollContainer
     harbour.evidence_index = inspection["evidence"].size()
     harbour._render()
@@ -81,15 +122,39 @@ func _run() -> void:
     _expect(day.flags.has("case_001_cleared") and not day.flags.has("case_001_major_fraud")
         and not day.flags.has("any_ruling_amended") and not day.flags.has("major_fraud_ruled"),
         "an unsupported fraud ruling clears the case and records neither an amendment nor proven fraud")
+    _expect(day.ruling_note.contains("The ruling was right, but the cited evidence")
+        and day.ruling_note.contains("Correct ruling: Major Fraud")
+        and day.ruling_note.contains("fish marks"), "wrong-proof feedback names the right ruling and decisive finding")
     harbour._advance(60)
     _expect(day.rice == 0 and day.duty == 34 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
 
     harbour._restart()
     _press(harbour, "Continue")
     harbour._berth("porcelain", true)
+    _expect(not _has_label(harbour, "RECORDED MEASUREMENTS"), "a fresh inspection starts without recorded weights")
     day.rule("hold", "foreign_seal")
     _expect(day.lost == 1 and day.berths.is_empty(), "an unjustified hold forfeits the porcelain sale")
     _expect(day.flags.has("case_001_hold"), "a hold on a non-hold case records the canonical hold flag")
+
+    var truth: Dictionary = inspection["hidden_truth"]
+    for method in ["marks", "measurements", "testimony", "contents"]:
+        harbour._restart()
+        _press(harbour, "Continue")
+        harbour._berth("porcelain", true)
+        day.rule_with_method("major_fraud", method)
+        _expect(day.ruling_note == truth["success"], "the porcelain finding accepts %s" % method)
+    harbour._restart()
+    _press(harbour, "Continue")
+    harbour._berth("porcelain", true)
+    truth["citation_method"] = "testimony"
+    truth["feedback_by_method"] = {"marks": "The seal alone does not establish the discrepancy."}
+    day.rule_with_method("clear", "marks")
+    _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
+        and day.ruling_note.contains("Supporting method: Cross-check testimony and records")
+        and day.ruling_note.contains("The seal alone does not establish the discrepancy."),
+        "optional method and authored correction override the fallback")
+    truth.erase("citation_method")
+    truth.erase("feedback_by_method")
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -103,6 +168,8 @@ func _run() -> void:
     _check_evenings(harbour)
     await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
+    for example in INSPECTION_EXAMPLES:
+        _exercise_inspection(harbour, example)
     _test_scheduled_inspections(harbour)
     if failures == 0:
         print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
@@ -110,6 +177,7 @@ func _run() -> void:
         ])
         print("Stage A checks passed: capacity, deadlines, trade-offs, inspection registration and proof, and closing ledger.")
         print("Story checks passed: 14 evening events, 9 morning briefings, flag rollover, and choice effects.")
+        print("All four scheduled inspections passed: evidence menu, retained measurements, and correct and incorrect filings.")
     quit(1 if failures else 0)
 
 
@@ -205,7 +273,7 @@ func _test_scheduled_inspections(harbour) -> void:
         ],
         "reasons": [{"id": "second_page", "label": "Cite the test page"}],
         "hidden_truth": {
-            "ruling_id": "amend_test", "reason_id": "second_page", "extra_duty": 3,
+            "ruling_id": "amend_test", "reason_id": "second_page", "extra_duty": 3, "citation_method": "marks",
             "success": "Second ruling accepted.", "clear": "Cleared.", "hold": "Held.", "unsupported": "Unsupported.",
         },
     }
@@ -390,6 +458,105 @@ func _press(harbour: Control, caption: String) -> void:
             button.pressed.emit()
             return
     _expect(false, "button not found: " + caption)
+
+
+func _exercise_inspection(harbour: Control, example: Array) -> void:
+    var case_id: String = example[0]
+    var day = harbour.day
+    var ship: Dictionary
+    for entry in day.scenario["ships"]:
+        if entry["id"] == example[1]:
+            ship = entry
+            break
+    var inspection: Dictionary = day.inspection_for(ship)
+    _expect(inspection.get("id") == case_id, "%s loads from its ship in the main port schedule" % case_id)
+    if inspection.get("id") != case_id:
+        return
+    var truth: Dictionary = inspection["hidden_truth"]
+    var correct_ruling: String
+    var wrong_ruling: String
+    for ruling in inspection["rulings"]:
+        if ruling["id"] == example[2]:
+            correct_ruling = ruling["label"]
+        elif wrong_ruling.is_empty():
+            wrong_ruling = ruling["label"]
+    _expect(not correct_ruling.is_empty() and not wrong_ruling.is_empty(), "%s has both rulings to exercise" % case_id)
+
+    for correct in [true, false]:
+        harbour._restart()
+        _press(harbour, "Continue")
+        if int(ship["arrival"]) > day.minute_of_day:
+            harbour._berth("rice", false)
+            if ship["id"] != "resin":
+                harbour._berth("pepper", false)
+        harbour._advance(int(ship["arrival"]) - day.minute_of_day)
+        var inspect := _button_named(harbour, "Inspect  +%d min" % inspection["minutes"], ship["name"])
+        _expect(inspect != null and not inspect.disabled, "%s can be inspected from the quay" % case_id)
+        if inspect == null or inspect.disabled:
+            return
+        inspect.pressed.emit()
+        _expect(not day.pending_case.is_empty() and _has_label(harbour, inspection["title"]),
+            "%s opens its authored dossier" % case_id)
+        if day.pending_case.is_empty():
+            return
+
+        var measurements := _button_named(harbour, inspection["evidence"][1]["label"])
+        measurements.pressed.emit()
+        _button_named(harbour, inspection["evidence"][0]["label"]).pressed.emit()
+        _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, example[4]),
+            "%s keeps its measurements visible after switching tabs" % case_id)
+        var citation := _button_named(harbour, "Cite your evidence") as OptionButton
+        var menu: Array[String] = []
+        for i in citation.item_count:
+            menu.append(citation.get_item_text(i))
+        _expect(menu == CITATION_MENU, "%s offers all neutral methods in the same order" % case_id)
+
+        _select_option(_button_named(harbour, "Choose a ruling") as OptionButton, correct_ruling if correct else wrong_ruling)
+        _select_option(citation, example[3] if correct else "Check the declaration")
+        var submit := _button_named(harbour, "File ruling & return to the quay")
+        _expect(not submit.disabled, "%s enables filing after both choices" % case_id)
+        if submit.disabled:
+            return
+        submit.pressed.emit()
+        _expect(day.pending_case.is_empty() and not day.ruling_note.is_empty() and _has_label(harbour, day.ruling_note),
+            "%s returns to the quay with visible feedback" % case_id)
+        if correct:
+            _expect(day.ruling_note == truth["success"], "%s recognizes the correct ruling and citation" % case_id)
+            var previous_completed: int = day.completed
+            harbour._advance(int(ship["minutes"]))
+            var traded: int = 0 if example[2] == "hold" else 1
+            _expect(day.completed == previous_completed + traded and day.held == 1 - traded
+                and day.recovered_duty == int(truth["extra_duty"]),
+                "%s applies the correct ruling's trade outcome" % case_id)
+        else:
+            _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
+                and day.ruling_note.contains("Correct ruling: " + correct_ruling)
+                and day.ruling_note.contains("Supporting methods:")
+                and day.ruling_note.contains(example[3])
+                and day.ruling_note.contains("Decisive finding: "),
+                "%s diagnoses both wrong choices and explains the correct answer" % case_id)
+
+
+func _select_option(picker: OptionButton, label: String) -> void:
+    for i in range(1, picker.item_count):
+        if picker.get_item_text(i) == label:
+            picker.select(i)
+            picker.item_selected.emit(i)
+            return
+
+
+func _button_named(node: Node, caption: String, row_label := "") -> Button:
+    for button in node.find_children("*", "Button", true, false):
+        if button.text == caption and (row_label.is_empty() or _has_label(button.get_parent().get_parent(), row_label)):
+            return button
+    return null
+
+
+func _has_label(node: Node, text: String) -> bool:
+    for label in node.find_children("*", "Label", true, false):
+        if label.visible and label.text.contains(text):
+            return true
+    return false
 
 
 func _expect(condition: bool, message: String) -> void:

@@ -10,6 +10,19 @@ const BRIEFING_FLAG_SOURCES := {
     "ship_lost_yesterday": "ship_lost",
     "major_fraud_ruled_yesterday": "major_fraud_ruled",
 }
+const CITATION_METHODS := [
+    {"id": "marks", "label": "Compare marks and seals"},
+    {"id": "measurements", "label": "Compare counts and weights"},
+    {"id": "testimony", "label": "Cross-check testimony and records"},
+    {"id": "contents", "label": "Examine opened cargo"},
+    {"id": "manifest", "label": "Check the declaration"},
+]
+const LEGACY_CITATIONS := {
+    "marks_weight_route": ["marks", "measurements", "testimony", "contents"],
+    "piece_count": ["measurements", "contents"],
+    "wrong_dacing": ["measurements", "testimony"],
+    "pedir_messenger": ["testimony", "contents"],
+}
 
 var scenario: Dictionary
 var inspections: Dictionary
@@ -136,10 +149,32 @@ func berth(ship_id: String, inspect: bool) -> void:
 func rule(ruling_id: String, reason_id: String) -> void:
     if pending_case.is_empty() or ruling_id.is_empty() or reason_id.is_empty():
         return
+    var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
+    _resolve_ruling(ruling_id, reason_id == truth["reason_id"], "")
+
+
+func rule_with_method(ruling_id: String, method_id: String) -> void:
+    if pending_case.is_empty() or ruling_id.is_empty() or method_id.is_empty():
+        return
+    var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
+    _resolve_ruling(ruling_id, method_id in _citation_methods(truth), method_id)
+
+
+func _citation_methods(truth: Dictionary) -> Array:
+    var authored: Variant = truth.get("citation_method")
+    for method in CITATION_METHODS:
+        if method["id"] == authored:
+            return [authored]
+    return LEGACY_CITATIONS.get(truth["reason_id"], ["contents"])
+
+
+func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: String) -> void:
     var ship := pending_case
     pending_case = {}
-    var truth: Dictionary = inspection_for(ship)["hidden_truth"]
-    var supported: bool = ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]
+    var inspection := inspection_for(ship)
+    var truth: Dictionary = inspection["hidden_truth"]
+    var ruling_matches: bool = ruling_id == truth["ruling_id"]
+    var supported := ruling_matches and evidence_matches
     var outcome := ruling_id
     if ruling_id == "hold":
         berths.erase(ship)
@@ -164,6 +199,8 @@ func rule(ruling_id: String, reason_id: String) -> void:
         ruling_note = truth["unsupported"]
         outcome = "clear"
     _record_ruling(ship, outcome)
+    if not supported:
+        ruling_note += "\n\n" + _ruling_feedback(inspection, ruling_matches, evidence_matches, method_id)
     _log(ruling_note)
 
 
@@ -259,6 +296,39 @@ func begin_next_day() -> void:
     _opening_supply = supply
     _opening_reputation = reputation
     reset()
+
+
+func _ruling_feedback(case_data: Dictionary, ruling_matches: bool, evidence_matches: bool, method_id: String) -> String:
+    var truth: Dictionary = case_data["hidden_truth"]
+    var diagnosis := "The ruling and the cited evidence were both off."
+    if ruling_matches:
+        diagnosis = "The ruling was right, but the cited evidence did not support it."
+    elif evidence_matches:
+        diagnosis = "The evidence was relevant, but the ruling was wrong."
+    var explanation := ""
+    var feedback: Variant = truth.get("feedback_by_method")
+    if not evidence_matches and feedback is Dictionary:
+        var custom: Variant = feedback.get(method_id)
+        if custom is String:
+            explanation = custom.strip_edges()
+    if explanation.is_empty():
+        explanation = "Decisive finding: %s" % _choice_label(case_data["reasons"], truth["reason_id"])
+    if not evidence_matches and not method_id.is_empty():
+        var methods := PackedStringArray()
+        for method in _citation_methods(truth):
+            methods.append(_choice_label(CITATION_METHODS, method))
+        var caption := "Supporting method" if methods.size() == 1 else "Supporting methods"
+        diagnosis += "\n%s: %s" % [caption, ", ".join(methods)]
+    return "%s\nCorrect ruling: %s\n%s" % [
+        diagnosis, _choice_label(case_data["rulings"], truth["ruling_id"]), explanation,
+    ]
+
+
+func _choice_label(choices: Array, id: String) -> String:
+    for choice in choices:
+        if choice["id"] == id:
+            return choice["label"]
+    return id
 
 
 func advance(minutes: int) -> void:
