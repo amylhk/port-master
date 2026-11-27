@@ -247,7 +247,7 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     var supported := ruling_matches and evidence_matches
     var outcome := ruling_id
     if ruling_id == "hold":
-        if supported and inspection["id"] == "case_004":
+        if supported and truth.get("hold_at_berth", false):
             ship["held_at_berth"] = true
         else:
             berths.erase(ship)

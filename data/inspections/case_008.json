@@ -68,6 +68,7 @@
   ],
   "hidden_truth": {
     "ruling_id": "hold",
+    "hold_at_berth": true,
     "reason_id": "pasai_channel_questions",
     "citation_method": "testimony",
     "feedback_by_method": {

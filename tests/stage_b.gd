@@ -23,6 +23,7 @@ func _run() -> void:
     _schedule(day)
     _offers_and_deputies()
     _offer_departures()
+    _swift_hold()
     _departures()
     await _evidence_plates()
     if failures == 0:
@@ -166,6 +167,32 @@ func _offer_departures() -> void:
 
 func _offer_ids(day: PortDay) -> Array:
     return day.available_offers().map(func(offer: Dictionary) -> String: return offer["id"])
+
+
+func _swift_hold() -> void:
+    var day := PortDay.new()
+    if not day.load_data():
+        _expect(false, "load Swift's inspection")
+        return
+    day.day_number = 5
+    day.reset()
+    _finish_stories(day)
+    day.advance(30)
+    day.berth("gresik_banda_jong", false)
+    day.berth("pasai_swift", true)
+    day.rule_with_method("hold", "testimony")
+    _expect(day.flags.has("case_008_hold") and day.held == 1, "Swift's supported hold is recorded")
+    _expect(day.ship_at_berth(0).get("id") == "gresik_banda_jong"
+        and day.ship_at_berth(1).get("held_at_berth", false), "the Swift holds only its own berth")
+    day.advance(20)
+    _expect(day.ship_at_berth(0).is_empty() and day.ship_at_berth(1).get("id") == "pasai_swift",
+        "East Wind completes trade independently and the Swift stays in place")
+    day.advance(355)
+    _expect(day.minute_of_day == 990 and day.ship_at_berth(1).get("id") == "pasai_swift" and day.completed == 1,
+        "the held Swift stays through its scheduled tide without trading")
+    day.advance(30)
+    _expect(day.closed() and day.ship_at_berth(1).is_empty() and day.duty == 14,
+        "closing clears the Swift's berth with no duty from the hold")
 
 
 func _departures() -> void:
