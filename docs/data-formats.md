@@ -10,6 +10,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
 | `data/departures/<id>.json` | One Stage B departure or tax event per file: evening event shape plus `merchant_id`, `chain_id` (text) and `step` (integer) |
+| `data/history/<id>.json` | One Stage D historical event per file: departure-chain shape with `merchant_id` only for merchant-centred chains |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 | `data/offers/<id>.json` | One Stage B state purchasing offer per file: `id`, `merchant_id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices` (arrays) |
 
@@ -83,6 +84,16 @@ When a step plays, the game is to set `<chain_id>_step_<n>` for later days, even
 Choice effects can include integer `merchant_trust` deltas for the named merchant, in addition to `duty`, `supply` and `reputation`. Use optional `notes` lines prefixed with `fact:`, `inference:` or `gameplay:` to distinguish historical evidence from invented accounts and mechanics. The player is a shahbandar; file dues and customs rulings in the temenggung's name and label port-wide player authority as a gameplay abstraction.
 
 Validate with `godot --headless --script tests/departures.gd`. These are Stage B authoring files; the Stage A main scene does not play them yet.
+
+## Stage D historical chains
+
+Put each step in its own `data/history/<id>.json` file. Reuse the departure-chain format above: `id`, `title`, `body`, exactly one of `day` or `trigger`, `chain_id`, integer `step`, and the evening-event `requires`, `choices` and `notes` arrays. Include `merchant_id` from `data/merchants/` on each step of a merchant-centred chain; omit it on port-wide chains. Choice effects are integer deltas for `duty`, `supply`, `reputation` and, only with a named merchant, `merchant_trust`.
+
+Set `<chain_id>_step_<n>` when the step plays, regardless of choice. List the previous step's flag in `requires` for each step after the first; a chain may also require a flag from another chain. The main sequence is `sequeira_visit` → `captives_and_court` → `melaka_siege`. The day 4 and 5 briefings seed the first fleet's approach; the optional `ismail_pedir_warning` chain follows the 1511 messenger episode and starts only with `case_004_hold`. That flag does not gate the fleet's arrival or the finale. The Stage A day-1 inspection and evening-event fixtures are not the Stage D calendar.
+
+The `day` values are compressed campaign slots, not historical dates. Record the dates and uncertainties in the prose and source notes. Use `fact:`, `inference:` and `gameplay:` notes to distinguish sources, interpretations and invented details. The player is a shahbandar; their port-wide authority is a gameplay abstraction, and dues and customs rulings are made in the temenggung's name. The fall of Melaka is the shared historical outcome; choices describe different local consequences and apply only the existing effect deltas.
+
+Validate with `godot --headless --script tests/history.gd`. These files are Stage D authoring data; the Stage A scene does not schedule them.
 
 ## Stage B merchants
 

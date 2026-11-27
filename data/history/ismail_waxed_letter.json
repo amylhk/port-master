@@ -1,0 +1,35 @@
+{
+  "id": "ismail_waxed_letter",
+  "chain_id": "ismail_pedir_warning",
+  "step": 1,
+  "day": 10,
+  "requires": [
+    "captives_and_court_step_2",
+    "case_004_hold"
+  ],
+  "title": "Keep the name off the quay",
+  "body": "1511. The bendahara has the sealed letter from Pedir. Farid's account of the seized Cambay ship has stayed off the public record. Khoja Ismail is not asking to see the letter. He wants to know where to keep the Salamat's unsold resin, so his buyers can still reach it if the ships have to wait.",
+  "choices": [
+    {
+      "id": "keep_resin_ashore",
+      "label": "Help Ismail find a shore store without naming Farid",
+      "outcome_text": "The factor has a place to keep the unsold lots. Nobody has to explain how Ismail knew to make room ashore.",
+      "effects": {
+        "merchant_trust": 2
+      }
+    },
+    {
+      "id": "leave_to_factor",
+      "label": "Leave arrangements to Ismail's factor",
+      "outcome_text": "The factor finds a store in Upeh on his own and keeps the lots private pending news from the roadstead.",
+      "effects": {
+        "merchant_trust": -1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Albuquerque's fleet took Gujarati shipping and called at Pedir, where escaped Portuguese captives joined it (docs/research/1511-events.md §1, Phase III).",
+    "gameplay: Farid, his letter, the Salamat and this follow-up are fictional (data/inspections/case_004.json; data/events/ev_bendahara_summons.json; data/merchants/khoja_ismail.json). The advice concerns unsold stock and does not assess dues or count a sale."
+  ],
+  "merchant_id": "khoja_ismail"
+}

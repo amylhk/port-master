@@ -1,0 +1,36 @@
+{
+  "id": "waterfront_fires",
+  "chain_id": "melaka_siege",
+  "step": 2,
+  "day": 12,
+  "requires": [
+    "melaka_siege_step_1"
+  ],
+  "title": "The fires at the landing",
+  "body": "July 1511. While the court delays over Albuquerque's demand for the captives, his boats set fire to Gujarati ships and waterfront houses. Araújo and the other prisoners are released. Now Albuquerque wants payment and leave to build a stone fortress. The court refuses.\n\nThe stores at your landing are filling with smoke. There are boats for one trip before dark. The warehouse hands point to the sacks on the lowest racks; their families are waiting at the other steps.",
+  "choices": [
+    {
+      "id": "take_families",
+      "label": "Give the boats to the families at the steps",
+      "outcome_text": "The families reach the far landing before dark. Most of the rice on the lowest racks is lost.",
+      "effects": {
+        "supply": -3,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "move_rice",
+      "label": "Move the rice while the warehouse hands can still reach it",
+      "outcome_text": "The market has grain for another morning. The families wait on the steps until the fishermen come back for them.",
+      "effects": {
+        "supply": 3,
+        "reputation": -2
+      }
+    }
+  ],
+  "notes": [
+    "fact: Portuguese boats burned Gujarati ships and waterfront houses, after which the captives were freed. Albuquerque demanded an indemnity and permission for a fortress; the court refused (docs/research/1511-events.md §1, Phase III).",
+    "inference: The escalated demands may have been meant to force rejection rather than to secure a trading post (docs/research/1511-events.md §1, Phase III).",
+    "gameplay: The warehouse, families and rescue choices are invented. They do not change the release or the court's answer."
+  ]
+}

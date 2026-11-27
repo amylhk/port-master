@@ -1,0 +1,35 @@
+{
+  "id": "albuquerque_roadstead",
+  "chain_id": "melaka_siege",
+  "step": 1,
+  "day": 11,
+  "requires": [
+    "captives_and_court_step_2"
+  ],
+  "title": "No ship is to sail",
+  "body": "Early July 1511. The Feringgi have come from Cochin by way of Pedir and Pasai. Afonso de Albuquerque's ships anchor under battle banners. Word comes from the roadstead: no vessel may leave without his permission.\n\nAt the quay, junk captains are still holding clearance slips from your office. One wants an answer before his crew eats the last of its rice. The seal on his slip is yours to explain; it won't get him past the fleet.",
+  "choices": [
+    {
+      "id": "rations_first",
+      "label": "Ask the storekeepers to sell rations to the stranded crews",
+      "outcome_text": "The crews get rice. The quay eats through its reserve sooner than the storekeepers planned.",
+      "effects": {
+        "supply": -2,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "reserve_for_town",
+      "label": "Keep the landing open for the town's rice buyers",
+      "outcome_text": "The market keeps its share, but several crews must buy their food inland at a dearer price.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Albuquerque sailed from Cochin, called at Pedir and Pasai, and forbade departures when he reached Melaka. Accounts vary on his arrival date and the fleet size (docs/research/1511-events.md §§1, 4.4–4.5).",
+    "gameplay: The captains' slips, ration choices and supply effects are invented. Arrival needs no inspection outcome: the fleet reaches Melaka whether or not the office obtained Farid's warning."
+  ]
+}

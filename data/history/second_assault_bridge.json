@@ -1,0 +1,35 @@
+{
+  "id": "second_assault_bridge",
+  "chain_id": "melaka_siege",
+  "step": 4,
+  "day": 15,
+  "requires": [
+    "melaka_siege_step_3"
+  ],
+  "title": "The bridge does not reopen",
+  "body": "August 1511. In the lull, merchants have sought safe-conduct for their houses and stores. Now Albuquerque's fortified junk has come up on the tide. His men have taken the bridge again, and this time they stay.\n\nYour clerks have copies of the berth rolls and receipts. They ask whether to send duplicate pages inland with the first families to leave or keep the books at the waterfront where merchants can still claim goods.",
+  "choices": [
+    {
+      "id": "send_duplicates",
+      "label": "Send duplicate rolls inland",
+      "outcome_text": "If the office is lost, there will still be a copy of who landed what. Merchants have fewer hands to deal with at the quay.",
+      "effects": {
+        "supply": -1,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "keep_desk_open",
+      "label": "Keep the receipts desk open while merchants can reach it",
+      "outcome_text": "Several claimants recover goods at once. No one can promise a safe journey for the books tomorrow.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Some merchant leaders arranged safe-conduct before the second attack. A fortified junk came upriver at high tide and Portuguese troops took and held the bridge in August; accounts differ on the date (docs/research/1511-events.md §§1, 4.4).",
+    "gameplay: The receipts and duplicate rolls are invented. Neither choice reopens the bridge or guarantees protection."
+  ]
+}
