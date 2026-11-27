@@ -1,0 +1,82 @@
+{
+  "id": "case_006",
+  "title": "The line below the fold",
+  "subtitle": "Lin Wen’s crew wants copper basins off the Evening Tide to make room for pepper and tin. A buyer says the crew brought him two prices but the quay clerk has written down only one sum. You check the papers before either side can call the other a cheat.",
+  "minutes": 45,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Evening Tide’s declaration",
+      "text": "Evening Tide — junk from Zhangzhou, Fujian\nNakhoda: Lin Wen\n\nCopper basins, lot A: 20 plain basins at 20 each; line value 400.\nCopper basins, lot B: 5 deep basins at 20 each; line value 100.\n\nTotal copied to the valuation slip: 400.\n\nLot B is entered below a fold in the sheet. Both lines name Lin Wen as the seller. Neither is crossed out or marked as ship’s stores."
+    },
+    {
+      "id": "ev_tally",
+      "label": "02  First tally",
+      "title": "Two lots on deck",
+      "text": "Weights: the weighers enter A and B separately in their daybook. There are twenty plain basins and five deep ones. The quay clerk has brought across both lot letters but only one value.\n\nBoth stacks stand by the same gangplank, ready to sell."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "The captain and the clerk",
+      "text": "Lin Wen: I had them write both lots on the sheet so there would be no argument when the cooks chose between them. I took the same price on both because they are to go together today.\n\nQuay clerk: The porter called me to the scales while I was copying it. I had the sheet half folded under my tally board. I saw the four hundred and thought I had reached the foot of the page."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Unstack",
+      "title": "Inside the basin stacks",
+      "text": "Opened: twenty plain copper basins come out of stack A. Five deeper copper basins come out of stack B. There is no third lot and nothing packed between the basins but dry fibre."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "omitted_subtotal", "label": "Both lots are declared, but the copied total omits lot B’s line value of 100."},
+    {"id": "proper_count", "label": "The cargo count matches, so the assessment must also be right."},
+    {"id": "hidden_basins", "label": "The five deep basins are undeclared goods hidden in a second stack."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "minor_fault",
+    "reason_id": "omitted_subtotal",
+    "citation_method": "manifest",
+    "feedback_by_method": {
+      "marks": "Lot letters distinguish the two stacks, but only the declaration gives both line values and the copied total.",
+      "measurements": "The weighers counted both lots. That does not show which declared value was left off the valuation slip.",
+      "testimony": "The clerk explains why his eye skipped a line. Compare both declared line values with the sum he copied to show what is missing.",
+      "contents": "Unstacking confirms the declared goods are present. It does not establish the error in the value carried to the slip."
+    },
+    "extra_duty": 1,
+    "success": "In the temenggung’s name, you correct the valuation from 400 to 500. Lin Wen declared both lots; the clerk left out the line under the fold. The weighers add 1 to their fee when the basins trade. No western entry dues apply.",
+    "clear": "The Evening Tide is cleared. Both lots go to buyers, but the fee is still entered against 400.",
+    "unsupported": "That evidence does not support an amendment in the temenggung’s name. The copied value stands and the office recovers no additional fee.",
+    "hold": "You hold the Evening Tide and the court’s men find the missing value on a sheet the captain had already handed over. The basins lose their sale over a clerk’s mistake."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Evening Tide",
+    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "truth": {
+      "verdict": "minor_fault",
+      "summary": "The quay clerk accidentally copies only the first line value into the total. Lin Wen declared both lots in full.",
+      "key_clues": ["ev_manifest", "ev_tally", "ev_testimony"],
+      "deduction": [
+        "The declared lot values are 400 and 100. The copied valuation of 400 cannot include both.",
+        "Both lots were named and put out in the open for the weighers. The clerk explains how he omitted the second line; the record needs an amendment, not a fraud charge."
+      ],
+      "solvable_without_opening": true
+    },
+    "history_notes": [
+      {"topic": "Chinese copperware", "note": "China supplied cast copper utensils to Melaka; see docs/research/commodities.md §3.5 and docs/research/ships-weights-currency.md §1.2, Chinese and Ryukyuan junks.", "confidence": "high"},
+      {"topic": "Assessment and authority", "note": "Eastern arrivals gave presents rather than paying western entry dues, and Pires records a weighing charge (docs/research/port-official.md §5). The case uses the manual’s simplified 1-in-100 weighing fee. The shahbandar rules in the temenggung’s name (ibid. §6).", "confidence": "game_rule"},
+      {"topic": "The quay record", "note": "The incident, prices and slip are fictional. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"}
+    ]
+  }
+}
