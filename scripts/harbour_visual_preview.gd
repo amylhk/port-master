@@ -82,6 +82,9 @@ const SLOT_POS := {
     "anchor_4": Vector2(935, 448),
 }
 
+const DESIGN_SIZE := Vector2(1280.0, 720.0)
+
+var stage: Control
 var inspection_overlay: Control
 var jar_opened := false
 var jar_tex_rect: TextureRect
@@ -93,10 +96,32 @@ var manifest_body: Label
 
 
 func _ready() -> void:
+    var letterbox := ColorRect.new()
+    letterbox.color = INK
+    letterbox.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    add_child(letterbox)
+
+    stage = Control.new()
+    stage.size = DESIGN_SIZE
+    add_child(stage)
+
     _build_harbour_layer()
     _build_inspection_overlay()
+    resized.connect(_fit_stage)
+    _fit_stage()
     if OS.get_environment("OPEN_INSPECTION") == "1":
         _open_inspection(VESSELS[1], true)
+
+
+func _fit_stage() -> void:
+    if stage == null:
+        return
+    var vp := get_viewport_rect().size
+    if vp.x <= 0.0 or vp.y <= 0.0:
+        return
+    var s: float = minf(vp.x / DESIGN_SIZE.x, vp.y / DESIGN_SIZE.y)
+    stage.scale = Vector2(s, s)
+    stage.position = (vp - DESIGN_SIZE * s) * 0.5
 
 
 func _build_harbour_layer() -> void:
@@ -104,8 +129,8 @@ func _build_harbour_layer() -> void:
     bg.texture = load("res://assets/art/harbour/harbour_backdrop.png")
     bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
     bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-    bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    add_child(bg)
+    bg.size = DESIGN_SIZE
+    stage.add_child(bg)
 
     # Header banner
     var banner := TextureRect.new()
@@ -113,7 +138,7 @@ func _build_harbour_layer() -> void:
     banner.position = Vector2(320, 10)
     banner.size = Vector2(640, 64)
     banner.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-    add_child(banner)
+    stage.add_child(banner)
 
     var title := Label.new()
     title.text = "PORT MASTER: MELAKA 1511  —  HARBOUR WATCH (09:00)"
@@ -122,7 +147,7 @@ func _build_harbour_layer() -> void:
     title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     title.add_theme_font_size_override("font_size", 18)
     title.add_theme_color_override("font_color", PARCHMENT)
-    add_child(title)
+    stage.add_child(title)
 
     # Berth markers above jetties so ships never occlude them
     _add_berth_marker(Vector2(124, 232), "BERTH 1  •  DOCKED")
@@ -142,7 +167,7 @@ func _build_harbour_layer() -> void:
     strip.patch_margin_bottom = 24
     strip.position = Vector2(24, 632)
     strip.size = Vector2(1232, 74)
-    add_child(strip)
+    stage.add_child(strip)
 
     var row := HBoxContainer.new()
     row.position = Vector2(24, 16)
@@ -169,7 +194,7 @@ func _add_berth_marker(pos: Vector2, caption: String) -> void:
     plate.texture = load("res://assets/art/harbour/berth_marker.png")
     plate.position = pos
     plate.size = Vector2(168, 40)
-    add_child(plate)
+    stage.add_child(plate)
 
     var lbl := Label.new()
     lbl.text = caption
@@ -185,7 +210,7 @@ func _add_vessel_card(vessel: Dictionary, pos: Vector2) -> void:
     var holder := Control.new()
     holder.position = pos
     holder.size = Vector2(240, 175)
-    add_child(holder)
+    stage.add_child(holder)
 
     var ship := TextureRect.new()
     ship.texture = load(vessel["ship_tex"])
@@ -226,13 +251,13 @@ func _add_vessel_card(vessel: Dictionary, pos: Vector2) -> void:
 
 func _build_inspection_overlay() -> void:
     inspection_overlay = Control.new()
-    inspection_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    inspection_overlay.size = DESIGN_SIZE
     inspection_overlay.visible = false
-    add_child(inspection_overlay)
+    stage.add_child(inspection_overlay)
 
     var dim := ColorRect.new()
     dim.color = Color(0.08, 0.05, 0.03, 0.72)
-    dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    dim.size = DESIGN_SIZE
     inspection_overlay.add_child(dim)
 
     var desk := TextureRect.new()
