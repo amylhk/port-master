@@ -22,6 +22,8 @@ const WATCH_CORRECT_STAMP := 1
 const WATCH_CAUGHT_CARGO := 2
 const WATCH_BAD_CARGO := 3
 const WATCH_WRONG_STAMP := 2
+const JAVANESE_RICE_FINE_GRUDGE := "javanese_rice_fine_grudge"
+const RICE_FINE_REACTION := "爪哇商人好不滿。"
 const WATCH_UNHAPPY_DEPARTURE := 2
 const WATCH_REQUESTED_DEPARTURE := 1
 const CITATION_METHODS := [
@@ -225,7 +227,7 @@ func awaiting_inspection() -> Array[Dictionary]:
 
 func can_inspect_berthed(ship: Dictionary) -> bool:
     if _watch_active():
-        return ship.get("inspection_open", false) and minute_of_day + int(inspection_for(ship)["minutes"]) < _trade_deadline(ship)
+        return ship.get("inspection_open", false) and minute_of_day < _trade_deadline(ship)
     return ship.get("inspection_open", false) and can_finish(ship, true)
 
 
@@ -236,9 +238,9 @@ func inspect_berthed(ship_id: String) -> void:
         if ship["id"] == ship_id and can_inspect_berthed(ship):
             ship.erase("inspection_open")
             pending_case = ship
-            var duration := int(inspection_for(ship)["minutes"])
-            if is_rice_spot_check(ship):
+            if _watch_active():
                 return
+            var duration := int(inspection_for(ship)["minutes"])
             _log("Detailed Inspection occupied a berth for %d min." % duration)
             _advance_clock(duration)
             return
@@ -280,7 +282,7 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := 
         _log("%s took a berth." % ship["name"])
         if inspect:
             pending_case = ship
-            if is_rice_spot_check(ship):
+            if _watch_active():
                 return
             var duration := int(inspection["minutes"]) + extra_time
             _log("Detailed Inspection occupied a berth for %d min." % duration)
@@ -297,7 +299,7 @@ func _watch_active() -> bool:
 
 
 func is_rice_spot_check(ship: Dictionary) -> bool:
-    return _watch_active() and inspection_for(ship).has("minutes_per_sack")
+    return _watch_active() and inspection_for(ship).has("sacks")
 
 
 func open_rice_sack(index: int) -> void:
@@ -310,7 +312,7 @@ func open_rice_sack(index: int) -> void:
         return
     opened[index] = true
     pending_case["opened_sacks"] = opened
-    spend_inspection_time(int(inspection["minutes_per_sack"]))
+    spend_inspection_time(int(inspection["minutes_per_package"]))
 
 
 func spend_inspection_time(minutes: int) -> void:
@@ -332,18 +334,24 @@ func _rule_rice(ruling_id: String, cited_sack: int) -> void:
     pending_case = {}
     flags[ship["inspection_case"] + "_inspected"] = true
     var outcome := "clear"
-    if supported and ruling_id in ["major_fraud", "hold"]:
+    if supported and ruling_id in ["minor_fault", "major_fraud"]:
         outcome = ruling_id
         watch_score += WATCH_CORRECT_STAMP + WATCH_CAUGHT_CARGO
         ship["sorted_rice"] = true
         ship["duty_reduction"] = int(inspection["duty_reduction"])
-        if ruling_id == "hold":
-            held += 1
-            ruling_note = "同僚：已記下受潮的米袋。搬運工會在卸貨時挑出這些米袋，留在船上；只就乾米收稅。"
+        var sorting := "受潮的米袋已剔除，乾米已入庫，只就乾米收稅。" if unloaded else "濕米不入庫；卸妥後，只就乾米收稅。"
+        if ruling_id == "major_fraud":
+            ship["extra_duty"] = int(inspection["wet_rice_fine"])
+            flags[JAVANESE_RICE_FINE_GRUDGE] = true
+            ruling_note = "同僚：已向船主罰款。%s%s" % [sorting, RICE_FINE_REACTION]
         else:
-            ruling_note = "同僚：已記下受潮的米袋，船主須受罰。搬運工會在卸貨時剔除受潮的米袋，這批貨的稅收因而減少。"
-        if unloaded:
-            ruling_note = "同僚：已扣留受潮的米袋；乾米已入庫，只就乾米收稅。" if ruling_id == "hold" else "同僚：船主須受罰。受潮的米袋已剔除，乾米已入庫，這批貨的稅收已減少。"
+            ruling_note = "同僚：已更正貨單。%s" % sorting
+    elif supported and ruling_id == "hold":
+        outcome = ruling_id
+        watch_score -= WATCH_WRONG_STAMP
+        berths.erase(ship)
+        _lose(ship, "Cargo held")
+        ruling_note = "同僚：米袋受潮不足以扣留整艘船。船隻未能交易，港口未能收稅，盡忠職守已扣減。"
     elif ruling_id == "clear":
         ruling_note = "同僚：米貨已卸妥，已按貨單放行並收稅。" if unloaded else "同僚：已按貨單放行；卸貨完成後會向您報告。"
     else:
@@ -740,7 +748,7 @@ func begin_next_day() -> void:
     _opening_reputation = reputation
     _opening_trust = merchant_trust.duplicate()
     for flag in flags:
-        if flag.begins_with("case_"):
+        if flag.begins_with("case_") or flag == JAVANESE_RICE_FINE_GRUDGE:
             campaign_flags[flag] = true
     _opening_campaign_flags = campaign_flags.duplicate()
     reset()
@@ -797,8 +805,8 @@ func can_finish(ship: Dictionary, inspect: bool, extra_time := 0) -> bool:
         if inspection.is_empty():
             return false
         if _watch_active():
-            return minute_of_day + duration <= _trade_deadline(ship) and minute_of_day + int(inspection["minutes"]) < _trade_deadline(ship)
-        duration += int(inspection.get("minutes_per_sack", inspection["minutes"]))
+            return minute_of_day + duration <= _trade_deadline(ship) and minute_of_day < _trade_deadline(ship)
+        duration += int(inspection["minutes"])
     return minute_of_day + duration <= _trade_deadline(ship)
 
 
@@ -944,6 +952,8 @@ func _watch_unloaded(ship: Dictionary) -> void:
         if ship.get("sorted_rice", false):
             watch_stock += usable
             watch_rice_report = "大人，已剔除%d袋濕米，%d袋乾米已入庫。" % [wet, usable]
+            if ship.get("watch_ruling", "") == "major_fraud":
+                watch_rice_report += RICE_FINE_REACTION
         else:
             watch_stock -= wet
             watch_score -= WATCH_BAD_CARGO

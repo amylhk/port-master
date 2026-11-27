@@ -3,6 +3,7 @@
   "title": "廣州來的貨甕",
   "subtitle": "一艘來自廣州的中式帆船停在錨地，吃水很深。昨晚一名搬運工說，船上的代理人給了船夫一大筆錢，要他對某件事保密。您登船詳細驗貨。",
   "minutes": 45,
+  "minutes_per_package": 5,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
   },

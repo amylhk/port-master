@@ -108,17 +108,21 @@ func _check_manual(digest: Variant) -> bool:
     if not _check_keys(digest, ["pages"], "manual") or not digest["pages"] is Array:
         return false
     var pages: Array = digest["pages"]
-    if pages.size() < 2 or pages.size() > 5:
-        return _invalid("manual/pages must hold 2 to 5 pages.")
+    if pages.size() < 2 or pages.size() > 6:
+        return _invalid("manual/pages must hold 2 to 6 pages.")
     var full := ""
     for entry in _read_json(MANUAL_PATH)["entries"]:
         full += entry["text"] + "\n"
     var number := RegEx.create_from_string("\\d+(?:–\\d+)?")
+    var topics := {}
     for index in pages.size():
         var location := "manual/pages/%d" % index
         var page: Variant = pages[index]
-        if not _check_keys(page, ["title", "lines"], location) or not _check_length(page["title"], 6, location + "/title"):
+        if not _check_keys(page, ["topic", "title", "lines"], location) or not _check_length(page["title"], 6, location + "/title"):
             return false
+        if page["topic"] not in ["weights", "marks", "seals", "testimony", "rice", "stamps"] or topics.has(page["topic"]):
+            return _invalid("%s must have a unique, supported unlock topic." % location)
+        topics[page["topic"]] = true
         if not page["lines"] is Array or page["lines"].is_empty() or page["lines"].size() > 9:
             return _invalid("%s/lines must hold 1 to 9 lines." % location)
         for line in page["lines"]:
