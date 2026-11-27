@@ -1,0 +1,31 @@
+{
+  "id": "ev_kaveri_held_complaint",
+  "title": "Sri Rangan’s agent complains",
+  "day": 1,
+  "requires": [
+    "case_002_hold"
+  ],
+  "body": "Sri Rangan’s agent finds you as the lamps are lit. The court’s men found only the declared cotton aboard the Kaveri, two full bales of it, and his buyers have spent the day waiting on the wharf. He asks who will pay for a day lost to a porter who cannot tell a roll from a length.",
+  "choices": [
+    {
+      "id": "apologise",
+      "label": "Admit the error and waive the anchorage gift",
+      "outcome_text": "You admit the count was wrong and forgo the customary present. The agent is mollified, and tomorrow the Pulicat ships will say the shahbandar owns his mistakes.",
+      "effects": {
+        "duty": -2,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "stand_firm",
+      "label": "Say the hold was a fair caution",
+      "outcome_text": "You tell him a doubtful tally must be settled before cloth is sold. He bows and leaves. The Keling quarter will remember the day their buyers waited.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ]
+}

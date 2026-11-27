@@ -1,0 +1,31 @@
+{
+  "id": "ev_stranger_in_upeh",
+  "title": "A stranger in the lanes of Upeh",
+  "day": 1,
+  "requires": [
+    "case_004_cleared"
+  ],
+  "body": "Your clerk mentions it in passing while he trims the lamp. A thin man with a cut on his scalp was seen in the lanes of Upeh this evening, asking which Gujarati houses could hide a guest. He spoke the Malay of Pedir. The Salamat cleared this morning with fourteen crates of frankincense, six of rosewater, and no passengers declared.",
+  "choices": [
+    {
+      "id": "search",
+      "label": "Send men to find him",
+      "outcome_text": "Your men search until midnight and find only a rented mat, still warm, in a house that swears no one was there. Whatever he carried has gone deeper into the city.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 0
+      }
+    },
+    {
+      "id": "ignore",
+      "label": "Leave it to the temenggung’s watch",
+      "outcome_text": "It is not the shahbandar’s business who sleeps in Upeh. The watch hears of it days later, too late to ask him anything.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 0
+      }
+    }
+  ]
+}

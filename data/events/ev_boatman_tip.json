@@ -1,0 +1,29 @@
+{
+  "id": "ev_boatman_tip",
+  "title": "A boatman’s tip",
+  "trigger": "day>=2",
+  "requires": [],
+  "body": "A boatman who ferries porters to the anchorage waits by the steps of your house. For a few coins, he says, he will tell you which ship tomorrow carries more than she declares. He has rowed out to her twice tonight, and each time a man aboard paid him to forget it.\n\nHe will not say who else has paid him today.",
+  "choices": [
+    {
+      "id": "pay_tip",
+      "label": "Pay for the name",
+      "outcome_text": "He names a ship due on the morning tide and takes your coins. It may be the truth. It may be a rival’s way to keep your inspectors busy while another ship slips through.",
+      "effects": {
+        "duty": -1,
+        "supply": 0,
+        "reputation": 0
+      }
+    },
+    {
+      "id": "send_away",
+      "label": "Send him away",
+      "outcome_text": "You do not buy rumours at your own door. The boatman shrugs and rows off toward the Upeh landing, where someone else may pay.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 0
+      }
+    }
+  ]
+}

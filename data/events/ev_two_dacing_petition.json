@@ -1,0 +1,31 @@
+{
+  "id": "ev_two_dacing_petition",
+  "title": "The weighers’ petition",
+  "day": 1,
+  "requires": [
+    "case_003_minor_fault"
+  ],
+  "body": "The head weigher comes to your house with two of his men. Since the Arus, they say, every Perak boatman swears his tally was taken on the large dacing, and every buyer swears it was the small. They ask that the shahbandar order every declaration of tin to name the scale beside the number.\n\nWeights and measures are yours to keep in order. A new rule will slow tomorrow’s lifts.",
+  "choices": [
+    {
+      "id": "order_scale",
+      "label": "Order the scale named on every tin declaration",
+      "outcome_text": "You give the order. Tomorrow’s tin boats grumble at the wharf while their factors rewrite their declarations, but the weighers stop arguing at the second lift.",
+      "effects": {
+        "duty": 1,
+        "supply": 0,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "leave_custom",
+      "label": "Leave it to the weighers’ judgement",
+      "outcome_text": "You trust the weighers to ask when in doubt. They leave unconvinced. The next disputed load will be settled the slow way, on deck.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 0
+      }
+    }
+  ]
+}

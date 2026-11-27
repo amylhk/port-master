@@ -1,0 +1,31 @@
+{
+  "id": "ev_kaveri_keling_invitation",
+  "title": "An invitation from the Keling quarter",
+  "day": 1,
+  "requires": [
+    "case_002_cleared"
+  ],
+  "body": "A boy brings word from Sri Rangan’s house in the Keling quarter: the Kaveri’s cloth is selling, and the merchants of Pulicat would be honoured if the shahbandar ate with them tonight. They have heard that you cut the cords yourself rather than trust the porter’s tally or the owner’s seal.\n\nThe Keling merchants are many and rich in Melaka. They are also not your merchants alone.",
+  "choices": [
+    {
+      "id": "attend",
+      "label": "Eat with the Pulicat merchants",
+      "outcome_text": "Over rice and curried fish, Sri Rangan’s agent speaks freely. Cloth ships from Coromandel are crowded this season, and two nau left Pulicat with half their bales unsold. He would like his next ship berthed early; you promise only to count fairly.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "decline",
+      "label": "Send thanks and stay home",
+      "outcome_text": "You send a gift of betel and your regrets. The merchants take no offence, but the talk at their table tonight goes on without you.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": 0
+      }
+    }
+  ]
+}

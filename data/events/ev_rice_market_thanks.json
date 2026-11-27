@@ -1,0 +1,10 @@
+{
+  "id": "ev_rice_market_thanks",
+  "title": "A quiet market",
+  "day": 1,
+  "requires": [
+    "rice_target_met"
+  ],
+  "body": "The market closes without trouble tonight. The rice from Java reached the sellers before noon, and the price of a gantang held. A kampung headman sends a basket of mangosteens to your door with no message beyond his name.",
+  "choices": []
+}
