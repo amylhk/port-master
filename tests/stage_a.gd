@@ -1,6 +1,20 @@
 extends SceneTree
 
 const Harbour = preload("res://scenes/harbour.tscn")
+const CITATION_MENU := [
+    "Cite your evidence",
+    "Compare marks and seals",
+    "Compare counts and weights",
+    "Cross-check testimony and records",
+    "Examine opened cargo",
+    "Check the declaration",
+]
+const INSPECTION_EXAMPLES := [
+    ["case_001", "porcelain", "major_fraud", "Examine opened cargo", "45, 46, 45 and 47 kati"],
+    ["case_002", "cloth", "clear", "Compare counts and weights", "Bale B: nineteen rolls"],
+    ["case_003", "tin", "minor_fault", "Cross-check testimony and records", "8 bahar"],
+    ["case_004", "resin", "hold", "Examine opened cargo", "94 kati"],
+]
 
 var failures := 0
 
@@ -143,6 +157,8 @@ func _run() -> void:
     _check_evenings(harbour)
     await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
+    for example in INSPECTION_EXAMPLES:
+        _exercise_inspection(harbour, example)
     _test_scheduled_inspections(harbour)
     if failures == 0:
         print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
@@ -150,6 +166,7 @@ func _run() -> void:
         ])
         print("Stage A checks passed: capacity, deadlines, trade-offs, inspection registration and proof, and closing ledger.")
         print("Story checks passed: 14 evening events, 9 morning briefings, flag rollover, and choice effects.")
+        print("All four scheduled inspections passed: evidence menu, retained measurements, and correct and incorrect filings.")
     quit(1 if failures else 0)
 
 
@@ -430,6 +447,90 @@ func _press(harbour: Control, caption: String) -> void:
             button.pressed.emit()
             return
     _expect(false, "button not found: " + caption)
+
+
+func _exercise_inspection(harbour: Control, example: Array) -> void:
+    var case_id: String = example[0]
+    var day = harbour.day
+    var ship: Dictionary
+    for entry in day.scenario["ships"]:
+        if entry["id"] == example[1]:
+            ship = entry
+            break
+    var inspection: Dictionary = day.inspection_for(ship)
+    _expect(inspection.get("id") == case_id, "%s loads from its ship in the main port schedule" % case_id)
+    if inspection.get("id") != case_id:
+        return
+    var truth: Dictionary = inspection["hidden_truth"]
+    var correct_ruling: String
+    var wrong_ruling: String
+    for ruling in inspection["rulings"]:
+        if ruling["id"] == example[2]:
+            correct_ruling = ruling["label"]
+        elif wrong_ruling.is_empty():
+            wrong_ruling = ruling["label"]
+    _expect(not correct_ruling.is_empty() and not wrong_ruling.is_empty(), "%s has both rulings to exercise" % case_id)
+
+    for correct in [true, false]:
+        harbour._restart()
+        _press(harbour, "Continue")
+        if int(ship["arrival"]) > day.minute_of_day:
+            harbour._berth("rice", false)
+            if ship["id"] != "resin":
+                harbour._berth("pepper", false)
+        harbour._advance(int(ship["arrival"]) - day.minute_of_day)
+        var inspect := _button_named(harbour, "Inspect  +%d min" % inspection["minutes"], ship["name"])
+        _expect(inspect != null and not inspect.disabled, "%s can be inspected from the quay" % case_id)
+        if inspect == null or inspect.disabled:
+            return
+        inspect.pressed.emit()
+        _expect(not day.pending_case.is_empty() and _has_label(harbour, inspection["title"]),
+            "%s opens its authored dossier" % case_id)
+        if day.pending_case.is_empty():
+            return
+
+        var measurements := _button_named(harbour, inspection["evidence"][1]["label"])
+        measurements.pressed.emit()
+        _button_named(harbour, inspection["evidence"][0]["label"]).pressed.emit()
+        _expect(_has_label(harbour, "RECORDED MEASUREMENTS") and _has_label(harbour, example[4]),
+            "%s keeps its measurements visible after switching tabs" % case_id)
+        var citation := _button_named(harbour, "Cite your evidence") as OptionButton
+        var menu: Array[String] = []
+        for i in citation.item_count:
+            menu.append(citation.get_item_text(i))
+        _expect(menu == CITATION_MENU, "%s offers all neutral methods in the same order" % case_id)
+
+        _select_option(_button_named(harbour, "Choose a ruling") as OptionButton, correct_ruling if correct else wrong_ruling)
+        _select_option(citation, example[3] if correct else "Compare marks and seals")
+        var submit := _button_named(harbour, "File ruling & return to the quay")
+        _expect(not submit.disabled, "%s enables filing after both choices" % case_id)
+        if submit.disabled:
+            return
+        submit.pressed.emit()
+        _expect(day.pending_case.is_empty() and not day.ruling_note.is_empty() and _has_label(harbour, day.ruling_note),
+            "%s returns to the quay with visible feedback" % case_id)
+        if correct:
+            _expect(day.ruling_note == truth["success"], "%s recognizes the correct ruling and citation" % case_id)
+            var previous_completed: int = day.completed
+            harbour._advance(int(ship["minutes"]))
+            var traded: int = 0 if example[2] == "hold" else 1
+            _expect(day.completed == previous_completed + traded and day.held == 1 - traded
+                and day.recovered_duty == int(truth["extra_duty"]),
+                "%s applies the correct ruling's trade outcome" % case_id)
+        else:
+            _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
+                and day.ruling_note.contains("Correct ruling: " + correct_ruling)
+                and day.ruling_note.contains("Supporting method: " + example[3])
+                and day.ruling_note.contains("Decisive finding: "),
+                "%s diagnoses both wrong choices and explains the correct answer" % case_id)
+
+
+func _select_option(picker: OptionButton, label: String) -> void:
+    for i in range(1, picker.item_count):
+        if picker.get_item_text(i) == label:
+            picker.select(i)
+            picker.item_selected.emit(i)
+            return
 
 
 func _button_named(node: Node, caption: String, row_label := "") -> Button:
