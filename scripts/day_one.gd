@@ -263,6 +263,8 @@ func _morning_voice() -> void:
         notes_open = true
         render()
     var awaiting := day.awaiting_inspection()
+    if day.rice_shortfall() == 0 and awaiting.is_empty():
+        return
     if not awaiting.is_empty():
         var ship: Dictionary = awaiting[0]
         for candidate in awaiting:

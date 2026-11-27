@@ -97,6 +97,7 @@ func _run() -> void:
     game.feedback_open = false
     game.advance(75)
     _expect(game.day.rice == 24 and game.day.recovered_duty == 18 and game.day.completed == 2, "rice and inspected porcelain finish with their original consequences")
+    _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the completed rice task no longer shows its urgent reminder")
     game.assign_berth("resin", 0, false)
     game.assign_berth("tin", 1, false)
     game.advance(60)
