@@ -1,3 +1,5 @@
+> **Superseded:** [docs/master-gdd.md](master-gdd.md) (Master GDD v0.6) is the source of truth; where this blueprint differs, the Master GDD wins.
+
 # PORT MASTER: MELAKA 1511
 
 **Ideal Gameplay Vision — Game Design & Architecture Blueprint**  
