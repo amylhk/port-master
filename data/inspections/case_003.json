@@ -71,6 +71,11 @@
   "hidden_truth": {
     "ruling_id": "minor_fault",
     "reason_id": "wrong_dacing",
+    "feedback_by_method": {
+      "marks": "The grey crust on the basket tells you nothing about which dacing the boatman used at Perak.",
+      "contents": "Lifting the slabs shows there is no ballast under the tin, but does not explain why the Perak tally reads seven.",
+      "manifest": "The declaration says seven small bahar, but does not show that the boatman weighed the tin on the large dacing."
+    },
     "extra_duty": 1,
     "success": "In the temenggung’s name, you correct the Arus’s declaration to 8 small bahar of tin, worth 1,120. Seven large bahar is the same load, just weighed on a different scale. The Perak tally and both readings agree; the error was in the declaration, not the baskets. You clear the tin to trade and assess 1 more in weighing fees.",
     "clear": "In the temenggung’s name, you clear the Arus as declared. The office assesses its weighing fee on seven small bahar even though eight go to market.",

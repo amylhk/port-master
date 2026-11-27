@@ -74,6 +74,9 @@
     "ruling_id": "major_fraud",
     "reason_id": "marks_weight_route",
     "extra_duty": 18,
+    "feedback_by_method": {
+      "manifest": "The declaration explains why silk bale 7 was resealed at Champa, but says nothing of the Tioman stop or the nutmeg under the bowls."
+    },
     "success": "In the temenggung's name, you hold the four after-row jars and send Tan Bo and the nakhoda to his judgement. The rest of Lim Seng's porcelain and silk is cleared. Word spreads that the shahbandar reads seals closely.\n\nThe fish marks belong to a suspended merchant. The heavier jars and the crew’s account of Tioman explain why the nakhoda denied the stop; the nutmeg beneath the bowls confirms concealment. The weighers assess 18 in fees when the rest of the cargo trades: 1 in every 100 on 72 kati of nutmeg valued at 1,800. No western dues apply.",
     "clear": "You clear the Kim Hong. The nutmeg lands as bowls, never declared. Within days the market whispers that a suspended merchant's goods walked past the shahbandar.",
     "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no fee is recovered on the undeclared cargo.",

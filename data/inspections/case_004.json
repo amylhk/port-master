@@ -71,6 +71,11 @@
   "hidden_truth": {
     "ruling_id": "hold",
     "reason_id": "pedir_messenger",
+    "feedback_by_method": {
+      "marks": "The crooked seal makes the hidden stern crate worth opening, but it does not reveal the messenger or his warning.",
+      "measurements": "The hidden crate weighs 94 kati, but its weight does not tell you that it holds a man carrying a warning from Pedir.",
+      "manifest": "The declaration accounts for the repaired frankincense crate, but lists neither the Pedir stop nor the passenger hidden at the stern."
+    },
     "extra_duty": 0,
     "success": "In the temenggung's name you hold the Salamat at the berth and send Farid and the sealed Pedir letter under quiet guard to the bendahara. Every declared crate of frankincense and rosewater is in order, so no extra dues apply — yet the court receives warning of the eighteen Feringgi warships before their sails sight Melaka.",
     "clear": "You clear the Salamat as declared. Farid slips ashore into the crowded lanes of Upeh after dark, and days pass before the court hears that an armed Feringgi fleet has already seized Gujarati ships off Pedir.",

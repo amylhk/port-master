@@ -146,6 +146,7 @@ func _run() -> void:
     harbour._restart()
     _press(harbour, "Continue")
     harbour._berth("porcelain", true)
+    var authored_feedback: Dictionary = truth["feedback_by_method"]
     truth["citation_method"] = "testimony"
     truth["feedback_by_method"] = {"marks": "The seal alone does not establish the discrepancy."}
     day.rule_with_method("clear", "marks")
@@ -154,7 +155,7 @@ func _run() -> void:
         and day.ruling_note.contains("The seal alone does not establish the discrepancy."),
         "optional method and authored correction override the fallback")
     truth.erase("citation_method")
-    truth.erase("feedback_by_method")
+    truth["feedback_by_method"] = authored_feedback
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -529,11 +530,12 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
                 and day.recovered_duty == int(truth["extra_duty"]),
                 "%s applies the correct ruling's trade outcome" % case_id)
         else:
+            var feedback: String = truth.get("feedback_by_method", {}).get("manifest", "")
             _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
                 and day.ruling_note.contains("Correct ruling: " + correct_ruling)
                 and day.ruling_note.contains("Supporting methods:")
                 and day.ruling_note.contains(example[3])
-                and day.ruling_note.contains("Decisive finding: "),
+                and not feedback.is_empty() and day.ruling_note.ends_with(feedback),
                 "%s diagnoses both wrong choices and explains the correct answer" % case_id)
 
 
