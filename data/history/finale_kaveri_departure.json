@@ -1,0 +1,39 @@
+{
+  "id": "finale_kaveri_departure",
+  "chain_id": "finale_kaveri_departure",
+  "step": 1,
+  "day": 17,
+  "merchant_id": "sri_rangan",
+  "requires": [
+    "melaka_siege_step_5",
+    "case_002_hold"
+  ],
+  "conditions": [
+    "merchant_trust.sri_rangan<=0"
+  ],
+  "title": "Bales moved under another name",
+  "body": "Late August 1511. While Nina Chatu's circle secures safe-conduct in the town, Sri Rangan's agent sends no word to your desk. The hold you placed on the Kaveri's dyed cotton was never forgiven.\n\nA porter tells you his factors hauled their remaining bales under Chatu's banner before dawn and refused to countersign your closing roll. Down the wharf, Awang Musa's Perak tin boats have already cast off rather than wait for another harbour weighing.",
+  "choices": [
+    {
+      "id": "close_kaveri_note",
+      "label": "Note the transfer on the quay roll without pursuit",
+      "outcome_text": "You enter the date and leave the signature line blank. There is no watch left on the wharf to enforce a harbour hold.",
+      "effects": {
+        "duty": -1,
+        "merchant_trust": -1
+      }
+    },
+    {
+      "id": "send_clerk_apology",
+      "label": "Send your clerk to return the Kaveri's stamped manifest",
+      "outcome_text": "Sri Rangan's agent takes the paper at the gate without inviting the clerk inside. The Kaveri's account is finished.",
+      "effects": {
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Keling merchants under Nina Chatu secured safe-conduct during the August 1511 sack, though sources do not record a uniform political alignment for every Keling trader (docs/research/people-factions.md §§2–3).",
+    "gameplay: Sri Rangan, the Kaveri hold (data/inspections/case_002.json), Awang Musa and the closing roll are fictional continuations of data/merchants/sri_rangan.json and data/merchants/awang_musa.json."
+  ]
+}

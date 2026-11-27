@@ -1,0 +1,38 @@
+{
+  "id": "aftermath_inland_exile",
+  "chain_id": "aftermath_inland_exile",
+  "step": 1,
+  "day": 18,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.mahmuds_household>=2",
+    "reputation>=1"
+  ],
+  "title": "A timber landing upriver",
+  "body": "Late 1511, Muar and Pagoh. You took the harbour rolls inland with the royal household. Bendahara Paduka Tuan has died on the retreat and been buried at Lubok Batu; Sultan Mahmud Shah and Sultan Ahmad Shah are fortifying the river approaches while Hang Nadim carries dispatches toward Bintan.\n\nAt a timber landing upriver, Mahmud's steward asks you to tally the small boats bringing rice from Siak and Kampar. It is no longer the great entrepôt of the Strait, and the court's own quarrels have followed it inland, but the household remembers a shahbandar who did not abandon the roll.",
+  "choices": [
+    {
+      "id": "serve_exile_landing",
+      "label": "Keep the river tally for the exiled court",
+      "outcome_text": "You open a fresh sheet of palm leaf for rice boats and powder casks. Whatever port the sultanate builds next, your name stays on its roll.",
+      "effects": {
+        "supply": 2,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "keep_refugee_register",
+      "label": "Record the displaced Melaka families before the cargo",
+      "outcome_text": "The steward frowns, then lets you work. By nightfall three scattered households from the old waterfront have found their kin.",
+      "effects": {
+        "reputation": 3
+      }
+    }
+  ],
+  "notes": [
+    "fact: Sultan Mahmud and Sultan Ahmad retreated toward Muar and Pagoh; Bendahara Paduka Tuan (Tun Pikrama) died in Muar and was buried at Lubok Batu, and Hang Nadim continued in court service in exile (docs/research/1511-events.md §1, Phases IV–V; docs/research/people-factions.md §2).",
+    "gameplay: The player shahbandar's inland exile, river tally and refugee register are invented aftermath choices. Hang Nadim is kept as a royal courier, not a siege admiral, per docs/research/people-factions.md §2."
+  ]
+}

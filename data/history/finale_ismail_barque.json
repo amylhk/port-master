@@ -1,0 +1,42 @@
+{
+  "id": "finale_ismail_barque",
+  "chain_id": "finale_ismail_barque",
+  "step": 1,
+  "day": 17,
+  "merchant_id": "khoja_ismail",
+  "requires": [
+    "melaka_siege_step_5",
+    "case_004_hold"
+  ],
+  "conditions": [
+    "merchant_trust.khoja_ismail>=2"
+  ],
+  "title": "A barque at the outer bar",
+  "body": "Late August 1511. Most of the Cambay houses have shut their doors; the ships that escaped July's fires have already made for Pasai and Pedir. The Cambay Shahbandar's circle has vanished from the lanes.\n\nAt dusk a boatman brings word from Khoja Ismail's factor. Because you held the Salamat quietly and kept Farid's name off the quay, Ismail has kept a chartered barque waiting off the outer bar. His factor offers passage north for your clerk and office chests, or a witnessed copy of the Salamat's shore receipts before he slips away on the tide.",
+  "choices": [
+    {
+      "id": "take_passage_north",
+      "label": "Send your clerk and chests aboard Ismail's barque",
+      "outcome_text": "The chests go out in the dark with the last resin lots. By morning the outer bar is empty, and your accounts are bound for Pasai.",
+      "effects": {
+        "supply": -1,
+        "reputation": 1,
+        "merchant_trust": 2
+      }
+    },
+    {
+      "id": "take_witnessed_receipts",
+      "label": "Stay ashore and take his witnessed receipts for the closing roll",
+      "outcome_text": "Ismail's factor signs the shore tally by lantern light before casting off. Even after the sack, one house's account closes clean.",
+      "effects": {
+        "duty": 1,
+        "reputation": 2,
+        "merchant_trust": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Gujarati shipping suffered fire during the July 1511 blockade and much western Muslim trade shifted toward Pasai and Aceh after the fall, though Pires later notes some Gujaratis returning (docs/research/1511-events.md §1, Phases III & V; docs/research/people-factions.md §3).",
+    "gameplay: Khoja Ismail, Farid, the Salamat and the chartered barque are fictional continuations of data/merchants/khoja_ismail.json and data/inspections/case_004.json. The Cambay Shahbandar remains unnamed per docs/research/people-factions.md §2."
+  ]
+}

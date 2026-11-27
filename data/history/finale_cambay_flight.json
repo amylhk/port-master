@@ -1,0 +1,37 @@
+{
+  "id": "finale_cambay_flight",
+  "chain_id": "finale_cambay_flight",
+  "step": 1,
+  "day": 17,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.cambay_lobby<=0"
+  ],
+  "title": "Bare posts along the river",
+  "body": "Late August 1511. At first light after the sack, the Cambay storerooms along the riverfront stand stripped to bare posts. Mariam of Cambay's glassware shelves are empty, and Yusuf Vora's factors left on the night tide for Pasai without clearing their quay tallies or naming a local agent.\n\nOnly a hired watchman waits by the gate. He says the Cambay Shahbandar's circle blamed the harbour office for letting the port sleep until the Feringgi armada arrived, and told their captains not to settle another coin at your desk.",
+  "choices": [
+    {
+      "id": "record_departures_unpaid",
+      "label": "Enter the departures as unpaid in the temenggung's name",
+      "outcome_text": "Your clerk closes the Cambay pages with red ink. The tally is honest, even if no court remains on the riverbank to collect it.",
+      "effects": {
+        "duty": -2,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "leave_watchman_receipt",
+      "label": "Give the watchman a receipt for the empty storerooms",
+      "outcome_text": "He tucks the slip into his sash so no one accuses him of looting. The Cambay lanes fall silent behind him.",
+      "effects": {
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Gujarati merchants opposed Portuguese entry and many shifted trade to Pasai and Aceh after 1511, though Pires also notes some Gujaratis later returning to Melaka (docs/research/1511-events.md §1, Phase V; docs/research/people-factions.md §§2–3).",
+    "gameplay: Mariam of Cambay, Yusuf Vora, the watchman and the unpaid closing tallies are fictional (data/merchants/mariam_of_cambay.json, data/merchants/yusuf_vora.json). Dues and customs entries are made in the temenggung's name."
+  ]
+}

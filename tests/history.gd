@@ -2,10 +2,13 @@ extends SceneTree
 
 const DIR := "res://data/history"
 const MERCHANTS_DIR := "res://data/merchants"
-const EVENT_KEYS := ["id", "title", "body", "day", "trigger", "requires", "choices", "notes", "chain_id", "step", "merchant_id"]
+const FACTIONS_DIR := "res://data/factions"
+const EVENT_KEYS := ["id", "title", "body", "day", "trigger", "requires", "conditions", "choices", "notes", "chain_id", "step", "merchant_id"]
 const EFFECT_KEYS := ["duty", "supply", "reputation", "merchant_trust"]
 
 var failures := 0
+var bare_condition := RegEx.create_from_string("^(duty|supply|reputation)(>=|<=|>|<|==)(-?[0-9]+)$")
+var qualified_condition := RegEx.create_from_string("^(merchant_trust|faction_standing)\\.([a-z][a-z0-9]*(?:_[a-z0-9]+)*)(>=|<=|>|<|==)(-?[0-9]+)$")
 
 
 func _initialize() -> void:
@@ -92,11 +95,10 @@ func _check_event(path: String, data: Dictionary) -> void:
         var merchant_id: Variant = data["merchant_id"]
         if not _has_text(merchant_id):
             _fail(path, "merchant_id must be text")
-        else:
-            var merchant_path := MERCHANTS_DIR.path_join(merchant_id + ".json")
-            var merchant: Variant = JSON.parse_string(FileAccess.get_file_as_string(merchant_path))
-            if not merchant is Dictionary or merchant.get("id") != merchant_id:
-                _fail(path, "unknown merchant_id %s" % merchant_id)
+        elif not _id_exists(MERCHANTS_DIR, merchant_id):
+            _fail(path, "unknown merchant_id %s" % merchant_id)
+    if data.has("conditions"):
+        _check_conditions(path, data["conditions"])
     var notes: Variant = data.get("notes")
     if not notes is Array or notes.is_empty():
         _fail(path, "needs source or gameplay notes")
@@ -136,6 +138,36 @@ func _check_choices(path: String, choices: Variant, has_merchant: bool) -> void:
                 _fail(path, "effect %s must be an integer duty, supply, reputation or merchant_trust delta" % key)
             elif key == "merchant_trust" and not has_merchant:
                 _fail(path, "merchant_trust requires merchant_id")
+
+
+func _check_conditions(path: String, conditions: Variant) -> void:
+    if not conditions is Array:
+        _fail(path, "conditions must be an array")
+        return
+    for entry in conditions:
+        if not _has_text(entry):
+            _fail(path, "conditions holds condition strings")
+            continue
+        if bare_condition.search(entry):
+            continue
+        var matched := qualified_condition.search(entry)
+        if matched == null:
+            _fail(path, "invalid condition %s" % entry)
+            continue
+        var stat := matched.get_string(1)
+        var target_id := matched.get_string(2)
+        if stat == "merchant_trust" and not _id_exists(MERCHANTS_DIR, target_id):
+            _fail(path, "condition references unknown merchant_id %s" % target_id)
+        elif stat == "faction_standing" and not _id_exists(FACTIONS_DIR, target_id):
+            _fail(path, "condition references unknown faction_id %s" % target_id)
+
+
+func _id_exists(dir: String, target_id: String) -> bool:
+    var target_path := dir.path_join(target_id + ".json")
+    if not FileAccess.file_exists(target_path):
+        return false
+    var record: Variant = JSON.parse_string(FileAccess.get_file_as_string(target_path))
+    return record is Dictionary and record.get("id") == target_id
 
 
 func _has_text(value: Variant) -> bool:

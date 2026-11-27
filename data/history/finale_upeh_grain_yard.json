@@ -1,0 +1,41 @@
+{
+  "id": "finale_upeh_grain_yard",
+  "chain_id": "finale_upeh_grain_yard",
+  "step": 1,
+  "day": 17,
+  "merchant_id": "jaka_wira",
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.upeh_household>=2",
+    "merchant_trust.jaka_wira>=1"
+  ],
+  "title": "Two carts behind the yard",
+  "body": "Late August 1511. Safe-conduct banners spare the main Upeh compounds where Utimutiraja's household bargained with Albuquerque's men, though armed retainers still watch every corner.\n\nBehind Nyai Ratri's rented yard, Jaka Wira and the Upeh reception broker wait beside two cartloads of rice kept off the looters' tally. Jaka says Upeh remembers a shahbandar who kept the morning grain moving. He offers to shelter your clerks inside Upeh's gates or divide the rice among the families still camped by the river—warning under his breath that Utimutiraja's peace with the Portuguese may not outlast the season.",
+  "choices": [
+    {
+      "id": "shelter_clerks_upeh",
+      "label": "Move your clerks and books into Upeh's yard",
+      "outcome_text": "The reception broker signs your clerks through the lane gate. They have dry roofs and rice, bound to Utimutiraja's fragile truce.",
+      "effects": {
+        "supply": 2,
+        "merchant_trust": 2
+      }
+    },
+    {
+      "id": "share_rice_riverbank",
+      "label": "Divide Jaka's carts among the families at the river",
+      "outcome_text": "Jaka unloads the sacks himself without asking for coin. Your clerks stay at the open landing, but no family on the steps sleeps hungry.",
+      "effects": {
+        "supply": 3,
+        "reputation": 2,
+        "merchant_trust": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Utimutiraja negotiated safe-conduct for Upeh and was appointed head of the Muslims there after the fall, before being executed by Albuquerque in December 1511 (docs/research/1511-events.md §1, Phases IV–V; docs/research/people-factions.md §2).",
+    "gameplay: Jaka Wira, Nyai Ratri and the Upeh Reception Broker are fictional (data/merchants/jaka_wira.json, data/merchants/nyai_ratri.json, data/characters/upeh_reception_broker.json). The rice carts and shelter offer are invented."
+  ]
+}

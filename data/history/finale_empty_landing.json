@@ -1,0 +1,37 @@
+{
+  "id": "finale_empty_landing",
+  "chain_id": "finale_empty_landing",
+  "step": 1,
+  "day": 17,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "reputation<=0",
+    "supply<=0"
+  ],
+  "title": "Keys left on the bench",
+  "body": "Late August 1511. With the granary bare and the harbour office's word spent, your own retainers pack before first light. Salmah from the quay watch sets her warehouse keys on the bench because there is no longer anyone to sign for the empty stores.\n\nDown at the mouth of the river, Awang Jernih and the Orang Laut boatmen pole out toward the fleet gathering off Singapore. By noon, neither a court runner nor a merchant factor has come to ask where you will go.",
+  "choices": [
+    {
+      "id": "lock_office_alone",
+      "label": "Lock the shutters yourself and carry the last roll inland",
+      "outcome_text": "You tie the remaining tally sheets in waxed cloth and leave the silent quay behind before the afternoon patrol reaches the steps.",
+      "effects": {
+        "reputation": 1
+      }
+    },
+    {
+      "id": "hand_keys_to_clerk",
+      "label": "Leave the keys with your senior clerk and walk to the road",
+      "outcome_text": "He nods without asking when you will return. The harbour office that answered to the temenggung's name is over.",
+      "effects": {
+        "supply": -1
+      }
+    }
+  ],
+  "notes": [
+    "fact: The Orang Laut war fleet remained based near Singapore/Riau after Melaka's fall, and the Malay quarters were abandoned or sacked as the court retreated inland (docs/research/1511-events.md §1, Phase IV).",
+    "gameplay: Salmah and Awang Jernih are fictional characters (data/characters/salmah_quay_watch.json, data/characters/awang_jernih.json). The abandoned landing reflects a run with low reputation and depleted supply."
+  ]
+}

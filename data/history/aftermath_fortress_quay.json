@@ -1,0 +1,38 @@
+{
+  "id": "aftermath_fortress_quay",
+  "chain_id": "aftermath_fortress_quay",
+  "step": 1,
+  "day": 18,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.chatu_contacts>=2",
+    "duty>=2"
+  ],
+  "title": "New coin at the stone fort",
+  "body": "Late 1511, Portuguese Melaka. Stone quarried from the demolished mosque is rising into Albuquerque's fortress at the river mouth. Rui de Araújo sits as Portuguese factor, Nina Chatu has been named Bendahara for the Keling and non-Muslim communities, Tuan Colascar oversees Hilir, and Regimo Diraja hears petitions for Malays and Luzons. New tin dinheiros and soldos are replacing the sultanate's old caixes.\n\nNina Chatu sends word that the new factor needs a clerk who knows the weights, the berths and the Coromandel bales. The quay is reopening—under a different seal and a heavier guard.",
+  "choices": [
+    {
+      "id": "serve_fortress_scales",
+      "label": "Take the post at the scales under the factor's seal",
+      "outcome_text": "You weigh the first duty-free Pulicat cotton bales beside Portuguese clerks. The harbour lives, though half the old flags never return.",
+      "effects": {
+        "duty": 3,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "hand_over_weights_and_leave",
+      "label": "Verify the standard weights for Chatu, then step down",
+      "outcome_text": "You leave the dacing beams marked and balanced so the incoming crews are not cheated, then close your own ledger for good.",
+      "effects": {
+        "reputation": 2
+      }
+    }
+  ],
+  "notes": [
+    "fact: Albuquerque built a stone fortress using stone from the demolished mosque, named Rui de Araújo factor and Nina Chatu Bendahara, appointed Tuan Colascar over Hilir and Regimo Diraja (in Pires) as temenggung, introduced new tin coinage (dinheiros, soldos, bastardos) banning old caixes, and granted early duty exemptions to Pulicat ships (docs/research/1511-events.md §1, Phase V; docs/research/people-factions.md §2).",
+    "gameplay: The shahbandar's post-conquest offer and choices at the scales are invented; Regimo Diraja and Tuan Colascar appear only in their documented post-conquest roles."
+  ]
+}
