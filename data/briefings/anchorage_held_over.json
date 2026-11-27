@@ -1,0 +1,14 @@
+{
+  "id": "anchorage_held_over",
+  "trigger": "day>=2",
+  "requires": [
+    "ships_held_over"
+  ],
+  "title": "Ships still waiting from yesterday",
+  "body": "Shahbandar, some of yesterday's ships are still at anchor. Their captains spent the night aboard watching the berths stay empty, and they came to the harbour office at first light.\n\nThey have paid for water and food for another day and they want to know when they will berth. Every one of them takes a place in the anchorage that today's arrivals will need.\n\nWarning: if the anchorage is full when the morning ships arrive, they will not wait at the river mouth.",
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Unfinished ships may remain, shift plans or depart (blueprint section 05).",
+    "Requires flag ships_held_over: ships carried over unresolved from the previous day."
+  ]
+}

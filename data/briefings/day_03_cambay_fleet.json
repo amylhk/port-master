@@ -1,0 +1,11 @@
+{
+  "id": "day_03_cambay_fleet",
+  "day": 3,
+  "title": "The Cambay fleet is sighted",
+  "body": "Shahbandar, the lookouts on the hill report great ships from Cambay, three of them, a day's sail up the Strait. They left Gujarat in the spring and they will be in the anchorage by tomorrow's tide.\n\nExpected today: a Bengali ship with fine muslins and sugar; a Chinese junk from Zhangzhou that has stayed to buy pepper and tin before the season closes; and tin perahus from Klang and Selangor.\n\nMarket: the Zhangzhou captain will buy all the pepper and tin he can load. The tin perahus come with the year's dues to the king as well as their own cargo, so mind which lots are tribute and which are trade.\n\nNews: the shahbandar of the Gujaratis, the most important of the four, sends word that his merchants expect their goods weighed and valued promptly, as they always are. He means: before the Klings.\n\nWarning: clear the anchorage today. If the Cambay ships arrive to find it full, it will be remembered.",
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Four shahbandars, the Gujarati 'the most important of all': Pires pp. 264-5 (docs/research/port-official.md). Gujarati ships leaving Cambay about mid-April: docs/research/commodities.md 2.1. Tin from Klang and Selangor sent as tribute and as trade: commodities.md section 1.",
+    "Ships, people and incidents are fictional. Tide times are game schedule times, not tidal data."
+  ]
+}
