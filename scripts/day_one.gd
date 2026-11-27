@@ -25,6 +25,16 @@ const RICE_SACK_ART := {
     true: "res://assets/art/inspection/rice_sack_open.png",
 }
 const DUTY_HELP := "盡忠職守是衡量港務長值勤表現的分數。\n\n加分：查獲不合格貨物或走私、正確蓋印，以及安排船隻準時卸貨。\n\n扣分：放行不合格貨物、錯判而冤枉誠實商人，或有船隻不滿離港。\n\n貨物符合申報時，略過驗貨不會扣分。"
+const CAPTAIN_MINUTES := 3
+const CREW_MINUTES := 5
+const DOCUMENT_MINUTES := 2
+const EXTERIOR_MINUTES := 2
+const MANUAL_MINUTES := 2
+const ONBOARDING := [
+    ["先安排靠泊", "將船拖到空泊位。船一靠泊便開始卸貨，驗貨期間也照常卸貨。請留意各船的離港時間。"],
+    ["查驗，再蓋印", "按船旁的「驗貨」標記進入驗貨桌。開袋、問話及翻閱文件均需時間，桌上會標明所需時間。翻閱手冊後，可引用已查驗的證據，再於離港前選印蓋章；也可不驗貨，按申報放行。"],
+    ["留意港口的變化", "卸妥並完成判決，或船隻離港時，即可見到結果。上方的國庫是稅收，存糧是儲備的米，盡忠職守是值勤得分。若船已來不及卸貨，可請它離港。"],
+]
 const CRATE_NAMES := {
     "case_001": ["前排陶甕", "後排陶甕", "第7包生絲"],
     "case_002": ["甲包", "乙包"],
@@ -173,6 +183,8 @@ var detail_close_caption := ""
 var notes_id := "port_day"
 var last_feedback := ""
 var rice_sack_paint := {}
+var onboarding_step := 0
+var examined_sources := {}
 
 
 func _ready() -> void:
@@ -276,6 +288,8 @@ func render() -> void:
         _feedback()
     if detail_open:
         _detail()
+    if onboarding_step >= 0:
+        _onboarding()
 
 
 func _harbour() -> void:
@@ -337,12 +351,24 @@ func _morning_voice() -> void:
         if day.can_inspect_berthed(ship):
             var cargo_action := "抽驗米袋" if day.is_rice_spot_check(ship) else "開箱檢查"
             line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記%s。" % [ship["name"], slot + 1, cargo_action]
-            caption = "按此驗貨；推進時間即按申報卸貨"
+            caption = "未驗貨，離港時按申報處理"
             action = inspect_berth.bind(slot)
         else:
-            line = "大人，%s已來不及在潮汐前驗貨，推進時間便按申報卸貨。" % ship["name"]
-    if not day.watch_rice_report.is_empty():
+            line = "大人，%s已來不及在潮汐前驗貨；若已卸妥，離港時按申報放行。" % ship["name"]
+    var late_ships := PackedStringArray()
+    for ship in day.waiting:
+        if day.can_request_departure(ship):
+            late_ships.append(ship["name"])
+    if not late_ships.is_empty():
+        var late_line := "大人，%s已來不及卸貨，可請船離港。" % "、".join(late_ships)
         if awaiting.is_empty():
+            line = late_line
+        else:
+            var warning := _panel(surface, Rect2(24, 419, 248, 104), PAPER)
+            _text(warning, "同僚", Rect2(12, 2, 224, 23), 12, BROWN)
+            _text(warning, late_line, Rect2(12, 24, 224, 73), 15, BROWN)
+    if not day.watch_rice_report.is_empty():
+        if awaiting.is_empty() and late_ships.is_empty():
             line = day.watch_rice_report
         else:
             var report := _panel(surface, Rect2(24, 307, 248, 104), PAPER)
@@ -437,8 +463,8 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     marker.disabled = not can_inspect
     var inspection := day.inspection_for(ship)
     var rice_spot_check := day.is_rice_spot_check(ship)
-    var duration := int(inspection.get("minutes_per_sack", inspection["minutes"]))
-    marker.tooltip_text = "抽驗米袋，每袋耗時 %d 分鐘。" % duration if rice_spot_check else "開箱詳細驗貨，佔用此泊位 %d 分鐘。" % duration
+    var duration := int(inspection["minutes"])
+    marker.tooltip_text = "按下進入驗貨桌抽驗米袋。" if rice_spot_check else "開箱詳細驗貨，需時 %d 分鐘；卸貨不中斷。" % duration
     if not can_inspect:
         marker.tooltip_text = "已來不及在潮汐前完成驗貨。"
     for state in ["normal", "hover", "pressed", "focus"]:
@@ -449,7 +475,7 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     else:
         _image(marker, "res://assets/art/icons/inspection.png", Rect2(7, 12, 42, 42))
         _text(marker, "驗貨", Rect2(49, 8, 73, 50), 24, BROWN, true)
-    var timing := "每袋 ＋%d 分鐘" % duration if rice_spot_check else "＋%d 分鐘" % duration
+    var timing := "抽驗米袋" if rice_spot_check else "＋%d 分鐘" % duration
     _text(marker, timing if can_inspect else "已來不及", Rect2(4, 68, 120, 24), 13, BROWN, true)
     if can_inspect:
         var pulse := marker.create_tween().set_loops()
@@ -472,6 +498,7 @@ func inspect_berth(slot: int) -> void:
         return
     day.inspect_berthed(ship["id"])
     if day.pending_case.is_empty():
+        _inspection_missed_tide(ship["name"])
         return
     selected_ship = ""
     notice = ""
@@ -485,6 +512,7 @@ func _reset_desk() -> void:
     opened_crates.clear()
     selected_crate = 0
     viewed.clear()
+    examined_sources.clear()
     cited_sack = -1
     method = ""
     stamp = ""
@@ -499,9 +527,11 @@ func _ship_token(ship: Dictionary, pos: Vector2) -> void:
     token.position = pos
     token.size = SHIP_SIZE
     token.name = "Ship_" + str(ship["id"])
-    token.accessibility_name = ship["name"] + "，拖往泊位"
-    token.tooltip_text = "拖至泊位，或先選船再按泊位。"
-    token.mouse_default_cursor_shape = Control.CURSOR_DRAG
+    var too_late := day.can_request_departure(ship)
+    token.accessibility_name = ship["name"] + ("，來不及卸貨" if too_late else "，拖往泊位")
+    token.tooltip_text = "已來不及在離港前卸貨。" if too_late else "拖至泊位，或先選船再按泊位。"
+    token.disabled = too_late
+    token.mouse_default_cursor_shape = Control.CURSOR_ARROW if too_late else Control.CURSOR_DRAG
     for state in ["normal", "hover", "pressed", "focus"]:
         token.add_theme_stylebox_override(state, StyleBoxEmpty.new())
     token.pressed.connect(func() -> void:
@@ -520,6 +550,21 @@ func _ship_token(ship: Dictionary, pos: Vector2) -> void:
     _text(tag, ship["name"], Rect2(42, 0, 180, 22), 15)
     var urgent: bool = int(ship["departure"]) - day.minute_of_day <= 75
     _text(tag, "%s 離港 · 卸貨 %d 分鐘" % [PortDay.clock(ship["departure"]), ship["minutes"]], Rect2(42, 21, 184, 18), 11, GOLD if urgent else MUTED)
+    if too_late:
+        var leave := _button(surface, "請船離港", Rect2(pos + Vector2(238, 119), Vector2(105, 40)), ask_ship_to_leave.bind(ship["id"]))
+        leave.accessibility_name = "請%s離港" % ship["name"]
+        leave.tooltip_text = "不收取此船稅款，盡忠職守減一分。"
+
+
+func ask_ship_to_leave(ship_id: String) -> void:
+    if feedback_open or manual_open or notes_open or detail_open or onboarding_step >= 0:
+        return
+    var ship := _waiting_ship(ship_id)
+    if not day.request_departure(ship_id):
+        return
+    notice = "同僚：已請%s離港。未能收稅，盡忠職守減一分。" % ship["name"]
+    selected_ship = ""
+    render()
 
 
 func drop_block(ship_id: String, slot: int) -> String:
@@ -593,7 +638,9 @@ func _next_bell_minute() -> int:
     var next := int(day.scenario["end_minute"])
     for ship in day.berths:
         if not ship.get("held_at_berth", false):
-            next = mini(next, mini(day.minute_of_day + int(ship["remaining"]), int(ship["departure"])))
+            next = mini(next, int(ship["departure"]))
+            if int(ship["remaining"]) > 0:
+                next = mini(next, day.minute_of_day + int(ship["remaining"]))
     for ship in day.waiting:
         next = mini(next, int(ship["departure"]))
     var ships: Array = day.scenario["ships"]
@@ -611,7 +658,7 @@ func _desk() -> void:
     var inspection := day.inspection_for(day.pending_case)
     var rice_spot_check := day.is_rice_spot_check(day.pending_case)
     _image(surface, inspection.get("art", {}).get("desk", ""), Rect2(0, 0, 1280, 720))
-    _header("驗貨桌  /  " + day.pending_case["name"], PortDay.clock(day.minute_of_day) + ("   /   開袋耗時" if rice_spot_check else "   /   時間暫停"))
+    _header("驗貨桌  /  " + day.pending_case["name"], PortDay.clock(day.minute_of_day) + "   /   驗貨計時")
     var instruction := "逐一打開貨箱、核對手冊，再選擇證據及判決印章。"
     if not manual_seen:
         if viewed.has("contents"):
@@ -628,33 +675,35 @@ func _desk() -> void:
         instruction = "請先查驗再引用證據；也可不引用證據，按申報放行。"
     else:
         instruction = _hint_text("stamp", "選擇印章，再按下申報單蓋印。")
-    if rice_spot_check and stamp.is_empty():
-        instruction = "每開一袋耗時五分鐘；請留意卸貨所需時間，再決定抽驗多少袋。"
+    if rice_spot_check and stamp.is_empty() and not manual_seen:
+        instruction = "卸貨仍在進行；可抽驗任一米袋，並在離港前蓋印。"
     if not day.watch_rice_report.is_empty():
         instruction = day.watch_rice_report
+    if day.inspection_would_miss_tide(CREW_MINUTES):
+        instruction = "同僚：離港潮將至，再花五分鐘查驗便來不及蓋印。"
     _hint(instruction)
     # Physical tools live on the left; the declaration and findings share the desk.
     _panel(surface, Rect2(16, 151, 284, 552), PAPER)
-    _text(surface, "驗貨工具", Rect2(28, 155, 260, 30), 16, BROWN)
+    var tools_caption := "驗貨工具" if not rice_spot_check else "任選米袋 · 每開一袋 ＋%d 分鐘" % inspection["minutes_per_sack"]
+    _text(surface, tools_caption, Rect2(28, 155, 260, 30), 16, BROWN)
     _cargo_crates(inspection)
     var exterior_tool := "過磅" if inspection["id"] == "case_003" else "查驗封印與過磅"
-    _button(surface, exterior_tool, Rect2(28, 377, 260, 49), show_evidence.bind(1))
-    _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
-    var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
+    var tool_y := 440 if rice_spot_check else 377
+    _desk_tool(surface, exterior_tool, Rect2(28, tool_y, 260, 34), show_evidence.bind(1), _source_cost("1", EXTERIOR_MINUTES))
+    _desk_tool(surface, "詢問船員", Rect2(28, tool_y + 39, 260, 34), show_evidence.bind(2), _source_cost("2", CREW_MINUTES))
+    var manual_y := tool_y + 81
+    var manual_height := 92 if rice_spot_check else 151
+    var manual := _button(surface, "", Rect2(28, manual_y, 260, manual_height), open_manual)
     manual.accessibility_name = MANUAL_TITLE
-    _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 3, 250, 110))
-    _text(manual, MANUAL_TITLE + "\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
-    var timing := "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"]
-    var timing_color := BROWN
-    if rice_spot_check:
-        var finish := day.minute_of_day + int(day.pending_case["remaining"])
-        var tide := int(day.pending_case["departure"])
-        timing = "預計卸妥 %s ／ 離港潮 %s\n%s" % [
-            PortDay.clock(finish), PortDay.clock(tide),
-            "已來不及在潮汐前卸貨。" if finish > tide else "卸貨尚需 %d 分鐘。" % day.pending_case["remaining"],
-        ]
-        if finish > tide:
-            timing_color = Color("#9b3529")
+    _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 2, 250, manual_height - 25))
+    _text(manual, MANUAL_TITLE + "\n", Rect2(10, 0, 240, manual_height - 23), 16, BROWN, true)
+    var manual_caption := "按下翻閱規則" if manual_seen else "初次翻閱 ＋%d 分鐘" % MANUAL_MINUTES
+    _text(manual, manual_caption, Rect2(10, manual_height - 26, 240, 24), 14, GOLD, true)
+    var remaining := int(day.pending_case["remaining"])
+    var tide := int(day.pending_case["departure"])
+    var unloading := "已卸妥，仍須蓋印。" if remaining == 0 else "預計卸妥 %s（尚需 %d 分鐘）" % [PortDay.clock(day.minute_of_day + remaining), remaining]
+    var timing := "%s\n離港潮 %s · 須在此前蓋印" % [unloading, PortDay.clock(tide)]
+    var timing_color := Color("#9b3529") if day.inspection_would_miss_tide(CREW_MINUTES) else BROWN
     _text(surface, timing, Rect2(28, 630, 260, 66), 14, timing_color)
     _declaration(inspection)
     _findings(inspection)
@@ -664,23 +713,32 @@ func _desk() -> void:
 func _cargo_crates(inspection: Dictionary) -> void:
     var rice_spot_check := day.is_rice_spot_check(day.pending_case)
     var names: Array = inspection["sacks"].map(func(sack: Dictionary) -> String: return sack["label"]) if rice_spot_check else CRATE_NAMES[inspection["id"]]
-    var pitch := 264.0 / names.size()
+    var columns := 6 if rice_spot_check else names.size()
+    var pitch := 264.0 / columns
     for index in names.size():
         var opened := opened_crates.has(index)
-        var button := _button(surface, "", Rect2(28 + index * pitch, 192, pitch - 4, 171), open_crate.bind(index))
+        var row := floori(float(index) / columns)
+        var height := 56 if rice_spot_check else 171
+        var button := _button(surface, "", Rect2(28 + (index % columns) * pitch, 187 + row * 62, pitch - 4, height), open_crate.bind(index))
         _style_paper_button(button)
         if evidence_index == 3 and selected_crate == index:
             button.add_theme_stylebox_override("normal", _style(Color("#dfccac"), GOLD, 3))
         button.accessibility_name = ("查看" if opened else "開封") + names[index]
         var picture = SackPicture.new() if rice_spot_check else CratePicture.new()
-        picture.position = Vector2((pitch - (46 if rice_spot_check else 78)) * 0.5, 17)
+        picture.position = Vector2((pitch - 78) * 0.5, 17)
         picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
         picture.opened = opened
         if rice_spot_check:
             picture.paint = rice_sack_paint.get(opened)
+            picture.position = Vector2(8, 5)
+            picture.scale = Vector2(0.53, 0.53)
+            button.tooltip_text = names[index] + (" · 已開封" if opened else " · 開封 ＋%d 分鐘" % inspection["minutes_per_sack"])
         button.add_child(picture)
-        _text(button, names[index], Rect2(2, 90, pitch - 8, 39), 15, BROWN, true)
-        _text(button, "已開封" if opened else "按下開封", Rect2(2, 131, pitch - 8, 28), 14, BROWN, true)
+        if rice_spot_check:
+            _text(button, str(index + 1), Rect2(0, 36, pitch - 4, 20), 13, BROWN, true)
+        else:
+            _text(button, names[index], Rect2(2, 90, pitch - 8, 39), 15, BROWN, true)
+            _text(button, "已開封" if opened else "按下開封", Rect2(2, 131, pitch - 8, 28), 14, BROWN, true)
 
 
 func _declaration(inspection: Dictionary) -> void:
@@ -699,8 +757,8 @@ func _declaration(inspection: Dictionary) -> void:
     if viewed.has("manifest"):
         preview = copy.get("line", paragraphs[mini(1, paragraphs.size() - 1)])
     _text(paper, preview, Rect2(inset, 111, 379 - inset, 110), 17, BROWN)
-    _button(paper, "聽取船長陳述", Rect2(20, 226, 359, 32), show_detail.bind(inspection["title"], inspection["subtitle"]))
-    _button(paper, "查閱完整貨單", Rect2(20, 266, 359, 35), show_evidence.bind(0, true))
+    _desk_tool(paper, "聽取船長陳述", Rect2(20, 226, 359, 32), hear_captain, _source_cost("captain", CAPTAIN_MINUTES))
+    _desk_tool(paper, "查閱完整貨單", Rect2(20, 266, 359, 35), show_evidence.bind(0, true), _source_cost("0", DOCUMENT_MINUTES))
     var press := _button(paper, "在此蓋印" if stamp.is_empty() else "蓋印：" + STAMPS[stamp], Rect2(20, 308, 359, 38), apply_stamp)
     press.disabled = not _can_file_stamp()
     press.tooltip_text = "請先翻閱手冊，選擇印章；如需引用，請先查驗證據。" if press.disabled else "記錄判決並返回港口。"
@@ -729,7 +787,7 @@ func _findings(inspection: Dictionary) -> void:
         _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, BROWN, true)
         _button(panel, ">", Rect2(439, 312, 55, 34), _evidence_turn.bind(1)).disabled = evidence_page == paragraphs.size() - 1
     else:
-        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_evidence.bind(evidence_index, true))
+        _desk_tool(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_evidence.bind(evidence_index, true), _source_cost(_source_key(evidence_index, true), DOCUMENT_MINUTES))
 
 
 func _crate_findings(panel: Control, inspection: Dictionary) -> void:
@@ -778,9 +836,10 @@ func open_crate(index: int) -> void:
     if index < 0 or index >= count:
         return
     if rice_spot_check:
+        var ship_name: String = day.pending_case["name"]
         day.open_rice_sack(index)
         if day.pending_case.is_empty():
-            render()
+            _inspection_missed_tide(ship_name)
             return
     opened_crates[index] = true
     selected_crate = index
@@ -798,8 +857,51 @@ func _has_evidence_art(evidence: Dictionary) -> bool:
     return evidence.has("image") and ResourceLoader.exists(evidence["image"], "Texture2D")
 
 
+func _desk_tool(parent: Control, caption: String, rect: Rect2, action: Callable, minutes: int) -> void:
+    var button := _button(parent, "", rect, action)
+    button.accessibility_name = caption
+    _text(button, caption, Rect2(9, 0, rect.size.x - 90, rect.size.y), 16)
+    if minutes > 0:
+        _text(button, "＋%d 分鐘" % minutes, Rect2(rect.size.x - 81, 0, 76, rect.size.y), 13, GOLD, true)
+
+
+func _source_cost(source: String, minutes: int) -> int:
+    return 0 if examined_sources.has(source) else minutes
+
+
+func _source_key(index: int, full: bool) -> String:
+    return "%d_full" % index if full and index != 0 else str(index)
+
+
+func _examine_source(source: String, minutes: int) -> bool:
+    if day.pending_case.is_empty() or manual_open or detail_open:
+        return false
+    if not examined_sources.has(source):
+        var ship_name: String = day.pending_case["name"]
+        day.spend_inspection_time(minutes)
+        if day.pending_case.is_empty():
+            _inspection_missed_tide(ship_name)
+            return false
+        examined_sources[source] = true
+    return true
+
+
+func _inspection_missed_tide(ship_name: String) -> void:
+    notice = "同僚：%s未能及時蓋印，已隨潮離港。未能收稅，盡忠職守減兩分。" % ship_name
+    render()
+
+
+func hear_captain() -> void:
+    if _examine_source("captain", CAPTAIN_MINUTES):
+        var inspection := day.inspection_for(day.pending_case)
+        show_detail(inspection["title"], inspection["subtitle"])
+
+
 func show_evidence(index: int, full := false) -> void:
-    if day.pending_case.is_empty() or manual_open or detail_open or index < 0 or index > 2:
+    if index < 0 or index > 2:
+        return
+    var minutes: int = DOCUMENT_MINUTES if full else [DOCUMENT_MINUTES, EXTERIOR_MINUTES, CREW_MINUTES][index]
+    if not _examine_source(_source_key(index, full), minutes):
         return
     var inspection := day.inspection_for(day.pending_case)
     var evidence: Dictionary = inspection["evidence"][index]
@@ -833,10 +935,7 @@ func show_detail(title: String, body: String, close_caption := "返回驗貨桌"
 
 
 func _detail() -> void:
-    for control: Control in surface.find_children("*", "Control", true, false):
-        control.focus_mode = Control.FOCUS_NONE
-        if control is BaseButton:
-            control.disabled = true
+    _disable_background_controls()
     var panel := _modal(Rect2(230, 145, 820, 510), PAPER)
     _text(panel, detail_title, Rect2(26, 18, 768, 56), 26, BROWN)
     _reading(panel, detail_text, Rect2(26, 87, 768, 330), BROWN, 21)
@@ -845,6 +944,38 @@ func _detail() -> void:
         render()
     )
     close.grab_focus()
+
+
+func _disable_background_controls() -> void:
+    for control: Control in surface.find_children("*", "Control", true, false):
+        control.focus_mode = Control.FOCUS_NONE
+        if control is BaseButton:
+            control.disabled = true
+
+
+func _onboarding() -> void:
+    _disable_background_controls()
+    var panel := _modal(Rect2(250, 169, 780, 382), PAPER)
+    var step: Array = ONBOARDING[onboarding_step]
+    _image(panel, "res://assets/art/portraits/salmah_quay_watch.png", Rect2(26, 89, 137, 173))
+    _text(panel, "港口同僚  ·  值勤教學 %d / %d" % [onboarding_step + 1, ONBOARDING.size()], Rect2(31, 20, 714, 29), 16, BROWN)
+    _text(panel, step[0], Rect2(180, 67, 566, 49), 29, BROWN)
+    _text(panel, step[1], Rect2(180, 126, 566, 148), 23, BROWN)
+    _button(panel, "略過教學", Rect2(29, 307, 166, 45), _finish_onboarding)
+    var last := onboarding_step == ONBOARDING.size() - 1
+    var next := _button(panel, "開始值勤" if last else "下一步", Rect2(570, 307, 180, 45), func() -> void:
+        if last:
+            _finish_onboarding()
+            return
+        onboarding_step += 1
+        render()
+    )
+    next.grab_focus()
+
+
+func _finish_onboarding() -> void:
+    onboarding_step = -1
+    render()
 
 
 func _stamp_rack(inspection: Dictionary) -> void:
@@ -944,6 +1075,8 @@ func apply_stamp() -> void:
 
 
 func open_manual() -> void:
+    if not _examine_source("manual", 0 if manual_seen else MANUAL_MINUTES):
+        return
     manual_seen = true
     manual_open = true
     render()

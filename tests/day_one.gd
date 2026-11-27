@@ -14,6 +14,11 @@ func _run() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
     await process_frame
+    _expect(game.onboarding_step == 0 and _label_containing(game, "船一靠泊便開始卸貨") and _disabled_button(game, "推進十五分鐘"), "opening tutorial explains concurrent unloading and blocks the harbour behind it")
+    _press_text(game, "下一步")
+    _expect(game.onboarding_step == 1 and _label_containing(game, "於離港前選印蓋章"), "the next tutorial step explains inspecting and stamping")
+    _press_text(game, "略過教學")
+    _expect(game.onboarding_step == -1 and not _disabled_button(game, "推進十五分鐘"), "the tutorial can be skipped mid-flow")
     _expect(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/day_one.tscn", "F5 opens the hands-on Day 1 scene")
     var localized_title: String = ProjectSettings.get_setting("application/config/name")
     _expect(game._title_with_system_fonts(localized_title, []) == "Gangwuzhang: Maliujia 1511 - Di Yi Ri", "a native title without CJK fonts uses romanization instead of boxes")
@@ -42,12 +47,13 @@ func _run() -> void:
     _expect(marker != null and not marker.disabled, "the berthed ship shows a clickable 驗貨 marker")
     _expect(_label_containing(game, "請按船旁的「驗貨」標記"), "the assistant says where to click to inspect")
     _expect(game._harbour_hint() == game._hint_text("inspect_berthed", ""), "the harbour hint points to the berth marker")
+    _expect(not _label_containing(game, "每袋") and not _label_containing(game, "＋5 分鐘") and _label_containing(game, "抽驗米袋"), "the rice marker does not give away the per-sack time")
     if marker != null:
         marker.pressed.emit()
     else:
         game.inspect_berth(0)
     _expect(game.day.pending_case.get("id") == "porcelain" and game.day.minute_of_day == 585, "inspection opens the existing case and charges its fixed 45 minutes")
-    _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
+    _expect(game.day.ship_at_berth(0)["remaining"] == 15 and game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "both berths unload and scheduled arrivals work during inspection")
     _expect(game.viewed.is_empty(), "no citation is unlocked before its source is examined")
     var stamp_buttons := 0
     var stamp_order: Array[String] = []
@@ -137,6 +143,8 @@ func _run() -> void:
     _expect(game.day.day_number == 1 and game.day.minute_of_day == 540 and game.day.waiting.size() == 3 and game.inspections_filed == 0, "replay restores a clean Day 1")
     game.advance(30)
     game.request_berth("porcelain", 1)
+    game.day.ship_at_berth(1)["departure"] = 615
+    game.render()
     marker = _accessible_button(game, "驗貨")
     _expect(marker != null and marker.disabled and _label_containing(game, "已來不及在潮汐前驗貨"), "a late case ship shows the marker as too late and the assistant says so")
     game.inspect_berth(1)
@@ -146,8 +154,8 @@ func _run() -> void:
     game.request_berth("rice", -2)
     _expect(game.day.berths.size() == 1, "invalid ship and berth data never mutate the port")
     game.advance(15)
-    _expect(game.day.flags.has("case_001_clear") and not game.day.ship_at_berth(1).get("inspection_open", false) and game.day.ship_at_berth(1)["remaining"] == 45, "moving the clock unloads an uninspected ship on its declaration")
-    _expect(_accessible_button(game, "驗貨") == null, "the marker leaves once unloading begins")
+    _expect(not game.day.flags.has("case_001_clear") and game.day.ship_at_berth(1).get("inspection_open", false) and game.day.ship_at_berth(1)["remaining"] == 45, "advancing the harbour clock unloads cargo without automatically clearing its declaration")
+    _expect(_accessible_button(game, "驗貨") != null, "the inspection marker remains until the ship is resolved")
     game.restart()
     game.assign_berth("rice", 0, false)
     game.assign_berth("pepper", 1, false)
@@ -155,7 +163,7 @@ func _run() -> void:
     game.request_berth("resin", 0)
     game.request_berth("tin", 1)
     game.inspect_berth(0)
-    _expect(game.day.pending_case.get("id") == "resin" and game.day.flags.has("case_003_clear"), "inspecting one berth unloads the other waiting case on its declaration")
+    _expect(game.day.pending_case.get("id") == "resin" and not game.day.flags.has("case_003_clear") and game.day.ship_at_berth(1)["remaining"] < 45, "inspecting one berth advances unloading at the other without silently filing its ruling")
     game.restart()
     game.request_berth("porcelain", 0)
     game.selected_ship = "rice"
@@ -170,7 +178,7 @@ func _run() -> void:
     game.advance(70)
     game.request_berth("resin", 0)
     game.request_berth("tin", 1)
-    game.day.ship_at_berth(0)["departure"] = game.day.minute_of_day + 61
+    game.day.ship_at_berth(0)["departure"] = game.day.minute_of_day + int(game.day.inspection_for(game.day.ship_at_berth(0))["minutes"])
     game.render()
     _expect(not game.day.can_inspect_berthed(game.day.ship_at_berth(0)) and game.day.can_inspect_berthed(game.day.ship_at_berth(1)), "the first case is too late but the second can still be inspected")
     _expect(_label_containing(game, game.day.ship_at_berth(1)["name"] + "已靠泊位2"), "the colleague points to the inspectable second case rather than advising a clock advance")
@@ -199,6 +207,8 @@ func _run() -> void:
     await _duty_score()
     await _closing_help_focus()
     await _citation_locks()
+    await _onboarding_and_departure()
+    await _declaration_during_other_inspection()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, inspection and stamps, rice spot checks, immediate HUD and duty outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -207,6 +217,7 @@ func _run() -> void:
 func _manual_across_cases() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.assign_berth("porcelain", 0, true)
     game.open_manual()
     _press_text(game, "合上手冊")
@@ -239,6 +250,7 @@ func _manual_across_cases() -> void:
 func _rice_spot_check() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     _expect(_label_exists(game, "國庫  0") and _label_exists(game, "存糧  12 袋") and _label_exists(game, "盡忠職守  0"), "only Day 1's three metrics start on the HUD")
     _press_accessible(game, "盡忠職守說明")
     _expect(game.detail_open and _text_shown(game, "正確蓋印") and _text_shown(game, "準時卸貨") and _text_shown(game, "不滿離港") and _text_shown(game, "略過驗貨不會扣分"), "the HUD explains duty gains and losses without showing a case")
@@ -248,10 +260,15 @@ func _rice_spot_check() -> void:
     game.inspect_berth(0)
     _expect(game.day.minute_of_day == 540 and game.stamp.is_empty(), "entering rice inspection is free and the chit is blank")
     _expect(not _text_shown(game, "沾上水氣") and _accessible_button(game, "開封四號袋") != null, "closed sacks do not disclose their contents")
+    var sacks: Array = game.day.inspection_for(game.day.pending_case)["sacks"]
+    _expect(sacks.size() == 24 and sacks.filter(func(sack: Dictionary) -> bool: return sack.get("wet", false)).size() == 2, "all 24 sacks are defined, of which two are wet")
+    for sack in sacks:
+        var button := _accessible_button(game, "開封" + sack["label"])
+        _expect(button != null and not button.disabled, "every declared sack is pickable")
     var closed_paint := _sack_paint(game, "開封一號袋")
     _expect(closed_paint != null and closed_paint.resource_path == "res://assets/art/inspection/rice_sack_closed.png", "closed sacks use the imported painting")
     _press_accessible(game, "開封一號袋")
-    _expect(game.day.minute_of_day == 545 and game.viewed.has("contents") and _text_shown(game, "粒粒分明"), "one clean sack costs five minutes and can already be cited")
+    _expect(game.day.minute_of_day == 545 and game.day.pending_case["remaining"] == 55 and game.viewed.has("contents") and _text_shown(game, "粒粒分明"), "one clean sack costs five minutes, unloads during the check, and can already be cited")
     var open_paint := _sack_paint(game, "查看一號袋")
     _expect(open_paint != null and open_paint.resource_path == "res://assets/art/inspection/rice_sack_open.png" and _sack_paint(game, "開封二號袋") == closed_paint, "only the opened sack switches paintings")
     game.rice_sack_paint.erase(true)
@@ -274,7 +291,7 @@ func _rice_spot_check() -> void:
     _expect(game.day.watch_score == 3 and game.day.watch_stock == 12 and game.day.duty == 0, "a supported fine scores immediately; stock and tax wait for unload")
     _press_text(game, "返回港口")
     game.assign_berth("porcelain", 1, true)
-    _expect(game.day.minute_of_day == 595 and game.day.pending_case.get("id") == "porcelain" and game.day.ship_at_berth(0)["remaining"] == 15, "two samples leave enough time to inspect 金豐號 while the rice unloads")
+    _expect(game.day.minute_of_day == 597 and game.day.pending_case.get("id") == "porcelain" and game.day.ship_at_berth(0)["remaining"] == 3, "two samples and the manual leave enough time to inspect 金豐號 while the rice unloads")
     for index in game.CRATE_NAMES["case_001"].size():
         game.open_crate(index)
     game.choose_stamp("major_fraud")
@@ -282,7 +299,7 @@ func _rice_spot_check() -> void:
     game.apply_stamp()
     _press_text(game, "返回港口")
     var score_before: int = game.day.watch_score
-    game.advance(14)
+    game.advance(2)
     _expect(game.day.watch_stock == 12 and game.day.duty == 0, "the sorted stock does not post a minute before unloading")
     game.advance(1)
     _expect(game.day.watch_stock == 34 and game.day.rice == 22 and game.day.watch_score == score_before + 1 and game.day.duty == 6, "sorted rice posts usable stock and reduced tax at unload, with on-time credit")
@@ -300,19 +317,14 @@ func _rice_spot_check() -> void:
     _expect(game.day.duty == 6 and game.day.watch_stock == 34 and game.day.watch_score == 4, "refusing only the damp sacks preserves the dry delivery at reduced tax")
     game.restart()
     game.assign_berth("rice", 0, true)
-    for index in 4:
+    for index in 14:
         game.open_crate(index)
-    _expect(game.day.minute_of_day == 560 and _label_containing(game, "已來不及在潮汐前卸貨"), "a fourth sack makes a timely unload impossible")
-    game.manual_seen = true
-    game.choose_method("contents")
-    game.choose_stamp("clear")
-    game.apply_stamp()
-    _expect(not game.last_feedback.contains("濕米") and game.day.watch_score == 0, "clearing a sampled load does not report the unloading consequence early")
-    _press_text(game, "返回港口")
-    game.advance(54)
+    _expect(game.day.minute_of_day == 610 and game.day.pending_case["remaining"] == 0 and game.day.watch_stock == 12 and game.day.duty == 0, "the crew has unloaded, but the unstamped cargo has not entered trade")
+    _expect(_label_containing(game, "再花五分鐘查驗便來不及蓋印"), "the colleague warns before another sample would miss the tide")
     var before_tide: int = game.day.watch_score
-    game.advance(1)
+    game.open_crate(23)
     _expect(game.day.minute_of_day == 615 and game.day.duty == 0 and game.day.watch_stock == 12 and game.day.watch_score == before_tide - 4 and game.day.flags.has_all(["rice_unhappy_departure", "pepper_unhappy_departure"]), "the overchecked rice ship and the waiting pepper ship each leave at the tide without paying tax")
+    _expect(game.day.pending_case.is_empty() and not game.feedback_open and _label_containing(game, "未能及時蓋印"), "missing the tide closes the inspection without filing")
     game.queue_free()
     await process_frame
 
@@ -320,6 +332,7 @@ func _rice_spot_check() -> void:
 func _duty_score() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.assign_berth("rice", 0, false)
     game.assign_berth("pepper", 1, false)
     game.advance(59)
@@ -366,6 +379,7 @@ func _other_cases() -> void:
     for example in [["resin", 60, "hold", "contents"], ["tin", 70, "minor_fault", "testimony"], ["cloth", 120, "clear", "measurements"]]:
         var game = DayOne.instantiate()
         root.add_child(game)
+        _press_text(game, "略過教學")
         game.assign_berth("rice", 0, false)
         game.assign_berth("pepper", 1, false)
         game.advance(example[1])
@@ -402,6 +416,7 @@ func _wrong_rulings() -> void:
     for example in [["porcelain", 0, "clear", "罰款"], ["resin", 60, "clear", "扣留"], ["tin", 70, "clear", "更正"], ["cloth", 120, "minor_fault", "放行"]]:
         var game = DayOne.instantiate()
         root.add_child(game)
+        _press_text(game, "略過教學")
         if example[1] > 0:
             game.assign_berth("rice", 0, false)
             game.assign_berth("pepper", 1, false)
@@ -430,6 +445,7 @@ func _wrong_rulings() -> void:
 func _citation_locks() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.assign_berth("rice", 0, true)
     for caption in game.METHODS:
         _expect(_disabled_button(game, caption), "%s starts locked on the rice desk" % caption)
@@ -510,6 +526,7 @@ func _disabled_button(node: Node, caption: String) -> bool:
 func _harbour_status_routing() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.assign_berth("rice", 0, false)
     await process_frame
     var status: Control = game.surface.get_node("Berth0/UnloadingStatus")
@@ -524,6 +541,7 @@ func _harbour_status_routing() -> void:
 func _berthed_hull_routing() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.request_berth("porcelain", 1)
     await process_frame
     var target: Control = game.surface.get_node("Berth1")
@@ -573,6 +591,7 @@ func _drag(from: Vector2, to: Vector2) -> void:
 func _closing_help_focus() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     game.advance(int(game.day.scenario["end_minute"]) - game.day.minute_of_day)
     _press_accessible(game, "盡忠職守說明")
     var close: Button
@@ -636,12 +655,91 @@ func _press_accessible(node: Node, caption: String) -> void:
 func _expired_rice_reminder() -> void:
     var game = DayOne.instantiate()
     root.add_child(game)
+    _press_text(game, "略過教學")
     _expect(_label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the rice reminder is present before the opening tide")
     game.advance(75)
     _expect(game.day.minute_of_day == 615 and game.day.rice == 0, "the missed-rice path reaches its 10:15 departure tide")
     _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米") and _label_containing(game, "米船已離港"), "the expired reminder changes to the departed status")
     _press_text(game, "港口同僚")
     _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the colleague still opens the full briefing after the tide")
+    game.queue_free()
+    await process_frame
+
+
+func _onboarding_and_departure() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    _press_text(game, "下一步")
+    _press_text(game, "下一步")
+    _expect(game.onboarding_step == 2 and _label_containing(game, "存糧是儲備的米") and _button_exists(game, "略過教學"), "the final step explains the HUD and still offers skip")
+    _press_text(game, "開始值勤")
+    _expect(game.onboarding_step == -1 and game.day.minute_of_day == 540, "completing onboarding unlocks the harbour without advancing time")
+    game.assign_berth("rice", 0, true)
+    _press_accessible(game, "開封二十四號袋")
+    _expect(game.opened_crates.has(23) and game.day.minute_of_day == 545, "a last-row sack can be the first sample")
+    _press_text(game, "聽取船長陳述")
+    _expect(game.day.minute_of_day == 548 and game.detail_open and game.day.pending_case["remaining"] == 52, "the captain costs three minutes and unloading continues")
+    _press_text(game, "返回驗貨桌")
+    _press_text(game, "聽取船長陳述")
+    _expect(game.day.minute_of_day == 548, "revisiting an introduction costs nothing")
+    _press_text(game, "返回驗貨桌")
+    _press_text(game, "詢問船員")
+    _expect(game.day.minute_of_day == 553 and game.viewed.has("testimony"), "crew questions cost five minutes and uncover testimony")
+    _press_text(game, "查閱完整貨單")
+    _expect(game.day.minute_of_day == 555 and game.viewed.has("manifest"), "reading the manifest costs two minutes and uncovers the declaration")
+    _press_text(game, "返回驗貨桌")
+    game.open_manual()
+    _expect(game.day.minute_of_day == 557 and game.manual_open, "the first manual consult costs two minutes")
+    _press_text(game, "合上手冊")
+    for index in 9:
+        game.open_crate(index)
+    _expect(game.day.minute_of_day == 602 and game.day.pending_case["remaining"] == 0 and game.day.duty == 0, "unloading can finish while the ship still awaits a stamp")
+    game.choose_stamp("clear")
+    game.apply_stamp()
+    _expect(game.day.completed == 1 and game.day.duty == 8 and game.day.watch_stock == 10, "a stamp after unloading but before the tide immediately settles the trade")
+    _press_text(game, "返回港口")
+    game.advance(3)
+    _expect(game.day.minute_of_day == 605 and _label_containing(game, "金豐號已來不及卸貨"), "at 10:05 the colleague identifies the 11:00 ship that cannot unload in time")
+    _expect(not game.drop_block("porcelain", 0).is_empty() and _accessible_button(game, "請金豐號離港") != null, "an impossible berth has an explicit departure action")
+    var score: int = game.day.watch_score
+    _press_accessible(game, "請金豐號離港")
+    _expect(game.day.flags.has("porcelain_requested_departure") and not game.day.flags.has("porcelain_unhappy_departure") and game.day.watch_score == score - 1 and game.day.duty == 8, "requesting departure loses its tax and costs one point instead of two")
+    _expect(game._waiting_ship("porcelain").is_empty() and _accessible_button(game, "請金豐號離港") == null, "departing immediately frees the anchorage and removes the action")
+    game.queue_free()
+    await process_frame
+
+
+func _declaration_during_other_inspection() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    _press_text(game, "略過教學")
+    game.advance(15)
+    game.request_berth("rice", 0)
+    game.request_berth("porcelain", 1)
+    game.inspect_berth(1)
+    _expect(game.day.minute_of_day == 600 and game.day.pending_case.get("id") == "porcelain", "porcelain inspection starts while the untouched rice ship unloads")
+    _press_text(game, "聽取船長陳述")
+    _press_text(game, "返回驗貨桌")
+    _press_text(game, "查驗封印與過磅")
+    _press_text(game, "詢問船員")
+    _press_text(game, "查閱完整貨單")
+    _press_text(game, "返回驗貨桌")
+    game.open_manual()
+    _press_text(game, "合上手冊")
+    _expect(game.day.minute_of_day == 614 and game.day.ship_at_berth(0)["remaining"] == 1 and game.day.duty == 0, "rice still awaits its own deadline one minute before departure")
+    game.show_evidence(1, true)
+    _expect(game.day.minute_of_day == 616 and game.day.pending_case.get("id") == "porcelain" and game.detail_open, "a normal evidence action crosses the rice tide without closing or clearing porcelain")
+    _expect(game.day.flags.has("day_1_rice_clear") and not game.day.flags.has("rice_unhappy_departure") and game.day.ship_at_berth(0).is_empty(), "the untouched rice ship clears at its own tide even from the porcelain desk")
+    _expect(game.day.duty == 8 and game.day.watch_stock == 10 and _label_containing(game, "卸貨時發現2袋濕米"), "rice pays its own tax and incurs the wet-rice gamble rather than an unhappy departure")
+    game.restart()
+    game.request_berth("rice", 0)
+    game.request_berth("porcelain", 1)
+    game.advance(60)
+    _expect(game.day.duty == 0 and game.day.awaiting_inspection().size() == 2 and game._next_bell_minute() == 610, "cargo that finishes early awaits its own departure and the bell points to the next future event")
+    game.advance(15)
+    _expect(game.day.flags.has("day_1_rice_clear") and not game.day.flags.has("case_001_clear") and game.day.ship_at_berth(1).get("inspection_open", false), "clearing rice at its tide does not clear porcelain")
+    game.advance(45)
+    _expect(game.day.flags.has("case_001_clear") and game.day.duty == 20 and game.day.completed == 2, "the other declaration clears only at its own departure")
     game.queue_free()
     await process_frame
 
@@ -661,8 +759,12 @@ func _text_shown(node: Node, part: String) -> bool:
 
 
 func _press_text(node: Node, caption: String) -> void:
+    for button: Button in node.find_children("*", "Button", true, false):
+        if button.text == caption:
+            button.pressed.emit()
+            return
     for button in node.find_children("*", "Button", true, false):
-        if (button as Button).text == caption or _label_containing(button, caption):
+        if _label_containing(button, caption):
             (button as Button).pressed.emit()
             return
     _expect(false, "button %s exists" % caption)
