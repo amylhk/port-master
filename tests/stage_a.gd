@@ -21,8 +21,13 @@ func _run() -> void:
         return
     _expect(inspection["title"] == "The jars from Guangzhou", "main scene loads the authored inspection")
     _expect(day.manual["entries"].size() == 11, "main scene loads all authored manual entries")
-    _check_art(harbour, day)
     _expect(day.events.size() == 14, "main scene loads all authored evening events")
+    _expect(day.briefings.size() == 9 and day.current_story().get("id") == "day_01_turn_of_the_monsoon",
+        "main scene loads all briefings and shows the fixed day-1 briefing before play")
+    harbour._advance(60)
+    _expect(day.minute_of_day == int(day.scenario["start_minute"]), "the harbour clock waits for the briefing")
+    _press(harbour, "Continue")
+    _check_art(harbour, day)
 
     _expect(day.waiting.size() == 3, "morning harbour has three waiting ships")
     harbour._berth("rice", false)
@@ -41,6 +46,7 @@ func _run() -> void:
     _expect(day.completed == 3 and day.duty == 42, "cleared porcelain trades exactly on the deadline")
 
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("rice", false)
     harbour._berth("porcelain", true)
     _expect(day.minute_of_day == 585 and day.berths[0]["remaining"] == 15, "one fixed inspection cost advances the other berth")
@@ -57,6 +63,7 @@ func _run() -> void:
     harbour._rule()
     _expect(day.flags.has("case_001_major_fraud") and day.flags.has("any_ruling_amended"),
         "filing an amendment records the case and day flags")
+    _expect(day.flags.has("major_fraud_ruled"), "a supported Major Fraud ruling records the briefing source flag")
     _expect(day.recovered_duty == 0, "the weighing fee is credited only when trade completes")
     harbour._advance(60)
     _expect(day.rice == 24 and day.lost == 1 and day.duty == 38 and day.recovered_duty == 18, "correct proof recovers duty at the cost of the pepper tide")
@@ -64,22 +71,28 @@ func _run() -> void:
     _expect(day.closed() and day.waiting.is_empty() and day.berths.is_empty(), "the closing ledger follows a finite port day")
     _expect(day.flags.has("rice_target_met") and not day.flags.has("rice_target_missed"),
         "closing with enough rice records only the met flag")
-    _expect(day.evening_queue.back()["id"] == "ev_rice_market_thanks", "meeting the target queues the thanks event")
+    _expect(day.story_queue.back()["id"] == "ev_rice_market_thanks", "meeting the target queues the thanks event")
 
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("pepper", false)
     harbour._berth("porcelain", true)
     day.rule("major_fraud", "foreign_seal")
+    _expect(day.flags.has("case_001_cleared") and not day.flags.has("case_001_major_fraud")
+        and not day.flags.has("any_ruling_amended") and not day.flags.has("major_fraud_ruled"),
+        "an unsupported fraud ruling clears the case and records neither an amendment nor proven fraud")
     harbour._advance(60)
     _expect(day.rice == 0 and day.duty == 34 and day.recovered_duty == 0 and day.lost == 1, "ruling fraud with the wrong evidence recovers nothing")
 
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("porcelain", true)
     day.rule("hold", "foreign_seal")
     _expect(day.lost == 1 and day.berths.is_empty(), "an unjustified hold forfeits the porcelain sale")
     _expect(day.flags.has("case_001_hold") and day.flags.has("case_001_held"), "holds record both flag spellings")
 
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._advance(30)
     _expect(day.waiting.size() == 3 and day.lost == 1, "a full anchorage forfeits the next arrival")
     root.size = Vector2i(460, 960)
@@ -96,20 +109,23 @@ func _run() -> void:
             day.manual["entries"].size(), inspection["id"], inspection["title"], inspection["evidence"].size(),
         ])
         print("Stage A checks passed: capacity, deadlines, trade-offs, inspection registration and proof, and closing ledger.")
-        print("Evening checks passed: 14 events, matching, choice effects, and day progression.")
+        print("Story checks passed: 14 evening events, 9 morning briefings, flag rollover, and choice effects.")
     quit(1 if failures else 0)
 
 
 func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     var day = harbour.day
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("rice", false)
     harbour._advance(30)
     harbour._berth("resin", false)
     _expect(day.ruling_note == "Frankincense cleared on the declaration alone.",
         "skipping the story case names the selected cargo")
+    _expect(day.flags.has("case_004_cleared"), "clearing the story ship without inspecting records its own case")
 
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("rice", false)
     harbour._advance(30)
     harbour._berth("resin", true)
@@ -122,6 +138,8 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     day.rule("hold", "pedir_messenger")
     _expect(day.held == 1 and day.lost == previous_lost and day.berths.is_empty(),
         "the story hold resolves the ship without losing the sale or blocking a berth")
+    _expect(day.flags.has("case_004_hold") and day.flags.has("case_004_held"),
+        "a supported hold records both spellings for its own case")
     harbour._advance(420)
     _expect("Supported holds: 1" in _label_texts(harbour.content) and day.duty == 8 and day.recovered_duty == 0,
         "the ledger records the supported hold separately and credits only the rice sale")
@@ -130,6 +148,7 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
 func _test_late_inspections(harbour) -> void:
     var day = harbour.day
     harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("rice", false)
     harbour._berth("pepper", false)
     harbour._advance(120)
@@ -141,6 +160,8 @@ func _test_late_inspections(harbour) -> void:
     _expect(day.inspection_for(day.pending_case).get("id") == "case_002" and day.minute_of_day == 725,
         "the cloth trader opens the Clean case for 35 minutes")
     day.rule("clear", "piece_count")
+    _expect(day.flags.has("case_003_minor_fault") and day.flags.has("case_002_cleared"),
+        "the tin amendment and cloth clearance record different case outcomes")
     harbour._advance(60)
     _expect(day.completed == 4 and day.duty == 54 and day.recovered_duty == 1,
         "the minor fault adds one duty and the correct clear releases cloth at declared duty")
@@ -181,6 +202,7 @@ func _test_scheduled_inspections(harbour) -> void:
         _expect(loaded, "load both scheduled inspection files")
         if loaded:
             harbour._restart()
+            _press(harbour, "Continue")
             harbour._berth("plain", true)
             _expect(day.berths.is_empty(), "ships with no case cannot be inspected")
             harbour._berth("first", true)
@@ -225,6 +247,7 @@ func _test_scheduled_inspections(harbour) -> void:
 func _test_reserved_rulings(day) -> void:
     for ruling in ["clear", "hold"]:
         day.reset()
+        day.continue_story()
         var truth: Dictionary = day.inspection_for(day.ship_at_anchor(2))["hidden_truth"]
         truth["ruling_id"] = ruling
         day.berth("second", true)
@@ -236,6 +259,7 @@ func _test_reserved_rulings(day) -> void:
         else:
             _expect(day.completed == 0 and day.held == 1 and day.lost == 0 and day.duty == 0,
                 "supported hold prevents trade without loss")
+            _expect(not day.flags.has("ship_lost"), "a supported hold does not set the ship-loss flag")
 
 
 func _write_json(path: String, value: Dictionary) -> bool:
@@ -275,57 +299,71 @@ func _check_art(harbour, day) -> void:
 func _check_evenings(harbour: Control) -> void:
     var day = harbour.day
     _expect(day.flags.has("ship_lost"), "losing a ship records ship_lost")
-    _expect(day.evening_queue.is_empty(), "events are not queued before closing")
-    _expect(not day.event_matches({"day": 1, "requires": ["ship_lost", "rice_target_missed"]}),
+    _expect(day.current_story().is_empty(), "events are not shown before closing")
+    _expect(not day.story_matches({"day": 1, "requires": ["ship_lost", "rice_target_missed"]}, day.flags),
         "all required flags must be present")
-    _expect(not day.event_matches({"trigger": "day>=2"}), "day 2 trigger does not match day 1")
-    _expect(not day.event_matches({"trigger": "day>=tomorrow"}), "malformed triggers do not match")
+    _expect(not day.story_matches({"trigger": "day>=2"}, day.flags), "day 2 trigger does not match day 1")
+    _expect(not day.story_matches({"trigger": "day>=tomorrow"}, day.flags), "malformed triggers do not match")
 
     harbour._advance(600)
     _expect(day.flags.has("rice_target_missed") and not day.flags.has("rice_target_met"),
         "closing with a shortfall records only the missed flag")
-    _expect(day.event_matches({"day": 1, "requires": ["ship_lost", "rice_target_missed"]}),
+    _expect(day.story_matches({"day": 1, "requires": ["ship_lost", "rice_target_missed"]}, day.flags),
         "a fixed day matches when all flags are present")
-    _expect(day.evening_queue.size() == 2 and day.current_event().is_empty(),
+    _expect(day.story_queue.size() == 2 and day.current_story().is_empty(),
         "only matching events are queued, with the ledger shown first")
     _press(harbour, "Continue to evening")
-    _expect(day.current_event().get("id") == "ev_lost_ship_agent", "the first matching event is shown")
-    day.continue_evening()
-    day.choose_evening("missing_choice")
-    _expect(day.current_event().get("id") == "ev_lost_ship_agent" and day.evening_outcome.is_empty() and day.duty == 0,
+    _expect(day.current_story().get("id") == "ev_lost_ship_agent", "the first matching event is shown")
+    day.continue_story()
+    day.choose_story("missing_choice")
+    _expect(day.current_story().get("id") == "ev_lost_ship_agent" and day.story_outcome.is_empty() and day.duty == 0,
         "an unknown or unselected choice cannot apply effects or skip an event")
     _press(harbour, "Pay the broker to write")
-    day.choose_evening("pay_broker")
-    _expect(day.evening_outcome.get("id") == "pay_broker" and day.duty == -2 and day.reputation == 1,
+    day.choose_story("pay_broker")
+    _expect(day.story_outcome.get("id") == "pay_broker" and day.duty == -2 and day.reputation == 1,
         "the selected outcome applies its effects exactly once")
     _press(harbour, "Continue")
-    _expect(day.current_event().get("id") == "ev_rice_market_petition", "continuing shows the next match")
+    _expect(day.current_story().get("id") == "ev_rice_market_petition", "continuing shows the next match")
     _press(harbour, "Promise rice the first berth tomorrow")
     _expect(day.duty == -4 and day.supply == 2 and day.reputation == 2,
         "integer duty, supply and reputation changes accumulate")
     _press(harbour, "Continue")
-    _expect(day.current_event().is_empty(), "completing the last event returns to the ledger")
+    _expect(day.current_story().is_empty(), "completing the last event returns to the ledger")
     _press(harbour, "Begin day 2")
-    _expect(day.day_number == 2 and day.flags.is_empty() and day.evening_queue.is_empty(),
+    _expect(day.day_number == 2 and day.flags.is_empty(),
         "starting the next day clears the previous day's flags and events")
     _expect(day.duty == 0 and day.supply == 2 and day.reputation == 2,
         "supply and reputation carry forward but harbour duty resets")
-    _expect(day.event_matches({"trigger": "day>=2"}) and not day.event_matches({"day": 1}),
+    _expect(day.story_matches({"trigger": "day>=2"}, day.flags) and not day.story_matches({"day": 1}, day.flags),
         "a day-2 trigger matches and fixed day-1 events no longer match")
+    _expect(day.current_story().get("id") == "day_02_rice_before_pepper"
+        and day.briefing_flags == {"rice_short_yesterday": true, "ship_lost_yesterday": true},
+        "day 2 starts with its fixed briefing and only true previous-day flags")
+    _press(harbour, "Promise no one; take ships as the tide brings them")
+    _press(harbour, "Continue")
+    _expect(day.current_story().get("id") == "rice_short", "yesterday's rice shortage queues the granary briefing")
+    _press(harbour, "Ask the treasury to open the royal granary")
+    _expect(day.story_outcome.get("id") == "open_granary" and day.duty == -2
+        and day.supply == 10 and day.reputation == 2, "morning choices apply the authored effects")
+    _press(harbour, "Continue")
+    _expect(day.current_story().get("id") == "ship_lost", "yesterday's ship loss queues its own briefing")
+    _press(harbour, "Continue")
+    _expect(day.current_story().is_empty(), "the harbour opens after the last morning briefing")
     harbour._advance(600)
-    _expect(day.evening_queue.size() == 2 and day.evening_queue[0]["id"] == "ev_boatman_tip",
+    _expect(day.story_queue.size() == 2 and day.story_queue[0]["id"] == "ev_boatman_tip",
         "day 2 queues generic events but excludes a flag from the previous day")
 
-    harbour._restart()
     day.day_number = 1
+    harbour._restart()
+    _press(harbour, "Continue")
     harbour._berth("rice", false)
     harbour._advance(600)
     _press(harbour, "Continue to evening")
     _press(harbour, "Refuse and let the matter rest")
     _press(harbour, "Continue")
-    _expect(day.current_event().get("id") == "ev_rice_market_thanks", "the event without choices is shown")
+    _expect(day.current_story().get("id") == "ev_rice_market_thanks", "the event without choices is shown")
     _press(harbour, "Continue")
-    _expect(day.current_event().is_empty(), "an event without choices advances without applying any effects")
+    _expect(day.current_story().is_empty(), "an event without choices advances without applying any effects")
     _press(harbour, "Replay the day")
     _expect(not day.closed() and day.reputation == 2, "replaying clears the current day's evening changes")
 
