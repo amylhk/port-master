@@ -22,6 +22,8 @@ var grid_layer: Control
 var detail_layer: Control
 var detail_tex: TextureRect
 var detail_caption: Label
+var close_btn: Button
+var last_thumb_btn: Control
 
 
 func _ready() -> void:
@@ -114,11 +116,16 @@ func _build_ui() -> void:
 	detail_caption.add_theme_color_override("font_color", PARCHMENT)
 	detail_layer.add_child(detail_caption)
 
-	var close_btn := Button.new()
+	close_btn = Button.new()
 	close_btn.text = "Back to Gallery"
 	close_btn.position = Vector2(1040, 14)
 	close_btn.size = Vector2(160, 34)
-	close_btn.pressed.connect(func() -> void: detail_layer.visible = false)
+	close_btn.pressed.connect(func() -> void:
+		detail_layer.visible = false
+		grid_layer.visible = true
+		if last_thumb_btn != null:
+			last_thumb_btn.grab_focus()
+	)
 	detail_layer.add_child(close_btn)
 
 
@@ -145,9 +152,12 @@ func _add_scene_card(entry: Dictionary, rect: Rect2) -> void:
 	tex_btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 	tex_btn.custom_minimum_size = Vector2(rect.size.x - 10, rect.size.y - 54)
 	tex_btn.pressed.connect(func() -> void:
+		last_thumb_btn = tex_btn
 		detail_tex.texture = img_tex
 		detail_caption.text = "%s  —  %s" % [entry["title"], entry["sub"]]
+		grid_layer.visible = false
 		detail_layer.visible = true
+		close_btn.grab_focus()
 	)
 	vbox.add_child(tex_btn)
 
