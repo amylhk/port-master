@@ -12,6 +12,7 @@ const PAPER := Color("#f0e5ce")
 const BROWN := Color("#38291e")
 const GREEN := Color("#65be98")
 const RED := Color("#dd8773")
+const FULL_BERTHS_HINT := "兩個泊位均已佔用，請推進至下次港鐘。"
 const BERTH_POS := [Vector2(64, 265), Vector2(426, 265)]
 const ANCHOR_POS := [Vector2(120, 490), Vector2(510, 490), Vector2(900, 490)]
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
@@ -38,7 +39,7 @@ class ShipToken extends Button:
 class BerthTarget extends Panel:
     var slot: int
     var validate: Callable
-    var accept: Callable
+    var request: Callable
     var drag_state := -2
 
     func _process(_delta: float) -> void:
@@ -61,10 +62,11 @@ class BerthTarget extends Panel:
         add_theme_stylebox_override("panel", style)
 
     func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-        return data is Dictionary and data.get("kind") == "ship" and validate.call(data.get("id", ""), slot).is_empty()
+        # Receive ship releases even when docking is blocked so the request can show why.
+        return data is Dictionary and data.get("kind") == "ship" and data.get("id") is String
 
     func _drop_data(_at_position: Vector2, data: Variant) -> void:
-        accept.call(data["id"], slot)
+        request.call(data["id"], slot)
 
 var day := PortDay.new()
 var surface: Control
@@ -244,7 +246,7 @@ func _harbour_hint() -> String:
     if day.all_ships_resolved():
         return "港口已漸平靜，可以結束首次值勤。"
     if day.berths.size() == PortDay.BERTH_CAPACITY:
-        return "兩個泊位均已佔用，請推進至下次港鐘。"
+        return FULL_BERTHS_HINT
     if day.waiting.size() == PortDay.ANCHORAGE_CAPACITY and day.minute_of_day > 540:
         return _hint_text("anchorage_full", "錨地已滿，請安排等候的船隻靠泊。")
     if day.minute_of_day == 540 and day.berths.is_empty():
@@ -260,7 +262,7 @@ func _berth_target(slot: int) -> void:
     var target := BerthTarget.new()
     target.slot = slot
     target.validate = drop_block
-    target.accept = request_berth
+    target.request = request_berth
     target.position = BERTH_POS[slot]
     target.size = Vector2(310, 172)
     target.add_theme_stylebox_override("panel", _style(Color(0.04, 0.14, 0.17, 0.88), GOLD if ship.is_empty() else Color("#547a79"), 2))
@@ -316,6 +318,8 @@ func drop_block(ship_id: String, slot: int) -> String:
     if slot < 0 or slot >= PortDay.BERTH_CAPACITY:
         return "請選擇其中一個泊位。"
     if not day.ship_at_berth(slot).is_empty():
+        if day.berths.size() == PortDay.BERTH_CAPACITY:
+            return FULL_BERTHS_HINT
         return "此泊位已有船隻，請使用另一泊位。"
     var ship := _waiting_ship(ship_id)
     if ship.is_empty():
@@ -331,6 +335,7 @@ func request_berth(ship_id: String, slot: int) -> void:
         notice = block
         render()
         return
+    notice = ""
     var ship := _waiting_ship(ship_id)
     if day.inspection_for(ship).is_empty():
         assign_berth(ship_id, slot, false)
