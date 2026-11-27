@@ -3,6 +3,7 @@
   "title": "少了一匹布",
   "subtitle": "卡韋里號在錨地等候時，一名碼頭搬運工登船點算染色棉布，堅稱少了一匹。您在這艘普利卡特大帆船卸貨前登船查驗。",
   "minutes": 35,
+  "minutes_per_package": 5,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
   },

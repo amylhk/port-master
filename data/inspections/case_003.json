@@ -3,6 +3,7 @@
   "title": "較重的秤砣",
   "subtitle": "一艘來自霹靂、吃水淺的沿岸小船運錫南下。首次起貨時，磅手對申報重量有疑問。您以沙班達爾身分登船，要在午後離港潮前查明。",
   "minutes": 30,
+  "minutes_per_package": 5,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
   },

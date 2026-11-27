@@ -3,6 +3,7 @@
   "title": "坎貝來的第十五箱",
   "subtitle": "一艘來自坎貝的古吉拉特大帆船載著阿拉伯乳香進入錨地，前帆破裂，船員神色匆忙。港中一名船夫說，船長不許搬運工踏進後排貨箱背後。您登船詳細驗貨。",
   "minutes": 45,
+  "minutes_per_package": 5,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
   },
