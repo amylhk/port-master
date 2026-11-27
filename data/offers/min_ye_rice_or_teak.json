@@ -8,12 +8,14 @@
   "choices": [
     {
       "id": "buy_rice",
+      "commodity_id": "rice",
       "label": "Buy rice for the granary",
       "outcome_text": "The treasury pays the market price for the rice, and it goes straight into reserve. Min Ye makes his tide, but the yard puts off work on two hulls for want of good timber.",
       "effects": {"duty": -4, "supply": 6, "merchant_trust": 2}
     },
     {
       "id": "buy_teak",
+      "commodity_id": "timber",
       "label": "Buy teak and arrange a crew for the next tide",
       "outcome_text": "The shipwrights have the teak they need. The treasury pays the market price and hires the carriers; Min Ye stays for the promised crew, though he would rather have sailed.",
       "effects": {"duty": -7, "supply": 3, "reputation": 3, "merchant_trust": -1}

@@ -1,0 +1,14 @@
+{
+  "id": "ryukyu",
+  "origin": "Naha, Ryukyu",
+  "bloc": "china_ryukyu_champa",
+  "merchant_ids": ["matsu_of_naha"],
+  "ship_ids": ["ryukyu_white_tern"],
+  "arrival_weights": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "preferred_departure_months": [4],
+  "notes": [
+    "fact: Pires reports one to three Lequeos junks annually; Araújo dates Gores arrivals to January and exits to April (Pires I, p. 130; Cartas III, p. 9). See docs/research/monsoon-calendar.md, §6.",
+    "inference: Use Araújo's dates for a rare call, conditional on the Gores identification; do not average January at Melaka with the Commentaries' January departure from origin. See docs/research/monsoon-calendar.md, §6.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

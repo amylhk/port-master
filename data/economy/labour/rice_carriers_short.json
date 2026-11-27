@@ -1,0 +1,13 @@
+{
+  "id": "rice_carriers_short",
+  "title": "Not enough hands for both rice boats",
+  "body": "The Gresik agent has hands for one boat. The River Hen's captain can lend some of his own crew, but not until the first baskets are ashore. Until then unloading will go slowly.",
+  "day": 2,
+  "handoff": "unloading",
+  "delay_minutes": 5,
+  "notes": [
+    "fact: Pires describes merchants unloading on arrival and cargo being weighed on land (docs/research/port-labour.md §1; Pires II, pp. 255, 257, 265, 273).",
+    "inference: Ship's hands and shore labour could cover different handoffs, with two calls competing for help (docs/research/port-labour.md §§1, 4).",
+    "gameplay: This shortage and its duration are invented, not a historical crew count or wage."
+  ]
+}

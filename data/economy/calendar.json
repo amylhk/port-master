@@ -1,0 +1,20 @@
+{
+  "1": {"month": 6, "stock": {"rice": "scarce"}},
+  "2": {"month": 6, "stock": {"rice": "scarce", "cloth": "glut", "timber": "scarce"}},
+  "3": {"month": 6},
+  "4": {"month": 6, "stock": {"cloth": "glut"}},
+  "5": {"month": 9, "stock": {"nutmeg": "glut"}},
+  "6": {"month": 9},
+  "7": {"month": 10},
+  "8": {"month": 2},
+  "9": {"month": 10},
+  "10": {"month": 5},
+  "11": {"month": 7, "stock": {"rice": "scarce"}},
+  "12": {"month": 7},
+  "13": {"month": 7, "stock": {"rice": "scarce"}},
+  "14": {"month": 8},
+  "15": {"month": 8, "stock": {"rice": "scarce"}},
+  "16": {"month": 8, "stock": {"rice": "scarce"}},
+  "17": {"month": 8, "stock": {"rice": "scarce", "cloth": "scarce", "glassware": "scarce"}},
+  "18": {"month": 11, "stock": {"rice": "scarce"}}
+}

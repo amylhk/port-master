@@ -1,0 +1,14 @@
+{
+  "id": "china",
+  "origin": "South China coast",
+  "bloc": "china_ryukyu_champa",
+  "merchant_ids": ["lim_seng", "lin_wen", "ong_kuan", "tan_bo"],
+  "ship_ids": ["porcelain", "zhangzhou_evening_tide"],
+  "arrival_weights": [4, 2, 0, 1, 0, 0, 0, 0, 0, 0, 2, 4],
+  "preferred_departure_months": [5, 6, 7],
+  "notes": [
+    "fact: Pires gives late June for China-bound ships; Araújo reports an April arrival and May departure (Pires I, p. 123; Cartas III, p. 9). See docs/research/monsoon-calendar.md, §6.",
+    "inference: The baseline November–February arrivals follow Meilink-Roelofsz (p. 38). April is an alternative; the siege sightings establish presence, not an arrival month. See docs/research/monsoon-calendar.md, §6.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "weighing_tallies_late",
+  "title": "The scale is free, the clerk is not",
+  "body": "The scale is clear, but the clerk is still checking the weights against the last lot. The Banda cargo can be set down beside the beam; it cannot be entered yet.",
+  "day": 5,
+  "handoff": "weighing_records",
+  "delay_minutes": 10,
+  "notes": [
+    "fact: Pires names secretaries and receivers for goods weighed in and out of Melaka (docs/research/port-labour.md §2; Pires II, p. 274).",
+    "inference: Weighing and recording are distinct work even where one team handles both (docs/research/port-labour.md §§2, 4).",
+    "gameplay: This shortage and its duration are invented, not a historical crew count or wage."
+  ]
+}

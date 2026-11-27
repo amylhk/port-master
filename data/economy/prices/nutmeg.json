@@ -1,0 +1,16 @@
+{
+  "id": "nutmeg",
+  "name": "Nutmeg",
+  "base_index": 25,
+  "month_pct": [3, 3, 4, 5, -2, -4, -4, -4, -2, 0, 1, 2],
+  "stock_pct": {
+    "scarce": 8,
+    "normal": 0,
+    "glut": -6
+  },
+  "notes": [
+    "fact: Pires describes nutmeg sold tied to mace at seven bahars to one (docs/research/prices.md §§3, 4.2; Pires I, p. 207).",
+    "inference: The Melaka valuation is derived rather than quoted; source glut and bundling support a gentler response (docs/research/prices.md §§3, 4.2).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

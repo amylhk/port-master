@@ -13,6 +13,7 @@
     },
     {
       "id": "buy_nutmeg",
+      "commodity_id": "nutmeg",
       "label": "Buy the nutmeg for reserve stock",
       "outcome_text": "The treasury pays market price for nutmeg and fills more of the reserve. Sura can start on repairs, but must still find a buyer for his mace; the steward goes back to court empty-handed.",
       "effects": {"duty": -4, "supply": 6, "merchant_trust": 1}

@@ -7,6 +7,7 @@
   "choices": [
     {
       "id": "buy_fine_pieces",
+      "commodity_id": "cloth",
       "label": "Buy the finest pieces for the court",
       "outcome_text": "The steward has cloth fit for gifts. Jalal is paid on the spot, but the sellers say the pieces their customers wanted never reached the market.",
       "effects": {"duty": -5, "supply": 3, "reputation": -1, "merchant_trust": 2}

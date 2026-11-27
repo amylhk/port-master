@@ -1,0 +1,16 @@
+{
+  "id": "tin",
+  "name": "Tin",
+  "base_index": 100,
+  "month_pct": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "stock_pct": {
+    "scarce": 7,
+    "normal": 0,
+    "glut": -5
+  },
+  "notes": [
+    "fact: Pires describes Melaka's tin cash and exchange against calains and cruzados (docs/research/prices.md §2; Pires II, p. 275).",
+    "inference: Local and regional supply makes tin less exposed to deep-sea fleet timing than an imported luxury (docs/research/prices.md §§3, 5).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

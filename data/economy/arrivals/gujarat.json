@@ -1,0 +1,14 @@
+{
+  "id": "gujarat",
+  "origin": "Gujarat (Cambay and Diu)",
+  "bloc": "gujarati",
+  "merchant_ids": ["mariam_of_cambay", "salim_diu", "yusuf_vora"],
+  "ship_ids": ["cambay_nur", "cambay_aman", "cambay_safa"],
+  "arrival_weights": [0, 0, 0, 3, 3, 0, 0, 0, 0, 1, 0, 0],
+  "preferred_departure_months": [4, 5],
+  "notes": [
+    "fact: Pires puts the departure from Gujarat, not arrival in Melaka, in March (Pires II, pp. 269–270). See docs/research/monsoon-calendar.md, §1.",
+    "inference: April–May is an estimated arrival and quick-turnaround window; October is a low-weight alternative, not a regular second fleet. See docs/research/monsoon-calendar.md, §1.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

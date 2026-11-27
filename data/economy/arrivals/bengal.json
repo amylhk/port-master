@@ -1,0 +1,14 @@
+{
+  "id": "bengal",
+  "origin": "Bengal",
+  "bloc": "kling_bengal_pegu_pasai",
+  "merchant_ids": ["jalal_sonargaon"],
+  "ship_ids": ["bengal_dawn"],
+  "arrival_weights": [0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+  "preferred_departure_months": [8, 9],
+  "notes": [
+    "fact: Pires gives a February departure from Bengal, a month at sea, and an early August departure from Melaka; Araújo gives April in and September out (Pires I, p. 93; Cartas III, p. 10). See docs/research/monsoon-calendar.md, §2.",
+    "inference: Early March is reconstructed from Pires's travel time; the April weight preserves the alternative chronology. See docs/research/monsoon-calendar.md, §2.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

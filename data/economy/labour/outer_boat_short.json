@@ -1,0 +1,13 @@
+{
+  "id": "outer_boat_short",
+  "title": "One boat at the outer moorings",
+  "body": "The boatmen have taken the first bales off the Cambay ships. One boat has yet to come back from the landing. Cargo coming in from the outer moorings must wait for it.",
+  "day": 4,
+  "handoff": "lighterage",
+  "delay_minutes": 10,
+  "notes": [
+    "fact: Pires describes small paraos in the Straits and people selling provisions to ships at anchor (docs/research/port-labour.md §1; Pires II, pp. 256–257, 264).",
+    "inference: Small craft could transfer cargo from ships at anchor; not every ship required a lighter (docs/research/port-labour.md §1).",
+    "gameplay: This shortage and its duration are invented, not a historical crew count or wage."
+  ]
+}

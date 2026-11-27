@@ -1,0 +1,12 @@
+{
+  "id": "champa",
+  "origin": "Champa",
+  "bloc": "china_ryukyu_champa",
+  "merchant_ids": ["po_dara"],
+  "ship_ids": ["champa_river_lotus"],
+  "arrival_weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  "notes": [
+    "gameplay: The historical calendar does not establish a Champa monthly schedule; this low-weight regional call keeps the existing roster route separate from the China and Ryukyu peaks. See docs/research/monsoon-calendar.md, Routes.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

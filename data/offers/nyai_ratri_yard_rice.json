@@ -10,12 +10,14 @@
   "choices": [
     {
       "id": "buy_for_reserve",
+      "commodity_id": "rice",
       "label": "Buy the lot for the royal reserve",
       "outcome_text": "Ratri is paid the market price and the granary gets more rice. The Upeh sellers ask why rice that was already in their quarter has been carried away.",
       "effects": {"duty": -6, "supply": 7, "reputation": -2, "merchant_trust": 1}
     },
     {
       "id": "split_for_stalls",
+      "commodity_id": "rice",
       "label": "Buy half for reserve; leave the rest in Upeh",
       "outcome_text": "The treasury pays for half at the market price. Ratri sends the rest to the stallholders she had promised to supply; the royal reserve still runs thin.",
       "effects": {"duty": -3, "supply": 3, "reputation": 2, "merchant_trust": 2}

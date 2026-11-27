@@ -1,0 +1,15 @@
+{
+  "id": "iron",
+  "name": "Iron",
+  "base_index": 40,
+  "month_pct": [0, 3, 6, 6, 2, 2, 3, 4, 8, -7, -5, -2],
+  "stock_pct": {
+    "scarce": 18,
+    "normal": 0,
+    "glut": -12
+  },
+  "notes": [
+    "inference: The price rank is reconstructed; the autumn dip represents restocking on Indian routes, not a documented price or a Chinese iron supply route (docs/research/prices.md §§3–4; docs/research/monsoon-calendar.md §2).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

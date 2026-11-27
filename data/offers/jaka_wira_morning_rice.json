@@ -8,12 +8,14 @@
   "choices": [
     {
       "id": "buy_all",
+      "commodity_id": "rice",
       "label": "Buy all twenty-four for the granary",
       "outcome_text": "All twenty-four sacks go into reserve at the market price. Jaka is paid before the tide, but the stallholders who sent carriers down to the quay go home empty.",
       "effects": {"duty": -6, "supply": 8, "reputation": -2, "merchant_trust": 1}
     },
     {
       "id": "split_lot",
+      "commodity_id": "rice",
       "label": "Buy twelve and leave twelve for the stalls",
       "outcome_text": "The treasury pays for twelve sacks, and Jaka calls the stallholders' carriers over for the rest. Both the granary and the stalls have rice, but neither has much to spare.",
       "effects": {"duty": -3, "supply": 4, "reputation": 2, "merchant_trust": 1}

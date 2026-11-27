@@ -13,6 +13,7 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/history/<id>.json` | One Stage D historical event per file: departure-chain shape with optional `conditions` (array), `priority` (integer), and `merchant_id` only for merchant-centred chains |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 | `data/offers/<id>.json` | One Stage B state purchasing offer per file: `id`, `merchant_id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices` (arrays) |
+| `data/economy/` | Stage C calendar, commodity prices, labour shortages, and route-level arrivals |
 | `data/factions/<id>.json` | One Stage D faction per file: `id`, `name`, `kind`, `leader_id`, `bio` (text); `bloc` (text or null); `member_ids`, `goals`, `notes` (arrays) |
 | `data/characters/<id>.json` | One Stage D persistent character per file: Stage B merchant shape with `faction_id` and `role` in place of `bloc` and `ship_ids` |
 
@@ -185,6 +186,7 @@ Write one offer for the state/merchant panel per `data/offers/<id>.json`. The fi
 - Set exactly one of `day` (positive integer) or `trigger` (non-empty condition string, e.g. `"day>=2"`). More than one offer can share a day.
 - Optional `requires` lists named flags that must all be set, in addition to the day or trigger. The conditional offers reuse `rice_short_yesterday` and `ship_lost_yesterday` from the briefings.
 - Optional `choices` contains objects with `id` (unique within the offer), `label` (button text), `outcome_text` (shown after choosing), and `effects` (object). Effects may include any of `duty`, `supply`, `reputation`, and `merchant_trust`, as integer deltas. Omit an effect for no change; use `{}` for no effects.
+- A purchase choice with negative `effects.duty` may include a `commodity_id` from the Stage C price data. Tag the individual choice, not the offer: different choices can buy different goods. Leave choices that pass or buy an unindexed commodity untagged.
 
 **[FACT]** Pires describes merchants bidding together and dividing cargo at an agreed price (*Suma Oriental*, Cortesão ed., pp. 273–274). He describes the temenggung sitting as Customs Judge and receiving merchandise dues (pp. 265, 273); in play, dues and customs rulings are made in the temenggung's name.
 
@@ -217,6 +219,21 @@ Run `godot --headless --script tests/offers.gd` to check offer files. Sample off
   ]
 }
 ```
+
+## Stage C living economy
+
+Use one JSON object per file and a matching lower-snake-case `id` for the records under `prices/`, `labour/`, and `arrivals/`. Each record has a non-empty `notes` array. Start each note with `fact:` for attested evidence, `inference:` for reconstruction, or `gameplay:` for invented events and tuning. Cite the research section and underlying source where applicable.
+
+- **Calendar — `data/economy/calendar.json`:** The object maps campaign day numbers as strings (e.g. `"1"`) to objects with an integer `month` from 1 through 12 and optional `stock`, a map from price IDs to `"scarce"` or `"glut"`. Omitted commodities default to normal, including when the entire map is omitted. Stock bands are authored market conditions, not derived from the Stage B `supply` score or updated from trades yet. Cover the playable port days and the Stage D history through the day 17 finale and day 18 aftermath.
+- **Prices — `data/economy/prices/<id>.json`:** `name` (text), `base_index` (positive integer), `month_pct` (12 signed integer percentages, January first), and `stock_pct` (signed integer percentages keyed by `scarce`, `normal`, and `glut`; normal is zero). Add both percentages before applying them to the base: the price-to-base ratio is `(100 + month_pct[month - 1] + stock_pct[band]) / 100.0` and must remain positive. The index is a relative value, not a historical currency or a tariff.
+- **Shortages — `data/economy/labour/<id>.json`:** `title` and `body` (text), exactly one of `day` or `trigger`, optional `requires` and `conditions` (as for existing stories), `handoff`, and positive integer `delay_minutes`. The handoff is one of `lighterage`, `unloading`, `weighing_records`, and `warehouse_intake`. Apply the delay to the named step on matching days, not to all work. Optional story `choices` use integer `effects.duty`, `effects.supply`, and `effects.reputation`. Only ships that need boat transfer face a lighterage delay.
+- **Arrivals — `data/economy/arrivals/<id>.json`:** `origin` (text), `bloc` (existing roster ID, or `null` for a route outside the roster), `arrival_weights` (12 nonnegative integers, January first; zero means no autonomous call that month), and optional `preferred_departure_months` (distinct integers 1–12). Optional `merchant_ids` and `ship_ids` refer to roster records and existing `port_day.json` ships, respectively; they do not retime scripted ships. The weights and departure preferences concern autonomous traffic only and do not override intraday tide deadlines or story-controlled departures. Separate routes can share a bloc but have different calendars.
+
+For a tagged purchase, scale only its negative `effects.duty` by the price-to-base ratio: round the magnitude to the nearest integer and keep it at least 1, then restore the negative sign. Use the same cost for display, deputy decisions, and settlement. Untagged choices, customs duty and other effects are unchanged. This data is for the Stage C runtime; the current scripted port day does not load it.
+
+**gameplay:** The campaign calendar compresses time. Days 1–4 fit the opening briefings' early southwest season and Cambay calls, days 5–7 lead into Sequeira's September–October 1509 visit, and day 8 follows Araújo's February 1510 letter. Day 9 uses a representative late-1510 month for the court crisis, whose precise date is not established; day 10 is set before the July 1511 roadstead events. Days 11–13 use July, days 14–17 August, and day 18 a representative late-1511 month. These are market presets, not a claim that every scripted ship was making its normal voyage then. See [the historical timeline](research/1511-events.md) and [the monsoon reconstruction](research/monsoon-calendar.md). Stock labels tune the market for the briefings and later disruption; they are not measured inventories or a scripted Stage D rice corner.
+
+Validate with `godot --headless --script tests/economy.gd`.
 
 ## Stage D factions and persistent characters
 

@@ -1,0 +1,16 @@
+{
+  "id": "rice",
+  "name": "Rice",
+  "base_index": 5,
+  "month_pct": [8, 12, 4, -8, -10, -8, -5, -3, 0, 5, 5, 6],
+  "stock_pct": {
+    "scarce": 30,
+    "normal": 0,
+    "glut": -20
+  },
+  "notes": [
+    "fact: Pires records a separate rice volume measure and reports Pegu shipping reaching Melaka in late March and April (docs/research/prices.md §2; docs/research/monsoon-calendar.md §3; Pires I, pp. 98–99; II, pp. 277–278).",
+    "inference: Overlapping Pegu and Java supply can ease seasonality, but delays to major rice fleets leave the city exposed (docs/research/prices.md §4.2; docs/research/monsoon-calendar.md §§3, 5).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

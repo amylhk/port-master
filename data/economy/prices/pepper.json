@@ -1,0 +1,16 @@
+{
+  "id": "pepper",
+  "name": "Pepper",
+  "base_index": 140,
+  "month_pct": [3, 2, 2, 0, -2, -2, -3, -3, 0, 3, 4, 5],
+  "stock_pct": {
+    "scarce": 18,
+    "normal": 0,
+    "glut": -12
+  },
+  "notes": [
+    "fact: Pires describes use of pepper in exchange for silk and notes Sunda pepper output; neither is a Melaka unit price (docs/research/prices.md §3; Pires I, pp. 123, 169).",
+    "inference: Regional availability and buyers bound for China can both bear on valuations; the small seasonal dip is a gameplay simplification of several routes (docs/research/prices.md §§3–4; docs/research/monsoon-calendar.md §§4–6).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

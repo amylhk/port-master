@@ -1,0 +1,13 @@
+{
+  "id": "store_intake_short",
+  "title": "Sacks waiting at the godown",
+  "body": "The storekeeper has one helper at the door. The rice is ashore, but the last lots are still being counted inside. Another stack will have to wait under cover at the landing.",
+  "day": 6,
+  "handoff": "warehouse_intake",
+  "delay_minutes": 10,
+  "notes": [
+    "fact: Pires assigns warehouse allocation to the shahbandars and separately describes merchants' godowns (docs/research/port-labour.md §1; Pires II, pp. 265, 283).",
+    "inference: Daily custody and intake can be a separate constraint from unloading or warehouse allocation (docs/research/port-labour.md §§1, 4).",
+    "gameplay: This shortage and its duration are invented, not a historical crew count or wage."
+  ]
+}

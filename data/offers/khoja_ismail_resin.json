@@ -8,6 +8,7 @@
   "choices": [
     {
       "id": "buy_resin",
+      "commodity_id": "frankincense",
       "label": "Buy the whole lot for the palace stores",
       "outcome_text": "The court pays the market price, and Ismail leaves with enough coin to pay his sailmaker. The palace steward is pleased; the perfumer has to send her customers elsewhere.",
       "effects": {"duty": -5, "supply": 4, "reputation": 1, "merchant_trust": 2}
