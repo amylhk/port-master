@@ -12,10 +12,10 @@ const GREEN := Color("#65be98")
 const RED := Color("#dd8773")
 const BERTH_POS := [Vector2(64, 265), Vector2(426, 265)]
 const ANCHOR_POS := [Vector2(120, 490), Vector2(510, 490), Vector2(900, 490)]
-const METHODS := ["封印", "重量", "證詞", "貨物", "申報單"]
-const METHOD_TITLES := {"marks": "比對貨主標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱申報單"}
+const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
+const METHOD_TITLES := {"marks": "比對商號標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱貨單"}
 const STAMPS := {"clear": "放行", "minor_fault": "更正", "major_fraud": "罰款", "hold": "扣留"}
-const STAMP_CATEGORIES := {"clear": "申報無誤", "minor_fault": "輕微差錯", "major_fraud": "重大欺詐", "hold": "呈報朝廷"}
+const STAMP_CATEGORIES := {"clear": "按申報放行", "minor_fault": "輕微錯漏", "major_fraud": "重大欺詐", "hold": "扣船通報朝廷"}
 
 class ShipToken extends Button:
     var ship: Dictionary
@@ -431,7 +431,7 @@ func _desk() -> void:
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
     _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 3, 250, 110))
-    _text(manual, "港務手冊\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
+    _text(manual, "驗貨手冊\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
     _text(surface, "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"], Rect2(28, 630, 260, 66), 14, BROWN)
     _declaration(inspection)
     _findings(inspection)
@@ -441,7 +441,7 @@ func _desk() -> void:
 func _declaration(inspection: Dictionary) -> void:
     var paper := _panel(surface, Rect2(318, 161, 399, 360), PAPER)
     var declared: Dictionary = inspection["evidence"][0]
-    _text(paper, "貨物申報單", Rect2(20, 14, 359, 28), 18, BROWN)
+    _text(paper, "申報貨單", Rect2(20, 14, 359, 28), 18, BROWN)
     _text(paper, declared["title"], Rect2(20, 47, 359, 56), 24, BROWN)
     var text := str(declared["text"])
     var paragraphs := text.split("\n\n", false)
@@ -452,7 +452,7 @@ func _declaration(inspection: Dictionary) -> void:
     var inset := 112 if not portrait.is_empty() else 20
     _text(paper, copy.get("line", paragraphs[mini(1, paragraphs.size() - 1)]), Rect2(inset, 111, 379 - inset, 110), 17, BROWN)
     _button(paper, "聽取船長陳述", Rect2(20, 226, 359, 32), show_detail.bind(inspection["title"], inspection["subtitle"]))
-    _button(paper, "查閱完整申報單", Rect2(20, 266, 359, 35), show_detail.bind(declared["title"], declared["text"]))
+    _button(paper, "查閱完整貨單", Rect2(20, 266, 359, 35), show_detail.bind(declared["title"], declared["text"]))
     var press := _button(paper, "在此蓋印" if stamp.is_empty() else "蓋印：" + STAMPS[stamp], Rect2(20, 308, 359, 38), apply_stamp)
     press.disabled = stamp.is_empty() or method.is_empty() or not manual_seen
     press.tooltip_text = "請先翻閱手冊，選擇證據及判決印章。" if press.disabled else "記錄判決並返回港口。"
@@ -589,7 +589,7 @@ func open_manual() -> void:
 
 func _manual() -> void:
     var book := _modal(Rect2(170, 145, 940, 510), PAPER)
-    _text(book, "港務手冊", Rect2(28, 18, 790, 35), 25, BROWN)
+    _text(book, "驗貨手冊", Rect2(28, 18, 790, 35), 25, BROWN)
     _button(book, "合上手冊", Rect2(759, 17, 155, 36), func() -> void:
         manual_open = false
         render()
