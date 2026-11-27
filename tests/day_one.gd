@@ -325,6 +325,7 @@ func _rice_spot_check() -> void:
     game.open_crate(23)
     _expect(game.day.minute_of_day == 615 and game.day.duty == 0 and game.day.watch_stock == 12 and game.day.watch_score == before_tide - 4 and game.day.flags.has_all(["rice_unhappy_departure", "pepper_unhappy_departure"]), "the overchecked rice ship and the waiting pepper ship each leave at the tide without paying tax")
     _expect(game.day.pending_case.is_empty() and not game.feedback_open and _label_containing(game, "未能及時蓋印"), "missing the tide closes the inspection without filing")
+    _expect(_label_containing(game, "大人，爪哇米船未能及時蓋印"), "the colleague names the inspected ship and its missed stamp even if another ship missed the same tide")
     game.queue_free()
     await process_frame
 
@@ -660,6 +661,7 @@ func _expired_rice_reminder() -> void:
     game.advance(75)
     _expect(game.day.minute_of_day == 615 and game.day.rice == 0, "the missed-rice path reaches its 10:15 departure tide")
     _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米") and _label_containing(game, "米船已離港"), "the expired reminder changes to the departed status")
+    _expect(_label_containing(game, "爪哇米船已離港，未能及時靠泊") and not _label_containing(game, "未能及時蓋印"), "a ship that never berthed is not reported as having missed a stamp")
     _press_text(game, "港口同僚")
     _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the colleague still opens the full briefing after the tide")
     game.queue_free()
@@ -691,12 +693,14 @@ func _onboarding_and_departure() -> void:
     game.open_manual()
     _expect(game.day.minute_of_day == 557 and game.manual_open, "the first manual consult costs two minutes")
     _press_text(game, "合上手冊")
+    _expect(_label_containing(game, "可選擇已查驗的證據引用") and not _label_containing(game, "請先查驗"), "after opening a sack and reading the manual, the desk invites citing evidence already uncovered")
     for index in 9:
         game.open_crate(index)
     _expect(game.day.minute_of_day == 602 and game.day.pending_case["remaining"] == 0 and game.day.duty == 0, "unloading can finish while the ship still awaits a stamp")
     game.choose_stamp("clear")
     game.apply_stamp()
     _expect(game.day.completed == 1 and game.day.duty == 8 and game.day.watch_stock == 10, "a stamp after unloading but before the tide immediately settles the trade")
+    _expect(_text_shown(game, "米貨已卸妥，已按貨單放行並收稅") and not _text_shown(game, "卸貨完成後會向您報告"), "the stamp confirmation reports the completed unloading and settlement")
     _press_text(game, "返回港口")
     game.advance(3)
     _expect(game.day.minute_of_day == 605 and _label_containing(game, "金豐號已來不及卸貨"), "at 10:05 the colleague identifies the 11:00 ship that cannot unload in time")
@@ -705,6 +709,7 @@ func _onboarding_and_departure() -> void:
     _press_accessible(game, "請金豐號離港")
     _expect(game.day.flags.has("porcelain_requested_departure") and not game.day.flags.has("porcelain_unhappy_departure") and game.day.watch_score == score - 1 and game.day.duty == 8, "requesting departure loses its tax and costs one point instead of two")
     _expect(game._waiting_ship("porcelain").is_empty() and _accessible_button(game, "請金豐號離港") == null, "departing immediately frees the anchorage and removes the action")
+    _expect(_label_containing(game, "大人，已請金豐號離港。未能收稅，盡忠職守減一分。") and not _label_containing(game, "米船已離港"), "when asked to leave, the porcelain ship replaces the stale rice status on the colleague card")
     game.queue_free()
     await process_frame
 
