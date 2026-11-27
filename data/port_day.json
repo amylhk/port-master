@@ -1,0 +1,14 @@
+{
+  "briefing": "The 10:15 tide takes both the rice and pepper traders. Rice feeds the market; pepper earns more duty. The porcelain captain will sail at 11:00 and her papers may be worth a closer look.",
+  "start_minute": 540,
+  "end_minute": 1020,
+  "rice_target": 24,
+  "ships": [
+    {"id":"rice", "name":"Javanese Rice Trader", "cargo":"24 sacks of rice", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24},
+    {"id":"pepper", "name":"Indian Pepper Trader", "cargo":"Pepper", "arrival":540, "departure":615, "minutes":60, "duty":22, "rice":0},
+    {"id":"porcelain", "name":"Chinese Porcelain Trader", "cargo":"Porcelain", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001"},
+    {"id":"resin", "name":"Arabian Frankincense Trader", "cargo":"Frankincense", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0},
+    {"id":"tin", "name":"Regional Tin Trader", "cargo":"Tin", "arrival":610, "departure":840, "minutes":45, "duty":10, "rice":0},
+    {"id":"cloth", "name":"Coromandel Cloth Trader", "cargo":"Dyed cloth", "arrival":660, "departure":900, "minutes":60, "duty":13, "rice":0}
+  ]
+}
