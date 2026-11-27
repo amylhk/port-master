@@ -50,6 +50,7 @@ func _run() -> void:
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
     _expect(game.viewed == {"manifest": true}, "opened cargo and measurements are not revealed in advance")
     var stamp_buttons := 0
+    var stamp_order: Array[String] = []
     var manual_found := false
     for button in game.find_children("*", "Button", true, false):
         if button.accessibility_name == "驗貨手冊":
@@ -58,9 +59,14 @@ func _run() -> void:
                 manual_found = manual_found or label.text.begins_with("驗貨手冊\n")
         if button.tooltip_text in game.STAMPS.values():
             stamp_buttons += 1
+            stamp_order.append(button.tooltip_text)
             for label in button.find_children("*", "Label", true, false):
                 _expect(label.text == button.tooltip_text, "stamp faces and tooltips show only the plain action, never a ruling description")
     _expect(stamp_buttons == 4, "the desk offers four plain-name stamps without verdict hints")
+    var digest_order: Array[String] = []
+    for line in game.manual_pages()[-1]["lines"]:
+        digest_order.append(str(line).get_slice("：", 0))
+    _expect(stamp_order == digest_order, "the desk stamps follow the same order as the manual digest")
     _expect(manual_found, "the manual has a visible Traditional Chinese caption and accessible name")
     game.choose_stamp("major_fraud")
     game.choose_method("contents")

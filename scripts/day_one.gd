@@ -652,9 +652,12 @@ func _stamp_rack(inspection: Dictionary) -> void:
         button.tooltip_text = METHOD_TITLES[id] + ("" if viewed.has(id) else "：請先使用相應的驗貨工具")
         if method == id:
             button.add_theme_stylebox_override("normal", _style(Color("#346052"), GOLD, 2))
-    for index in inspection["rulings"].size():
-        var ruling: Dictionary = inspection["rulings"][index]
-        var id: String = ruling["id"]
+    var ordered_rulings: Array[String] = []
+    for id in STAMPS:
+        if inspection["rulings"].any(func(r: Dictionary) -> bool: return r["id"] == id):
+            ordered_rulings.append(id)
+    for index in ordered_rulings.size():
+        var id: String = ordered_rulings[index]
         var button := _button(surface, "", Rect2(334 + index * 226, 626, 214, 61), choose_stamp.bind(id))
         _style_paper_button(button)
         button.tooltip_text = STAMPS[id]
