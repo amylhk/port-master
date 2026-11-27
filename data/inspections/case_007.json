@@ -1,0 +1,83 @@
+{
+  "id": "case_007",
+  "title": "Three claims, one broken crate",
+  "subtitle": "The Nur’s factor has asked the weighers to take three crates of glass flasks out of the sale assessment. He carries a bowl of broken glass from clerk to clerk. Mariam of Cambay asks you to check the crates themselves before consigning them to her storeroom.",
+  "minutes": 45,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Nur’s declaration",
+      "text": "Nur — nau from Cambay\nGlass consignment received in Melaka by Mariam of Cambay.\n\nGlass beads: 8 bundles for sale.\nEmpty blue glass flasks: crates 1 through 6, 12 flasks per crate. Sound crates: 200 each.\n\nAmended by the ship’s factor: crates 2, 4 and 5 are all broken and contain no saleable flasks. Only crates 1, 3 and 6 are entered at the sound price. The beads are unchanged."
+    },
+    {
+      "id": "ev_tally",
+      "label": "02  First tally",
+      "title": "What can be seen on deck",
+      "text": "Weights: all six crates are aboard. Crate 2 is slightly lighter than the others. Glass and its fragments both weigh something, the weigher says; without lifting the lids he cannot say what was lost overboard or what is still whole.\n\nA corner of crate 2 is crushed. Crates 4 and 5 have no visible damage. The factor carries the bowl of shards with him when he leads the clerk from one crate to the next."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Whose shards are these?",
+      "text": "Factor: The glass broke in three crates when we set them down too hard. I took a handful from each. It is all one colour; there's no point carrying three bowls.\n\nPorter: Number two slipped while we were shifting it. The factor sent me forward before he opened anything. When I came back he wanted four and five left beside the hatch for a buyer’s boat.\n\nMariam: I’ll answer for every sound flask that comes through my door. Open the crates here, where the clerk can see them."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Lift the lids",
+      "title": "The bowl and the flasks",
+      "text": "Opened: crate 2 is full of broken glass. A piece of thick blue rim in the factor’s bowl fits a chipped neck still wedged in the straw. Crates 4 and 5 each hold twelve intact blue flasks, wrapped separately, with no loose chips among the straw. The other three crates and the eight bundles of beads agree with the declaration."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "borrowed_breakage", "label": "The shards match crate 2; crates 4 and 5 hold the sound flasks the factor meant to land without assessment."},
+    {"id": "all_broken", "label": "The bowl establishes that the glass in all three crates broke."},
+    {"id": "scales_settle", "label": "The weight of each crate proves whether its flasks are broken."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "major_fraud",
+    "reason_id": "borrowed_breakage",
+    "citation_method": "contents",
+    "feedback_by_method": {
+      "marks": "The crate numbers identify the lots, not which flasks broke. An unmarked blow can still break glass.",
+      "measurements": "Whole flasks and their fragments can weigh the same. The readings cannot show that two of the claims are false.",
+      "testimony": "The porter saw one crate dropped, but did not see inside the others. Open both disputed crates before accusing the factor.",
+      "manifest": "The factor’s amendment names the three claims. It does not prove the claims or identify where the shards came from."
+    },
+    "extra_duty": 28,
+    "success": "In the temenggung’s name, you set aside crates 4 and 5 for his judgement and refuse the factor’s false amendment. Crate 2 really did break. Mariam recounts the whole flasks with the weighers and can take the rest into storage. At settlement the office recovers 28 on the restored value of 400: 24 in entry dues and 4 in weighing fees.",
+    "clear": "The Nur is cleared at the amended value. A buyer’s boat takes sound flasks out of crates entered as broken.",
+    "unsupported": "That evidence does not support an amendment in the temenggung’s name. The false breakage claims stand, and two crates of sound glass escape assessment.",
+    "hold": "You hold the whole Nur for the court instead of bringing the suspect crates before the customs bench. The court’s men find a false valuation, not a matter of state. The bead and flask buyers leave without a sale."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Nur",
+    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "truth": {
+      "verdict": "major_fraud",
+      "summary": "The factor uses genuine damage to crate 2 to support false duty-reducing claims on two crates intended for sale. Mariam challenges the claims.",
+      "key_clues": ["ev_manifest", "ev_testimony", "ev_opened"],
+      "deduction": [
+        "The factor says he took shards from three crates and has removed all three from the sale value.",
+        "A piece from his bowl fits a broken flask in crate 2. Neither of the other crates contains shards, and both still hold their full allotment of intact flasks.",
+        "The factor set the sound crates aside for a buyer, not the rubbish heap. Restore the value of crates 4 and 5 but do not assess the genuinely broken crate as sound."
+      ],
+      "solvable_without_opening": false
+    },
+    "history_notes": [
+      {"topic": "Glassware from Cambay", "note": "Pires lists glass vessels and beads in the trade through Cambay. Packing fragile flasks with cushioning is plausible; see docs/research/commodities.md §3.13 and docs/research/seals-marks-packaging.md §4.", "confidence": "high"},
+      {"topic": "Valuation and authority", "note": "The shahbandar rules in the temenggung’s name. The per-lot valuation, damage adjustment and 6-plus-1 calculation are gameplay simplifications, not documented Gujarati assessment procedure; Pires notes Gujarati whole-ship valuation (docs/research/port-official.md §§5–6).", "confidence": "game_rule"},
+      {"topic": "The Nur and its papers", "note": "The incident and prices are invented. Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"}
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": "case_008",
+  "title": "The question at the bar",
+  "subtitle": "Idris of Pasai wants to sell his pepper and catch the evening tide. The men waiting for his cargo are repeating a story about five foreign sails. One says they were only buying pepper; another says they knew which way into Melaka before they ever saw its shore.",
+  "minutes": 45,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Swift’s declaration",
+      "text": "Swift — coastal perahu from Pasai\nNakhoda and merchant: Idris of Pasai\n\nPepper: 12 sacks, dry, for sale in Melaka. Loaded at Pasai.\n\nIdris asks to sail on the evening tide."
+    },
+    {
+      "id": "ev_tally",
+      "label": "02  First tally",
+      "title": "Pepper at the hatch",
+      "text": "Weights: all twelve sacks are present. The weighers record the net weight on the large dacing; it agrees with the shore tally from Pasai.\n\nAll the cords are dry. No other sale lot stands by the hatch."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "Who heard the question?",
+      "text": "Quay broker: The visitors must be the men from the fight off Diu. A Gujarati told me so. No, I was not in Pasai.\n\nIdris: I saw five high-sided ships off Pasai and a stone cross on shore. I was loading when one of their boatmen came up the landing with an interpreter. I heard him ask which side of the shoal the China junks pass to enter Melaka. I was called back aboard before I heard an answer.\n\nHalim, the Swift’s steersman: I stayed on the landing to pay for our last ferry load. The interpreter asked when the big junks cleared the shoal, before or after the tide turned. The foreign boatman made him ask it twice and counted the hours on his fingers. They never asked me the price of pepper."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open sacks",
+      "title": "The declared pepper",
+      "text": "Opened: the sacks nearest the gangplank and the two from the bottom tier yield dry peppercorns, with no spoilage or other goods mixed in. The rest of the cargo agrees with the tally."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "pasai_channel_questions", "label": "Two eyewitnesses heard the visitors ask for the route and tide past Melaka’s shoal. The broker’s identification is hearsay."},
+    {"id": "proven_diu_fleet", "label": "The broker’s report proves these are the same ships that fought off Diu."},
+    {"id": "pepper_only", "label": "The pepper is sound, so there is nothing else to report."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "hold",
+    "reason_id": "pasai_channel_questions",
+    "citation_method": "testimony",
+    "feedback_by_method": {
+      "marks": "The sack cords and marks cannot tell you what the visitors asked on the Pasai landing.",
+      "measurements": "The dacing confirms the cargo tally, not the visitors’ interest in Melaka’s approach.",
+      "contents": "Sound pepper rules out a spoiled or substituted lot. It says nothing about the questions asked ashore.",
+      "manifest": "The declaration puts the Swift in Pasai but does not record who came up the landing or what they asked."
+    },
+    "extra_duty": 0,
+    "success": "In the temenggung’s name, you hold the Swift at the berth while the bendahara hears Idris and Halim. You report the questions about the shoal and the tide without passing on the broker’s guess as fact. The pepper needs no amendment. The bendahara sends the two accounts to the laksamana so he can brief his lookouts.",
+    "clear": "The Swift makes the evening tide. The office keeps the pepper tally, but no one asks the steersman what he heard before he leaves.",
+    "unsupported": "The evidence does not support a customs amendment in the temenggung’s name. The pepper stands as declared and the two accounts do not reach the bendahara.",
+    "hold": "You hold the Swift without showing the court why. The clerks inspect sound pepper while the two men who heard the questions wait on deck. The sale is lost and the broker’s guess is all the court hears."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Swift",
+    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "truth": {
+      "verdict": "story_event",
+      "summary": "Idris and his steersman heard complementary questions about the navigable approach to Melaka. Their accounts warrant a report without proving the visitors’ identity or intent.",
+      "key_clues": ["ev_testimony", "ev_opened"],
+      "deduction": [
+        "The broker did not see the ships. His reference to Diu does not identify this fleet.",
+        "Idris and Halim heard the interpreter at different moments on the landing. The first question was where to pass the shoal; the second was when. Together they establish what the visitors were trying to learn.",
+        "The pepper is in order. Hold the ship to refer the firsthand accounts to the bendahara, not to amend the declaration."
+      ],
+      "solvable_without_opening": true
+    },
+    "history_notes": [
+      {"topic": "Northern Sumatran pepper", "note": "Pasai supplied pepper for regional trade (docs/research/commodities.md §3.7); bulk pepper uses the large dacing in the reference manual (docs/research/ships-weights-currency.md §2).", "confidence": "high"},
+      {"topic": "Five sails and a stone cross", "note": "The 1509 Sequeira expedition called at Pedir and Pasai and set up stone crosses; its instructions asked for intelligence on Chinese trade and ships (docs/research/1511-events.md §1, Phase I). The two witnesses and the precise questions are fictional, following the day-five briefing’s intelligence hook.", "confidence": "high"},
+      {"topic": "The Swift and the court", "note": "A supported hold is recorded as case_008_hold. The shahbandar rules in the temenggung’s name and refers the report to the bendahara (docs/research/port-official.md §§4 and 6). Written manifests, cargo seals and merchant-mark registers are gameplay inventions (docs/research/seals-marks-packaging.md §§1–3).", "confidence": "game_rule"}
+    ]
+  }
+}
