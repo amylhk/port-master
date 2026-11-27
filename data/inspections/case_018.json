@@ -1,0 +1,180 @@
+{
+  "id": "case_018",
+  "title": "A safeguard for one door",
+  "subtitle": "Utimutiraja’s timber jong comes in from the roadstead on a short berth window. A porter waves a cloth from the deck and says the Feringgi have already cleared the load.",
+  "minutes": 35,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "What each paper covers",
+      "text": "Merchant: Utimutiraja’s household in Upeh. Twelve teak planks, already entered at the Melaka landing desk for a warehouse sale. The entry says the weighing fee and present have been assessed; it gives no permission to sail.\n\nThe household’s warehouse copy gives the scope of its separate Portuguese safeguard: the cloth is for the gate of one named Upeh yard and protects the premises. The warehouse copy lists no cargo and grants no passage for ships."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Quay tally",
+      "title": "Timber and cloth",
+      "text": "Weights: Twelve planks, measured and weighed as one lot against the Melaka entry.\n\nA folded cloth hangs on a peg above the planks. It bears no lot number. There is a loop at either corner."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "The porter and the factor",
+      "text": "Porter: “They spared the godown with that cloth. I thought it meant they had passed the whole load.”\n\nHousehold factor: “It came off the gate when the post was moved. I’m taking it back when the men have put the post upright. If you want to know what it covers, read the yard copy.”"
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Opened stack",
+      "title": "Between the planks",
+      "text": "Opened: The top tier has been lifted off its wedges. More teak beneath, nothing in the gaps. The planks and their fastenings match the Melaka tally."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "separate_safeguard",
+      "label": "The Melaka entry accounts for the teak; the Portuguese safeguard covers one yard, not the cargo or the ship."
+    },
+    {
+      "id": "sound_teak",
+      "label": "The lower planks match the upper tier."
+    },
+    {
+      "id": "banner_on_deck",
+      "label": "The porter saw the cloth aboard the ship."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "clear",
+    "reason_id": "separate_safeguard",
+    "citation_method": "manifest",
+    "feedback_by_method": {
+      "marks": "The cloth’s presence aboard is not proof it applies to the ship. Check the stated scope of the safeguard against the landing entry.",
+      "measurements": "The tally supports the timber entry but does not tell you what the cloth protects.",
+      "testimony": "The porter and factor give different accounts of what the cloth means. The papers specify which premises and goods each covers.",
+      "contents": "The opened stack matches the tally. The question is whether the claimed permission covers those goods at all."
+    },
+    "extra_duty": 0,
+    "success": "In the temenggung’s name, you clear the teak for sale on the Melaka entry. You give the household back its cloth for the Upeh gate, not as a pass for the jong. The clerk makes a copy of the timber receipt before it leaves the desk.",
+    "clear": "You enter the clearance but leave the porter saying the cloth covers the load. The clerk has to explain to the next captain why an Upeh safeguard will not clear his ship.",
+    "unsupported": "You cannot use the safeguard to change an assessment it never made. The timber entry stands.",
+    "hold": "You hold the timber over the cloth. By the time the two papers are compared, the porters have gone to carry the quay books away from the river."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "North Bank Jong",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "clean",
+      "summary": "The Melaka entry accounts for the teak; the Portuguese safeguard covers one yard, not the cargo or the ship.",
+      "explanation": "The safeguard covers a yard, not a ship or a sale. The Melaka cargo entry is already correct. Clearing the sale is not permission to pass the blockade.",
+      "key_clues": [
+        "ev_manifest"
+      ],
+      "deduction": [
+        "Read the scope of the safeguard and compare it with the Melaka cargo entry.",
+        "The timber matches its own assessment, which is independent of protection for a yard.",
+        "Clear the sale without issuing a sailing pass."
+      ],
+      "solvable_without_opening": true,
+      "red_herrings": [
+        {
+          "evidence": "ev_exterior",
+          "why_not_guilt": "A banner travelling aboard the ship does not make it a ship’s pass."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "The timber clears and the clerk keeps a copy of the receipt.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 1,
+          "office_reputation": 1
+        },
+        "correct": true
+      },
+      "minor_fault": {
+        "text": "The safeguard cannot amend the timber assessment.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "major_fraud": {
+        "text": "A fraud accusation confuses two documents covering different things.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "Holding the jong loses the berth window over a protection that was never claimed on the entry.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -2,
+          "office_reputation": -1
+        },
+        "correct": false
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Javanese timber trade",
+        "note": "Northern Java supplied teak and maritime timber (docs/research/commodities.md, Timber). The North Bank Jong and its lot are invented.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Separate protection",
+        "note": "Utimutiraja sought a safeguard; such arrangements protected some houses and stores. They did not settle the merchant leader’s wider commitments (docs/research/people-factions.md, Utimutiraja; docs/research/1511-events.md, Phase IV).",
+        "confidence": "high"
+      },
+      {
+        "topic": "Quay records",
+        "note": "The second assault cuts the crossing again. The copied timber receipt echoes the invented records decision in data/history/second_assault_bridge.json.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Inspection and documents",
+        "note": "The day 15 consignment, dialogue, manifest and inspection paperwork are gameplay inventions. The player is a shahbandar ruling in the temenggung’s name.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_exterior": "inspect",
+      "ev_testimony": "inspect",
+      "ev_opened": "open"
+    },
+    "question_prerequisites": {}
+  }
+}
