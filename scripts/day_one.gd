@@ -637,11 +637,11 @@ func _closing() -> void:
     _header("首次值勤結束", "第一日  /  17:00")
     var panel := _panel(surface, Rect2(220, 173, 840, 408), DARK)
     _text(panel, _hint_text("day_end", "收港鐘聲響遍馬六甲。"), Rect2(30, 27, 780, 55), 28, GOLD, true)
-    var captions := ["完成卸貨", "稻米入港", "錯過潮汐"]
-    var values := [str(day.completed), "%d / %d" % [day.rice, day.scenario["rice_target"]], str(day.lost)]
-    for index in 3:
-        _text(panel, values[index], Rect2(40 + index * 260, 112, 240, 68), 45, INK, true)
-        _text(panel, captions[index], Rect2(40 + index * 260, 182, 240, 35), 16, GOLD, true)
+    var captions := ["完成卸貨", "稻米入港", "錯過潮汐", "扣留船隻", "稅款"]
+    var values := [str(day.completed), "%d / %d" % [day.rice, day.scenario["rice_target"]], str(day.lost), str(day.held), str(day.duty)]
+    for index in captions.size():
+        _text(panel, values[index], Rect2(30 + index * 156, 112, 150, 68), 36, INK, true)
+        _text(panel, captions[index], Rect2(30 + index * 156, 182, 150, 35), 16, GOLD, true)
     _text(panel, "已記錄 %d 次驗貨判決。%s" % [inspections_filed, "市集已有足夠稻米。" if day.rice_shortfall() == 0 else "市集仍需更多稻米。"], Rect2(30, 246, 780, 47), 21, INK, true)
     _button(panel, "重玩第一日", Rect2(260, 323, 320, 55), restart)
     _text(surface, "目前僅開放第一日，其餘日程與官署事務暫停。", Rect2(290, 615, 700, 32), 17, INK, true)
