@@ -1,0 +1,38 @@
+{
+  "id": "finale_chatu_banner",
+  "chain_id": "finale_chatu_banner",
+  "step": 1,
+  "day": 17,
+  "requires": [
+    "melaka_siege_step_5",
+    "case_002_cleared"
+  ],
+  "conditions": [
+    "faction_standing.chatu_contacts>=2"
+  ],
+  "title": "A banner at the landing",
+  "body": "Late August 1511. Portuguese safe-conduct banners hang above the Keling compounds while the Malay quarters smoulder. Nina Chatu is already speaking with Afonso de Albuquerque's officers about reopening the harbour.\n\nKannan, the bookkeeper from Chatu's brokerage, comes down to your steps with a folded slip. Chatu remembers that you cleared the Kaveri on the count and kept your word with his clerks. He offers to vouch for your landing under his banner and name you to the new commanders as a keeper of weights—or simply lock your ledgers inside his compound until you decide where you belong.",
+  "choices": [
+    {
+      "id": "accept_vouching",
+      "label": "Accept Chatu's vouching at the landing",
+      "outcome_text": "Kannan hangs a marked cloth by your door. Patrols pass the steps without breaking the locks, and word spreads that you answered Chatu's call.",
+      "effects": {
+        "duty": 2,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "store_ledgers_only",
+      "label": "Leave only the ledgers in Chatu's compound",
+      "outcome_text": "Kannan enters the chest on his own sheet and gives you a receipt. You keep your name off the conqueror's roll for now.",
+      "effects": {
+        "reputation": 2
+      }
+    }
+  ],
+  "notes": [
+    "fact: Nina Chatu aided the Portuguese captives, secured protection for Keling houses during the sack, and was appointed Bendahara and head of the Klings under Portuguese rule (docs/research/1511-events.md §1, Phases IV–V; docs/research/people-factions.md §2).",
+    "gameplay: Kannan is a fictional debt-bound bookkeeper in data/characters/kannan_bookkeeper.json; the Kaveri clearance (data/inspections/case_002.json) and Chatu's offer to the player shahbandar are invented."
+  ]
+}

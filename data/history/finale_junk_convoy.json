@@ -1,0 +1,41 @@
+{
+  "id": "finale_junk_convoy",
+  "chain_id": "finale_junk_convoy",
+  "step": 1,
+  "day": 17,
+  "merchant_id": "ong_kuan",
+  "requires": [
+    "melaka_siege_step_5",
+    "case_001_major_fraud"
+  ],
+  "conditions": [
+    "faction_standing.eastern_junk_guild>=2"
+  ],
+  "title": "Before the ebb turns",
+  "body": "Late August 1511. The Chinese junks that the sultan's court detained before the siege have obtained Albuquerque's leave to sail, carrying the Portuguese envoy Duarte Fernandes toward Siam.\n\nBefore the ebb turns, a sampan from the Kim Hong pulls in under your steps. Ong Kuan has not forgotten that your ruling on the Guangzhou jars separated Lim Seng's honest porcelain from Tan Bo's concealed nutmeg instead of condemning the whole ship. He cannot linger in a conquered roadstead, but he will carry your clerks' family chests—or a sealed copy of your berth rolls—out of the Strait.",
+  "choices": [
+    {
+      "id": "send_family_chests",
+      "label": "Put your clerks' family chests aboard the Kim Hong",
+      "outcome_text": "Ong Kuan's crew lashes the chests below the porcelain crates and pulls for the anchored junk. Whatever happens ashore, those households keep their savings.",
+      "effects": {
+        "reputation": 2,
+        "merchant_trust": 2
+      }
+    },
+    {
+      "id": "send_sealed_rolls",
+      "label": "Entrust Ong Kuan with the sealed berth rolls",
+      "outcome_text": "He stows the waxed tube in his cabin locker. If Melaka's merchants ever settle old debts up the coast, the record survives.",
+      "effects": {
+        "duty": 1,
+        "reputation": 1,
+        "merchant_trust": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Five Chinese junks detained before the siege negotiated with Albuquerque, received leave to depart, and carried Duarte Fernandes to Siam (docs/research/1511-events.md §1, Phase III; docs/research/people-factions.md §2).",
+    "gameplay: Ong Kuan, Lim Seng, Tan Bo and the Kim Hong are fictional (data/merchants/ong_kuan.json, data/inspections/case_001.json). No Chinese captain is named in the 1511 sources, and Ong Kuan speaks only for his ship, not all Chinese merchants (docs/research/people-factions.md §2)."
+  ]
+}

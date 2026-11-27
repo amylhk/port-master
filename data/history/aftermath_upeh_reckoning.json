@@ -1,0 +1,38 @@
+{
+  "id": "aftermath_upeh_reckoning",
+  "chain_id": "aftermath_upeh_reckoning",
+  "step": 1,
+  "day": 18,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.upeh_household>=2",
+    "faction_standing.chatu_contacts<2"
+  ],
+  "title": "After the scaffold in Upeh",
+  "body": "December 1511, Upeh. The safe-conduct that spared your clerks in August did not last the year. Albuquerque has had Utimutiraja and three of his kin beheaded on charges of secret letters and hoarding grain, rejecting his widow's offer of gold. Utimutiraja's widow and Patih Kadir are preparing to leave the town and strike back from outside.\n\nAt the edge of the Javanese quarter, the Upeh reception broker asks where you will go before the rice lanes close again: take passage east aboard the departing Demak and Gresik junks, or remain in Upeh to settle the remaining warehouse receipts under whoever the Portuguese appoint next.",
+  "choices": [
+    {
+      "id": "sail_east_to_java",
+      "label": "Sail east with the Javanese rice junks",
+      "outcome_text": "You step aboard before the harbour boom closes. Melaka's grain trade is breaking into warring ports, and your skills belong where the rice still loads.",
+      "effects": {
+        "supply": 2,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "settle_upeh_receipts",
+      "label": "Stay in Upeh to close the warehouse receipts",
+      "outcome_text": "You hand back each remaining tally before the lanes empty. Neither Patih Kadir's men nor the fortress watch can call your books crooked.",
+      "effects": {
+        "reputation": 2
+      }
+    }
+  ],
+  "notes": [
+    "fact: On 27 December 1511 Albuquerque executed Utimutiraja and three relatives after refusing his widow's plea; his widow and Patih Kadir left and backed armed resistance. Pires names Kadir as Upeh's successor while Birch names Regunecerage (docs/research/1511-events.md §1, Phase V; docs/research/people-factions.md §2).",
+    "gameplay: The Upeh Reception Broker (data/characters/upeh_reception_broker.json) and the player shahbandar's choices to sail east or close receipts are invented."
+  ]
+}

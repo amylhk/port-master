@@ -1,0 +1,40 @@
+{
+  "id": "aftermath_strait_passage",
+  "chain_id": "aftermath_strait_passage",
+  "step": 1,
+  "day": 18,
+  "requires": [
+    "melaka_siege_step_5"
+  ],
+  "conditions": [
+    "faction_standing.mahmuds_household<2",
+    "faction_standing.chatu_contacts<2",
+    "faction_standing.upeh_household<2"
+  ],
+  "title": "A ledger on the monsoon",
+  "body": "Late 1511, the Strait of Melaka. Neither the exiled court upriver nor the fortress-port under Albuquerque's factor has a seat left for a shahbandar without a patron. Already the single entrepôt is splitting: Gujarati cloth ships are calling at Pasai and Aceh, Malay vessels gather off Bintan, and Pegu rice captains bargain separately with the fortress.\n\nAboard a hired coaster bound up the Strait, you tie the cord around the last ledger from the old quay. The office is gone, but the weights, names and shipping seasons still follow the wind.",
+  "choices": [
+    {
+      "id": "broker_at_pasai",
+      "label": "Land at Pasai to broker for displaced western ships",
+      "outcome_text": "The Cambay and Sumatran captains know your hand on a tally. Trade has left Melaka's bar, not the Strait.",
+      "effects": {
+        "duty": 1,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "sail_for_bintan",
+      "label": "Sail toward Bintan to offer your ledgers to the refugee traders",
+      "outcome_text": "On the outer islands, families and boatmen from the old town rebuild their accounts from the names you saved.",
+      "effects": {
+        "supply": 1,
+        "reputation": 2
+      }
+    }
+  ],
+  "notes": [
+    "inference: Rather than creating a single monopoly, the 1511 conquest fragmented Melaka's entrepôt trade across Aceh, Pasai, Johor/Bintan, Patani and Java, while Pegu and Keling ships negotiated separately with Portuguese Melaka (docs/research/1511-events.md §1, Phase V).",
+    "gameplay: The shahbandar's independent departure up the Strait is an invented fallback aftermath for runs that did not secure standing with the royal household, Nina Chatu's brokerage or Utimutiraja's household."
+  ]
+}
