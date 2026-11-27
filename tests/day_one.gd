@@ -15,6 +15,9 @@ func _run() -> void:
     root.add_child(game)
     await process_frame
     _expect(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/day_one.tscn", "F5 opens the hands-on Day 1 scene")
+    var localized_title: String = ProjectSettings.get_setting("application/config/name")
+    _expect(game._title_with_system_fonts(localized_title, []) == "Gangwuzhang: Maliujia 1511 - Di Yi Ri", "a native title without CJK fonts uses romanization instead of boxes")
+    _expect(game._title_with_system_fonts(localized_title, ["res://assets/fonts/NotoSansTC.ttf"]) == localized_title, "a title font with CJK glyphs keeps the Traditional Chinese caption")
     _expect(game.day.waiting.size() == 3 and game.day.current_story().is_empty(), "the opening is playable without dismissing a briefing")
     _expect(game.find_children("*", "OptionButton", true, false).is_empty(), "no core action uses a dropdown")
     _expect(game.day.day_number == 1 and game.day.minute_of_day == 540, "Day 1 begins at 09:00")
@@ -36,12 +39,17 @@ func _run() -> void:
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
     _expect(game.viewed == {"manifest": true}, "opened cargo and measurements are not revealed in advance")
     var stamp_buttons := 0
+    var manual_found := false
     for button in game.find_children("*", "Button", true, false):
+        if button.tooltip_text == "驗貨手冊":
+            for label in button.find_children("*", "Label", true, false):
+                manual_found = manual_found or label.text.begins_with("驗貨手冊\n")
         if button.tooltip_text in game.STAMPS.values():
             stamp_buttons += 1
             for label in button.find_children("*", "Label", true, false):
                 _expect(label.text == button.tooltip_text, "stamp faces and tooltips show only the plain action, never a ruling description")
     _expect(stamp_buttons == 4, "the desk offers four plain-name stamps without verdict hints")
+    _expect(manual_found, "the reference manual uses its Traditional Chinese name on both the desk and tooltip")
     game.choose_stamp("major_fraud")
     game.choose_method("contents")
     game.apply_stamp()

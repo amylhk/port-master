@@ -2,6 +2,8 @@ extends Control
 ## The Day 1 play surface. The older campaign prototype remains in harbour.tscn.
 
 const PortDay = preload("res://scripts/port_day.gd")
+const MANUAL_TITLE := "驗貨手冊"
+const ROMANIZED_TITLE := "Gangwuzhang: Maliujia 1511 - Di Yi Ri"
 const INK := Color("#f4ead0")
 const MUTED := Color("#b9cfca")
 const GOLD := Color("#f1c774")
@@ -91,6 +93,11 @@ var last_feedback := ""
 
 
 func _ready() -> void:
+    var window_title: String = ProjectSettings.get_setting("application/config/name")
+    if OS.has_feature("linux"):
+        var font_paths := OS.get_system_font_path_for_text("sans-serif", window_title, "zh-tw")
+        window_title = _title_with_system_fonts(window_title, font_paths)
+    get_window().title = window_title
     get_window().content_scale_size = Vector2i(1280, 720)
     get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
     get_window().content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP
@@ -121,7 +128,22 @@ func _ready() -> void:
     if day.load_data():
         restart()
     else:
-        _text(self, "港口資料載入失敗，請查看 Godot 的輸出訊息。", Rect2(40, 40, 1100, 80), 24)
+        _text(self, "港口資料載入失敗，請查看主控台的錯誤訊息。", Rect2(40, 40, 1100, 80), 24)
+
+
+static func _title_with_system_fonts(title: String, paths: PackedStringArray) -> String:
+    for path in paths:
+        var font := FontFile.new()
+        if font.load_dynamic_font(path) != OK:
+            continue
+        var covers_title := true
+        for character in title:
+            if not font.has_char(character.unicode_at(0)):
+                covers_title = false
+                break
+        if covers_title:
+            return title
+    return ROMANIZED_TITLE
 
 
 func restart() -> void:
@@ -429,8 +451,9 @@ func _desk() -> void:
     _button(surface, "查驗封印與過磅", Rect2(28, 377, 260, 49), show_evidence.bind(1))
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
+    manual.tooltip_text = MANUAL_TITLE
     _image(manual, "res://assets/inspection/manual_open.png", Rect2(5, 3, 250, 110))
-    _text(manual, "驗貨手冊\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
+    _text(manual, MANUAL_TITLE + "\n按下翻閱規則", Rect2(10, 27, 240, 70), 20, BROWN, true)
     _text(surface, "驗貨已耗時 %d 分鐘。\n另一泊位的卸貨未曾中斷。" % inspection["minutes"], Rect2(28, 630, 260, 66), 14, BROWN)
     _declaration(inspection)
     _findings(inspection)
@@ -586,7 +609,7 @@ func open_manual() -> void:
 
 func _manual() -> void:
     var book := _modal(Rect2(170, 145, 940, 510), PAPER)
-    _text(book, "驗貨手冊", Rect2(28, 18, 790, 35), 25, BROWN)
+    _text(book, MANUAL_TITLE, Rect2(28, 18, 790, 35), 25, BROWN)
     _button(book, "合上手冊", Rect2(759, 17, 155, 36), func() -> void:
         manual_open = false
         render()
