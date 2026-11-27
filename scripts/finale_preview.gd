@@ -1,5 +1,5 @@
 extends Control
-## Standalone Godot 4.3 gallery preview for the Stage D finale scenes (days 16–18).
+## Standalone Godot gallery preview for the Stage D finale scenes (days 16–18).
 ## Displays the Fall (last_quay_roll) and all four Day 18 fates at 1280x720 with click-to-inspect.
 
 const DESIGN_SIZE := Vector2(1280.0, 720.0)
