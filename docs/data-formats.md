@@ -11,8 +11,10 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
 | `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 
-- **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete.
+- **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete. Optional `image` (ship sprite) and `cargo_image` (cargo icon) are full resource paths.
 - **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
+- **Port day art (optional):** `art` object in `data/port_day.json` with `backdrop` (harbour view), `banner` (screen header), `berth_marker` (berth plates) and `panel` (briefing parchment), each a full resource path.
+- **Case art (optional):** `art` object in an inspection case with `desk` (inspection screen backdrop).
 - **Evidence:** each page has `id`, `label` (short button text), `title`, and `text`. Optional `image` is the full Godot resource path. Put observations on the evidence pages and generally applicable conventions in the manual. The manifest describes what was declared, never the expected correct markings or an assessment.
 - **Choices:** `rulings` and `reasons` must each contain at least one `id` and `label` pair. The current outcome handlers reserve `clear` for clearing as declared and `hold` for stopping the sale. A hold with the correct evidence is recorded separately in the closing ledger; it earns no duty and does not count as a lost sale. Other ruling IDs attempt an amendment.
 - **Hidden truth:** `ruling_id` and `reason_id` identify the one successful combination. A successful amendment credits `extra_duty` only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
@@ -132,5 +134,7 @@ Sample deputy (illustrative and abridged; a real file also needs the `inspection
 ## Art
 
 Use Godot-importable **SVG** for vector illustrations or **PNG** for raster art, at `res://assets/inspection/<lowercase-kebab-name>.<ext>`. Set `evidence[].image` to the full path; the game fits it without stretching in the evidence panel. The shipped placeholder is `lot-seven.svg` (2:1). Keep the evidence text sufficient without the illustration. No illustration is required to run.
+
+Every art path is optional: when a path is absent or does not resolve, the game shows the ship's cargo text (harbour view) or the text alone and logs a warning. Stage A art lives under `res://assets/art/` (see `docs/art-style-guide.md` for sizes); the harbour view places ship sprites on the 1280×720 backdrop's berths and anchorage.
 
 Open/import the project in Godot to import new textures. If configuring a packaged build later, include `data/**/*.json` as non-resource files and include textures loaded through JSON paths.

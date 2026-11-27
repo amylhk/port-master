@@ -3,6 +3,9 @@
   "title": "The heavier counterweight",
   "subtitle": "A shallow-draught perahu from Perak brings tin down the coast. At the first lift, the weighers doubt the weight on her declaration. As shahbandar, you go aboard to settle it before the afternoon tide.",
   "minutes": 30,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
   "evidence": [
     {
       "id": "ev_manifest",
