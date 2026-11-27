@@ -144,6 +144,21 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     _expect("Supported holds: 1" in _label_texts(harbour.content) and day.duty == 8 and day.recovered_duty == 0,
         "the ledger records the supported hold separately and credits only the rice sale")
 
+    harbour._restart()
+    _press(harbour, "Continue")
+    harbour._berth("rice", false)
+    harbour._advance(30)
+    harbour._berth("resin", true)
+    previous_lost = day.lost
+    day.rule("hold", "calicut_reseal")
+    _expect(day.held == 0 and day.lost == previous_lost + 1 and day.flags.has("ship_lost"),
+        "a story-case hold with the wrong reason loses the ship")
+    _expect(day.flags.has("case_004_hold_unsupported") and not day.flags.has("case_004_hold")
+        and not day.flags.has("case_004_held"), "the wrong evidence does not find the Pedir messenger")
+    harbour._advance(420)
+    _expect(not day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_bendahara_summons"),
+        "an unsupported story-case hold does not trigger the bendahara summons")
+
 
 func _test_late_inspections(harbour) -> void:
     var day = harbour.day

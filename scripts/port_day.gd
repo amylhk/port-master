@@ -150,6 +150,8 @@ func rule(ruling_id: String, reason_id: String) -> void:
         else:
             _lose(ship, "Cargo held")
             ruling_note = truth["hold"]
+            if truth["ruling_id"] == "hold":
+                outcome = "hold_unsupported"
     elif ruling_id == "clear":
         ruling_note = truth["success"] if supported else truth["clear"]
     elif supported:
