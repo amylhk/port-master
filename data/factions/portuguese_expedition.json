@@ -1,0 +1,23 @@
+{
+  "id": "portuguese_expedition",
+  "name": "Portuguese expedition",
+  "kind": "expedition",
+  "bloc": null,
+  "leader_id": "afonso_de_albuquerque",
+  "member_ids": [
+    "afonso_de_albuquerque",
+    "diogo_lopes_de_sequeira",
+    "rui_de_araujo",
+    "duarte_fernandes",
+    "regimo_diraja"
+  ],
+  "goals": [
+    "Seek the release of the captives.",
+    "After the conquest, find who can carry petitions under the new authorities."
+  ],
+  "bio": "A visiting fleet, a stranded factor and a conqueror’s appointments belong to different moments. For local households, a safeguard from one Portuguese commander does not settle every demand that follows.",
+  "notes": [
+    "fact: Sequeira’s visit preceded Araújo’s captivity and Albuquerque’s 1511 expedition; Fernandes subsequently went to Siam on a Chinese junk (1511-events.md §1; Birch III, pp. 152–155)",
+    "gameplay: This is a cross-phase index of the expedition and an aftermath contact, not a claim that Sequeira served on the 1511 fleet or Regimo belonged to it (people-factions.md §§1–2)"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "naina_sura_dewana",
+  "name": "Naina Sura Dewana",
+  "faction_id": "mendeliar_contacts",
+  "role": "Leading merchant in the Annals",
+  "origin": "Melaka merchant community",
+  "bio": "Dewana wants a claim heard before it becomes a story about his loyalties. The merchant hearing his offer can distinguish the gift from what others say it meant.",
+  "traits": [
+    "Persistent",
+    "Concerned with reputation"
+  ],
+  "notes": [
+    "fact: Brown calls him a leading merchant and records a gift in the dispute, without giving him a port office or a later fate (Brown ch. XXII, pp. 161–164)",
+    "gameplay: The cargo dispute and the dialogue are invented. He is not Nina Chatu (people-factions.md §2)"
+  ]
+}

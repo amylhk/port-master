@@ -1,0 +1,17 @@
+{
+  "id": "kannan_bookkeeper",
+  "name": "Kannan",
+  "faction_id": "chatu_contacts",
+  "role": "Debt-bound bookkeeper in Nina Chatu’s brokerage",
+  "origin": "Melaka",
+  "bio": "Kannan keeps the cargo entries for Chatu’s brokerage and works under a debt agreement. He asks a fellow clerk to witness a repayment the creditor left off the account; his family’s future cannot depend on an erased line.",
+  "traits": [
+    "Meticulous",
+    "Persistent about witnesses"
+  ],
+  "notes": [
+    "fact: Melaka’s transmitted land laws distinguish a debtor’s compulsory service from automatic service by a spouse or children in the case described (Liaw §§43.8, 44.1; port-labour.md §3)",
+    "inference: Repayment could end bondage, but the sources give no particular account ledger or 1511 pay rate (port-labour.md §3; Liaw p. 41; Fujitani pp. 145–148)",
+    "gameplay: Kannan, his patron and the disputed repayment are fiction, not a staffing purchase (port-labour.md §4)"
+  ]
+}

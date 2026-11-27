@@ -1,0 +1,16 @@
+{
+  "id": "eastern_junks_shahbandar",
+  "name": "Eastern Junks Shahbandar",
+  "faction_id": "eastern_junk_guild",
+  "role": "Fictional reception official for the Chinese-facing constituency",
+  "origin": "Melaka junk anchorages",
+  "bio": "This shahbandar introduces incoming captains to warehouse keepers. The Junk Consignment Guild is one contact, not the whole jurisdiction.",
+  "traits": [
+    "Practical",
+    "Mindful of sailing windows"
+  ],
+  "notes": [
+    "fact: Pires describes a Chinese-facing shahbandar’s constituency but gives no personal name for a 1511 incumbent (Pires II, p. 265; people-factions.md §4)",
+    "gameplay: This incumbent and the dealings with Ong Kuan’s guild are fictional; the office is distinct from the player’s port-wide abstraction (people-factions.md §4; port-official.md §4)"
+  ]
+}

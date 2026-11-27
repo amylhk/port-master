@@ -1,0 +1,17 @@
+{
+  "id": "utimutiraja_widow",
+  "name": "Utimutiraja’s widow",
+  "faction_id": "upeh_household",
+  "role": "Household petitioner and patron",
+  "origin": "Upeh household; birthplace unrecorded here",
+  "bio": "She asks Kadir first to carry a plea for her family and later to act for the household. Her list of whom she blames is not a finding of guilt.",
+  "traits": [
+    "Protective of kin",
+    "Determined"
+  ],
+  "notes": [
+    "fact: In Birch she seeks clemency, buries the dead, backs reprisals and leaves the city with Kadir; the account supplies no personal name (Birch III, pp. 149–152)",
+    "inference: Pires links the revolt to Utimutiraja’s money without identifying her part; she is not securely the woman in the Sequeira escape account (Pires II, p. 282; people-factions.md §2)",
+    "gameplay: Keep her dealings distinct from her husband’s bargains, and present her allegations as hers (people-factions.md §2)"
+  ]
+}

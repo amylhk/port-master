@@ -1,0 +1,23 @@
+{
+  "id": "ahmads_circle",
+  "name": "Ahmad’s companions",
+  "kind": "court_circle",
+  "bloc": null,
+  "leader_id": "sultan_ahmad_shah",
+  "member_ids": [
+    "sultan_ahmad_shah",
+    "tun_mai_ulat_bulu",
+    "tun_ali_hati",
+    "tuam_mafamut",
+    "tuam_banda"
+  ],
+  "goals": [
+    "Arrange carriage for court requisitions before merchant bookings fill.",
+    "Find out which requests will still have the court’s backing tomorrow."
+  ],
+  "bio": "Ahmad’s companions carry his urgent requests to the river. Councillors may back the same defense without belonging to his household or sharing a trade policy.",
+  "notes": [
+    "fact: Brown names Ahmad’s companions, while Pires names the ruler’s son, Tuam Banda and Tuam Mafamut among those against peace in 1511 (Brown chs. XXII–XXIII, pp. 166–170; Pires II, p. 280)",
+    "gameplay: The councillors are affiliated contacts for this episode, not formal members of a standing war party (people-factions.md §3)"
+  ]
+}

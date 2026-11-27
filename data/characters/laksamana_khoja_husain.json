@@ -1,0 +1,17 @@
+{
+  "id": "laksamana_khoja_husain",
+  "name": "Laksamana Khoja Husain",
+  "faction_id": "mendeliar_contacts",
+  "role": "Admiral in the Annals’ purge account",
+  "origin": "Melaka court",
+  "bio": "The admiral is one of the people through whom a merchant’s allegation reaches Mahmud. Later naval dispatches need not have come from the same man.",
+  "traits": [
+    "Guarded",
+    "Close to court"
+  ],
+  "notes": [
+    "fact: Brown names Khoja Husain and records punishment and his later death; Cortesão’s note prints Khoja Hasan (Brown chs. XXII–XXIII, pp. 162–164, 171; Pires II, p. 256 n. 1)",
+    "inference: The unnamed Lingga admiral is not securely identifiable as Khoja Husain (Birch III, pp. 128–130; people-factions.md §2)",
+    "gameplay: His position here indexes the purge episode, not leadership of a commercial faction (people-factions.md §3)"
+  ]
+}

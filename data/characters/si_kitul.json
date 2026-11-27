@@ -1,0 +1,16 @@
+{
+  "id": "si_kitul",
+  "name": "Si Kitul",
+  "faction_id": "mendeliar_contacts",
+  "role": "Debtor and intermediary",
+  "origin": "Melaka",
+  "bio": "Kitul has a creditor and a story to pass on. Someone who heard the same conversation may tell it differently; the debt does not establish which account is true.",
+  "traits": [
+    "Opportunistic",
+    "Alert to leverage"
+  ],
+  "notes": [
+    "fact: Brown names Kittul in the debt and accusation chain and records his execution on Mahmud’s order (Brown ch. XXII, pp. 161–164)",
+    "gameplay: Debt as leverage over who carries a rumor is a story mechanic, not evidence that Kitul served as a debt bondsman or held a port office (people-factions.md §2; port-labour.md §3)"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "regimo_diraja",
+  "name": "Regimo Diraja",
+  "faction_id": "portuguese_expedition",
+  "role": "Post-conquest temenggung in Pires",
+  "origin": "Luzon Muslim community in Melaka",
+  "bio": "Under the new authority, petitioners from several communities can seek Regimo’s hearing. His later portfolio does not tell a trader who received them before the fall.",
+  "traits": [
+    "Works across communities",
+    "Attentive to petitions"
+  ],
+  "notes": [
+    "fact: Pires calls Regimo Tumunguo and describes his post-conquest responsibility for Luzon traders, Parsees and Malays (Pires II, p. 281)",
+    "inference: Birch’s Caciz and Regunecerage cannot be silently equated with Regimo, and his earlier office is unknown (Birch III, pp. 166–167; people-factions.md §2)",
+    "gameplay: His place in the expedition’s aftermath contacts signifies a petition route under the new regime, not expedition membership or a sultanate appointment (people-factions.md §§2, 4)"
+  ]
+}

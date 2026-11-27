@@ -1,0 +1,16 @@
+{
+  "id": "afonso_de_albuquerque",
+  "name": "Afonso de Albuquerque",
+  "faction_id": "portuguese_expedition",
+  "role": "Portuguese governor and expedition commander",
+  "origin": "Portuguese Estado da Índia",
+  "bio": "Albuquerque presses for the captives’ release. A merchant negotiating for the safety of a household may find a safeguard does not answer every later demand.",
+  "traits": [
+    "Insistent",
+    "Attentive to leverage"
+  ],
+  "notes": [
+    "fact: Albuquerque led the 1511 expedition and negotiated over the captives before the assaults on Melaka (1511-events.md §1)",
+    "gameplay: Specific safeguards for the roster and their consequences are authored scenarios unless attributed to a source (people-factions.md §§1, 3)"
+  ]
+}

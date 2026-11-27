@@ -1,0 +1,23 @@
+{
+  "id": "eastern_junk_guild",
+  "name": "Junk Consignment Guild",
+  "kind": "guild",
+  "bloc": "china_ryukyu_champa",
+  "leader_id": "ong_kuan",
+  "member_ids": [
+    "ong_kuan",
+    "lim_seng",
+    "lin_wen",
+    "eastern_junks_shahbandar"
+  ],
+  "goals": [
+    "Get crews and consignments released before the return winds.",
+    "Negotiate each carried parcel without speaking for captains outside the agreement."
+  ],
+  "bio": "The captains who share a warehouse tally can bargain together over a delay. One crew’s arrangement for a pepper consignment need not bind any other junk.",
+  "notes": [
+    "fact: Birch describes Chinese junk captains seeking leave in 1511 and asking to carry a Muslim merchant’s pepper (Birch III, pp. 98–100, 113–115)",
+    "inference: Pires’s late-June guidance is a favorable sailing window, not a hard cutoff; the 1511 siege accounts and Araújo’s letter give different timing (monsoon-calendar.md §6)",
+    "gameplay: The guild, its resident contact and the assignments to existing merchants are fictional (people-factions.md §§3–4; data/merchants)"
+  ]
+}

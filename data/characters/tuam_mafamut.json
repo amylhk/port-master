@@ -1,0 +1,16 @@
+{
+  "id": "tuam_mafamut",
+  "name": "Tuam Mafamut",
+  "faction_id": "ahmads_circle",
+  "role": "Councillor",
+  "origin": "Melaka court",
+  "bio": "When a new agreement is brought ashore, this councillor asks what the court will have to concede next. He is not the ruler whose name Pires also renders Mafamut.",
+  "traits": [
+    "Suspicious of concessions",
+    "Forceful in council"
+  ],
+  "notes": [
+    "fact: Pires has him urge action against the Portuguese in 1509 and oppose peace in 1511; Pires says he later died at Portuguese hands without elaborating (Pires II, pp. 256, 280)",
+    "gameplay: His questions and affiliations in play are invented; no port rank or merchant client is assigned (people-factions.md §§2–3)"
+  ]
+}

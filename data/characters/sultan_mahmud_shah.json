@@ -1,0 +1,17 @@
+{
+  "id": "sultan_mahmud_shah",
+  "name": "Sultan Mahmud Shah",
+  "faction_id": "mahmuds_household",
+  "role": "Sultan and royal patron",
+  "origin": "Melaka royal house",
+  "bio": "Petitions still find Mahmud after Ahmad receives the regalia. A warehouse keeper who acts on one answer may hear a different one from the other court.",
+  "traits": [
+    "Wary of powerful patrons",
+    "Protective of dynastic authority"
+  ],
+  "notes": [
+    "fact: Pires gives Mahmud the decision against Sequeira and puts him in the 1511 talks; Brown has him entrust the regalia to Ahmad before the fall and later resume rule (Pires II, pp. 254–259, 280; Brown chs. XXII–XXIII, pp. 163–171)",
+    "inference: The accounts do not settle his day-to-day authority in 1511; Birch’s reported death at Pao conflicts with Brown’s later sequence (people-factions.md §2; Birch III, pp. 143–144)",
+    "gameplay: Conflicting warehouse authorizations are invented (people-factions.md §2)"
+  ]
+}

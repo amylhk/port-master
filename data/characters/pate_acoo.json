@@ -1,0 +1,17 @@
+{
+  "id": "pate_acoo",
+  "name": "Pate Acoo",
+  "faction_id": "upeh_household",
+  "role": "Utimutiraja’s son and court contact",
+  "origin": "Upeh household",
+  "bio": "Acoo makes his own case to the court. He is not obliged to honor a safeguard his father sought, and he holds no established shahbandar appointment.",
+  "traits": [
+    "Independent of his father’s bargains",
+    "Keen to be heard"
+  ],
+  "notes": [
+    "fact: Pires names him as Utimutiraja’s son and an opponent of peace in 1511 (Pires II, p. 280)",
+    "inference: Earlier and later passages name no son in the relevant fighting and execution episodes; those references do not establish Acoo’s individual fate (Pires II, pp. 255, 257, 281; Birch III, pp. 125–127, 147–151)",
+    "gameplay: Court referrals distinct from his father’s are invented (people-factions.md §2)"
+  ]
+}

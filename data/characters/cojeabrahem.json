@@ -1,0 +1,17 @@
+{
+  "id": "cojeabrahem",
+  "name": "Cojeabrahem",
+  "faction_id": "upeh_household",
+  "role": "Petitioner for the office of Quitoal",
+  "origin": "Persian Muslim in Birch’s account",
+  "bio": "He hopes his friendship with the Upeh household and access to the fortress will help his petition. The people he brings to the fortress are disarmed.",
+  "traits": [
+    "Ambitious",
+    "Able to obtain introductions"
+  ],
+  "notes": [
+    "fact: Birch calls him Utimutiraja’s friend and has him bring the principals to the fortress, where Araújo reads the charges; no appointment is recorded in the episode (Birch III, pp. 147–152)",
+    "inference: The account does not establish advance knowledge of the arrest or a Persian merchants’ office (people-factions.md §2)",
+    "gameplay: His tone and optional petitions are invented; do not make him a knowing betrayer by default (people-factions.md §2)"
+  ]
+}

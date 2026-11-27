@@ -1,0 +1,17 @@
+{
+  "id": "tun_pikrama",
+  "name": "Tun Pikrama",
+  "faction_id": "peace_counsel",
+  "role": "Bendahara Paduka Tuan, Mutahir’s successor",
+  "origin": "Melaka court; Lubok Batu",
+  "bio": "Pikrama can hear a request meant for his predecessor, but the old promises carry no automatic weight with his household.",
+  "traits": [
+    "Deliberate",
+    "Careful about inherited promises"
+  ],
+  "notes": [
+    "fact: Brown names the successor and records his death after the retreat at Muar; the later Paduka Tuan was a different man (Brown chs. XXII–XXIII, pp. 164, 169–170; notes 549, 793)",
+    "inference: Pires’s unnamed Bendahara who counsels peace fits Brown’s succession, but the identification is not explicit (Pires II, p. 280; people-factions.md §2)",
+    "gameplay: New terms for old petitions are fictional, not a measure of his ability or loyalty (people-factions.md §2)"
+  ]
+}

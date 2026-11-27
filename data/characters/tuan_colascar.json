@@ -1,0 +1,16 @@
+{
+  "id": "tuan_colascar",
+  "name": "Tuan Colascar",
+  "faction_id": "hilir_contacts",
+  "role": "Post-conquest Hilir leader",
+  "origin": "Java; Hilir",
+  "bio": "After the conquest, petitions for Hilir can go through Colascar. Before the settlement his rank in the port is not known.",
+  "traits": [
+    "Local-minded",
+    "Careful about jurisdiction"
+  ],
+  "notes": [
+    "fact: Birch calls him Javanese and names him in the post-conquest settlement; Pires likewise assigns him Hilir (Birch III, pp. 166–167; Pires II, pp. 281–282)",
+    "gameplay: His petitions are invented and do not imply he held pre-conquest office or maintained a personal feud with Upeh (people-factions.md §§2–4)"
+  ]
+}

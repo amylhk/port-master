@@ -1,0 +1,17 @@
+{
+  "id": "raja_abdullah_kampar",
+  "name": "Raja Abdullah of Kampar",
+  "faction_id": "mahmuds_household",
+  "role": "Neighboring ruler and royal relation",
+  "origin": "Kampar",
+  "bio": "A connection to Mahmud’s family does not make Abdullah a Melaka port official. A correspondent from Kampar can carry a request that no resident patron will take.",
+  "traits": [
+    "Protective of regional authority",
+    "Selective about alliances"
+  ],
+  "notes": [
+    "fact: Pires links Abdullah to Mahmud by kin and marriage and has him later take over after Nina Chatu under Portuguese rule (Pires II, pp. 254, 280–281, 287–289)",
+    "inference: Brown’s account of removal to Goa and Portugal and the execution account cited by Cortesão should be treated as alternatives (Brown ch. XXIV, pp. 171–173; Pires II, p. 289 editorial note)",
+    "gameplay: The correspondent and port petition are invented; his membership here denotes a regional connection, not a household office (people-factions.md §2)"
+  ]
+}

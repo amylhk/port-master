@@ -1,0 +1,17 @@
+{
+  "id": "tun_hasan_temenggung",
+  "name": "Tun Hasan Temenggung",
+  "faction_id": "bendahara_household",
+  "role": "Temenggung before the purge in the Annals",
+  "origin": "Melaka court",
+  "bio": "Hasan’s people can carry an order to the watch or witness a customs proceeding. A shahbandar files dues and rulings in the temenggung’s name, not as a personal levy.",
+  "traits": [
+    "Exacting",
+    "Attentive to jurisdiction"
+  ],
+  "notes": [
+    "fact: Brown names Hasan as Mutahir’s son and temenggung; Pires assigns dues and customs judgment to the office but calls the judge the Bendahara’s brother (Brown ch. XXII, pp. 160, 163; Pires II, pp. 255–256, 273)",
+    "inference: Cortesão’s note places Hasan among the purge victims; Brown’s execution sentence does not name him (Pires II, p. 256 n. 1; Brown ch. XXII, p. 163)",
+    "gameplay: Salmah’s relationship to Hasan and the player’s port-wide remit as shahbandar are invented (port-official.md §4; port-labour.md §§2, 4)"
+  ]
+}

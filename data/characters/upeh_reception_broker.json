@@ -1,0 +1,16 @@
+{
+  "id": "upeh_reception_broker",
+  "name": "Upeh Reception Broker",
+  "faction_id": "upeh_household",
+  "role": "Fictional reception contact for Javanese and Luzon-facing traders",
+  "origin": "Upeh",
+  "bio": "A captain who cannot find a warehouse door asks this broker for an introduction. The broker can request help from Utimutiraja’s people without promising their consent.",
+  "traits": [
+    "Good at introductions",
+    "Careful about others’ promises"
+  ],
+  "notes": [
+    "fact: Pires lists a shahbandar for Javanese and Luzon-facing merchants but does not name the sultanate incumbent (Pires II, p. 265; people-factions.md §4)",
+    "gameplay: This contact and the Upeh household tie are inventions. The contact is not Kadir, Colascar or Regimo under an earlier title (people-factions.md §4)"
+  ]
+}

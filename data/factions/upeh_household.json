@@ -1,0 +1,25 @@
+{
+  "id": "upeh_household",
+  "name": "Utimutiraja’s Upeh household",
+  "kind": "household",
+  "bloc": "java_eastern_islands",
+  "leader_id": "utimutiraja",
+  "member_ids": [
+    "utimutiraja",
+    "utimutiraja_widow",
+    "pate_acoo",
+    "patih_kadir",
+    "cojeabrahem",
+    "upeh_reception_broker",
+    "jaka_wira"
+  ],
+  "goals": [
+    "Keep provisions moving without treating a safeguard as a pledge of allegiance.",
+    "Preserve the household’s contacts after its headman’s execution."
+  ],
+  "bio": "The household can find rice, carriers or someone to bring a petition. A promise from Utimutiraja does not bind his son, and his widow pursues her own course after his death.",
+  "notes": [
+    "fact: The Commentaries describes Utimutiraja seeking protection while supplying labour to the king, and his widow enlisting Kadir after the executions (Birch III, pp. 109–110, 149–152)",
+    "gameplay: Jaka and the reception broker supply fictional patron links; the household does not stand for every resident of Upeh (people-factions.md §§3–4)"
+  ]
+}

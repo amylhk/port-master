@@ -1,0 +1,17 @@
+{
+  "id": "utimutiraja",
+  "name": "Utimutiraja",
+  "faction_id": "upeh_household",
+  "role": "Upeh headman and merchant",
+  "origin": "Java; resident in Upeh",
+  "bio": "When the court wants supplies and the Portuguese offer protection, Utimutiraja makes separate bargains. His family still bears the consequences of agreements they did not all make.",
+  "traits": [
+    "Protective of household interests",
+    "Bargains on separate terms"
+  ],
+  "notes": [
+    "fact: Birch describes his household’s enslaved people, competing negotiations and the Portuguese execution of him and three relatives (Birch III, pp. 109–110, 125–131, 143–152)",
+    "inference: The seizure, supply and correspondence charges in Birch and the intrigues account in Pires do not establish a single private motive (Pires II, p. 281; people-factions.md §2)",
+    "gameplay: Specify protection, demands and supplies separately; deals do not bind his son automatically (people-factions.md §2)"
+  ]
+}

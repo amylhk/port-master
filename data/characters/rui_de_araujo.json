@@ -1,0 +1,16 @@
+{
+  "id": "rui_de_araujo",
+  "name": "Rui de Araújo",
+  "faction_id": "portuguese_expedition",
+  "role": "Portuguese factor and captive; later interpreter of charges",
+  "origin": "Portuguese trading mission in Melaka",
+  "bio": "While captive, Araújo needs intermediaries to get news and correspondence out. After the conquest he appears on the other side of the fortress audience.",
+  "traits": [
+    "Observant",
+    "Relies on trusted intermediaries"
+  ],
+  "notes": [
+    "fact: Araújo sent intelligence while captive; Birch has him read the charges when Utimutiraja and others are arrested (1511-events.md §1; Birch III, pp. 147–148)",
+    "gameplay: The routes used by repeatable courier errands are invented, not a record of his actual letter carriers (people-factions.md §§1, 4)"
+  ]
+}

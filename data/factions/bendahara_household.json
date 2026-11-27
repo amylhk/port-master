@@ -1,0 +1,24 @@
+{
+  "id": "bendahara_household",
+  "name": "Tun Mutahir’s household",
+  "kind": "household",
+  "bloc": null,
+  "leader_id": "tun_mutahir",
+  "member_ids": [
+    "tun_mutahir",
+    "tun_hasan_temenggung",
+    "tun_tahir",
+    "tun_hamzah",
+    "tun_fatimah",
+    "salmah_quay_watch"
+  ],
+  "goals": [
+    "Keep access to hearings when the merchants bring competing claims.",
+    "Find another sponsor if an official’s household can no longer protect its people."
+  ],
+  "bio": "The Bendahara’s kin can bring petitions to court; they do not all hold the same office. Salmah brings watch reports through the temenggung’s people. Dues and customs rulings are filed in the temenggung’s name.",
+  "notes": [
+    "fact: Brown distinguishes Mutahir, his son Hasan and the treasury officer Tahir; Pires describes the temenggung as Customs Judge and receiver of merchandise dues (Brown ch. XXII, pp. 160–164; Pires II, pp. 265, 273)",
+    "gameplay: Salmah’s patronage is fiction, and the player is a shahbandar whose port-wide remit is a gameplay abstraction (port-labour.md §§2, 4; port-official.md §4)"
+  ]
+}
