@@ -181,7 +181,7 @@ Sample deputy (illustrative and abridged; a real file also needs the `inspection
 Write one offer for the state/merchant panel per `data/offers/<id>.json`. The file name must match its unique `id`. Use an existing `data/merchants/` ID as `merchant_id` and name that merchant in the display text.
 
 - `id`, `merchant_id`, `title`, and `body` are non-empty text. Use `\n\n` for paragraph breaks in the body.
-- Optional `ship_id` links cargo still aboard to one of the merchant's scheduled ships. The offer expires if the ship is lost or its departure tide passes. Omit it when the cargo is already ashore.
+- Optional `ship_id` links cargo still aboard to one of the merchant's scheduled ships. The offer is unavailable if the cargo is held, the ship is lost, or its departure tide passes. Omit it when the cargo is already ashore.
 - Set exactly one of `day` (positive integer) or `trigger` (non-empty condition string, e.g. `"day>=2"`). More than one offer can share a day.
 - Optional `requires` lists named flags that must all be set, in addition to the day or trigger. The conditional offers reuse `rice_short_yesterday` and `ship_lost_yesterday` from the briefings.
 - Optional `choices` contains objects with `id` (unique within the offer), `label` (button text), `outcome_text` (shown after choosing), and `effects` (object). Effects may include any of `duty`, `supply`, `reputation`, and `merchant_trust`, as integer deltas. Omit an effect for no change; use `{}` for no effects.

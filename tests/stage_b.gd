@@ -178,12 +178,20 @@ func _swift_hold() -> void:
     day.reset()
     _finish_stories(day)
     day.advance(30)
+    _expect(_offer_ids(day).has("idris_pasai_evening_pepper"), "Idris can offer pepper before the hold")
     day.berth("gresik_banda_jong", false)
     day.berth("pasai_swift", true)
     day.rule_with_method("hold", "testimony")
     _expect(day.flags.has("case_008_hold") and day.held == 1, "Swift's supported hold is recorded")
     _expect(day.ship_at_berth(0).get("id") == "gresik_banda_jong"
         and day.ship_at_berth(1).get("held_at_berth", false), "the Swift holds only its own berth")
+    _expect(not _offer_ids(day).has("idris_pasai_evening_pepper")
+        and _offer_ids(day).has("raden_sura_mace_or_nutmeg"), "held pepper is unavailable without blocking other sellers")
+    var before_purchase := day.supply
+    day.open_offer("idris_pasai_evening_pepper")
+    day.choose_story("buy_all")
+    _expect(day.current_story().is_empty() and day.supply == before_purchase,
+        "held pepper cannot be bought by opening the unavailable offer directly")
     day.advance(20)
     _expect(day.ship_at_berth(0).is_empty() and day.ship_at_berth(1).get("id") == "pasai_swift",
         "East Wind completes trade independently and the Swift stays in place")

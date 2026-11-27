@@ -252,6 +252,7 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
         else:
             berths.erase(ship)
         if supported:
+            _offer_ship_departures.erase(ship["id"])
             held += 1
             _log("Cargo held: %s." % ship["name"])
             ruling_note = truth["success"]
