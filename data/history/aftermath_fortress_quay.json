@@ -3,6 +3,7 @@
   "chain_id": "aftermath_fortress_quay",
   "step": 1,
   "day": 18,
+  "priority": 3,
   "requires": [
     "melaka_siege_step_5"
   ],
