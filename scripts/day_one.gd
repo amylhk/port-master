@@ -147,10 +147,11 @@ class BerthTarget extends Control:
 var day := PortDay.new()
 var surface: Control
 var selected_ship := ""
-var evidence_index := 0
+var evidence_index := -1
 var evidence_page := 0
 var opened_crates := {}
 var selected_crate := 0
+var cited_sack := -1
 var viewed := {}
 var method := ""
 var stamp := ""
@@ -479,11 +480,12 @@ func inspect_berth(slot: int) -> void:
 
 
 func _reset_desk() -> void:
-    evidence_index = 0
+    evidence_index = -1
     evidence_page = 0
     opened_crates.clear()
     selected_crate = 0
-    viewed = {"manifest": true}
+    viewed.clear()
+    cited_sack = -1
     method = ""
     stamp = ""
     manual_page = 0
@@ -618,13 +620,15 @@ func _desk() -> void:
             instruction = _hint_text("open_cargo", "打開貨箱，查看內容。")
         else:
             instruction = "請逐一打開貨箱，查看各箱內容。"
-    elif method.is_empty():
-        instruction = "先選擇引用的證據，再選判決印章。"
-    elif not stamp.is_empty():
+    elif _can_file_stamp():
         instruction = "按下申報單蓋印：" + STAMPS[stamp]
+    elif not stamp.is_empty():
+        instruction = "請先查驗，再選擇要引用的證據。"
+    elif method.is_empty():
+        instruction = "請先查驗再引用證據；也可不引用證據，按申報放行。"
     else:
         instruction = _hint_text("stamp", "選擇印章，再按下申報單蓋印。")
-    if rice_spot_check and method.is_empty():
+    if rice_spot_check and stamp.is_empty():
         instruction = "每開一袋耗時五分鐘；請留意卸貨所需時間，再決定抽驗多少袋。"
     if not day.watch_rice_report.is_empty():
         instruction = day.watch_rice_report
@@ -633,7 +637,8 @@ func _desk() -> void:
     _panel(surface, Rect2(16, 151, 284, 552), PAPER)
     _text(surface, "驗貨工具", Rect2(28, 155, 260, 30), 16, BROWN)
     _cargo_crates(inspection)
-    _button(surface, "查驗封印與過磅", Rect2(28, 377, 260, 49), show_evidence.bind(1))
+    var exterior_tool := "過磅" if inspection["id"] == "case_003" else "查驗封印與過磅"
+    _button(surface, exterior_tool, Rect2(28, 377, 260, 49), show_evidence.bind(1))
     _button(surface, "詢問船員", Rect2(28, 438, 260, 49), show_evidence.bind(2))
     var manual := _button(surface, "", Rect2(28, 505, 260, 117), open_manual)
     manual.accessibility_name = MANUAL_TITLE
@@ -690,16 +695,22 @@ func _declaration(inspection: Dictionary) -> void:
     if not portrait.is_empty():
         _image(paper, "res://assets/art/portraits/%s.png" % portrait, Rect2(20, 107, 86, 103))
     var inset := 112 if not portrait.is_empty() else 20
-    _text(paper, copy.get("line", paragraphs[mini(1, paragraphs.size() - 1)]), Rect2(inset, 111, 379 - inset, 110), 17, BROWN)
+    var preview: String = copy.get("line", "請查閱完整貨單，核對船方申報。")
+    if viewed.has("manifest"):
+        preview = copy.get("line", paragraphs[mini(1, paragraphs.size() - 1)])
+    _text(paper, preview, Rect2(inset, 111, 379 - inset, 110), 17, BROWN)
     _button(paper, "聽取船長陳述", Rect2(20, 226, 359, 32), show_detail.bind(inspection["title"], inspection["subtitle"]))
-    _button(paper, "查閱完整貨單", Rect2(20, 266, 359, 35), show_detail.bind(declared["title"], declared["text"]))
+    _button(paper, "查閱完整貨單", Rect2(20, 266, 359, 35), show_evidence.bind(0, true))
     var press := _button(paper, "在此蓋印" if stamp.is_empty() else "蓋印：" + STAMPS[stamp], Rect2(20, 308, 359, 38), apply_stamp)
-    press.disabled = stamp.is_empty() or method.is_empty() or not manual_seen
-    press.tooltip_text = "請先翻閱手冊，選擇證據及判決印章。" if press.disabled else "記錄判決並返回港口。"
+    press.disabled = not _can_file_stamp()
+    press.tooltip_text = "請先翻閱手冊，選擇印章；如需引用，請先查驗證據。" if press.disabled else "記錄判決並返回港口。"
 
 
 func _findings(inspection: Dictionary) -> void:
     var panel := _panel(surface, Rect2(740, 161, 512, 360), PAPER)
+    if evidence_index < 0:
+        _text(panel, "尚未查驗", Rect2(18, 12, 476, 50), 22, BROWN)
+        return
     if evidence_index == 3:
         _crate_findings(panel, inspection)
         return
@@ -708,8 +719,8 @@ func _findings(inspection: Dictionary) -> void:
     var evidence_text := str(evidence["text"])
     var paragraphs := evidence_text.split("\n\n", false)
     evidence_page = clampi(evidence_page, 0, paragraphs.size() - 1)
-    var short_line: String = short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
-    var has_art: bool = evidence.has("image") and (evidence_page == 0 or not short_line.is_empty())
+    var short_line := _short_evidence(inspection, evidence)
+    var has_art := _has_evidence_art(evidence) and (evidence_page == 0 or not short_line.is_empty())
     if has_art:
         _image(panel, evidence["image"], Rect2(17, 65, 478, 135))
     _reading(panel, short_line if not short_line.is_empty() else paragraphs[evidence_page], Rect2(18, 205 if has_art else 74, 476, 96 if has_art else 227), BROWN, 18)
@@ -718,7 +729,7 @@ func _findings(inspection: Dictionary) -> void:
         _text(panel, "%d / %d" % [evidence_page + 1, paragraphs.size()], Rect2(90, 312, 320, 34), 16, BROWN, true)
         _button(panel, ">", Rect2(439, 312, 55, 34), _evidence_turn.bind(1)).disabled = evidence_page == paragraphs.size() - 1
     else:
-        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_detail.bind(evidence["title"], evidence_text))
+        _button(panel, "查看完整證據", Rect2(18, 312, 476, 34), show_evidence.bind(evidence_index, true))
 
 
 func _crate_findings(panel: Control, inspection: Dictionary) -> void:
@@ -779,18 +790,33 @@ func open_crate(index: int) -> void:
     render()
 
 
-func show_evidence(index: int) -> void:
+func _short_evidence(inspection: Dictionary, evidence: Dictionary) -> String:
+    return short_copy.get("cases", {}).get(inspection["id"], {}).get("evidence", {}).get(evidence["id"], "")
+
+
+func _has_evidence_art(evidence: Dictionary) -> bool:
+    return evidence.has("image") and ResourceLoader.exists(evidence["image"], "Texture2D")
+
+
+func show_evidence(index: int, full := false) -> void:
     if day.pending_case.is_empty() or manual_open or detail_open or index < 0 or index > 2:
         return
+    var inspection := day.inspection_for(day.pending_case)
+    var evidence: Dictionary = inspection["evidence"][index]
     evidence_index = index
     evidence_page = 0
     match evidence_index:
         0: viewed["manifest"] = true
         1:
-            viewed["marks"] = true
             viewed["measurements"] = true
+            var shows_seal_plate: bool = inspection["id"] == "case_001" and _has_evidence_art(evidence)
+            if inspection["id"] != "case_003" and (full or shows_seal_plate or _short_evidence(inspection, evidence).is_empty()):
+                viewed["marks"] = true
         2: viewed["testimony"] = true
-    render()
+    if full:
+        show_detail(evidence["title"], evidence["text"])
+    else:
+        render()
 
 
 func _evidence_turn(direction: int) -> void:
@@ -823,13 +849,19 @@ func _detail() -> void:
 
 func _stamp_rack(inspection: Dictionary) -> void:
     _panel(surface, Rect2(318, 535, 934, 168), DARK)
-    _text(surface, "引用已核實的證據", Rect2(334, 542, 400, 26), 14, GOLD)
+    var citation_caption := "引用已核實的證據"
+    if cited_sack >= 0:
+        citation_caption += "  ／  已引用：%s" % inspection["sacks"][cited_sack]["label"]
+    _text(surface, citation_caption, Rect2(334, 542, 400, 26), 14, GOLD)
     for index in PortDay.CITATION_METHODS.size():
         var id: String = PortDay.CITATION_METHODS[index]["id"]
         var button := _button(surface, METHODS[index], Rect2(334 + index * 181, 574, 170, 35), choose_method.bind(id))
-        button.disabled = not viewed.has(id)
-        button.tooltip_text = METHOD_TITLES[id] + ("" if viewed.has(id) else "：請先使用相應的驗貨工具")
-        if method == id:
+        button.disabled = not _can_cite(id, selected_crate)
+        button.tooltip_text = METHOD_TITLES[id] if not button.disabled else "尚未查驗"
+        if id == "contents" and day.is_rice_spot_check(day.pending_case) and opened_crates.has(selected_crate):
+            button.tooltip_text = "引用%s的貨物查驗結果" % inspection["sacks"][selected_crate]["label"]
+        if _citation_selected(id, _citation_sack(id)):
+            button.tooltip_text = "取消引用"
             button.add_theme_stylebox_override("normal", _style(Color("#346052"), GOLD, 2))
     var ordered_rulings: Array[String] = []
     for id in STAMPS:
@@ -849,9 +881,27 @@ func _stamp_rack(inspection: Dictionary) -> void:
         _text(button, STAMPS[id], Rect2(108, 4, 100, 52) if has_face else Rect2(6, 4, 202, 52), 24, BROWN, true)
 
 
+func _can_cite(id: String, sack: int) -> bool:
+    return viewed.has(id) and (id != "contents" or not day.is_rice_spot_check(day.pending_case) or opened_crates.has(sack))
+
+
+func _citation_sack(id: String) -> int:
+    return selected_crate if id == "contents" and day.is_rice_spot_check(day.pending_case) else -1
+
+
+func _citation_selected(id: String, sack: int) -> bool:
+    return method == id and cited_sack == sack
+
+
 func choose_method(id: String) -> void:
-    if viewed.has(id) and not manual_open and not detail_open:
-        method = id
+    if not day.pending_case.is_empty() and _can_cite(id, selected_crate) and not manual_open and not detail_open:
+        var sack := _citation_sack(id)
+        if _citation_selected(id, sack):
+            cited_sack = -1
+            method = ""
+        else:
+            cited_sack = sack
+            method = id
         render()
 
 
@@ -861,18 +911,24 @@ func choose_stamp(id: String) -> void:
         render()
 
 
+func _can_file_stamp() -> bool:
+    return not stamp.is_empty() and manual_seen and (stamp == "clear" if method.is_empty() else _can_cite(method, cited_sack))
+
+
 func apply_stamp() -> void:
-    if day.pending_case.is_empty() or stamp.is_empty() or method.is_empty() or not viewed.has(method) or not manual_seen or manual_open or detail_open:
+    if day.pending_case.is_empty() or not _can_file_stamp() or manual_open or detail_open:
         return
     var inspection := day.inspection_for(day.pending_case)
     var truth: Dictionary = inspection.get("hidden_truth", {})
     var rice_spot_check := day.is_rice_spot_check(day.pending_case)
     var ruling_matches: bool = stamp == truth.get("ruling_id")
     var evidence_matches: bool = not rice_spot_check and method in day._citation_methods(truth)
-    day.rule_with_method(stamp, method)
+    day.rule_with_method(stamp, method, cited_sack)
     # The model's legacy diagnostic scaffolding is English; the played desk is not.
     last_feedback = day.ruling_note if rice_spot_check or (ruling_matches and evidence_matches) else day.ruling_note.split("\n\n")[0]
-    if not rice_spot_check and not (ruling_matches and evidence_matches):
+    if not rice_spot_check and method.is_empty():
+        last_feedback = "已按申報放行，未引用驗貨證據。"
+    elif not rice_spot_check and not (ruling_matches and evidence_matches):
         var diagnosis := "判決與引用的證據均不正確。"
         if ruling_matches:
             diagnosis = "判決正確，但引用的證據不足以支持。"

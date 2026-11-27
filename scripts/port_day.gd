@@ -305,14 +305,12 @@ func open_rice_sack(index: int) -> void:
     _advance_clock(int(inspection["minutes_per_sack"]))
 
 
-func _rule_rice(ruling_id: String, cites_contents: bool) -> void:
+func _rule_rice(ruling_id: String, cited_sack: int) -> void:
     var ship := pending_case
     var inspection := inspection_for(ship)
     var sacks: Array = inspection["sacks"]
-    var supported := false
-    if cites_contents:
-        for index in ship.get("opened_sacks", {}):
-            supported = supported or sacks[index].get("wet", false)
+    var opened: Dictionary = ship.get("opened_sacks", {})
+    var supported: bool = opened.has(cited_sack) and sacks[cited_sack].get("wet", false)
     pending_case = {}
     flags[ship["inspection_case"] + "_inspected"] = true
     var outcome := "clear"
@@ -338,17 +336,22 @@ func rule(ruling_id: String, reason_id: String) -> void:
     if pending_case.is_empty() or ruling_id.is_empty() or reason_id.is_empty():
         return
     if is_rice_spot_check(pending_case):
-        _rule_rice(ruling_id, reason_id == "wet_rice")
+        if ruling_id == "clear":
+            _rule_rice(ruling_id, -1)
         return
     var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
     _resolve_ruling(ruling_id, reason_id == truth["reason_id"], "")
 
 
-func rule_with_method(ruling_id: String, method_id: String) -> void:
-    if pending_case.is_empty() or ruling_id.is_empty() or method_id.is_empty():
+func rule_with_method(ruling_id: String, method_id: String, cited_sack := -1) -> void:
+    if pending_case.is_empty() or ruling_id.is_empty():
+        return
+    if method_id.is_empty() and not (_watch_active() and ruling_id == "clear"):
         return
     if is_rice_spot_check(pending_case):
-        _rule_rice(ruling_id, method_id == "contents")
+        if method_id == "contents" and not pending_case.get("opened_sacks", {}).has(cited_sack):
+            return
+        _rule_rice(ruling_id, cited_sack if method_id == "contents" else -1)
         return
     var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
     _resolve_ruling(ruling_id, method_id in _citation_methods(truth), method_id)
