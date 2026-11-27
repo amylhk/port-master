@@ -1,16 +1,16 @@
 {
   "id": "ev_lost_ship_agent",
-  "title": "The broker of a lost ship",
+  "title": "離港船隻的掮客",
   "day": 1,
   "requires": [
     "ship_lost"
   ],
-  "body": "A broker who works for the foreign captains visits you after dark. One of the ships that waited at anchor today gave up on a berth and sailed with her cargo still aboard. Her captain, he says, will tell every port between here and Pasai that Melaka keeps its berths for favourites.\n\nHe offers to write to the captain’s owners with the shahbandar’s apology, for a fee.",
+  "body": "天黑後，一名替外地船長辦事的掮客來訪。今天有艘船在錨地等不到泊位，最後載著原貨開走了。他說，那位船長會在沿途直到巴賽的各個港口宣稱，馬六甲只把泊位留給熟人。\n\n掮客提出代寫一封信，向船主轉達沙班達爾的歉意，但要收費。",
   "choices": [
     {
       "id": "pay_broker",
-      "label": "Pay the broker to write",
-      "outcome_text": "You pay from the office’s funds. The letter will travel faster than the rumour, the broker promises. You hope he is right.",
+      "label": "付費請掮客寫信",
+      "outcome_text": "您從港務署的款項中支付費用。掮客保證，信會比傳聞更快抵達。您但願他說得對。",
       "effects": {
         "duty": -2,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "refuse_broker",
-      "label": "Refuse and let the matter rest",
-      "outcome_text": "You send him away. Ships come and go; this one went. Somewhere up the coast, a captain is telling his story his own way.",
+      "label": "拒絕掮客，讓此事作罷",
+      "outcome_text": "您打發他離開。船隻向來有來有往，這艘只是走了；沿岸某處，那位船長正用自己的說法講述此事。",
       "effects": {
         "duty": 0,
         "supply": 0,

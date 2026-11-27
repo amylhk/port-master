@@ -1,16 +1,16 @@
 {
   "id": "ev_two_dacing_petition",
-  "title": "The weighers’ petition",
+  "title": "磅手請願",
   "day": 1,
   "requires": [
     "case_003_minor_fault"
   ],
-  "body": "The head weigher comes to your house with two of his men. Since the Arus, they say, every Perak boatman swears his tally was taken on the large dacing, and every buyer swears it was the small. They ask that the shahbandar order every declaration of tin to name the scale beside the number.\n\nWeights and measures are yours to keep in order. A new rule will slow tomorrow’s lifts.",
+  "body": "磅手首領帶著兩個人登門。自從阿魯斯號一事，霹靂船夫都說秤量記錄用的是大桿秤，買家卻都說用的是小桿秤。磅手請沙班達爾下令，日後申報錫貨時，重量旁必須寫明所用磅秤。\n\n維持度量衡的秩序是您的職責；新規定會拖慢明天的卸貨。",
   "choices": [
     {
       "id": "order_scale",
-      "label": "Order the scale named on every tin declaration",
-      "outcome_text": "You give the order. Tomorrow’s tin boats grumble at the wharf while their factors rewrite their declarations, but the weighers stop arguing at the second lift.",
+      "label": "下令每份錫貨申報須列明磅秤",
+      "outcome_text": "您下了命令。明天霹靂船家會在碼頭抱怨，代理人則忙著重寫申報文書；到了第二次秤量，磅手便不再爭論。",
       "effects": {
         "duty": 1,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "leave_custom",
-      "label": "Leave it to the weighers’ judgement",
-      "outcome_text": "You trust the weighers to ask when in doubt. They leave unconvinced. The next disputed load will be settled the slow way, on deck.",
+      "label": "由磅手自行判斷",
+      "outcome_text": "您讓磅手遇有疑問自行查問。他們離去時仍不信服；下次有爭議，還得在甲板上慢慢核實。",
       "effects": {
         "duty": 0,
         "supply": 0,

@@ -1,10 +1,10 @@
 [
-  {"id": "first_ship", "text": "Drag a waiting ship onto a free berth."},
-  {"id": "berth_free", "text": "Drag the next ship to the open berth."},
-  {"id": "tide_warning", "text": "Berth ships before their tide, leaving time to unload."},
-  {"id": "anchorage_full", "text": "Make room before the next ship arrives."},
-  {"id": "open_cargo", "text": "Open the cargo and look inside."},
-  {"id": "check_manual", "text": "Check what you found against the manual."},
-  {"id": "stamp", "text": "Stamp the cargo with your ruling."},
-  {"id": "day_end", "text": "Review your tally at the closing bell."}
+  {"id": "first_ship", "text": "拖曳等候船隻至空泊位。"},
+  {"id": "berth_free", "text": "拖曳下一艘船至空泊位。"},
+  {"id": "tide_warning", "text": "趕在離港潮前靠泊卸貨。"},
+  {"id": "anchorage_full", "text": "下一艘船抵達前騰出錨地。"},
+  {"id": "open_cargo", "text": "打開貨箱，查看內容。"},
+  {"id": "check_manual", "text": "查閱驗貨手冊，核對所見。"},
+  {"id": "stamp", "text": "選擇裁決，蓋章確認。"},
+  {"id": "day_end", "text": "收港後查看當日結算。"}
 ]

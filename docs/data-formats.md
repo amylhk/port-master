@@ -33,9 +33,11 @@ Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAcces
 
 ## Day 1 display copy
 
-- **Action hints:** use an imperative `text` of fewer than 10 words for each ID: `first_ship`, `berth_free`, `tide_warning`, `anchorage_full`, `open_cargo`, `check_manual`, `stamp`, and `day_end`.
-- **Short lines:** give each entry a one-sentence `line` of at most 15 words. The `briefings` keys are the Day 1 briefing ID and `port_day` for the top-level scenario briefing. Key `ships` by the IDs in the top-level `ships` array. Key `cases` by those ships’ `inspection_case` IDs and `events` by the IDs of events with `day: 1`. Briefings, cases, and events may include `speaker_id` when `res://assets/art/portraits/<speaker_id>.png` exists; omit it for narration.
-- **Inspection and event entries:** each case has an `evidence` object keyed by evidence page ID (at most 12 words per summary) and a `rulings` object keyed by ruling ID (at most 5 words per label). Each event has a `choices` object keyed by choice ID (at most 5 words per label); use `{}` for an event with no choices.
+Write Day 1 display copy in standard written Traditional Chinese. Character limits include spaces, punctuation, and digits. Use the [Traditional Chinese glossary](glossary_zh.md) for names, units, and UI terms.
+
+- **Action hints:** use an imperative `text` of at most 14 characters for each ID: `first_ship`, `berth_free`, `tide_warning`, `anchorage_full`, `open_cargo`, `check_manual`, `stamp`, and `day_end`.
+- **Short lines:** give each entry a one-sentence `line` of at most 30 characters. The `briefings` keys are the Day 1 briefing ID and `port_day` for the top-level scenario briefing. Key `ships` by the IDs in the top-level `ships` array. Key `cases` by those ships’ `inspection_case` IDs and `events` by the IDs of events with `day: 1`. Briefings, cases, and events may include `speaker_id` when `res://assets/art/portraits/<speaker_id>.png` exists; omit it for narration.
+- **Inspection and event entries:** each case has an `evidence` object keyed by evidence page ID (at most 24 characters per summary) and a `rulings` object keyed by ruling ID (at most 8 characters per label). Each event has a `choices` object keyed by choice ID (at most 8 characters per label); use `{}` for an event with no choices.
 
 Keep full text available on click from the original data. Show evidence summaries only after the associated evidence is examined; preserve the counts and weights needed for comparisons without stating the correct ruling. Neither file replaces the original rules, timing, outcomes, or history. Validate with `godot --headless --script tests/day1_text.gd`.
 

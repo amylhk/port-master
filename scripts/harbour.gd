@@ -322,8 +322,8 @@ func _render_inspection() -> void:
     else:
         var clue: Dictionary = evidence[evidence_index]
         if clue["id"] in ["ev_exterior", "ev_tally", "ev_opened"]:
-            var heading := "Opened:" if clue["id"] == "ev_opened" else "Weights:"
-            recorded_measurements[clue["id"]] = _finding_excerpt(clue["text"], heading)
+            var headings := ["Opened:", "開箱："] if clue["id"] == "ev_opened" else ["Weights:", "重量："]
+            recorded_measurements[clue["id"]] = _finding_excerpt(clue["text"], headings)
         var spread := HBoxContainer.new()
         spread.add_theme_constant_override("separation", 12)
         reading.add_child(spread)
@@ -363,11 +363,13 @@ func _render_inspection() -> void:
     _set_disabled_reason(submit, hint, _ruling_block())
 
 
-func _finding_excerpt(text: String, heading: String) -> String:
+func _finding_excerpt(text: String, headings: Array) -> String:
     var readings := PackedStringArray()
     for paragraph in text.split("\n\n", false):
-        if paragraph.begins_with(heading):
-            readings.append(paragraph)
+        for heading in headings:
+            if paragraph.begins_with(heading):
+                readings.append(paragraph)
+                break
     return text if readings.is_empty() else "\n\n".join(readings)
 
 

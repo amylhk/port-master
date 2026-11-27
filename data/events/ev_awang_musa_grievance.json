@@ -1,16 +1,16 @@
 {
   "id": "ev_awang_musa_grievance",
-  "title": "A grievance from Perak",
+  "title": "霹靂船長的申訴",
   "day": 1,
   "requires": [
     "case_003_hold"
   ],
-  "body": "Awang Musa’s nakhoda comes ashore angry. His tin sat a whole tide under guard, and the court’s men found nothing but a factor who wrote the wrong unit. The Perak boats are small and run on thin margins; he says some will try the Pasai market instead if Melaka holds them for a clerk’s mistake.",
+  "body": "阿旺穆薩的船長氣沖沖地上岸。他的錫貨在看守下耽誤了一個潮汐，朝廷的人只查出代理人寫錯了單位。霹靂的船小，利潤微薄；他說，若馬六甲為了書記的失誤扣船，有些船便會改往巴賽交易。",
   "choices": [
     {
       "id": "smooth_over",
-      "label": "Promise his next boat an early berth",
-      "outcome_text": "You promise the Arus’s next voyage a berth on arrival. The nakhoda leaves calmer, and the tin keeps coming down the coast.",
+      "label": "答應下趟優先靠泊",
+      "outcome_text": "您答應阿魯斯號下趟一到港便可靠泊。船長怒氣稍平，錫貨仍會沿岸運來。",
       "effects": {
         "duty": 0,
         "supply": 1,
@@ -19,8 +19,8 @@
     },
     {
       "id": "dismiss",
-      "label": "Tell him to fix his factor’s papers",
-      "outcome_text": "You tell him a correct declaration would have saved the tide. He does not argue, but you hear later that two Perak boats turned north for Pasai.",
+      "label": "要求代理人更正文書",
+      "outcome_text": "您告訴他，申報若寫得正確，便不會錯過潮水。他沒有爭辯，但您後來聽說，有兩艘霹靂船北上去了巴賽。",
       "effects": {
         "duty": 0,
         "supply": -1,

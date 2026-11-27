@@ -1,16 +1,16 @@
 {
-  "briefing": "Shahbandar, the 10:15 tide takes both the rice and pepper traders. Rice feeds the market; pepper earns more duty. The porcelain captain will sail at 11:00 and her papers may be worth a closer look. File any customs ruling in the temenggung’s name.",
+  "briefing": "大人，米船與胡椒船都趕10:15的離港潮。米供應市場，胡椒的稅款較高。金豐號於11:00離港，貨單值得細查。請以天猛公的名義作出海關裁決。",
   "start_minute": 540,
   "end_minute": 1020,
   "rice_target": 24,
   "art": {"backdrop":"res://assets/art/harbour/harbour_backdrop.png", "banner":"res://assets/art/ui/banner_header.png", "berth_marker":"res://assets/art/harbour/berth_marker.png", "panel":"res://assets/art/ui/panel_parchment.png"},
   "ships": [
-    {"id":"rice", "name":"Javanese Rice Trader", "cargo":"24 sacks of rice", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24, "image":"res://assets/art/ships/ship_javanese_jong.png", "cargo_image":"res://assets/art/cargo/cargo_rice.png"},
-    {"id":"pepper", "name":"Indian Pepper Trader", "cargo":"Pepper", "arrival":540, "departure":615, "minutes":60, "duty":14, "rice":0, "image":"res://assets/art/ships/ship_indian_merchant.png", "cargo_image":"res://assets/art/cargo/cargo_pepper.png"},
-    {"id":"porcelain", "name":"Kim Hong", "cargo":"Porcelain", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001", "image":"res://assets/art/ships/ship_chinese_junk.png", "cargo_image":"res://assets/art/cargo/cargo_porcelain.png"},
-    {"id":"resin", "name":"Salamat", "cargo":"Frankincense", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0, "inspection_case":"case_004", "image":"res://assets/art/ships/ship_arabian_dhow.png", "cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},
-    {"id":"tin", "name":"Arus", "cargo":"Tin", "arrival":610, "departure":840, "minutes":45, "duty":10, "rice":0, "inspection_case":"case_003", "image":"res://assets/art/ships/ship_regional_perahu.png", "cargo_image":"res://assets/art/cargo/cargo_tin.png"},
-    {"id":"cloth", "name":"Kaveri", "cargo":"Dyed cloth", "arrival":660, "departure":900, "minutes":60, "duty":13, "rice":0, "inspection_case":"case_002", "image":"res://assets/art/ships/ship_coromandel_cloth.png", "cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
+    {"id":"rice", "name":"爪哇米船", "cargo":"24袋米", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24, "image":"res://assets/art/ships/ship_javanese_jong.png", "cargo_image":"res://assets/art/cargo/cargo_rice.png"},
+    {"id":"pepper", "name":"印度胡椒船", "cargo":"胡椒", "arrival":540, "departure":615, "minutes":60, "duty":14, "rice":0, "image":"res://assets/art/ships/ship_indian_merchant.png", "cargo_image":"res://assets/art/cargo/cargo_pepper.png"},
+    {"id":"porcelain", "name":"金豐號", "cargo":"瓷器", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001", "image":"res://assets/art/ships/ship_chinese_junk.png", "cargo_image":"res://assets/art/cargo/cargo_porcelain.png"},
+    {"id":"resin", "name":"薩拉馬特號", "cargo":"乳香", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0, "inspection_case":"case_004", "image":"res://assets/art/ships/ship_arabian_dhow.png", "cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},
+    {"id":"tin", "name":"阿魯斯號", "cargo":"錫", "arrival":610, "departure":840, "minutes":45, "duty":10, "rice":0, "inspection_case":"case_003", "image":"res://assets/art/ships/ship_regional_perahu.png", "cargo_image":"res://assets/art/cargo/cargo_tin.png"},
+    {"id":"cloth", "name":"卡韋里號", "cargo":"染色布", "arrival":660, "departure":900, "minutes":60, "duty":13, "rice":0, "inspection_case":"case_002", "image":"res://assets/art/ships/ship_coromandel_cloth.png", "cargo_image":"res://assets/art/cargo/cargo_cloth.png"}
   ],
   "following_days": [
     {"rice_target":24, "ships":[

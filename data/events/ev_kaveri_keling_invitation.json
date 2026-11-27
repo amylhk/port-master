@@ -1,17 +1,17 @@
 {
   "id": "ev_kaveri_keling_invitation",
-  "title": "An invitation from the Keling quarter",
+  "title": "吉靈街區的邀請",
   "day": 1,
   "requires": [
     "case_002_cleared",
     "case_002_inspected"
   ],
-  "body": "A boy brings word from Sri Rangan’s house in the Keling quarter: the Kaveri’s cloth is selling, and the merchants of Pulicat would be honoured if the shahbandar ate with them tonight. They have heard that you cut the cords yourself rather than trust the porter’s tally or the owner’s seal.\n\nThe Keling merchants are many and rich in Melaka. They are also not your merchants alone.",
+  "body": "一名男孩從吉靈街區的斯里蘭甘家捎來口信：卡韋里號的棉布已在出售，普利卡特的商人想請沙班達爾今晚一起用膳。他們聽說，您親手剪開繩結查驗，沒有只憑搬運工的點算或貨主的封印下判斷。\n\n馬六甲的吉靈商人既多且富，但您負責的並不只有他們。",
   "choices": [
     {
       "id": "attend",
-      "label": "Eat with the Pulicat merchants",
-      "outcome_text": "Over rice and curried fish, Sri Rangan’s agent speaks freely. Cloth ships from Coromandel are crowded this season, and two nau left Pulicat with half their bales unsold. He would like his next ship berthed early; you promise only to count fairly.",
+      "label": "與普利卡特商人共進晚餐",
+      "outcome_text": "席上有米飯和咖喱魚，斯里蘭甘的代理人打開了話匣子。這一季從科羅曼德爾來的布船擠得很，有兩艘大帆船離開普利卡特時，還有半數布包未售。他想讓下一艘船及早靠泊；您只答應秉公點算。",
       "effects": {
         "duty": 0,
         "supply": 0,
@@ -20,8 +20,8 @@
     },
     {
       "id": "decline",
-      "label": "Send thanks and stay home",
-      "outcome_text": "You send a gift of betel and your regrets. The merchants take no offence, but the talk at their table tonight goes on without you.",
+      "label": "致謝婉拒，留在家中",
+      "outcome_text": "您送上檳榔致謝，並轉達歉意。商人並不介意，只是今晚席上的話，您便聽不見了。",
       "effects": {
         "duty": 0,
         "supply": 0,
