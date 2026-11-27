@@ -321,6 +321,23 @@ func _duty_score() -> void:
         game.choose_stamp(stamp)
         game.apply_stamp()
         _expect(game.day.watch_score == before - 4 and game.day.flags.has("cloth_unhappy_departure") and game.day.berths.is_empty() and game.day.duty == 0, "a wrongful %s costs stamp and departure points and forfeits an honest ship's tax" % stamp)
+    for stamp in ["major_fraud", "hold"]:
+        game.restart()
+        game.assign_berth("rice", 0, false)
+        game.assign_berth("pepper", 1, false)
+        game.advance(70)
+        game.assign_berth("tin", 0, true)
+        var before: int = game.day.watch_score
+        var duty_before: int = game.day.duty
+        game.manual_seen = true
+        game.show_evidence(2)
+        game.choose_method("testimony")
+        game.choose_stamp(stamp)
+        game.apply_stamp()
+        _expect(game.day.watch_score == before - 4 and game.day.flags.has("tin_unhappy_departure") and game.day.berths.is_empty(), "the tin ship's honest declaration error does not justify %s" % stamp)
+        _press_text(game, "返回港口")
+        game.advance(45)
+        _expect(game.day.duty == duty_before, "the wrongfully sanctioned tin ship never unloads and pays no tax")
     game.queue_free()
     await process_frame
 

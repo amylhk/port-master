@@ -369,12 +369,16 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     var truth: Dictionary = inspection["hidden_truth"]
     var ruling_matches: bool = ruling_id == truth["ruling_id"]
     var supported := ruling_matches and evidence_matches
+    var wronged_honest_merchant: bool = _watch_active() and not supported and (
+        (truth["ruling_id"] == "clear" and ruling_id != "clear")
+        or (truth["ruling_id"] == "minor_fault" and ruling_id in ["major_fraud", "hold"])
+    )
     if _watch_active():
         if supported:
             watch_score += WATCH_CORRECT_STAMP
             if ruling_id in ["major_fraud", "hold"]:
                 watch_score += WATCH_CAUGHT_CARGO
-        elif truth["ruling_id"] == "clear" and ruling_id != "clear":
+        elif wronged_honest_merchant:
             watch_score -= WATCH_WRONG_STAMP
     var outcome := ruling_id
     if ruling_id == "hold":
@@ -403,7 +407,7 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     else:
         ruling_note = truth["unsupported"]
         outcome = "clear"
-        if _watch_active() and truth["ruling_id"] == "clear" and ruling_id == "major_fraud":
+        if wronged_honest_merchant and ruling_id == "major_fraud":
             berths.erase(ship)
             _lose(ship, "Wrongful fine")
             ruling_note += "\n商人不滿罰款，已離港，港口未能收稅。"
