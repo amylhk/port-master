@@ -89,7 +89,7 @@ func _run() -> void:
     harbour._berth("porcelain", true)
     day.rule("hold", "foreign_seal")
     _expect(day.lost == 1 and day.berths.is_empty(), "an unjustified hold forfeits the porcelain sale")
-    _expect(day.flags.has("case_001_hold") and day.flags.has("case_001_held"), "holds record both flag spellings")
+    _expect(day.flags.has("case_001_hold"), "a hold on a non-hold case records the canonical hold flag")
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -138,11 +138,12 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     day.rule("hold", "pedir_messenger")
     _expect(day.held == 1 and day.lost == previous_lost and day.berths.is_empty(),
         "the story hold resolves the ship without losing the sale or blocking a berth")
-    _expect(day.flags.has("case_004_hold") and day.flags.has("case_004_held"),
-        "a supported hold records both spellings for its own case")
+    _expect(day.flags.has("case_004_hold"), "a supported hold records the canonical hold flag for its own case")
     harbour._advance(420)
     _expect("Supported holds: 1" in _label_texts(harbour.content) and day.duty == 8 and day.recovered_duty == 0,
         "the ledger records the supported hold separately and credits only the rice sale")
+    _expect(day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_bendahara_summons"),
+        "a supported story-case hold triggers the bendahara summons")
 
     harbour._restart()
     _press(harbour, "Continue")
@@ -153,8 +154,8 @@ func _test_story_inspection(harbour, scroll: ScrollContainer) -> void:
     day.rule("hold", "calicut_reseal")
     _expect(day.held == 0 and day.lost == previous_lost + 1 and day.flags.has("ship_lost"),
         "a story-case hold with the wrong reason loses the ship")
-    _expect(day.flags.has("case_004_hold_unsupported") and not day.flags.has("case_004_hold")
-        and not day.flags.has("case_004_held"), "the wrong evidence does not find the Pedir messenger")
+    _expect(day.flags.has("case_004_hold_unsupported") and not day.flags.has("case_004_hold"),
+        "the wrong evidence does not find the Pedir messenger")
     harbour._advance(420)
     _expect(not day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_bendahara_summons"),
         "an unsupported story-case hold does not trigger the bendahara summons")

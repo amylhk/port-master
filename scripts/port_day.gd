@@ -170,11 +170,8 @@ func rule(ruling_id: String, reason_id: String) -> void:
 func _record_ruling(ship: Dictionary, ruling_id: String) -> void:
     var case_id: String = ship["inspection_case"]
     flags["%s_%s" % [case_id, ruling_id]] = true
-    match ruling_id:
-        "clear":
-            flags[case_id + "_cleared"] = true
-        "hold":
-            flags[case_id + "_held"] = true
+    if ruling_id == "clear":
+        flags[case_id + "_cleared"] = true
 
 
 func story_matches(story: Dictionary, required_flags: Dictionary) -> bool:
