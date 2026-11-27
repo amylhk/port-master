@@ -1,0 +1,10 @@
+[
+  {"id": "first_ship", "text": "Drag a waiting ship onto a free berth."},
+  {"id": "berth_free", "text": "Drag the next ship to the open berth."},
+  {"id": "tide_warning", "text": "Berth ships before their tide, leaving time to unload."},
+  {"id": "anchorage_full", "text": "Make room before the next ship arrives."},
+  {"id": "open_cargo", "text": "Open the cargo and look inside."},
+  {"id": "check_manual", "text": "Check what you found against the manual."},
+  {"id": "stamp", "text": "Stamp the cargo with your ruling."},
+  {"id": "day_end", "text": "Review your tally at the closing bell."}
+]
