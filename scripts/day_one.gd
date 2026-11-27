@@ -272,7 +272,7 @@ func _morning_voice() -> void:
         var slot := int(ship["berth_slot"])
         if day.can_inspect_berthed(ship):
             line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記開箱檢查。" % [ship["name"], slot + 1]
-            caption = "按下開始驗貨；不驗貨則推進時間，按申報卸貨"
+            caption = "按此驗貨；推進時間即按申報卸貨"
             action = inspect_berth.bind(slot)
         else:
             line = "大人，%s已來不及在潮汐前驗貨，推進時間便按申報卸貨。" % ship["name"]
@@ -282,7 +282,7 @@ func _morning_voice() -> void:
     if not portrait.is_empty():
         _image(bubble, "res://assets/art/portraits/%s.png" % portrait, Rect2(8, 17, 84, 106))
     _text(bubble, line, Rect2(103, 10, 232, 94), 18, BROWN)
-    _text(bubble, caption, Rect2(103, 105, 232, 32), 12, BROWN)
+    _text(bubble, caption, Rect2(103, 108, 232, 24), 12, BROWN)
 
 
 func _harbour_hint() -> String:
@@ -331,7 +331,7 @@ func _berth_target(slot: int) -> void:
     if ship.is_empty():
         _text(plaque, "將船拖往此處", Rect2(88, 0, 173, 35), 16, INK, true)
     else:
-        _image(target, _ship_art(ship), Rect2(25, -2, 230, 152))
+        _image(target, _ship_art(ship), Rect2(25, -30, 230, 152))
         _text(plaque, ship["name"], Rect2(88, 0, 173, 35), 16, INK, true)
         if ship.get("inspection_open", false):
             _berth_inspection_marker(target, ship, slot)
@@ -344,7 +344,7 @@ func _berth_target(slot: int) -> void:
         _text(status, "扣留至收港" if ship.get("held_at_berth", false) else "卸貨中 · 尚餘 %d 分鐘" % ship["remaining"], Rect2(5, 0, 160, 27), 13, INK, true)
 
 
-## Crates on the quay and a 驗貨 callout, laid out within the berth target's own size.
+## Crates on the quay, with the 驗貨 callout in clear water beside the hull.
 func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> void:
     var area := target.size
     var crates_rect := Rect2(area.x * 0.04, area.y * 0.48, area.x * 0.24, area.y * 0.27)
@@ -358,7 +358,7 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
             crate.mouse_filter = Control.MOUSE_FILTER_IGNORE
         _image(target, ship.get("cargo_image", ""), Rect2(crates_rect.position + crates_rect.size * Vector2(0.25, 0), crates_rect.size * Vector2(0.5, 0.55)))
     var can_inspect := day.can_inspect_berthed(ship)
-    var marker := _button(target, "", Rect2(area.x * 0.5, area.y * 0.2, area.x * 0.47, area.y * 0.5), inspect_berth.bind(slot))
+    var marker := _button(surface, "", Rect2(target.position + Vector2(area.x - 15, 20), Vector2(128, 96)), inspect_berth.bind(slot))
     marker.accessibility_name = "驗貨"
     marker.set_drag_forwarding(Callable(), target._can_drop_data, target._drop_data)
     marker.disabled = not can_inspect
@@ -368,11 +368,11 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     marker.add_theme_stylebox_override("disabled", _style(Color("#8d8a80"), Color("#547a79"), 2))
     var face := Rect2(Vector2.ZERO, marker.size)
     if ResourceLoader.exists("res://assets/art/harbour/inspect_marker.png", "Texture2D"):
-        _image(marker, "res://assets/art/harbour/inspect_marker.png", face.grow(-3))
+        _image(marker, "res://assets/art/harbour/inspect_marker.png", Rect2(4, 2, 120, 66))
     else:
-        _image(marker, "res://assets/art/icons/inspection.png", Rect2(4, 4, face.size.y - 8, face.size.y - 8))
-        _text(marker, "驗貨", Rect2(face.size.y - 2, 2, face.size.x - face.size.y, face.size.y * 0.6), 24, BROWN, true)
-    _text(marker, "＋%d 分鐘" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及", Rect2(face.size.y - 2, face.size.y * 0.58, face.size.x - face.size.y, face.size.y * 0.4), 13, BROWN, true)
+        _image(marker, "res://assets/art/icons/inspection.png", Rect2(7, 12, 42, 42))
+        _text(marker, "驗貨", Rect2(49, 8, 73, 50), 24, BROWN, true)
+    _text(marker, "＋%d 分鐘" % day.inspection_for(ship)["minutes"] if can_inspect else "已來不及", Rect2(4, 68, 120, 24), 13, BROWN, true)
     if can_inspect:
         var pulse := marker.create_tween().set_loops()
         pulse.tween_property(marker, "modulate", Color(1.15, 1.05, 0.8), 0.7)
