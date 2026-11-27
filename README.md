@@ -1,26 +1,27 @@
 # Port Master: Melaka 1511
 
-**Status: Early Godot 4 gameplay experiment / pre-production.**
+**Status: Playable Day 1 rebuild in Godot 4.7.2 / pre-production.**
 
-A historical trading-hub game concept set in Melaka before the Portuguese conquest of 1511. The **Stage B prototype** runs for fifteen linked port days, with two berths, a limited anchorage, and eighteen scheduled Detailed Inspection cases. The historical campaign and finale are not part of the playable schedule yet.
+A historical trading-hub game set in Melaka before the Portuguese conquest of 1511. F5 now opens **Day 1 only**: drag ships onto two berths, open cargo at the inspection desk, consult the manual and stamp the declaration. The interface and Day 1 copy use written Traditional Chinese, with bundled [Noto Sans TC](https://github.com/google/fonts/tree/main/ofl/notosanstc) and its SIL Open Font License.
 
 ## Run the experiment
 
 1. Install [Godot 4.7.2](https://github.com/godotengine/godot/releases/tag/4.7.2-stable).
 2. Import this folder by selecting `project.godot` in Godot Project Manager.
 3. Run the project (F5).
-4. Assign waiting ships to berths and step time forward. Read each ship's unloading duration and tide deadline before committing a berth. Use the quay office to select a deputy or open a merchant offer.
-5. Close the watch at 17:00, resolve available evening events and departure accounts, and begin the next day. Ships still at anchor carry over. The closing ledger records duty, rice supply, and missed trade; **Replay the day** restores that morning's state.
-6. To investigate the Kim Hong on day 1, assign another ship to the first berth before choosing **Inspect**. Detailed Inspection takes the second berth and advances the port clock by 45 minutes; the other berth and scheduled arrivals keep working. Compare the manifest, cargo, testimony, and reference manual before filing a ruling and citing evidence.
+4. Drag a waiting ship onto a highlighted empty berth, or click the ship and then the berth. Read its unloading duration and departure deadline before committing. Use the clock buttons to advance time; thinking and reading do not run a real-time clock.
+5. Case ships offer declared unloading or detailed inspection. Inspection occupies the chosen berth and advances time by its fixed cost; the other berth and scheduled arrivals keep working. Open physical evidence, consult the manual, choose an evidence citation and a plain ruling stamp, then stamp the declaration. Full original evidence is one click away; consequences appear only after filing.
+6. Close the watch when ready, or automatically at 17:00. The closing ledger records duty, rice supply and lost trade. Replay restores the morning. Deputies, offers, economy, evenings and later days are deliberately absent from this new main scene.
 
-## Implemented
+The previous fifteen-day Stage B prototype remains available in `scenes/harbour.tscn` for regression checks and later development, not as the current player entry point. Stage D remains unmerged.
 
-- Godot project configuration and main `.tscn` scene
-- GDScript harbour queue and berth assignment
-- Named merchant ships, linked daily schedules, tide deadlines, and a three-slot anchorage
-- Parallel unloading, port log, and a closing ledger with duty, rice supply, inspection duty, and lost trade
-- Data-driven Detailed Inspections with a shared reference manual and consequential rulings
-- Deputy delegation, state purchasing offers, merchant trust, and departure and tax accounts
+## Day 1 rebuild
+
+- Guided harbour with native drag/drop, click fallback and explicit berth targets
+- Original six Day 1 ships, departure deadlines, two berths and three anchorage slots
+- Original parallel unloading, fixed inspection time costs and four authored cases
+- Hands-on cargo, seals, scales, testimony, paged manual and unselected plain stamps
+- Parchment-and-teal desk, short copy with full evidence on click, closing and replay
 
 ## Not implemented
 
@@ -34,8 +35,11 @@ On a fresh clone, run the import command before launching Godot headless so text
 
 ```sh
 godot --headless --editor --import --quit
+godot --headless --check-only --script scripts/day_one.gd
 godot --headless --check-only --script scripts/harbour.gd
 godot --headless --quit-after 120
+godot --headless --script tests/day_one.gd
+godot --headless --script tests/day1_text.gd
 godot --headless --script tests/stage_a.gd
 godot --headless --script tests/stage_b.gd
 ```
@@ -50,6 +54,8 @@ godot --headless --script tests/stage_b.gd
 
 ```text
 project.godot
+scenes/day_one.tscn
+scripts/day_one.gd
 scenes/harbour.tscn
 scripts/harbour.gd
 scripts/port_day.gd

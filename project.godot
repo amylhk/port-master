@@ -1,9 +1,15 @@
 config_version=5
 
 [application]
-config/name="Port Master: Melaka 1511 — Harbour Prototype"
-run/main_scene="res://scenes/harbour.tscn"
+config/name="港務長：馬六甲一五一一年 — 第一日"
+run/main_scene="res://scenes/day_one.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
 
 [rendering]
 renderer/rendering_method="gl_compatibility"
