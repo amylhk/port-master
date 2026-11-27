@@ -15,7 +15,6 @@ const ANCHOR_POS := [Vector2(120, 490), Vector2(510, 490), Vector2(900, 490)]
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
 const METHOD_TITLES := {"marks": "比對商號標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱貨單"}
 const STAMPS := {"clear": "放行", "minor_fault": "更正", "major_fraud": "罰款", "hold": "扣留"}
-const STAMP_CATEGORIES := {"clear": "按申報放行", "minor_fault": "輕微錯漏", "major_fraud": "重大欺詐", "hold": "扣船通報朝廷"}
 
 class ShipToken extends Button:
     var ship: Dictionary
@@ -568,7 +567,7 @@ func apply_stamp() -> void:
         elif evidence_matches:
             diagnosis = "證據切合案情，但判決不正確。"
         var explanation: String = truth.get("feedback_by_method", {}).get(method, "")
-        last_feedback += "\n\n" + diagnosis + "\n正確判決：" + STAMP_CATEGORIES[truth["ruling_id"]]
+        last_feedback += "\n\n" + diagnosis + "\n正確判決：應蓋「%s」" % STAMPS[truth["ruling_id"]]
         if not explanation.is_empty():
             last_feedback += "\n" + explanation
     inspections_filed += 1
