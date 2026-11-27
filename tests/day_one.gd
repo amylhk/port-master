@@ -71,7 +71,7 @@ func _run() -> void:
     _expect(stamp_buttons == 4, "the desk offers four plain-name stamps without verdict hints")
     var correction := _accessible_button(game, "更正")
     var correction_face: TextureRect = correction.get_child(0)
-    _expect(correction_face.texture != null or correction.has_node("CorrectionStampFallback"), "the correction stamp has a painted face or its drawn fallback")
+    _expect(correction_face.texture != null and correction_face.texture.resource_path == "res://assets/inspection/stamp_correct.png" and not correction.has_node("CorrectionStampFallback"), "the correction stamp uses the imported painting instead of its drawn fallback")
     _expect(_label_exists(game, "更正：申報有輕微錯漏；更正後放行貨物。"), "the desk explains correction without naming a case")
     var digest_order: Array[String] = []
     for line in game.manual_pages()[-1]["lines"]:
