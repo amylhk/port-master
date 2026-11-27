@@ -1,0 +1,68 @@
+{
+  "id": "case_011",
+  "title": "The price of a prisoner",
+  "subtitle": "Salim of Diu brings the Aman in with rosewater and frankincense. A Melaka boatman has offered to free one of the Feringgi prisoners in exchange for silver. He says Salim will vouch for him.",
+  "minutes": 40,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Aman’s declaration",
+      "text": "Six cases of rosewater flasks and ten crates of frankincense belonging to Salim of Diu, all for sale. The forward two cases are laid aside for buyers to smell before bidding."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  At the rail",
+      "title": "The boatman's token",
+      "text": "Salim sets down half a split coconut shell with three notches across it. The boatman left it as a pledge. There is no name or writing on the shell. On the landing below, two merchants wait with weighed silver wrapped in cloth."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Hear witnesses",
+      "title": "Two separate offers",
+      "text": "Salim: “He told me to say that the night warder had released Araújo to his care this morning. He promised to bring the prisoner to the Aman if the silver changed hands before the tide.”\n\nA buyer, questioned apart: “He said he'd taken Araújo out at dawn, and your office was already told. When I asked to see the man, he asked for the silver first.”\n\nKeeper of the prisoners: “I served Araújo his rice in the court's keeping after noon today. The night warder isn't authorised to release him. No one asked me to bring him down to the water.”"
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open the cases",
+      "title": "The cargo set aside",
+      "text": "The two forward cases hold nested, straw-wrapped flasks. One stopper has been loosened so buyers can smell the rosewater. The frankincense crates hold resin. The opened cases and the dock tally agree with the Aman’s declaration."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "false_custody", "label": "Two witnesses heard the claim of a dawn release, but the keeper saw Araújo in custody at noon."},
+    {"id": "genuine_release", "label": "The notched shell is proof that the warder agreed to release Araújo."},
+    {"id": "unlisted_resin", "label": "The silver on the landing proves that part of the frankincense was not declared."},
+    {"id": "cargo_only", "label": "Because the rosewater is in order, there is no reason to report the promise to the court."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "hold",
+    "reason_id": "false_custody",
+    "citation_method": "testimony",
+    "extra_duty": 0,
+    "feedback_by_method": {
+      "marks": "Anyone can notch a shell. The token doesn't come from the keeper and cannot establish that Araújo left his custody.",
+      "measurements": "The wrapped silver shows that buyers took the offer seriously, not that the boatman could deliver a prisoner.",
+      "contents": "The opened cases contain the declared trade goods. They do not establish who had Araújo in custody after dawn.",
+      "manifest": "The declaration lists what is for sale aboard the Aman. It neither confirms a release nor gives the boatman standing to offer one."
+    },
+    "success": "In the temenggung’s name, you hold the Aman while the bendahara hears Salim, the buyer and the keeper apart. You ask the merchants to keep their silver wrapped. The court now knows someone is selling promises in its name; you make no fraud charge against Salim's cargo.",
+    "clear": "You clear the Aman. At dusk the boatman is gone, one buyer is poorer, and the keeper still has Araújo on his roll. The bendahara hears of the promise from the aggrieved buyer rather than from the quay.",
+    "unsupported": "The evidence does not support amending the cargo declaration in the temenggung’s name. No further dues are assessed, and the promise of release goes unreported.",
+    "hold": "You hold the Aman on the wrong grounds. The bendahara's clerk finds jars of rosewater and has no witness to the offer of a release. The waiting buyers scatter."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Aman",
+    "history_notes": [
+      {"topic": "Araújo's captivity", "note": "Rui de Araújo was held in Melaka after Sequeira's departure; his letter of 6 February 1510 describes the captivity (docs/research/1511-events.md, Phase II; Cartas de Afonso de Albuquerque, III, pp. 5–11). The case is not the documented correspondence with Nina Chatu or the release in 1511.", "confidence": "high"},
+      {"topic": "Western cargo and the invented incident", "note": "Rosewater and frankincense reached Melaka through western trade networks (docs/research/commodities.md, §§3.9 and 3.13). The ransom claim, witnesses, token and written manifest are gameplay inventions; the historical prisoner's release does not depend on this ruling.", "confidence": "game_rule"}
+    ]
+  }
+}
