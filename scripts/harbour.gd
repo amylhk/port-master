@@ -84,11 +84,19 @@ func _render() -> void:
     var heading := _panel(header, _scenario_art("banner"))
     heading.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     _label(heading, "PORT MASTER  /  MELAKA 1511", 14, GOLD)
-    _label(heading, "Detailed Inspection" if inspecting else "The harbour watch", 30)
+    var story := day.current_story()
+    var heading_text := "The harbour watch"
+    if inspecting:
+        heading_text = "Detailed Inspection"
+    elif not story.is_empty():
+        heading_text = "Evening at the port" if day.closed() else "Morning briefing"
+    _label(heading, heading_text, 30)
     var watch := _panel(header)
-    _label(watch, "%s  /  DAY 01" % PortDay.clock(day.minute_of_day), 19, GOLD)
+    _label(watch, "%s  /  DAY %02d" % [PortDay.clock(day.minute_of_day), day.day_number], 19, GOLD)
     if inspecting:
         _render_inspection()
+    elif not story.is_empty():
+        _render_story(story)
     elif day.closed():
         _render_settlement()
     else:
@@ -97,10 +105,11 @@ func _render() -> void:
 
 func _render_harbour() -> void:
     _render_view()
-    var paper := _texture(_scenario_art("panel")) != null
-    var brief := _panel(content, _scenario_art("panel"))
-    _label(brief, "MORNING BRIEF  /  QUAY OFFICE", 13, PAPER_RED if paper else GOLD)
-    _label(brief, day.scenario["briefing"], 16, PAPER_INK if paper else INK, true)
+    if day.story_queue.is_empty():
+        var paper := _texture(_scenario_art("panel")) != null
+        var brief := _panel(content, _scenario_art("panel"))
+        _label(brief, "MORNING BRIEF  /  QUAY OFFICE", 13, PAPER_RED if paper else GOLD)
+        _label(brief, day.scenario["briefing"], 16, PAPER_INK if paper else INK, true)
     var controls := HBoxContainer.new()
     controls.add_theme_constant_override("separation", 8)
     content.add_child(controls)
@@ -299,6 +308,7 @@ func _render_settlement() -> void:
     var report := _panel(content)
     _label(report, "CLOSING LEDGER", 15, GOLD)
     _label(report, _score_line(), 22)
+    _label(report, "Supply %d   ·   Reputation %d" % [day.supply, day.reputation], 18)
     _label(report, "Recovered inspection duty: %d" % day.recovered_duty, 18)
     if day.held > 0:
         _label(report, "Supported holds: %d" % day.held, 18)
@@ -306,8 +316,47 @@ func _render_settlement() -> void:
     _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
     if not day.ruling_note.is_empty():
         _label(report, day.ruling_note, 16, MUTED, true)
-    _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    if not day.story_queue.is_empty() and day.story_index == -1:
+        _button(report, "Continue to evening", func() -> void:
+            day.start_evening()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    else:
+        _button(report, "Begin day %d" % (day.day_number + 1), func() -> void:
+            day.begin_next_day()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     _render_log(true)
+
+
+func _render_story(story: Dictionary) -> void:
+    var panel := _panel(content)
+    var phase := "EVENING EVENT" if day.closed() else "QUAY OFFICE"
+    _label(panel, "%s  /  %d OF %d" % [phase, day.story_index + 1, day.story_queue.size()], 15, GOLD)
+    _label(panel, story["title"], 24, INK, true)
+    _label(panel, story["body"], 17, INK, true)
+    if not day.story_outcome.is_empty():
+        _label(panel, day.story_outcome["label"], 18, GOLD, true)
+        _label(panel, day.story_outcome["outcome_text"], 17, INK, true)
+        var effects: Dictionary = day.story_outcome["effects"]
+        _label(panel, "Duty %+d   ·   Supply %+d   ·   Reputation %+d" % [
+            int(effects.get("duty", 0)), int(effects.get("supply", 0)), int(effects.get("reputation", 0))
+        ], 16, GOLD, true)
+    var choices: Array = story.get("choices", [])
+    if choices.is_empty() or not day.story_outcome.is_empty():
+        _button(panel, "Continue", func() -> void:
+            day.continue_story()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    else:
+        for choice in choices:
+            _button(panel, choice["label"], _choose_story.bind(choice["id"])).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+
+
+func _choose_story(choice_id: String) -> void:
+    day.choose_story(choice_id)
+    _render()
 
 
 func _render_log(full := false) -> void:

@@ -3,6 +3,13 @@ extends RefCounted
 const BERTH_CAPACITY := 2
 const ANCHORAGE_CAPACITY := 3
 const INSPECTION_DIR := "res://data/inspections"
+const EVENT_DIR := "res://data/events"
+const BRIEFING_DIR := "res://data/briefings"
+const BRIEFING_FLAG_SOURCES := {
+    "rice_short_yesterday": "rice_target_missed",
+    "ship_lost_yesterday": "ship_lost",
+    "major_fraud_ruled_yesterday": "major_fraud_ruled",
+}
 
 var scenario: Dictionary
 var inspections: Dictionary
@@ -20,6 +27,20 @@ var duty := 0
 var rice := 0
 var recovered_duty := 0
 var ruling_note := ""
+var day_number := 1
+var supply := 0
+var reputation := 0
+var flags := {}
+var briefing_flags := {}
+var events: Array[Dictionary] = []
+var briefings: Array[Dictionary] = []
+var story_queue: Array[Dictionary] = []
+var story_index := 0
+var story_outcome := {}
+
+var _opening_supply := 0
+var _opening_reputation := 0
+var _day_trigger := RegEx.create_from_string("^day\\s*(>=|<=|==|!=|>|<)\\s*([0-9]+)$")
 
 
 func load_data(scenario_path := "res://data/port_day.json", inspection_dir := INSPECTION_DIR) -> bool:
@@ -53,7 +74,19 @@ func load_data(scenario_path := "res://data/port_day.json", inspection_dir := IN
                 return false
         loaded[case_id] = inspection
     inspections = loaded
+    events = _load_stories(EVENT_DIR)
+    briefings = _load_stories(BRIEFING_DIR)
     return true
+
+
+func _load_stories(directory: String) -> Array[Dictionary]:
+    var stories: Array[Dictionary] = []
+    for filename in DirAccess.get_files_at(directory):
+        if filename.ends_with(".json"):
+            var story := _read_data(directory.path_join(filename))
+            if not story.is_empty():
+                stories.append(story)
+    return stories
 
 
 func reset() -> void:
@@ -70,11 +103,15 @@ func reset() -> void:
     rice = 0
     recovered_duty = 0
     ruling_note = ""
+    supply = _opening_supply
+    reputation = _opening_reputation
+    flags.clear()
+    _queue_stories(briefings, briefing_flags, 0)
     _arrivals()
 
 
 func berth(ship_id: String, inspect: bool) -> void:
-    if closed() or not pending_case.is_empty() or berths.size() >= BERTH_CAPACITY:
+    if closed() or not current_story().is_empty() or not pending_case.is_empty() or berths.size() >= BERTH_CAPACITY:
         return
     for i in waiting.size():
         var ship := waiting[i]
@@ -92,6 +129,7 @@ func berth(ship_id: String, inspect: bool) -> void:
             _advance_clock(int(inspection["minutes"]))
         elif not inspection.is_empty():
             ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
+            _record_ruling(ship, "clear")
         return
 
 
@@ -102,6 +140,7 @@ func rule(ruling_id: String, reason_id: String) -> void:
     pending_case = {}
     var truth: Dictionary = inspection_for(ship)["hidden_truth"]
     var supported: bool = ruling_id == truth["ruling_id"] and reason_id == truth["reason_id"]
+    var outcome := ruling_id
     if ruling_id == "hold":
         berths.erase(ship)
         if supported:
@@ -111,18 +150,119 @@ func rule(ruling_id: String, reason_id: String) -> void:
         else:
             _lose(ship, "Cargo held")
             ruling_note = truth["hold"]
+            if truth["ruling_id"] == "hold":
+                outcome = "hold_unsupported"
     elif ruling_id == "clear":
         ruling_note = truth["success"] if supported else truth["clear"]
     elif supported:
         ship["extra_duty"] = int(truth["extra_duty"])
         ruling_note = truth["success"]
+        flags["any_ruling_amended"] = true
+        if ruling_id == "major_fraud":
+            flags["major_fraud_ruled"] = true
     else:
         ruling_note = truth["unsupported"]
+        outcome = "clear"
+    _record_ruling(ship, outcome)
     _log(ruling_note)
 
 
+func _record_ruling(ship: Dictionary, ruling_id: String) -> void:
+    var case_id: String = ship["inspection_case"]
+    flags["%s_%s" % [case_id, ruling_id]] = true
+    if ruling_id == "clear":
+        flags[case_id + "_cleared"] = true
+
+
+func story_matches(story: Dictionary, required_flags: Dictionary) -> bool:
+    if story.has("day"):
+        var target: Variant = story["day"]
+        if not (target is float or target is int) or target != day_number:
+            return false
+    elif not _trigger_matches(story.get("trigger", "")):
+        return false
+    var requirements: Variant = story.get("requires", [])
+    if not requirements is Array:
+        return false
+    for flag in requirements:
+        if not required_flags.has(flag):
+            return false
+    return true
+
+
+func _trigger_matches(trigger: Variant) -> bool:
+    if not trigger is String:
+        return false
+    var parts := _day_trigger.search(trigger)
+    if parts == null:
+        return false
+    var target := int(parts.get_string(2))
+    match parts.get_string(1):
+        ">=": return day_number >= target
+        "<=": return day_number <= target
+        "==": return day_number == target
+        "!=": return day_number != target
+        ">": return day_number > target
+        "<": return day_number < target
+    return false
+
+
+func _queue_stories(stories: Array[Dictionary], required_flags: Dictionary, first_index: int) -> void:
+    story_queue.clear()
+    story_index = first_index
+    story_outcome = {}
+    for story in stories:
+        if story_matches(story, required_flags):
+            story_queue.append(story)
+
+
+func start_evening() -> void:
+    if closed() and story_index == -1 and not story_queue.is_empty():
+        story_index = 0
+
+
+func current_story() -> Dictionary:
+    if story_index >= 0 and story_index < story_queue.size():
+        return story_queue[story_index]
+    return {}
+
+
+func choose_story(choice_id: String) -> void:
+    if not story_outcome.is_empty():
+        return
+    for choice in current_story().get("choices", []):
+        if choice["id"] == choice_id:
+            var effects: Dictionary = choice["effects"]
+            duty += int(effects.get("duty", 0))
+            supply += int(effects.get("supply", 0))
+            reputation += int(effects.get("reputation", 0))
+            story_outcome = choice
+            return
+
+
+func continue_story() -> void:
+    var story := current_story()
+    if story.is_empty() or (not story.get("choices", []).is_empty() and story_outcome.is_empty()):
+        return
+    story_outcome = {}
+    story_index += 1
+
+
+func begin_next_day() -> void:
+    if not closed() or (not story_queue.is_empty() and story_index < story_queue.size()):
+        return
+    day_number += 1
+    briefing_flags.clear()
+    for flag in BRIEFING_FLAG_SOURCES:
+        if flags.has(BRIEFING_FLAG_SOURCES[flag]):
+            briefing_flags[flag] = true
+    _opening_supply = supply
+    _opening_reputation = reputation
+    reset()
+
+
 func advance(minutes: int) -> void:
-    if pending_case.is_empty():
+    if pending_case.is_empty() and current_story().is_empty():
         _advance_clock(minutes)
 
 
@@ -183,6 +323,8 @@ func _advance_clock(minutes: int) -> void:
                 _lose(waiting.pop_at(i), "No berth before departure" if not closed() else "Closing bell")
         if closed():
             _log("The harbour is closed.")
+            flags["rice_target_met" if rice >= int(scenario["rice_target"]) else "rice_target_missed"] = true
+            _queue_stories(events, flags, -1)
         else:
             _arrivals()
 
@@ -206,6 +348,7 @@ func _arrivals() -> void:
 
 func _lose(ship: Dictionary, reason: String) -> void:
     lost += 1
+    flags["ship_lost"] = true
     _log("%s: %s lost (%d duty%s foregone)." % [
         reason, ship["name"], int(ship["duty"]) + int(ship.get("extra_duty", 0)),
         " and %d rice sacks" % int(ship["rice"]) if int(ship["rice"]) > 0 else ""
