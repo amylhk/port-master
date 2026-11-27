@@ -1,0 +1,44 @@
+{
+  "id": "day_02_rice_before_pepper",
+  "day": 2,
+  "title": "Two rice ships and one berth",
+  "body": "Shahbandar, the quay office has yesterday's tallies. Whatever was landed, the granary keepers say the town eats faster in the trading season, with every ship's crew ashore to feed.\n\nExpected in port: a junk from Pegu with rice and ship timber; a Javanese junk from Gresik with rice and salt fish; and two Kling ships from the Coromandel coast with cloth. A pepper perahu from Kampar is due on the afternoon tide.\n\nTides: the Gresik junk must sail by noon to keep company with her fleet. The Pegu captain will wait, but not for nothing: he asks for a promise of the first berth.\n\nMarket: rice is dear in the stalls and the poor quarters are grumbling. Timber is wanted at the shipwrights' yards. Cloth is plentiful.\n\nWarning: two rice ships on one morning tide means one of them waits. Decide now whose word you give.",
+  "choices": [
+    {
+      "id": "promise_pegu",
+      "label": "Promise the Pegu captain the first berth",
+      "outcome_text": "The Pegu captain bows and stays. His rice and timber are sure, but the Gresik nakhoda hears of it and says Javanese ships are always kept waiting.",
+      "effects": {
+        "duty": 0,
+        "supply": 6,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "favour_gresik",
+      "label": "Keep the berth for the Gresik junk",
+      "outcome_text": "You send word that the Gresik junk berths first. The Pegu captain takes it calmly, but he will want something for the delay next time.",
+      "effects": {
+        "duty": 0,
+        "supply": 3,
+        "reputation": 0
+      }
+    },
+    {
+      "id": "no_promise",
+      "label": "Promise no one; take ships as the tide brings them",
+      "outcome_text": "No promise leaves your office. Both captains go back to their ships unsure of their place, and the Pegu captain talks of trying Pasai instead.",
+      "effects": {
+        "duty": 2,
+        "supply": 0,
+        "reputation": -1
+      }
+    }
+  ],
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Monsoon timing follows docs/research/commodities.md (Pires 1944; Meilink-Roelofsz 1962): western ships arrive on the southwest monsoon (about May to September), Javanese rice on the east winds, China junks sail home on the southwest winds.",
+    "Rice suppliers (Pegu, Java) and timber from Pegu: docs/research/commodities.md sections 2 and 3. Foodstuffs paid presents rather than full dues (Pires 1944), so rice choices move supply, not duty.",
+    "Ships, people and incidents are fictional. Tide times are game schedule times, not tidal data."
+  ]
+}

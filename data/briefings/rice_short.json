@@ -1,0 +1,46 @@
+{
+  "id": "rice_short",
+  "trigger": "day>=2",
+  "requires": [
+    "rice_short_yesterday"
+  ],
+  "title": "The granary keepers are worried",
+  "body": "Shahbandar, less rice came ashore yesterday than the town needs. The stall keepers raised their price at dawn, and there was shouting in the market by the bridge.\n\nThe granary keepers ask what they should do before the next rice ship berths. Rice ships pay presents, not full dues, so a sack landed earns the treasury little. A town without rice is another matter.\n\nWarning: if rice runs short again, the quarters will not wait patiently.",
+  "choices": [
+    {
+      "id": "open_granary",
+      "label": "Ask the treasury to open the royal granary",
+      "outcome_text": "The treasury opens the royal granary and sells at the old price. The market quietens, and the treasury is lighter for it.",
+      "effects": {
+        "duty": -4,
+        "supply": 8,
+        "reputation": 1
+      }
+    },
+    {
+      "id": "rice_first",
+      "label": "Promise rice ships the first berth today",
+      "outcome_text": "Word goes round the anchorage that rice ships berth first today. The rice captains are pleased. The others, waiting behind them, are not.",
+      "effects": {
+        "duty": -2,
+        "supply": 4,
+        "reputation": 0
+      }
+    },
+    {
+      "id": "let_price_rise",
+      "label": "Let the price rise; ships will come for it",
+      "outcome_text": "You leave the market to its price. Dear rice may draw more ships in a week. Today the poor quarters go hungry and blame the harbour office.",
+      "effects": {
+        "duty": 0,
+        "supply": 0,
+        "reputation": -2
+      }
+    }
+  ],
+  "notes": [
+    "The player is a shahbandar; port-wide berthing and inspection authority is a game abstraction; customs rulings are made in the temenggung's name.",
+    "Melaka grew almost no rice and depended on imports; foodstuffs paid presents rather than full dues: docs/research/commodities.md section 2 (Pires 1944). The royal granary and its sale price are gameplay inventions.",
+    "Requires flag rice_short_yesterday: the previous day's rice landed fell below its rice_target."
+  ]
+}
