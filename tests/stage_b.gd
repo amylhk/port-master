@@ -22,6 +22,7 @@ func _run() -> void:
         return
     _schedule(day)
     _offers_and_deputies()
+    _offer_departures()
     _departures()
     await _evidence_plates()
     if failures == 0:
@@ -110,6 +111,61 @@ func _offers_and_deputies() -> void:
     for condition in ["duty<-1", "reputation!=99", "duty.jaka_wira==0", "merchant_trust.unknown==0", "supply>= 0"]:
         _expect(not day.story_matches({"day": 2, "conditions": ["duty==0", condition]}, {}),
             "all conditions must hold; malformed or failing condition is skipped: " + condition)
+
+
+func _offer_departures() -> void:
+    var day := PortDay.new()
+    if not day.load_data():
+        _expect(false, "load ship-linked and ashore offers")
+        return
+    day.reset()
+    _finish_stories(day)
+    _expect(_offer_ids(day).has("khoja_ismail_resin"), "Salamat's offer is available before its expected arrival")
+    day.advance(30)
+    _expect(not _offer_ids(day).has("khoja_ismail_resin"),
+        "an offer expires if the ship is turned away from a full anchorage")
+    day.advance(45)
+    _expect(not _offer_ids(day).has("jaka_wira_morning_rice"), "Jaka's offer expires on the rice trader's tide")
+
+    day.day_number = 2
+    day.reset()
+    _finish_stories(day)
+    _expect(_offer_ids(day).has("min_ye_rice_or_teak"), "Min Ye offers the cargo from River Hen")
+    day.advance(300)
+    _expect(not _offer_ids(day).has("min_ye_rice_or_teak"), "Min Ye's offer expires on River Hen's tide")
+
+    day.day_number = 3
+    day.reset()
+    _finish_stories(day)
+    day.advance(30)
+    day.berth("zhangzhou_evening_tide", false)
+    day.advance(60)
+    _expect(_offer_ids(day).has("lin_wen_copperware"), "a completed shipment can still offer goods before its sailing tide")
+    day.advance(210)
+    _expect(not _offer_ids(day).has("lin_wen_copperware") and _offer_ids(day).has("jalal_sonargaon_muslin"),
+        "linked offers end on the ship's tide, but ashore muslin remains on sale")
+
+    day.day_number = 4
+    day.reset()
+    _finish_stories(day)
+    _expect(_offer_ids(day).has("yusuf_vora_safa_cloth"), "Yusuf offers cloth aboard Safa")
+    day.advance(420)
+    _expect(not _offer_ids(day).has("yusuf_vora_safa_cloth") and _offer_ids(day).has("mariam_of_cambay_glass"),
+        "Safa's cloth leaves with the ship, but Nur's unloaded glass remains on sale")
+
+    day.day_number = 5
+    day.reset()
+    _finish_stories(day)
+    day.advance(449)
+    _expect(_offer_ids(day).has("idris_pasai_evening_pepper"), "Idris offers pepper until the Swift's tide")
+    day.advance(1)
+    _expect(not _offer_ids(day).has("idris_pasai_evening_pepper"), "Idris's pepper leaves when the Swift sails untraded")
+    day.open_offer("idris_pasai_evening_pepper")
+    _expect(day.current_story().is_empty(), "a departed ship's offer cannot be opened by ID")
+
+
+func _offer_ids(day: PortDay) -> Array:
+    return day.available_offers().map(func(offer: Dictionary) -> String: return offer["id"])
 
 
 func _departures() -> void:

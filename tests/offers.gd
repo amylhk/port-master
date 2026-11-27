@@ -14,7 +14,7 @@ func _initialize() -> void:
             continue
         var merchant: Variant = JSON.parse_string(FileAccess.get_file_as_string(MERCHANT_DIR.path_join(file)))
         if merchant is Dictionary and _has_text(merchant.get("id")) and file == merchant["id"] + ".json":
-            merchant_ids[merchant["id"]] = true
+            merchant_ids[merchant["id"]] = merchant.get("ship_ids", [])
 
     var ids := {}
     var count := 0
@@ -40,6 +40,10 @@ func _initialize() -> void:
         var merchant_id: Variant = offer.get("merchant_id")
         if _has_text(merchant_id) and not merchant_ids.has(merchant_id):
             _fail("%s: unknown merchant_id %s" % [path, merchant_id])
+        if offer.has("ship_id"):
+            var ship_id: Variant = offer["ship_id"]
+            if not _has_text(ship_id) or ship_id not in merchant_ids.get(merchant_id, []):
+                _fail("%s: ship_id must name one of the merchant's ships" % path)
         _check_schedule(path, offer)
         _check_choices(path, offer.get("choices", []))
     if count == 0:

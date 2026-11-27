@@ -66,6 +66,7 @@ var story_index := 0
 var story_outcome := {}
 var active_offer := {}
 var _finished_offers := {}
+var _offer_ship_departures := {}
 
 var _schedule: Array[Dictionary] = []
 var _opening_anchorage: Array[Dictionary] = []
@@ -171,6 +172,11 @@ func reset() -> void:
     campaign_flags = _opening_campaign_flags.duplicate()
     active_offer.clear()
     _finished_offers.clear()
+    _offer_ship_departures.clear()
+    for ship in scenario["ships"]:
+        _offer_ship_departures[ship["id"]] = int(ship["departure"])
+    for ship in waiting:
+        _offer_ship_departures[ship["id"]] = int(ship["departure"])
     flags.clear()
     _queue_stories(briefings, briefing_flags, 0)
     for ship in waiting:
@@ -419,6 +425,8 @@ func available_offers() -> Array[Dictionary]:
     required_flags.merge(campaign_flags)
     required_flags.merge(flags)
     for offer in offers:
+        if offer.has("ship_id") and minute_of_day >= int(_offer_ship_departures.get(offer["ship_id"], 0)):
+            continue
         if not _finished_offers.has(offer["id"]) and story_matches(offer, required_flags):
             available.append(offer)
     return available
@@ -725,6 +733,7 @@ func _arrivals() -> void:
 
 func _lose(ship: Dictionary, reason: String) -> void:
     lost += 1
+    _offer_ship_departures.erase(ship["id"])
     flags["ship_lost"] = true
     _log("%s: %s lost (%d duty%s foregone)." % [
         reason, ship["name"], int(ship["duty"]) + int(ship.get("extra_duty", 0)),
