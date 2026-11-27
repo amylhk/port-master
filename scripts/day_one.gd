@@ -20,6 +20,11 @@ const SHIP_SIZE := Vector2(230, 160)
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
 const METHOD_TITLES := {"marks": "比對商號標記與封印", "measurements": "比對數量與重量", "testimony": "核對證詞與紀錄", "contents": "檢查開封貨物", "manifest": "查閱貨單"}
 const STAMPS := {"clear": "放行", "minor_fault": "更正", "major_fraud": "罰款", "hold": "扣留"}
+const RICE_SACK_ART := {
+    false: "res://assets/art/inspection/rice_sack_closed.png",
+    true: "res://assets/art/inspection/rice_sack_open.png",
+}
+const DUTY_HELP := "盡忠職守是衡量港務長值勤表現的分數。\n\n加分：查獲不合格貨物或走私、正確蓋印，以及安排船隻準時卸貨。\n\n扣分：放行不合格貨物、錯判而冤枉誠實商人，或有船隻不滿離港。\n\n貨物符合申報時，略過驗貨不會扣分。"
 const CRATE_NAMES := {
     "case_001": ["前排陶甕", "後排陶甕", "第7包生絲"],
     "case_002": ["甲包", "乙包"],
@@ -47,8 +52,12 @@ class CratePicture extends Control:
 
 class SackPicture extends Control:
     var opened: bool
+    var paint: Texture2D
 
     func _draw() -> void:
+        if paint != null:
+            draw_texture_rect(paint, Rect2(-9, -7, 60, 70), false)
+            return
         var outline := PackedVector2Array([
             Vector2(11, 17), Vector2(6, 10), Vector2(36, 10), Vector2(31, 17),
             Vector2(40, 31), Vector2(37, 47), Vector2(5, 47), Vector2(2, 32), Vector2(11, 17),
@@ -159,8 +168,10 @@ var short_copy := {}
 var detail_open := false
 var detail_title := ""
 var detail_text := ""
+var detail_close_caption := ""
 var notes_id := "port_day"
 var last_feedback := ""
+var rice_sack_paint := {}
 
 
 func _ready() -> void:
@@ -198,6 +209,10 @@ func _ready() -> void:
         var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/short/day_1.json"))
         if data is Dictionary:
             short_copy = data
+    for opened in RICE_SACK_ART:
+        var path: String = RICE_SACK_ART[opened]
+        if ResourceLoader.exists(path, "Texture2D"):
+            rice_sack_paint[opened] = load(path)
     if day.load_data("res://data/port_day.json", PortDay.INSPECTION_DIR, true):
         restart()
     else:
@@ -656,6 +671,8 @@ func _cargo_crates(inspection: Dictionary) -> void:
         picture.position = Vector2((pitch - (46 if rice_spot_check else 78)) * 0.5, 17)
         picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
         picture.opened = opened
+        if rice_spot_check:
+            picture.paint = rice_sack_paint.get(opened)
         button.add_child(picture)
         _text(button, names[index], Rect2(2, 90, pitch - 8, 39), 15, BROWN, true)
         _text(button, "已開封" if opened else "按下開封", Rect2(2, 131, pitch - 8, 28), 14, BROWN, true)
@@ -781,21 +798,27 @@ func _evidence_turn(direction: int) -> void:
     render()
 
 
-func show_detail(title: String, body: String) -> void:
+func show_detail(title: String, body: String, close_caption := "返回驗貨桌") -> void:
     detail_title = title
     detail_text = body
+    detail_close_caption = close_caption
     detail_open = true
     render()
 
 
 func _detail() -> void:
+    for control: Control in surface.find_children("*", "Control", true, false):
+        control.focus_mode = Control.FOCUS_NONE
+        if control is BaseButton:
+            control.disabled = true
     var panel := _modal(Rect2(230, 145, 820, 510), PAPER)
     _text(panel, detail_title, Rect2(26, 18, 768, 56), 26, BROWN)
     _reading(panel, detail_text, Rect2(26, 87, 768, 330), BROWN, 21)
-    _button(panel, "返回驗貨桌", Rect2(255, 446, 310, 43), func() -> void:
+    var close := _button(panel, detail_close_caption, Rect2(255, 446, 310, 43), func() -> void:
         detail_open = false
         render()
     )
+    close.grab_focus()
 
 
 func _stamp_rack(inspection: Dictionary) -> void:
@@ -988,7 +1011,10 @@ func _header(title: String, clock: String) -> void:
     _text(surface, title, Rect2(26, 32, 900, 38), 26)
     _text(surface, "國庫  %d" % day.duty, Rect2(428, 27, 140, 36), 20, GOLD, true)
     _text(surface, "存糧  %d 袋" % day.watch_stock, Rect2(576, 27, 156, 36), 20, GOLD, true)
-    _text(surface, "盡忠職守  %d" % day.watch_score, Rect2(737, 27, 183, 36), 20, GOLD, true)
+    var duty_help := _button(surface, "", Rect2(737, 27, 183, 36), show_detail.bind("盡忠職守", DUTY_HELP, "關閉說明"))
+    duty_help.accessibility_name = "盡忠職守說明"
+    _text(duty_help, "盡忠職守  %d" % day.watch_score, Rect2(4, 0, 126, 36), 20, GOLD, true)
+    _text(duty_help, "說明", Rect2(129, 0, 46, 36), 14, INK, true)
     _text(surface, clock, Rect2(926, 27, 326, 36), 19, GOLD, true)
 
 
