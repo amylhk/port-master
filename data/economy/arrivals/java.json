@@ -1,0 +1,14 @@
+{
+  "id": "java",
+  "origin": "Java and east-island cargo relayed through Java",
+  "bloc": "java_eastern_islands",
+  "merchant_ids": ["jaka_wira", "nyai_ratri", "raden_sura"],
+  "ship_ids": ["rice", "tuban_moon", "gresik_morning_star", "gresik_banda_jong"],
+  "arrival_weights": [0, 0, 0, 0, 2, 3, 4, 3, 2, 1, 1, 0],
+  "preferred_departure_months": [1, 11, 12],
+  "notes": [
+    "fact: Pires gives January departures and May–September returns for a Melaka-based Java voyage. Araújo reports October–November arrivals continuing to Pedir (Pires II, p. 284; Cartas III, pp. 9–10). See docs/research/monsoon-calendar.md, §5.",
+    "inference: Use the May–September return window for Java-linked supplies, not for direct Banda hulls, and keep the alternate autumn itinerary at low weight. See docs/research/monsoon-calendar.md, §5.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

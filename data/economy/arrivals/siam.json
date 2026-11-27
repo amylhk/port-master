@@ -1,0 +1,11 @@
+{
+  "id": "siam",
+  "origin": "Siam",
+  "bloc": null,
+  "arrival_weights": [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+  "preferred_departure_months": [7],
+  "notes": [
+    "inference: A winter inbound window and a possible July exit are approximate; don't treat Siam's rice calls or its political exceptions as a dated annual timetable. See docs/research/monsoon-calendar.md, §7.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

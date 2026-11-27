@@ -8,12 +8,14 @@
   "choices": [
     {
       "id": "buy_all",
+      "commodity_id": "copper",
       "label": "Buy the full lot and pay for carriers now",
       "outcome_text": "Lin Wen is paid the going price and your carriers clear the deck in time for his pepper and tin. The court kitchens take the lot; the market buyers get no basins.",
       "effects": {"duty": -6, "supply": 5, "reputation": -1, "merchant_trust": 3}
     },
     {
       "id": "buy_half",
+      "commodity_id": "copper",
       "label": "Buy half and let the market bid on the rest",
       "outcome_text": "The state takes half at the going price. The market buyers get enough basins to make a bid worth their while, but Lin Wen has to wait while they count their money.",
       "effects": {"duty": -3, "supply": 2, "reputation": 2, "merchant_trust": 1}

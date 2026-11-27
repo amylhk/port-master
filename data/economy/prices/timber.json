@@ -1,0 +1,15 @@
+{
+  "id": "timber",
+  "name": "Timber",
+  "base_index": 8,
+  "month_pct": [3, 7, 9, 2, -3, -6, -6, -4, 0, 3, 3, 3],
+  "stock_pct": {
+    "scarce": 15,
+    "normal": 0,
+    "glut": -12
+  },
+  "notes": [
+    "inference: Route and bulk inform the low relative rank, not a quoted Melaka price (docs/research/prices.md §3). The April–September discount assumes replenishment around the Pegu and Java calls (docs/research/monsoon-calendar.md §§3, 5).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

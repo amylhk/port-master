@@ -1,0 +1,13 @@
+{
+  "id": "pegu",
+  "origin": "Pegu",
+  "bloc": "kling_bengal_pegu_pasai",
+  "merchant_ids": ["min_ye"],
+  "ship_ids": ["pegu_river_hen"],
+  "arrival_weights": [0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+  "preferred_departure_months": [7, 9],
+  "notes": [
+    "fact: Pires gives late March–April arrivals and departure for Pasai in July; Araújo places departure in September (Pires I, pp. 98–99; Cartas III, p. 10). See docs/research/monsoon-calendar.md, §3.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

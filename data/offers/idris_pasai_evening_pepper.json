@@ -8,12 +8,14 @@
   "choices": [
     {
       "id": "buy_all",
+      "commodity_id": "pepper",
       "label": "Buy the lot now at the market price",
       "outcome_text": "The royal store takes the pepper and Idris is paid at once. The Zhangzhou buyer sails short of the load he came for.",
       "effects": {"duty": -7, "supply": 7, "reputation": -2, "merchant_trust": 2}
     },
     {
       "id": "buy_part",
+      "commodity_id": "pepper",
       "label": "Buy a share and leave the rest to the junk",
       "outcome_text": "The treasury pays for a share. The buyer takes the balance before noon, and Idris can sail without waiting for another customer.",
       "effects": {"duty": -4, "supply": 3, "reputation": 1, "merchant_trust": 2}

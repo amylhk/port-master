@@ -1,0 +1,16 @@
+{
+  "id": "cloth",
+  "name": "Cloth",
+  "base_index": 150,
+  "month_pct": [2, 5, 3, -6, -8, -5, 0, 3, 6, -6, -5, -2],
+  "stock_pct": {
+    "scarce": 22,
+    "normal": 0,
+    "glut": -15
+  },
+  "notes": [
+    "fact: Pires dates the return of the Coromandel traders to October, and Araújo gives April and September for Bengal arrival and departure (docs/research/monsoon-calendar.md §2; Pires II, p. 272; Cartas III, p. 10).",
+    "inference: Separate Gujarat, Bengal and Coromandel calls can replenish different cloths; one index combines them for play (docs/research/prices.md §§3–5; docs/research/monsoon-calendar.md §§1–2).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

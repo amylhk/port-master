@@ -1,0 +1,15 @@
+{
+  "id": "glassware",
+  "name": "Glassware",
+  "base_index": 120,
+  "month_pct": [8, 9, 11, -5, -9, -7, -2, 1, 4, 4, 5, 6],
+  "stock_pct": {
+    "scarce": 22,
+    "normal": 0,
+    "glut": -16
+  },
+  "notes": [
+    "inference: The Gujarat relay is a plausible source of glassware and the early fleet a point of replenishment; no Melaka glassware price series is attested in the research (docs/research/prices.md §§3–4; docs/research/monsoon-calendar.md §1).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

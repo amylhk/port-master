@@ -1,0 +1,16 @@
+{
+  "id": "copper",
+  "name": "Copper",
+  "base_index": 130,
+  "month_pct": [-6, -4, 3, 7, 4, 3, 5, 6, 7, 5, -3, -6],
+  "stock_pct": {
+    "scarce": 20,
+    "normal": 0,
+    "glut": -15
+  },
+  "notes": [
+    "fact: Pires lists copper among goods weighed by the small bahar (docs/research/prices.md §2; Pires II, pp. 277–278).",
+    "inference: The winter dip represents the game's China-linked copper trade; it does not exclude western supply (docs/research/prices.md §§3–4; docs/research/monsoon-calendar.md §6; docs/gameplay-blueprint.md §07).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

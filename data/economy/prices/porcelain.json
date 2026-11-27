@@ -1,0 +1,15 @@
+{
+  "id": "porcelain",
+  "name": "Porcelain",
+  "base_index": 120,
+  "month_pct": [-8, -5, 0, 2, 4, 4, 5, 6, 8, 5, -3, -7],
+  "stock_pct": {
+    "scarce": 20,
+    "normal": 0,
+    "glut": -15
+  },
+  "notes": [
+    "inference: Winter China calls provide a replenishment proxy for porcelain; relative value is inferred, not a posted Melaka price (docs/research/prices.md §3; docs/research/monsoon-calendar.md §6).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

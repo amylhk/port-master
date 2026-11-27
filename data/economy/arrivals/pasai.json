@@ -1,0 +1,13 @@
+{
+  "id": "pasai",
+  "origin": "Pasai and the north Sumatran coast",
+  "bloc": "kling_bengal_pegu_pasai",
+  "merchant_ids": ["idris_pasai"],
+  "ship_ids": ["pasai_swift"],
+  "arrival_weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  "notes": [
+    "fact: Pires describes small craft serving Pasai and Pedir (Pires I, pp. 139, 145, 155–156). See docs/research/monsoon-calendar.md, §4.",
+    "inference: Scattered short-route calls sustain trade outside the deep-sea peaks; the July visit on a Pegu itinerary is not a Pasai-wide schedule. See docs/research/monsoon-calendar.md, §4.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

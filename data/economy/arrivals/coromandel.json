@@ -1,0 +1,13 @@
+{
+  "id": "coromandel",
+  "origin": "Pulicat, Coromandel",
+  "bloc": "kling_bengal_pegu_pasai",
+  "merchant_ids": ["arulan", "sri_rangan"],
+  "ship_ids": ["pulicat_white_border"],
+  "arrival_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0],
+  "preferred_departure_months": [1],
+  "notes": [
+    "fact: Pires describes Pulicat traders arriving in October and departing in January (Pires II, p. 272). See docs/research/monsoon-calendar.md, §2.",
+    "gameplay: Relative weights and month preferences are authored tuning, not observed traffic or compulsory departure dates."
+  ]
+}

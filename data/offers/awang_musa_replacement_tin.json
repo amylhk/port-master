@@ -10,12 +10,14 @@
   "choices": [
     {
       "id": "buy_weighed_lot",
+      "commodity_id": "tin",
       "label": "Weigh and buy the trade tin today",
       "outcome_text": "The tin is weighed and the state pays the market price. The warehouse has its stock, though buyers who had hoped to take the tin abroad leave without it.",
       "effects": {"duty": -5, "supply": 5, "reputation": -1, "merchant_trust": 2}
     },
     {
       "id": "split_lot",
+      "commodity_id": "tin",
       "label": "Take half and leave half for private sale",
       "outcome_text": "The state buys half at the market price. Awang sells the rest to the buyers who waited at the scales, but the warehouse keeper still has a shortage to cover.",
       "effects": {"duty": -3, "supply": 2, "reputation": 2, "merchant_trust": 1}

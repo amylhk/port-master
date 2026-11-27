@@ -8,12 +8,14 @@
   "choices": [
     {
       "id": "buy_crew_lot",
+      "commodity_id": "cloth",
       "label": "Buy the storekeeper's full lot",
       "outcome_text": "The storekeeper has enough cloth for the crews, and Yusuf is paid at the market price. Two small buyers who waited all morning have to bargain with the larger houses after all.",
       "effects": {"duty": -6, "supply": 6, "reputation": -2, "merchant_trust": 2}
     },
     {
       "id": "buy_one_bale",
+      "commodity_id": "cloth",
       "label": "Buy one bale and leave the rest for small buyers",
       "outcome_text": "One bale goes into state stores at the market price. Yusuf is glad to keep selling to his regulars, but the storekeeper cannot issue cloth to all the crews.",
       "effects": {"duty": -2, "supply": 2, "reputation": 1, "merchant_trust": 2}

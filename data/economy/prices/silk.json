@@ -1,0 +1,16 @@
+{
+  "id": "silk",
+  "name": "Silk",
+  "base_index": 220,
+  "month_pct": [-9, -7, 0, 2, 4, 5, 7, 8, 9, 7, -4, -8],
+  "stock_pct": {
+    "scarce": 24,
+    "normal": 0,
+    "glut": -16
+  },
+  "notes": [
+    "fact: Pires records silk exchanged against pepper on the China run (docs/research/prices.md §3; Pires I, p. 123).",
+    "inference: China calls around the turn of the year could bring in silk; the index is not a documented Melaka unit price (docs/research/prices.md §§3–4; docs/research/monsoon-calendar.md §6).",
+    "gameplay: Base index from docs/research/prices.md §5; the monthly and stock percentages are tuning values, not historical prices or rates."
+  ]
+}

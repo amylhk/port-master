@@ -7,12 +7,14 @@
   "choices": [
     {
       "id": "collect_now",
+      "commodity_id": "glassware",
       "label": "Buy the sound lot and send palace carriers",
       "outcome_text": "The court pays the market price and gets all the sound flasks. The treasury pays for careful carriage; Mariam appreciates that no one asks her to make good the breakage.",
       "effects": {"duty": -5, "supply": 3, "reputation": 1, "merchant_trust": 2}
     },
     {
       "id": "share_lot",
+      "commodity_id": "glassware",
       "label": "Buy one crate and leave the rest for the sellers",
       "outcome_text": "One crate goes to the palace at the market price. The sellers take enough glass to fill their orders, though the steward will have to reuse some old flasks.",
       "effects": {"duty": -2, "supply": 1, "reputation": 2, "merchant_trust": 1}
