@@ -13,7 +13,7 @@
       "outcome_text": "You give your word: the first rice boat tomorrow berths before any other cargo. The headmen leave satisfied; the pepper merchants will not be.",
       "effects": {
         "duty": -2,
-        "supply": 2,
+        "supply": 0,
         "reputation": 1
       }
     },

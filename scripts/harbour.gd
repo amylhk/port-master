@@ -380,8 +380,10 @@ func _render_settlement() -> void:
     _label(report, "Recovered inspection duty: %d" % day.recovered_duty, 18)
     if day.held > 0:
         _label(report, "Supported holds: %d" % day.held, 18)
-    var shortfall := maxi(0, int(day.scenario["rice_target"]) - day.rice)
+    var shortfall := day.rice_shortfall()
     _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
+    if day.rice_relief_cost > 0:
+        _label(report, "Emergency rice relief: -%d duty" % day.rice_relief_cost, 17, GOLD)
     if not day.ruling_note.is_empty():
         _label(report, day.ruling_note, 16, MUTED, true)
     if not day.story_queue.is_empty() and day.story_index == -1:

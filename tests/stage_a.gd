@@ -169,10 +169,12 @@ func _run() -> void:
     _check_evenings(harbour)
     await _test_story_inspection(harbour, scroll)
     _test_late_inspections(harbour)
+    _test_declaration_only_events(harbour)
     for example in INSPECTION_EXAMPLES:
         _exercise_inspection(harbour, example)
     _test_scheduled_inspections(harbour)
     _test_closing_tradeoff()
+    _test_rice_balance()
     if failures == 0:
         print("Loaded manual: %d entries; case %s (%s): %d evidence pages" % [
             day.manual["entries"].size(), inspection["id"], inspection["title"], inspection["evidence"].size(),
@@ -402,23 +404,23 @@ func _check_evenings(harbour: Control) -> void:
     _expect(day.current_story().get("id") == "ev_lost_ship_agent", "the first matching event is shown")
     day.continue_story()
     day.choose_story("missing_choice")
-    _expect(day.current_story().get("id") == "ev_lost_ship_agent" and day.story_outcome.is_empty() and day.duty == 0,
+    _expect(day.current_story().get("id") == "ev_lost_ship_agent" and day.story_outcome.is_empty() and day.duty == -12,
         "an unknown or unselected choice cannot apply effects or skip an event")
     _press(harbour, "Pay the broker to write")
     day.choose_story("pay_broker")
-    _expect(day.story_outcome.get("id") == "pay_broker" and day.duty == -2 and day.reputation == 1,
+    _expect(day.story_outcome.get("id") == "pay_broker" and day.duty == -14 and day.reputation == 1,
         "the selected outcome applies its effects exactly once")
     _press(harbour, "Continue")
     _expect(day.current_story().get("id") == "ev_rice_market_petition", "continuing shows the next match")
     _press(harbour, "Promise rice the first berth tomorrow")
-    _expect(day.duty == -4 and day.supply == 2 and day.reputation == 2,
-        "integer duty, supply and reputation changes accumulate")
+    _expect(day.duty == -16 and day.supply == 0 and day.reputation == 2,
+        "the two evening choices add their duty and reputation changes, but the promise brings no rice today")
     _press(harbour, "Continue")
     _expect(day.current_story().is_empty(), "completing the last event returns to the ledger")
     _press(harbour, "Begin day 2")
     _expect(day.day_number == 2 and day.flags.is_empty(),
         "starting the next day clears the previous day's flags and events")
-    _expect(day.duty == 0 and day.supply == 2 and day.reputation == 2,
+    _expect(day.duty == 0 and day.supply == 0 and day.reputation == 2,
         "supply and reputation carry forward but harbour duty resets")
     _expect(day.story_matches({"trigger": "day>=2"}, day.flags) and not day.story_matches({"day": 1}, day.flags),
         "a day-2 trigger matches and fixed day-1 events no longer match")
@@ -430,7 +432,7 @@ func _check_evenings(harbour: Control) -> void:
     _expect(day.current_story().get("id") == "rice_short", "yesterday's rice shortage queues the granary briefing")
     _press(harbour, "Ask the treasury to open the royal granary")
     _expect(day.story_outcome.get("id") == "open_granary" and day.duty == -2
-        and day.supply == 10 and day.reputation == 2, "morning choices apply the authored effects")
+        and day.supply == 8 and day.reputation == 2, "morning choices apply the authored effects")
     _press(harbour, "Continue")
     _expect(day.current_story().get("id") == "ship_lost", "yesterday's ship loss queues its own briefing")
     _press(harbour, "Continue")
@@ -460,6 +462,23 @@ func _press(harbour: Control, caption: String) -> void:
             button.pressed.emit()
             return
     _expect(false, "button not found: " + caption)
+
+
+func _test_declaration_only_events(harbour) -> void:
+    harbour._restart()
+    _press(harbour, "Continue")
+    var day = harbour.day
+    harbour._berth("rice", false)
+    harbour._berth("porcelain", false)
+    harbour._advance(120)
+    harbour._berth("cloth", false)
+    _expect(day.flags.has("case_002_cleared") and not day.flags.has("case_002_inspected"),
+        "Kaveri cleared on its declaration is not marked inspected")
+    harbour._advance(600)
+    _expect(not day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_kaveri_keling_invitation"),
+        "declaration-only Kaveri clearance does not trigger the Keling invitation")
+    _expect(day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_kim_hong_whispers"),
+        "declaration-only Kim Hong clearance still triggers the whispers")
 
 
 func _exercise_inspection(harbour: Control, example: Array) -> void:
@@ -501,6 +520,7 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
             "%s opens its authored dossier" % case_id)
         if day.pending_case.is_empty():
             return
+        _expect(not day.flags.has(case_id + "_inspected"), "%s does not record inspection until filing" % case_id)
 
         var measurements := _button_named(harbour, inspection["evidence"][1]["label"])
         measurements.pressed.emit()
@@ -520,6 +540,7 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
         if submit.disabled:
             return
         submit.pressed.emit()
+        _expect(day.flags.has(case_id + "_inspected"), "%s records inspection for either filing" % case_id)
         _expect(day.pending_case.is_empty() and not day.ruling_note.is_empty() and _has_label(harbour, day.ruling_note),
             "%s returns to the quay with visible feedback" % case_id)
         if correct:
@@ -530,6 +551,10 @@ func _exercise_inspection(harbour: Control, example: Array) -> void:
             _expect(day.completed == previous_completed + traded and day.held == 1 - traded
                 and day.recovered_duty == int(truth["extra_duty"]),
                 "%s applies the correct ruling's trade outcome" % case_id)
+            if case_id == "case_002":
+                harbour._advance(600)
+                _expect(day.story_queue.any(func(event: Dictionary) -> bool: return event["id"] == "ev_kaveri_keling_invitation"),
+                    "inspecting and clearing Kaveri triggers the Keling invitation")
         else:
             var feedback: String = truth.get("feedback_by_method", {}).get("manifest", "")
             _expect(day.ruling_note.contains("The ruling and the cited evidence were both off.")
@@ -586,11 +611,52 @@ func _test_closing_tradeoff() -> void:
     harbour.queue_free()
 
 
-func _replay_plan(harbour, plan: String, second_ship: String, reason: String = "") -> Dictionary:
+func _test_rice_balance() -> void:
+    var harbour = Harbour.instantiate()
+    root.add_child(harbour)
+    var day = harbour.day
+    _replay_plan(harbour, "Fed city", "porcelain", "marks_weight_route")
+    _expect(day.rice_shortfall() == 0 and day.rice_relief_cost == 0
+        and "Rice target met." in _label_texts(harbour.content), "meeting the rice target costs no relief")
+    _finish_rice_balance_evening(harbour)
+    var fed_duty: int = day.duty
+    var fed_supply: int = day.supply
+
+    _replay_plan(harbour, "Starved city", "porcelain", "marks_weight_route", "pepper")
+    _expect(day.rice_shortfall() == 24 and day.rice_relief_cost == 12
+        and "Emergency rice relief: -12 duty" in _label_texts(harbour.content),
+        "closing charges and shows the cost of emergency rice relief")
+    var closing_duty: int = day.duty
+    harbour._advance(60)
+    harbour._render()
+    _expect(day.duty == closing_duty, "advancing and redrawing after closing do not charge relief again")
+    _finish_rice_balance_evening(harbour)
+    _expect(fed_duty > day.duty and fed_supply == day.supply and day.supply == 0,
+        "the fed line finishes ahead in duty; the promise brings no same-day supply advantage")
+    _press(harbour, "Replay the day")
+    _expect(day.rice_relief_cost == 0 and day.duty == 0, "replaying resets the emergency relief cost")
+    harbour.queue_free()
+
+
+func _finish_rice_balance_evening(harbour) -> void:
+    _press(harbour, "Continue to evening")
+    _press(harbour, "Speak for Lim Seng’s good name")
+    _press(harbour, "Continue")
+    _press(harbour, "Pay the broker to write")
+    _press(harbour, "Continue")
+    if harbour.day.current_story().get("id") == "ev_rice_market_petition":
+        _press(harbour, "Promise rice the first berth tomorrow")
+    _press(harbour, "Continue")
+    _press(harbour, "Leave it to the temenggung’s watch")
+    _press(harbour, "Continue")
+    _expect(harbour.day.current_story().is_empty(), "the rice balance replay finishes its evening events")
+
+
+func _replay_plan(harbour, plan: String, second_ship: String, reason: String = "", first_ship: String = "rice") -> Dictionary:
     harbour._restart()
     _press(harbour, "Continue")
     var day = harbour.day
-    harbour._berth("rice", false)
+    harbour._berth(first_ship, false)
     harbour._berth(second_ship, not reason.is_empty())
     if not reason.is_empty():
         day.rule("major_fraud", reason)

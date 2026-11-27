@@ -2,6 +2,7 @@ extends RefCounted
 
 const BERTH_CAPACITY := 2
 const ANCHORAGE_CAPACITY := 3
+const RICE_SACKS_PER_RELIEF_DUTY := 2.0
 const INSPECTION_DIR := "res://data/inspections"
 const EVENT_DIR := "res://data/events"
 const BRIEFING_DIR := "res://data/briefings"
@@ -38,6 +39,7 @@ var lost := 0
 var held := 0
 var duty := 0
 var rice := 0
+var rice_relief_cost := 0
 var recovered_duty := 0
 var ruling_note := ""
 var day_number := 1
@@ -114,6 +116,7 @@ func reset() -> void:
     held = 0
     duty = 0
     rice = 0
+    rice_relief_cost = 0
     recovered_duty = 0
     ruling_note = ""
     supply = _opening_supply
@@ -198,6 +201,7 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     else:
         ruling_note = truth["unsupported"]
         outcome = "clear"
+    flags[ship["inspection_case"] + "_inspected"] = true
     _record_ruling(ship, outcome)
     if not supported:
         ruling_note += "\n\n" + _ruling_feedback(inspection, ruling_matches, evidence_matches, method_id)
@@ -361,6 +365,10 @@ func closed() -> bool:
     return minute_of_day >= int(scenario["end_minute"])
 
 
+func rice_shortfall() -> int:
+    return maxi(0, int(scenario["rice_target"]) - rice)
+
+
 func all_ships_resolved() -> bool:
     return next_ship >= scenario["ships"].size() and waiting.is_empty() and berths.is_empty()
 
@@ -393,7 +401,10 @@ func _advance_clock(minutes: int) -> void:
                 _lose(waiting.pop_at(i), "No berth before departure" if not closed() else "Closing bell")
         if closed():
             _log("The harbour is closed.")
-            flags["rice_target_met" if rice >= int(scenario["rice_target"]) else "rice_target_missed"] = true
+            var shortfall := rice_shortfall()
+            rice_relief_cost = ceili(shortfall / RICE_SACKS_PER_RELIEF_DUTY)
+            duty -= rice_relief_cost
+            flags["rice_target_met" if shortfall == 0 else "rice_target_missed"] = true
             _queue_stories(events, flags, -1)
         else:
             _arrivals()
