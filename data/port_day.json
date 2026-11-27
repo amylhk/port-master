@@ -5,7 +5,7 @@
   "rice_target": 24,
   "art": {"backdrop":"res://assets/art/harbour/harbour_backdrop.png", "banner":"res://assets/art/ui/banner_header.png", "berth_marker":"res://assets/art/harbour/berth_marker.png", "panel":"res://assets/art/ui/panel_parchment.png"},
   "ships": [
-    {"id":"rice", "name":"爪哇米船", "cargo":"24袋米", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24, "image":"res://assets/art/ships/ship_javanese_jong.png", "cargo_image":"res://assets/art/cargo/cargo_rice.png"},
+    {"id":"rice", "name":"爪哇米船", "cargo":"24袋米", "arrival":540, "departure":615, "minutes":60, "duty":8, "rice":24, "watch_inspection_case":"day_1_rice", "image":"res://assets/art/ships/ship_javanese_jong.png", "cargo_image":"res://assets/art/cargo/cargo_rice.png"},
     {"id":"pepper", "name":"印度胡椒船", "cargo":"胡椒", "arrival":540, "departure":615, "minutes":60, "duty":14, "rice":0, "image":"res://assets/art/ships/ship_indian_merchant.png", "cargo_image":"res://assets/art/cargo/cargo_pepper.png"},
     {"id":"porcelain", "name":"金豐號", "cargo":"瓷器", "arrival":540, "departure":660, "minutes":60, "duty":12, "rice":0, "inspection_case":"case_001", "image":"res://assets/art/ships/ship_chinese_junk.png", "cargo_image":"res://assets/art/cargo/cargo_porcelain.png"},
     {"id":"resin", "name":"薩拉馬特號", "cargo":"乳香", "arrival":570, "departure":780, "minutes":60, "duty":9, "rice":0, "inspection_case":"case_004", "image":"res://assets/art/ships/ship_arabian_dhow.png", "cargo_image":"res://assets/art/cargo/cargo_frankincense.png"},

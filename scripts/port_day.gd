@@ -16,6 +16,13 @@ const BRIEFING_FLAG_SOURCES := {
     "ship_lost_yesterday": "ship_lost",
     "major_fraud_ruled_yesterday": "major_fraud_ruled",
 }
+const WATCH_OPENING_STOCK := 12
+const WATCH_ON_TIME := 1
+const WATCH_CORRECT_STAMP := 1
+const WATCH_CAUGHT_CARGO := 2
+const WATCH_BAD_CARGO := 3
+const WATCH_WRONG_STAMP := 2
+const WATCH_UNHAPPY_DEPARTURE := 2
 const CITATION_METHODS := [
     {"id": "marks", "label": "Compare marks and seals"},
     {"id": "measurements", "label": "Compare counts and weights"},
@@ -44,6 +51,9 @@ var lost := 0
 var held := 0
 var duty := 0
 var rice := 0
+var watch_stock := 0
+var watch_score := 0
+var watch_rice_report := ""
 var rice_relief_cost := 0
 var recovered_duty := 0
 var ruling_note := ""
@@ -69,6 +79,7 @@ var _finished_offers := {}
 var _offer_ship_departures := {}
 
 var _schedule: Array[Dictionary] = []
+var _day_one_watch := false
 var _opening_anchorage: Array[Dictionary] = []
 var _opening_supply := 0
 var _opening_reputation := 0
@@ -78,13 +89,18 @@ var _day_trigger := RegEx.create_from_string("^day\\s*(>=|<=|==|!=|>|<)\\s*([0-9
 var _condition := RegEx.create_from_string("^(duty|supply|reputation|merchant_trust|faction_standing)(?:\\.([a-z0-9_]+))?(>=|<=|==|>|<)([+-]?[0-9]+)\\z")
 
 
-func load_data(scenario_path := "res://data/port_day.json", inspection_dir := INSPECTION_DIR) -> bool:
+func load_data(scenario_path := "res://data/port_day.json", inspection_dir := INSPECTION_DIR, day_one_watch := false) -> bool:
     inspections.clear()
     scenario = _read_data(scenario_path)
     manual = _read_data("res://data/manual/manual_stage_a.json")
     if scenario.is_empty() or manual.is_empty():
         return false
 
+    _day_one_watch = day_one_watch
+    if _day_one_watch:
+        for ship: Dictionary in scenario["ships"]:
+            if ship.has("watch_inspection_case"):
+                ship["inspection_case"] = ship["watch_inspection_case"]
     _schedule = [scenario]
     var ships: Array = scenario["ships"].duplicate()
     for entry: Dictionary in scenario.get("following_days", []):
@@ -163,6 +179,9 @@ func reset() -> void:
     held = 0
     duty = 0
     rice = 0
+    watch_stock = WATCH_OPENING_STOCK if _watch_active() else 0
+    watch_score = 0
+    watch_rice_report = ""
     rice_relief_cost = 0
     recovered_duty = 0
     ruling_note = ""
@@ -213,6 +232,8 @@ func inspect_berthed(ship_id: String) -> void:
             ship.erase("inspection_open")
             pending_case = ship
             var duration := int(inspection_for(ship)["minutes"])
+            if is_rice_spot_check(ship):
+                return
             _log("Detailed Inspection occupied a berth for %d min." % duration)
             _advance_clock(duration)
             return
@@ -250,6 +271,8 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := 
         _log("%s took a berth." % ship["name"])
         if inspect:
             pending_case = ship
+            if is_rice_spot_check(ship):
+                return
             var duration := int(inspection["minutes"]) + extra_time
             _log("Detailed Inspection occupied a berth for %d min." % duration)
             _advance_clock(duration)
@@ -261,8 +284,61 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := 
         return
 
 
+func _watch_active() -> bool:
+    return _day_one_watch and day_number == 1
+
+
+func is_rice_spot_check(ship: Dictionary) -> bool:
+    return _watch_active() and inspection_for(ship).has("minutes_per_sack")
+
+
+func open_rice_sack(index: int) -> void:
+    if not is_rice_spot_check(pending_case):
+        return
+    var inspection := inspection_for(pending_case)
+    var sacks: Array = inspection["sacks"]
+    var opened: Dictionary = pending_case.get("opened_sacks", {})
+    if index < 0 or index >= sacks.size() or opened.has(index):
+        return
+    opened[index] = true
+    pending_case["opened_sacks"] = opened
+    _advance_clock(int(inspection["minutes_per_sack"]))
+
+
+func _rule_rice(ruling_id: String, cites_contents: bool) -> void:
+    var ship := pending_case
+    var inspection := inspection_for(ship)
+    var sacks: Array = inspection["sacks"]
+    var supported := false
+    if cites_contents:
+        for index in ship.get("opened_sacks", {}):
+            supported = supported or sacks[index].get("wet", false)
+    pending_case = {}
+    flags[ship["inspection_case"] + "_inspected"] = true
+    var outcome := "clear"
+    if supported and ruling_id in ["major_fraud", "hold"]:
+        outcome = ruling_id
+        watch_score += WATCH_CORRECT_STAMP + WATCH_CAUGHT_CARGO
+        ship["sorted_rice"] = true
+        ship["duty_reduction"] = int(inspection["duty_reduction"])
+        if ruling_id == "hold":
+            held += 1
+            ruling_note = "同僚：已記下受潮的米袋。搬運工會在卸貨時挑出這些米袋，留在船上；只就乾米收稅。"
+        else:
+            ruling_note = "同僚：已記下受潮的米袋，船主須受罰。搬運工會在卸貨時剔除受潮的米袋，這批貨的稅收因而減少。"
+    elif ruling_id == "clear":
+        ruling_note = "同僚：已按貨單放行；卸貨完成後會向您報告。"
+    else:
+        ruling_note = "同僚：引用的證據未能支持這項裁決，仍按貨單卸貨。"
+    _record_ruling(ship, outcome)
+    _log(ruling_note)
+
+
 func rule(ruling_id: String, reason_id: String) -> void:
     if pending_case.is_empty() or ruling_id.is_empty() or reason_id.is_empty():
+        return
+    if is_rice_spot_check(pending_case):
+        _rule_rice(ruling_id, reason_id == "wet_rice")
         return
     var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
     _resolve_ruling(ruling_id, reason_id == truth["reason_id"], "")
@@ -270,6 +346,9 @@ func rule(ruling_id: String, reason_id: String) -> void:
 
 func rule_with_method(ruling_id: String, method_id: String) -> void:
     if pending_case.is_empty() or ruling_id.is_empty() or method_id.is_empty():
+        return
+    if is_rice_spot_check(pending_case):
+        _rule_rice(ruling_id, method_id == "contents")
         return
     var truth: Dictionary = inspection_for(pending_case)["hidden_truth"]
     _resolve_ruling(ruling_id, method_id in _citation_methods(truth), method_id)
@@ -290,6 +369,17 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     var truth: Dictionary = inspection["hidden_truth"]
     var ruling_matches: bool = ruling_id == truth["ruling_id"]
     var supported := ruling_matches and evidence_matches
+    var wronged_honest_merchant: bool = _watch_active() and not supported and (
+        (truth["ruling_id"] == "clear" and ruling_id != "clear")
+        or (truth["ruling_id"] == "minor_fault" and ruling_id in ["major_fraud", "hold"])
+    )
+    if _watch_active():
+        if supported:
+            watch_score += WATCH_CORRECT_STAMP
+            if ruling_id in ["major_fraud", "hold"]:
+                watch_score += WATCH_CAUGHT_CARGO
+        elif wronged_honest_merchant:
+            watch_score -= WATCH_WRONG_STAMP
     var outcome := ruling_id
     if ruling_id == "hold":
         if supported and truth.get("hold_at_berth", false):
@@ -317,6 +407,10 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
     else:
         ruling_note = truth["unsupported"]
         outcome = "clear"
+        if wronged_honest_merchant and ruling_id == "major_fraud":
+            berths.erase(ship)
+            _lose(ship, "Wrongful fine")
+            ruling_note += "\n商人不滿罰款，已離港，港口未能收稅。"
     flags[ship["inspection_case"] + "_inspected"] = true
     _record_ruling(ship, outcome)
     if not supported:
@@ -329,6 +423,8 @@ func _record_ruling(ship: Dictionary, ruling_id: String) -> void:
     flags["%s_%s" % [case_id, ruling_id]] = true
     if ruling_id == "clear":
         flags[case_id + "_cleared"] = true
+    if _watch_active():
+        ship["watch_ruling"] = ruling_id
 
 
 func story_matches(story: Dictionary, required_flags: Dictionary, check_conditions := true) -> bool:
@@ -673,7 +769,7 @@ func can_finish(ship: Dictionary, inspect: bool, extra_time := 0) -> bool:
         var inspection := inspection_for(ship)
         if inspection.is_empty():
             return false
-        duration += int(inspection["minutes"])
+        duration += int(inspection.get("minutes_per_sack", inspection["minutes"]))
     return minute_of_day + duration <= mini(int(ship["departure"]), int(scenario["end_minute"]))
 
 
@@ -714,6 +810,7 @@ static func clock(minutes: int) -> String:
 
 
 func _advance_clock(minutes: int) -> void:
+    watch_rice_report = ""
     _clear_open_inspections()
     for step in mini(minutes, int(scenario["end_minute"]) - minute_of_day):
         minute_of_day += 1
@@ -730,11 +827,17 @@ func _advance_clock(minutes: int) -> void:
                 completed += 1
                 var extra := int(ship.get("extra_duty", 0))
                 recovered_duty += extra
-                duty += int(ship["duty"]) + extra
-                rice += int(ship["rice"])
-                _log("Traded: %s (+%d duty)." % [ship["name"], int(ship["duty"]) + extra])
+                var collected := int(ship["duty"]) + extra - int(ship.get("duty_reduction", 0))
+                duty += collected
+                if _watch_active():
+                    _watch_unloaded(ship)
+                else:
+                    rice += int(ship["rice"])
+                _log("Traded: %s (+%d duty)." % [ship["name"], collected])
             elif minute_of_day >= int(ship["departure"]) or closed():
                 berths.remove_at(i)
+                if _watch_active() and pending_case == ship:
+                    pending_case = {}
                 _lose(ship, "Trade deadline" if not closed() else "Closing bell")
         if not closed():
             for i in range(waiting.size() - 1, -1, -1):
@@ -746,7 +849,7 @@ func _advance_clock(minutes: int) -> void:
                 _log("%d ship(s) remain at anchor." % waiting.size())
             _log("The harbour is closed.")
             var shortfall := rice_shortfall()
-            rice_relief_cost = ceili(shortfall / RICE_SACKS_PER_RELIEF_DUTY)
+            rice_relief_cost = 0 if _watch_active() else ceili(shortfall / RICE_SACKS_PER_RELIEF_DUTY)
             duty -= rice_relief_cost
             flags["rice_target_met" if shortfall == 0 else "rice_target_missed"] = true
             _queue_stories(events, flags, -1)
@@ -759,6 +862,32 @@ func _advance_clock(minutes: int) -> void:
                     story_queue.append(departure)
         else:
             _arrivals()
+
+
+func _watch_unloaded(ship: Dictionary) -> void:
+    watch_score += WATCH_ON_TIME
+    var inspection := inspection_for(ship)
+    if is_rice_spot_check(ship):
+        var wet := 0
+        for sack: Dictionary in inspection["sacks"]:
+            if sack.get("wet", false):
+                wet += 1
+        var usable := int(ship["rice"]) - wet
+        rice += usable
+        if ship.get("sorted_rice", false):
+            watch_stock += usable
+            watch_rice_report = "大人，已剔除%d袋濕米，%d袋乾米已入庫。" % [wet, usable]
+        else:
+            watch_stock -= wet
+            watch_score -= WATCH_BAD_CARGO
+            watch_rice_report = "大人，卸貨時發現%d袋濕米！市集須從存糧補足，值勤得分已扣減。" % wet
+        _log(watch_rice_report)
+    else:
+        rice += int(ship["rice"])
+        var truth: Dictionary = inspection.get("hidden_truth", {})
+        var required: String = truth.get("ruling_id", "clear")
+        if required in ["major_fraud", "hold"] and ship.get("watch_ruling", "clear") != required:
+            watch_score -= WATCH_BAD_CARGO
 
 
 func _arrivals() -> void:
@@ -780,6 +909,11 @@ func _arrivals() -> void:
 
 func _lose(ship: Dictionary, reason: String) -> void:
     lost += 1
+    if _watch_active():
+        watch_score -= WATCH_UNHAPPY_DEPARTURE
+        flags[ship["id"] + "_unhappy_departure"] = true
+        if is_rice_spot_check(ship):
+            watch_rice_report = "大人，米船已離港，未能卸貨，也未能收稅。"
     _offer_ship_departures.erase(ship["id"])
     flags["ship_lost"] = true
     _log("%s: %s lost (%d duty%s foregone)." % [

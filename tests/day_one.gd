@@ -119,9 +119,9 @@ func _run() -> void:
     _expect(game.last_feedback == game.day.ruling_note, "successful feedback retains the full explanation of the evidence and fees")
     game.feedback_open = false
     game.advance(75)
-    _expect(game.day.rice == 24 and game.day.recovered_duty == 18 and game.day.completed == 2, "rice and inspected porcelain finish with their original consequences")
+    _expect(game.day.rice == 22 and game.day.recovered_duty == 18 and game.day.completed == 2, "only the sound rice is usable and inspected porcelain still recovers its fees")
     _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the completed rice task no longer shows its urgent reminder")
-    _expect(_label_containing(game, "稻米已全數卸妥"), "the colleague acknowledges the completed rice task")
+    _expect(_label_containing(game, "卸貨時發現2袋濕米"), "the colleague reports the wet rice upon unloading")
     _press_text(game, "港口同僚")
     _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the full Day 1 briefing remains accessible after rice delivery")
     _press_text(game, "返回港口")
@@ -195,8 +195,10 @@ func _run() -> void:
     await _berthed_hull_routing()
     await _expired_rice_reminder()
     await _manual_across_cases()
+    await _rice_spot_check()
+    await _duty_score()
     if failures == 0:
-        print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
+        print("Day 1 checks passed: native drag/drop, inspection and stamps, rice spot checks, immediate HUD and duty outcomes, closing and replay.")
     quit(1 if failures else 0)
 
 
@@ -228,6 +230,114 @@ func _manual_across_cases() -> void:
     _expect(game.day.pending_case.is_empty() and game.day.flags.has("case_004_hold"), "the second supported filing needs no manual reopen")
     game.restart()
     _expect(not game.manual_seen, "a fresh watch resets the manual tutorial gate")
+    game.queue_free()
+    await process_frame
+
+
+func _rice_spot_check() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    _expect(_label_exists(game, "國庫  0") and _label_exists(game, "存糧  12 袋") and _label_exists(game, "盡忠職守  0"), "only Day 1's three metrics start on the HUD")
+    game.request_berth("rice", 0)
+    game.inspect_berth(0)
+    _expect(game.day.minute_of_day == 540 and game.stamp.is_empty(), "entering rice inspection is free and the chit is blank")
+    _expect(not _text_shown(game, "沾上水氣") and _accessible_button(game, "開封四號袋") != null, "closed sacks do not disclose their contents")
+    _press_accessible(game, "開封一號袋")
+    _expect(game.day.minute_of_day == 545 and game.viewed.has("contents") and _text_shown(game, "粒粒分明"), "one clean sack costs five minutes and can already be cited")
+    _press_accessible(game, "查看一號袋")
+    _expect(game.day.minute_of_day == 545 and not _text_shown(game, "沾上水氣"), "revisiting the sack is free and does not reveal other sacks")
+    _press_accessible(game, "開封二號袋")
+    _expect(game.day.minute_of_day == 550 and _text_shown(game, "沾上水氣"), "only the newly opened wet sack reveals its condition")
+    game.open_manual()
+    _press_text(game, "合上手冊")
+    game.choose_method("contents")
+    game.choose_stamp("major_fraud")
+    game.apply_stamp()
+    _expect(game.day.watch_score == 3 and game.day.watch_stock == 12 and game.day.duty == 0, "a supported fine scores immediately; stock and tax wait for unload")
+    _press_text(game, "返回港口")
+    game.assign_berth("porcelain", 1, true)
+    _expect(game.day.minute_of_day == 595 and game.day.pending_case.get("id") == "porcelain" and game.day.ship_at_berth(0)["remaining"] == 15, "two samples leave enough time to inspect 金豐號 while the rice unloads")
+    for index in game.CRATE_NAMES["case_001"].size():
+        game.open_crate(index)
+    game.choose_stamp("major_fraud")
+    game.choose_method("contents")
+    game.apply_stamp()
+    _press_text(game, "返回港口")
+    var score_before: int = game.day.watch_score
+    game.advance(14)
+    _expect(game.day.watch_stock == 12 and game.day.duty == 0, "the sorted stock does not post a minute before unloading")
+    game.advance(1)
+    _expect(game.day.watch_stock == 34 and game.day.rice == 22 and game.day.watch_score == score_before + 1 and game.day.duty == 6, "sorted rice posts usable stock and reduced tax at unload, with on-time credit")
+    _expect(_label_containing(game, "22袋乾米已入庫") and _label_exists(game, "存糧  34 袋"), "the colleague and HUD update on the same bell")
+    game.restart()
+    game.assign_berth("rice", 0, true)
+    game.open_crate(1)
+    game.manual_seen = true
+    game.choose_method("contents")
+    game.choose_stamp("hold")
+    game.apply_stamp()
+    _expect(game.day.flags.has("day_1_rice_hold") and game.day.watch_score == 3, "refusal also scores with observed evidence")
+    _press_text(game, "返回港口")
+    game.advance(60)
+    _expect(game.day.duty == 6 and game.day.watch_stock == 34 and game.day.watch_score == 4, "refusing only the damp sacks preserves the dry delivery at reduced tax")
+    game.restart()
+    game.assign_berth("rice", 0, true)
+    for index in 4:
+        game.open_crate(index)
+    _expect(game.day.minute_of_day == 560 and _label_containing(game, "已來不及在潮汐前卸貨"), "a fourth sack makes a timely unload impossible")
+    game.manual_seen = true
+    game.choose_method("contents")
+    game.choose_stamp("clear")
+    game.apply_stamp()
+    _expect(not game.last_feedback.contains("濕米") and game.day.watch_score == 0, "clearing a sampled load does not report the unloading consequence early")
+    _press_text(game, "返回港口")
+    game.advance(54)
+    var before_tide: int = game.day.watch_score
+    game.advance(1)
+    _expect(game.day.minute_of_day == 615 and game.day.duty == 0 and game.day.watch_stock == 12 and game.day.watch_score == before_tide - 4 and game.day.flags.has_all(["rice_unhappy_departure", "pepper_unhappy_departure"]), "the overchecked rice ship and the waiting pepper ship each leave at the tide without paying tax")
+    game.queue_free()
+    await process_frame
+
+
+func _duty_score() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.assign_berth("rice", 0, false)
+    game.assign_berth("pepper", 1, false)
+    game.advance(59)
+    _expect(game.day.watch_stock == 12 and game.day.watch_score == 0, "neither skip adjusts stock or score before unloading")
+    game.advance(1)
+    _expect(game.day.watch_stock == 10 and game.day.watch_score == -1 and game.day.duty == 22, "wet cargo costs three and both on-time ships earn one; skipping clean cargo has no penalty")
+    _expect(_label_containing(game, "卸貨時發現2袋濕米") and _label_exists(game, "盡忠職守  -1"), "wet-rice feedback and the new score are visible immediately")
+    game.advance(60)
+    _expect(game.day.flags.has("porcelain_unhappy_departure") and game.day.watch_score == -3 and game.day.duty == 22, "an unberthed ship costs two points and pays no tax")
+    for stamp in ["major_fraud", "hold"]:
+        game.restart()
+        game.advance(120)
+        var before: int = game.day.watch_score
+        game.assign_berth("cloth", 0, true)
+        game.manual_seen = true
+        game.choose_method("manifest")
+        game.choose_stamp(stamp)
+        game.apply_stamp()
+        _expect(game.day.watch_score == before - 4 and game.day.flags.has("cloth_unhappy_departure") and game.day.berths.is_empty() and game.day.duty == 0, "a wrongful %s costs stamp and departure points and forfeits an honest ship's tax" % stamp)
+    for stamp in ["major_fraud", "hold"]:
+        game.restart()
+        game.assign_berth("rice", 0, false)
+        game.assign_berth("pepper", 1, false)
+        game.advance(70)
+        game.assign_berth("tin", 0, true)
+        var before: int = game.day.watch_score
+        var duty_before: int = game.day.duty
+        game.manual_seen = true
+        game.show_evidence(2)
+        game.choose_method("testimony")
+        game.choose_stamp(stamp)
+        game.apply_stamp()
+        _expect(game.day.watch_score == before - 4 and game.day.flags.has("tin_unhappy_departure") and game.day.berths.is_empty(), "the tin ship's honest declaration error does not justify %s" % stamp)
+        _press_text(game, "返回港口")
+        game.advance(45)
+        _expect(game.day.duty == duty_before, "the wrongfully sanctioned tin ship never unloads and pays no tax")
     game.queue_free()
     await process_frame
 
