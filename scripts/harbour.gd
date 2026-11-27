@@ -84,11 +84,19 @@ func _render() -> void:
     var heading := _panel(header, _scenario_art("banner"))
     heading.get_parent().size_flags_horizontal = Control.SIZE_EXPAND_FILL
     _label(heading, "PORT MASTER  /  MELAKA 1511", 14, GOLD)
-    _label(heading, "Detailed Inspection" if inspecting else "The harbour watch", 30)
+    var event := day.current_event()
+    var heading_text := "The harbour watch"
+    if inspecting:
+        heading_text = "Detailed Inspection"
+    elif not event.is_empty():
+        heading_text = "Evening at the port"
+    _label(heading, heading_text, 30)
     var watch := _panel(header)
-    _label(watch, "%s  /  DAY 01" % PortDay.clock(day.minute_of_day), 19, GOLD)
+    _label(watch, "%s  /  DAY %02d" % [PortDay.clock(day.minute_of_day), day.day_number], 19, GOLD)
     if inspecting:
         _render_inspection()
+    elif not event.is_empty():
+        _render_evening(event)
     elif day.closed():
         _render_settlement()
     else:
@@ -299,6 +307,7 @@ func _render_settlement() -> void:
     var report := _panel(content)
     _label(report, "CLOSING LEDGER", 15, GOLD)
     _label(report, _score_line(), 22)
+    _label(report, "Supply %d   ·   Reputation %d" % [day.supply, day.reputation], 18)
     _label(report, "Recovered inspection duty: %d" % day.recovered_duty, 18)
     if day.held > 0:
         _label(report, "Supported holds: %d" % day.held, 18)
@@ -306,8 +315,46 @@ func _render_settlement() -> void:
     _label(report, "Rice target met." if shortfall == 0 else "Market shortage: %d rice sacks." % shortfall, 17)
     if not day.ruling_note.is_empty():
         _label(report, day.ruling_note, 16, MUTED, true)
-    _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    if not day.evening_queue.is_empty() and day.evening_index == -1:
+        _button(report, "Continue to evening", func() -> void:
+            day.start_evening()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    else:
+        _button(report, "Begin day %d" % (day.day_number + 1), func() -> void:
+            day.begin_next_day()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        _button(report, "Replay the day", _restart).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
     _render_log(true)
+
+
+func _render_evening(event: Dictionary) -> void:
+    var panel := _panel(content)
+    _label(panel, "EVENING EVENT  /  %d OF %d" % [day.evening_index + 1, day.evening_queue.size()], 15, GOLD)
+    _label(panel, event["title"], 24, INK, true)
+    _label(panel, event["body"], 17, INK, true)
+    if not day.evening_outcome.is_empty():
+        _label(panel, day.evening_outcome["label"], 18, GOLD, true)
+        _label(panel, day.evening_outcome["outcome_text"], 17, INK, true)
+        var effects: Dictionary = day.evening_outcome["effects"]
+        _label(panel, "Duty %+d   ·   Supply %+d   ·   Reputation %+d" % [
+            int(effects.get("duty", 0)), int(effects.get("supply", 0)), int(effects.get("reputation", 0))
+        ], 16, GOLD, true)
+    var choices: Array = event.get("choices", [])
+    if choices.is_empty() or not day.evening_outcome.is_empty():
+        _button(panel, "Continue", func() -> void:
+            day.continue_evening()
+            _render()
+        ).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    else:
+        for choice in choices:
+            _button(panel, choice["label"], _choose_evening.bind(choice["id"])).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+
+
+func _choose_evening(choice_id: String) -> void:
+    day.choose_evening(choice_id)
+    _render()
 
 
 func _render_log(full := false) -> void:
