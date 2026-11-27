@@ -1,5 +1,5 @@
 extends Control
-## Standalone Godot 4.3 gallery preview for the full 64-character cast portrait roster.
+## Standalone Godot gallery preview for the full 64-character cast portrait roster.
 ## Toggle between Remaining Cast (46) and Deputies & Early Merchants (18).
 
 const DESIGN_SIZE := Vector2(1280.0, 720.0)
