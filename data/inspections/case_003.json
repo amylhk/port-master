@@ -1,0 +1,178 @@
+{
+  "id": "case_003",
+  "title": "The bale below the line",
+  "subtitle": "A nau from Pulicat has come in with dyed cotton. Four bales lie on the deck, but the declaration lists only three kodi. As shahbandar, you go aboard before the afternoon tide.",
+  "minutes": 30,
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The Samudra’s declaration",
+      "text": "Samudra — Coromandel nau from Pulicat\nOwner: Sri Rangan of Pulicat\n\nDyed cotton, trade grade\nQuantity: 3 kodi · Declared value: 180\n\nNo other goods for sale are listed."
+    },
+    {
+      "id": "ev_exterior",
+      "label": "02  Seals & weights",
+      "title": "Four bales on the deck",
+      "text": "Bales 1, 2 and 3 are about the same size. Bale 4 is much flatter and weighs about half as much as any of the others. A patch of dark damp runs along one corner of its outer wrapping.\n\nAll four bindings are tight. The seals are dry and hard, each pressed with three dots in a triangle. Nobody has written a resealing note."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "03  Testimony",
+      "title": "The loading tally and the ship’s copy",
+      "text": "The nakhoda lays out the loading tally given to him at Pulicat. Below the rows for bales 1, 2 and 3 he has ticked off a fourth row: ‘10 sound lengths for sale. Tie separately.’ The first three rows are grouped above a ruled line marked ‘3 kodi · 180’; the fourth row and its value of 30 sit below it.\n\nThe deckhand who carried the cloth from the dyer says the last ten sound lengths came down after the three full bales had been tied. He helped bind them into the flat bale and carried it aboard himself.\n\nThe factor shows you his draft of the declaration. The entry copies the subtotal above the line, ‘3 kodi · 180.’ He asks you to count everything he has put out on deck."
+    },
+    {
+      "id": "ev_opened",
+      "label": "04  Open cargo",
+      "title": "A count of the cotton",
+      "text": "The porters untie all four bales and count out twenty lengths from each of the first three. The flat bale holds ten lengths of the same dyed cotton. Every length is dry and sound; the damp stopped at the outer wrapping. There is nothing packed between the folds."
+    }
+  ],
+  "rulings": [
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
+  ],
+  "reasons": [
+    {
+      "id": "packaging_only",
+      "label": "Four bales can hold three kodi, so the manifest needs no correction."
+    },
+    {
+      "id": "wet_cloth",
+      "label": "The wet wrapping points to undeclared damage to the last bale."
+    },
+    {
+      "id": "hidden_cloth",
+      "label": "The fourth bale is evidence that the factor tried to hide a full kodi."
+    },
+    {
+      "id": "copied_subtotal",
+      "label": "The count matches the loading tally; the factor copied the subtotal and missed ten lengths."
+    }
+  ],
+  "hidden_truth": {
+    "ruling_id": "minor_fault",
+    "reason_id": "copied_subtotal",
+    "extra_duty": 2,
+    "success": "In the temenggung’s name, you correct the Samudra’s declaration to three kodi and ten loose lengths. Three kodi is sixty lengths; there are seventy on deck. The ten lengths in the flat bale match the separate line on the loading tally. The factor left them off when he copied the subtotal, but offered the entire shipment for inspection. You clear the cloth to trade and assess 2 more in dues and weighing fees on the omitted value of 30.",
+    "clear": "In the temenggung’s name, you clear the Samudra as declared. All seventy lengths go to market, but the office charges only on sixty.",
+    "unsupported": "The evidence cited does not support that ruling in the temenggung’s name. The declaration stands and no additional dues or fees are recovered.",
+    "hold": "In the temenggung’s name, you hold the ship and send word to the court. Its men find an ordinary shipment of cotton and a copying error. The Samudra loses her sale."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "Coromandel Cloth Trader",
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
+    "truth": {
+      "verdict": "minor_fault",
+      "summary": "The factor copied the subtotal for three full kodi and omitted the ten lengths in a separately tallied short bale.",
+      "explanation": "The Pulicat loading tally records all four bales. The factor copied the subtotal for the first three into his draft and missed the fourth line. The fourth bale was presented with the rest, under the correct merchant’s intact seal, and both the deckhand’s account and the count corroborate the loading tally.",
+      "key_clues": [
+        "ev_manifest",
+        "ev_exterior",
+        "ev_testimony",
+        "ev_opened"
+      ],
+      "deduction": [
+        "The manual says a kodi is twenty lengths, not a bale. Three kodi declares sixty lengths.",
+        "The first three bales contain exactly sixty lengths, and the fourth contains ten more. The declaration is short by ten lengths, not a full kodi.",
+        "The declaration matches both the quantity and value of the tally’s subtotal. The fourth bale matches the separate ten-length line and the deckhand’s account.",
+        "The factor has presented the flat bale with the others. Its intact seal is Sri Rangan’s registered mark, and opening finds no damage or concealment. The evidence points to an honest copying error: Minor Fault."
+      ],
+      "solvable_without_opening": false,
+      "red_herrings": [
+        {
+          "evidence": "ev_exterior",
+          "why_not_guilt": "The damp is confined to the wrapping. The count finds ten sound lengths in the short bale."
+        }
+      ]
+    },
+    "outcomes": {
+      "clean": {
+        "text": "You clear the cotton as declared and miss the ten loose lengths when assessing dues and weighing fees.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": 0,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "minor_fault": {
+        "text": "In the temenggung’s name, you correct the declaration and clear all seventy lengths for trade.",
+        "effects": {
+          "revenue": 2,
+          "merchant_trust": 1,
+          "office_reputation": 1
+        },
+        "correct": true
+      },
+      "major_fraud": {
+        "text": "You mistake a copied subtotal for concealment. The tally and the porters’ count do not support a fraud charge.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -1,
+          "office_reputation": -1
+        },
+        "correct": false
+      },
+      "story_event": {
+        "text": "You hold the Samudra for the court. Its men find a copying error, not a matter of state, and the sale is lost.",
+        "effects": {
+          "revenue": 0,
+          "merchant_trust": -2,
+          "office_reputation": -1
+        },
+        "correct": false
+      }
+    },
+    "history_notes": [
+      {
+        "topic": "Pulicat and the cloth trade",
+        "note": "Pires describes the valuable cargoes carried by ships from Pulicat on the Coromandel coast (Suma Oriental, pp. 271–272). Cotton textiles were a major Coromandel export to Melaka.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Kodi",
+        "note": "Cloth was counted by the kodi or corge, a score of twenty pieces (Pires, Suma Oriental; Barbosa, The Book of Duarte Barbosa). A bale is packaging, not the unit of count.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Player role",
+        "note": "The player is a shahbandar and rules in the temenggung’s name. Port-wide authority over berthing and inspection is a gameplay abstraction.",
+        "confidence": "game_rule"
+      },
+      {
+        "topic": "Inspection documents and cargo marks",
+        "note": "The written declaration, written tally, merchant mark register and clay seals are gameplay inventions. The ship and incident are fictional.",
+        "confidence": "game_rule"
+      }
+    ],
+    "reveal_order": {
+      "ev_manifest": "default",
+      "ev_exterior": "inspect",
+      "ev_testimony": "inspect",
+      "ev_opened": "open"
+    },
+    "question_prerequisites": {}
+  }
+}
