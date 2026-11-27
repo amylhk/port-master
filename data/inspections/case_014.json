@@ -17,13 +17,15 @@
       "id": "ev_copper",
       "label": "02  Copper lots",
       "title": "Eight baskets on deck",
-      "text": "There are four baskets with a single stroke on their tags and four with a double stroke. All eight contain solid copper ingots. The receiver's tally on the two silk bundles is in order."
+      "text": "There are four baskets with a single stroke on their tags and four with a double stroke. All eight contain solid copper ingots. The receiver's tally on the two silk bundles is in order.",
+      "image": "res://assets/inspection/case_014-ev_copper.png"
     },
     {
       "id": "ev_receipts",
       "label": "03  Receiver’s book",
       "title": "What the receiver acknowledged",
-      "text": "At the harbour desk you lay the White Tern's clearance entries alongside the receiver's book. Both copper entries cite receipt 37. The receipt itself reads ‘White Tern, copper A, present received: 6.’ On the next line of the receiver's book: ‘Copper B, assessed: 6. Not delivered.’ No later receipt is entered for B."
+      "text": "At the harbour desk you lay the White Tern's clearance entries alongside the receiver's book. Both copper entries cite receipt 37. The receipt itself reads ‘White Tern, copper A, present received: 6.’ On the next line of the receiver's book: ‘Copper B, assessed: 6. Not delivered.’ No later receipt is entered for B.",
+      "image": "res://assets/inspection/case_014-ev_receipts.png"
     },
     {
       "id": "ev_testimony",
@@ -33,16 +35,40 @@
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — stop the suspect lot for reassessment"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — stop the suspect lot for reassessment"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "separate_tags", "label": "Two sets of tags prove both lots paid separately."},
-    {"id": "reused_receipt", "label": "The factor knowingly claimed A's receipt for B; the receiver was never paid for B."},
-    {"id": "combined_present", "label": "The copper was paid for together; the receiver omitted the second lot from the receipt."},
-    {"id": "wrong_charge", "label": "The copper should have paid a western entry duty instead of an assessed present."}
+    {
+      "id": "separate_tags",
+      "label": "Two sets of tags prove both lots paid separately."
+    },
+    {
+      "id": "reused_receipt",
+      "label": "The factor knowingly claimed A's receipt for B; the receiver was never paid for B."
+    },
+    {
+      "id": "combined_present",
+      "label": "The copper was paid for together; the receiver omitted the second lot from the receipt."
+    },
+    {
+      "id": "wrong_charge",
+      "label": "The copper should have paid a western entry duty instead of an assessed present."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "major_fraud",
@@ -63,11 +89,19 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "White Tern",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "major_fraud",
       "summary": "The factor deliberately used the acknowledgment for lot A to give unpaid lot B a clearance. The goods are genuine and correctly counted.",
-      "key_clues": ["ev_receipts", "ev_testimony"],
+      "key_clues": [
+        "ev_receipts",
+        "ev_testimony"
+      ],
       "deduction": [
         "Receipt 37 acknowledges one present for A. B has its own assessment but no matching payment in the receiver's book.",
         "The clerk identified A on the receipt before the factor ordered the same number entered for B, ruling out an innocent copying error."
@@ -75,8 +109,16 @@
       "solvable_without_opening": true
     },
     "history_notes": [
-      {"topic": "Ryukyuan copper and assessed presents", "note": "Pires describes Ryukyuan carriers of Japanese copper; see docs/research/commodities.md §3.5. On assessed presents rather than western entry dues, see docs/research/port-official.md §§5.1–5.2.", "confidence": "high"},
-      {"topic": "Lot-by-lot assessment", "note": "The lot assessment and its amount, written manifest, tags, numbered receipt and clearance records are gameplay inventions. The outstanding present uses the same ledger field as extra duty; it is not a historical tariff or a western percentage.", "confidence": "game_rule"}
+      {
+        "topic": "Ryukyuan copper and assessed presents",
+        "note": "Pires describes Ryukyuan carriers of Japanese copper; see docs/research/commodities.md §3.5. On assessed presents rather than western entry dues, see docs/research/port-official.md §§5.1–5.2.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Lot-by-lot assessment",
+        "note": "The lot assessment and its amount, written manifest, tags, numbered receipt and clearance records are gameplay inventions. The outstanding present uses the same ledger field as extra duty; it is not a historical tariff or a western percentage.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

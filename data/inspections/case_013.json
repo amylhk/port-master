@@ -17,7 +17,8 @@
       "id": "ev_quay",
       "label": "02  Quay tally",
       "title": "Two bales in the ashore tally",
-      "text": "The quay tally shows two bales off the Safa and four still aboard. The two brought ashore carry the same bale marks as the four on deck. The landing clerk stopped the next delivery when he saw that the warehouse book named a woman called Nura, not Aminah."
+      "text": "The quay tally shows two bales off the Safa and four still aboard. The two brought ashore carry the same bale marks as the four on deck. The landing clerk stopped the next delivery when he saw that the warehouse book named a woman called Nura, not Aminah.",
+      "image": "res://assets/inspection/case_013-ev_quay.png"
     },
     {
       "id": "ev_testimony",
@@ -29,20 +30,45 @@
       "id": "ev_record",
       "label": "04  Receiving book",
       "title": "What was tucked under the page",
-      "text": "A folded order addressed to the warehouse keeper reads: ‘Let my stall hand Nura receive the first two bales of cotton off Yusuf Vora's Safa this morning. — Aminah.’ The entry directly above it reads: ‘Safa, two bales, received by Nura for Aminah’s shop.’ The narrow copy sent to the landing ends after Nura's name."
+      "text": "A folded order addressed to the warehouse keeper reads: ‘Let my stall hand Nura receive the first two bales of cotton off Yusuf Vora's Safa this morning. — Aminah.’ The entry directly above it reads: ‘Safa, two bales, received by Nura for Aminah’s shop.’ The narrow copy sent to the landing ends after Nura's name.",
+      "image": "res://assets/inspection/case_013-ev_record.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "unauthorized_recipient", "label": "Someone other than the buyer took the two bales without permission."},
-    {"id": "unchanged_marks", "label": "The bale marks prove that the proper buyer received them."},
-    {"id": "authorized_delivery", "label": "Nura received the two bales on Aminah’s order; the full entry records both names."},
-    {"id": "missing_bales", "label": "The declaration should list only the four bales still aboard."}
+    {
+      "id": "unauthorized_recipient",
+      "label": "Someone other than the buyer took the two bales without permission."
+    },
+    {
+      "id": "unchanged_marks",
+      "label": "The bale marks prove that the proper buyer received them."
+    },
+    {
+      "id": "authorized_delivery",
+      "label": "Nura received the two bales on Aminah’s order; the full entry records both names."
+    },
+    {
+      "id": "missing_bales",
+      "label": "The declaration should list only the four bales still aboard."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "clear",
@@ -63,11 +89,19 @@
   "authoring": {
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Safa",
-    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "verdicts": [
+      "clean",
+      "minor_fault",
+      "major_fraud",
+      "story_event"
+    ],
     "truth": {
       "verdict": "clean",
       "summary": "A shortened warehouse copy obscured the relationship between a buyer and her authorized receiver. The goods and entry dues were declared correctly.",
-      "key_clues": ["ev_testimony", "ev_record"],
+      "key_clues": [
+        "ev_testimony",
+        "ev_record"
+      ],
       "deduction": [
         "The landing copy and count establish what moved, but not whether Nura acted for Aminah.",
         "Aminah and the keeper describe an authorized handover; the buyer's order and the complete warehouse entry document the same ship, quantity and receiver."
@@ -75,8 +109,16 @@
       "solvable_without_opening": true
     },
     "history_notes": [
-      {"topic": "Cambay cotton and warehouse allocation", "note": "Gujarati cotton trade is documented in docs/research/commodities.md §3.11. Pires describes shahbandars allotting warehouses and dispatching merchandise; see docs/research/port-official.md §§3, 5.2 and docs/research/port-labour.md, Warehouse keepers.", "confidence": "high"},
-      {"topic": "Warehouse handover", "note": "The written manifest, the receiving book and copied entries, the buyer's written order, the bale marks, and this inspection procedure are gameplay inventions. The characters and incident are fictional.", "confidence": "game_rule"}
+      {
+        "topic": "Cambay cotton and warehouse allocation",
+        "note": "Gujarati cotton trade is documented in docs/research/commodities.md §3.11. Pires describes shahbandars allotting warehouses and dispatching merchandise; see docs/research/port-official.md §§3, 5.2 and docs/research/port-labour.md, Warehouse keepers.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Warehouse handover",
+        "note": "The written manifest, the receiving book and copied entries, the buyer's written order, the bale marks, and this inspection procedure are gameplay inventions. The characters and incident are fictional.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

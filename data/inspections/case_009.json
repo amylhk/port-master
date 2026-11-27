@@ -14,7 +14,8 @@
       "id": "ev_measure",
       "label": "02  Measure teak",
       "title": "The yard’s cord",
-      "text": "The yard's long-stock cord spans twelve cubits. Six planks end at eight cubits; two continue under the folded matting and carry a straight, unjointed edge for fourteen. The clerk checks the earlier loading tally: the six short lengths and both long ones were all entered there before sailing, in that order. All eight planks are on deck for sale."
+      "text": "The yard's long-stock cord spans twelve cubits. Six planks end at eight cubits; two continue under the folded matting and carry a straight, unjointed edge for fourteen. The clerk checks the earlier loading tally: the six short lengths and both long ones were all entered there before sailing, in that order. All eight planks are on deck for sale.",
+      "image": "res://assets/inspection/case_009-ev_measure.png"
     },
     {
       "id": "ev_testimony",
@@ -26,20 +27,45 @@
       "id": "ev_opened",
       "label": "04  Lift a binding",
       "title": "Beneath a frayed lashing",
-      "text": "One of the bindings has left a dark line on the wood. A shave from the line comes away clean and the mark does not run into the grain. The underside shows no worm holes or soft patches."
+      "text": "One of the bindings has left a dark line on the wood. A shave from the line comes away clean and the mark does not run into the grain. The underside shows no worm holes or soft patches.",
+      "image": "res://assets/inspection/case_009-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "copied_short_grade", "label": "Two planks take the long-stock cord and match the loading tally; the short entry was copied over in error."},
-    {"id": "worm_damage", "label": "The dark line is worm damage, so the timber cannot sell as sound."},
-    {"id": "concealed_planks", "label": "The matting conceals extra planks that were never brought forward for inspection."},
-    {"id": "rice_first", "label": "Because the rice is sound, the timber declaration needs no change."}
+    {
+      "id": "copied_short_grade",
+      "label": "Two planks take the long-stock cord and match the loading tally; the short entry was copied over in error."
+    },
+    {
+      "id": "worm_damage",
+      "label": "The dark line is worm damage, so the timber cannot sell as sound."
+    },
+    {
+      "id": "concealed_planks",
+      "label": "The matting conceals extra planks that were never brought forward for inspection."
+    },
+    {
+      "id": "rice_first",
+      "label": "Because the rice is sound, the timber declaration needs no change."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "minor_fault",
@@ -61,8 +87,16 @@
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "River Hen",
     "history_notes": [
-      {"topic": "Pegu teak and rice", "note": "Pegu supplied ship timber and rice to Melaka. Structural timber was plausibly sold by piece rather than by spice weight (docs/research/commodities.md, §§3.2–3.3; Pires, Suma Oriental, I, p. 195; Manguin 1980).", "confidence": "inference"},
-      {"topic": "Western dues", "note": "The 6% western customs rate is documented (docs/research/port-official.md). The two grades, their lengths and values, the yard cord, and the written manifest and tally are gameplay inventions.", "confidence": "game_rule"}
+      {
+        "topic": "Pegu teak and rice",
+        "note": "Pegu supplied ship timber and rice to Melaka. Structural timber was plausibly sold by piece rather than by spice weight (docs/research/commodities.md, §§3.2–3.3; Pires, Suma Oriental, I, p. 195; Manguin 1980).",
+        "confidence": "inference"
+      },
+      {
+        "topic": "Western dues",
+        "note": "The 6% western customs rate is documented (docs/research/port-official.md). The two grades, their lengths and values, the yard cord, and the written manifest and tally are gameplay inventions.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }

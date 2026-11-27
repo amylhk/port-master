@@ -14,7 +14,8 @@
       "id": "ev_exterior",
       "label": "02  At the rail",
       "title": "The boatman's token",
-      "text": "Salim sets down half a split coconut shell with three notches across it. The boatman left it as a pledge. There is no name or writing on the shell. On the landing below, two merchants wait with weighed silver wrapped in cloth."
+      "text": "Salim sets down half a split coconut shell with three notches across it. The boatman left it as a pledge. There is no name or writing on the shell. On the landing below, two merchants wait with weighed silver wrapped in cloth.",
+      "image": "res://assets/inspection/case_011-ev_exterior.png"
     },
     {
       "id": "ev_testimony",
@@ -26,20 +27,45 @@
       "id": "ev_opened",
       "label": "04  Open the cases",
       "title": "The cargo set aside",
-      "text": "The two forward cases hold nested, straw-wrapped flasks. One stopper has been loosened so buyers can smell the rosewater. The frankincense crates hold resin. The opened cases and the dock tally agree with the Aman’s declaration."
+      "text": "The two forward cases hold nested, straw-wrapped flasks. One stopper has been loosened so buyers can smell the rosewater. The frankincense crates hold resin. The opened cases and the dock tally agree with the Aman’s declaration.",
+      "image": "res://assets/inspection/case_011-ev_opened.png"
     }
   ],
   "rulings": [
-    {"id": "clear", "label": "Clean — clear as declared"},
-    {"id": "major_fraud", "label": "Major Fraud — hold the suspect cargo"},
-    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
-    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+    {
+      "id": "clear",
+      "label": "Clean — clear as declared"
+    },
+    {
+      "id": "major_fraud",
+      "label": "Major Fraud — hold the suspect cargo"
+    },
+    {
+      "id": "minor_fault",
+      "label": "Minor Fault — correct the declaration"
+    },
+    {
+      "id": "hold",
+      "label": "Story Event — hold the ship and notify the court"
+    }
   ],
   "reasons": [
-    {"id": "false_custody", "label": "Two witnesses heard the claim of a dawn release, but the keeper saw Araújo in custody at noon."},
-    {"id": "genuine_release", "label": "The notched shell is proof that the warder agreed to release Araújo."},
-    {"id": "unlisted_resin", "label": "The silver on the landing proves that part of the frankincense was not declared."},
-    {"id": "cargo_only", "label": "Because the rosewater is in order, there is no reason to report the promise to the court."}
+    {
+      "id": "false_custody",
+      "label": "Two witnesses heard the claim of a dawn release, but the keeper saw Araújo in custody at noon."
+    },
+    {
+      "id": "genuine_release",
+      "label": "The notched shell is proof that the warder agreed to release Araújo."
+    },
+    {
+      "id": "unlisted_resin",
+      "label": "The silver on the landing proves that part of the frankincense was not declared."
+    },
+    {
+      "id": "cargo_only",
+      "label": "Because the rosewater is in order, there is no reason to report the promise to the court."
+    }
   ],
   "hidden_truth": {
     "ruling_id": "hold",
@@ -61,8 +87,16 @@
     "manual_id": "manual_stage_a",
     "harbour_ship_name": "Aman",
     "history_notes": [
-      {"topic": "Araújo's captivity", "note": "Rui de Araújo was held in Melaka after Sequeira's departure; his letter of 6 February 1510 describes the captivity (docs/research/1511-events.md, Phase II; Cartas de Afonso de Albuquerque, III, pp. 5–11). The case is not the documented correspondence with Nina Chatu or the release in 1511.", "confidence": "high"},
-      {"topic": "Western cargo and the invented incident", "note": "Rosewater and frankincense reached Melaka through western trade networks (docs/research/commodities.md, §§3.9 and 3.13). The ransom claim, witnesses, token and written manifest are gameplay inventions; the historical prisoner's release does not depend on this ruling.", "confidence": "game_rule"}
+      {
+        "topic": "Araújo's captivity",
+        "note": "Rui de Araújo was held in Melaka after Sequeira's departure; his letter of 6 February 1510 describes the captivity (docs/research/1511-events.md, Phase II; Cartas de Afonso de Albuquerque, III, pp. 5–11). The case is not the documented correspondence with Nina Chatu or the release in 1511.",
+        "confidence": "high"
+      },
+      {
+        "topic": "Western cargo and the invented incident",
+        "note": "Rosewater and frankincense reached Melaka through western trade networks (docs/research/commodities.md, §§3.9 and 3.13). The ransom claim, witnesses, token and written manifest are gameplay inventions; the historical prisoner's release does not depend on this ruling.",
+        "confidence": "game_rule"
+      }
     ]
   }
 }
