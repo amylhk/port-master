@@ -1,0 +1,36 @@
+{
+  "id": "albuquerque_roadstead",
+  "chain_id": "melaka_siege",
+  "step": 1,
+  "day": 11,
+  "requires": [
+    "captives_and_court_step_2"
+  ],
+  "title": "No ship is to sail",
+  "body": "Early July 1511. The Feringgi have come from Cochin by way of Pedir and Pasai. Afonso de Albuquerque's ships anchor under battle banners. Word comes from the roadstead: no vessel may leave without his permission.\n\nAt the quay, captains of Chinese junks already in port ask whether their clearance slips still count. One wants an answer before his crew eats the last of its rice. The seal on his slip is yours to explain; it won't get him past the fleet.",
+  "choices": [
+    {
+      "id": "rations_first",
+      "label": "Ask the storekeepers to sell rations to the stranded crews",
+      "outcome_text": "The crews get rice. The quay eats through its reserve sooner than the storekeepers planned.",
+      "effects": {
+        "supply": -2,
+        "reputation": 2
+      }
+    },
+    {
+      "id": "reserve_for_town",
+      "label": "Keep the landing open for the town's rice buyers",
+      "outcome_text": "The market keeps its share, but several crews must send people inland to find food.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Albuquerque sailed from Cochin, called at Pedir and Pasai, and forbade departures when he reached Melaka. Accounts vary on his arrival date and the fleet size (docs/research/1511-events.md §§1, 4.4–4.5).",
+    "fact: Pires gives late June as the favorable departure for China; the Commentaries place detained Chinese junks in port when Albuquerque arrived and describe permission to leave before the second assault (docs/research/monsoon-calendar.md §6).",
+    "gameplay: The slips, ration choices and local supply effects are invented, not evidence of a wartime price shock (docs/research/prices.md §4.3). Arrival needs no inspection outcome: the fleet reaches Melaka whether or not the office obtained Farid's warning."
+  ]
+}

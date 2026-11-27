@@ -1,0 +1,35 @@
+{
+  "id": "sequeira_empty_moorings",
+  "chain_id": "sequeira_visit",
+  "step": 2,
+  "day": 7,
+  "requires": [
+    "sequeira_visit_step_1"
+  ],
+  "title": "Cut cables",
+  "body": "Late 1509. Boats went out as if to load cloves. By dusk Sequeira's ships have cut their cables and put out to sea. The trading house has been seized, and Rui de Araújo is among the Portuguese taken prisoner.\n\nTwo boats of local clove sellers are still at the steps. Their buyers are gone; the court's men want the quay clear. The sellers ask whether they may bring their own sacks to the public scales.",
+  "choices": [
+    {
+      "id": "keep_scales_open",
+      "label": "Keep the scales open for the local sellers",
+      "outcome_text": "The sacks move before dark, but the court's men have to wait for a clear landing.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "clear_landing",
+      "label": "Clear the landing for the court's men",
+      "outcome_text": "The court's men take the quay. The sellers pole away with the cloves still aboard.",
+      "effects": {
+        "supply": -2,
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: An ambush used clove loading as a pretext; Sequeira escaped, the goods were seized and Araújo was taken prisoner. Sources differ over who warned the fleet and how many were left behind (docs/research/1511-events.md §§1, 4.1–4.2).",
+    "gameplay: The displaced sellers, their sacks and the consequences at the public scales are invented. Neither choice changes the arrests."
+  ]
+}

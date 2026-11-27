@@ -1,0 +1,33 @@
+{
+  "id": "sequeira_five_sails",
+  "chain_id": "sequeira_visit",
+  "step": 1,
+  "day": 6,
+  "requires": [],
+  "title": "Five ships off the bar",
+  "body": "September 1509. The Pasai pepper captain said five ships had called at Pedir and Pasai. Now five lie off Melaka. Their guns send men running for the mooring lines before anyone thinks to call it a salute.\n\nThe court has received Diogo Lopes de Sequeira's gifts and allowed the Feringgi to trade ashore. Rui de Araújo will buy cloves from a house the court has set aside. Your clerk asks how many of tomorrow's boat landings to keep open for the buyers.",
+  "choices": [
+    {
+      "id": "reserve_landings",
+      "label": "Reserve a landing for the clove buyers",
+      "outcome_text": "The cloves come ashore together. Other captains find their first boats waiting on the tide.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "keep_the_turn",
+      "label": "Keep the landing order already posted",
+      "outcome_text": "The captains keep their turns. Araújo's buyers have to take what cloves are left at the scales.",
+      "effects": {
+        "supply": -1,
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Sequeira called at Pedir and Pasai before arriving with five ships and firing salutes; the court received gifts and permitted trade from a house ashore (docs/research/1511-events.md §1, Phase I). The precise arrival date is disputed (§4.1).",
+    "gameplay: The local Pasai pepper boat reprises data/briefings/day_05_strange_sails_at_pasai.json and does not set a seasonal arrival window for Sumatran shipping (docs/research/monsoon-calendar.md §4). The name Feringgi follows the day 4 rumours. The landing order, choice and effects are invented; the shahbandar's port-wide authority is a gameplay abstraction."
+  ]
+}

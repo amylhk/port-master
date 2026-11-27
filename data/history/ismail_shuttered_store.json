@@ -1,0 +1,36 @@
+{
+  "id": "ismail_shuttered_store",
+  "chain_id": "ismail_pedir_warning",
+  "step": 2,
+  "day": 14,
+  "requires": [
+    "ismail_pedir_warning_step_1",
+    "melaka_siege_step_3"
+  ],
+  "title": "The shutters in Upeh",
+  "body": "Between the assaults, Khoja Ismail asks about the shore lots. Buyers want to come by after prayer, but the factor would have to open the shutters while families are still using the lane to get away from the river.",
+  "choices": [
+    {
+      "id": "quiet_sale",
+      "label": "Arrange small sales away from the lane",
+      "outcome_text": "The factor breaks the lots into parcels and sends them out by hand. Ismail's buyers get resin without a crowd at his shutters.",
+      "effects": {
+        "supply": 1,
+        "merchant_trust": 2
+      }
+    },
+    {
+      "id": "close_shutters",
+      "label": "Ask the factor to keep the shutters closed",
+      "outcome_text": "The lane stays open. A few buyers never return, and the factor must explain the lost custom to Ismail.",
+      "effects": {
+        "supply": -1,
+        "merchant_trust": -1
+      }
+    }
+  ],
+  "notes": [
+    "gameplay: Ismail, the shore lots and the decision during the lull are fictional continuations of data/merchants/khoja_ismail.json. They do not change the course of the siege."
+  ],
+  "merchant_id": "khoja_ismail"
+}

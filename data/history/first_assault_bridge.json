@@ -1,0 +1,35 @@
+{
+  "id": "first_assault_bridge",
+  "chain_id": "melaka_siege",
+  "step": 3,
+  "day": 13,
+  "requires": [
+    "melaka_siege_step_2"
+  ],
+  "title": "A river between the stores",
+  "body": "25 July 1511. The Portuguese took the bridge today and withdrew to their ships at dusk. The market in Upeh is on one bank; the royal stores and the mosque are on the other. Even now no carter will promise to get a load across before morning.\n\nYour clerk has counted the last sacks at the landing. The royal storekeeper asks you to put them aside for the court. On the Upeh steps a woman holds out her empty rice measure.",
+  "choices": [
+    {
+      "id": "split_merchant_rice",
+      "label": "Offer the sacks for sale in Upeh",
+      "outcome_text": "Upeh has rice tonight without needing the crossing. The royal storekeeper strikes the expected sacks from his tally.",
+      "effects": {
+        "supply": 3,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "reserve_for_store",
+      "label": "Keep the sacks in reserve for the royal store",
+      "outcome_text": "The storekeeper counts the sacks for the court. None of this lot reaches the Upeh steps tonight.",
+      "effects": {
+        "supply": -2,
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: The bridge joined the commercial north bank and the royal south bank. Portuguese troops took it on 25 July and withdrew to their ships at dusk (docs/research/1511-events.md §1, Phase IV).",
+    "gameplay: The carter, the tally and the distribution choice are fictional ways to show the interruption to trade."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "tun_mutahir_closed_credit",
+  "chain_id": "captives_and_court",
+  "step": 2,
+  "day": 9,
+  "requires": [
+    "captives_and_court_step_1"
+  ],
+  "title": "Orders without a seal",
+  "body": "Around 1510. Sultan Mahmud Shah has ordered the execution of Bendahara Tun Mutahir. Paduka Tuan takes his place. Word from the court is that Mahmud has handed the regalia to his son Ahmad Shah; at the quay, clerks still ask whose orders they can accept.\n\nA rice seller brings yesterday's order for the royal store. No one will countersign it, and the seller won't unload on credit. There is room at the public scales if you send the boat there instead.",
+  "choices": [
+    {
+      "id": "send_to_market",
+      "label": "Direct the rice to the public scales",
+      "outcome_text": "The seller is paid in the market. The royal storekeeper goes home with an empty tally.",
+      "effects": {
+        "supply": 2,
+        "reputation": -1
+      }
+    },
+    {
+      "id": "wait_for_order",
+      "label": "Ask the seller to wait for a fresh royal order",
+      "outcome_text": "The storekeeper keeps the first claim on the load, but no rice from this boat reaches the market tonight.",
+      "effects": {
+        "supply": -2,
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Pires and the Malay Annals both record Mahmud's order to execute Bendahara Seri Maharaja Tun Mutahir, but give different accounts of why. Brown's Annals name Paduka Tuan as his successor and have Mahmud hand the regalia to Ahmad before the conquest; Pires still describes Mahmud as king during the 1511 negotiations (docs/research/people-factions.md §2; docs/research/1511-events.md §§1, 4.3).",
+    "inference: The purge weakened the court's administrative and commercial relationships before the invasion (docs/research/1511-events.md §1, Phase II). The accounts do not establish how Mahmud and Ahmad divided port authority (docs/research/people-factions.md §2).",
+    "gameplay: The court report follows the Annals. The clerks' uncertainty, unsigned purchase order, credit refusal and rice disposition are invented."
+  ]
+}

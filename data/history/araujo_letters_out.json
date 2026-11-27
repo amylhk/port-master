@@ -1,0 +1,33 @@
+{
+  "id": "araujo_letters_out",
+  "chain_id": "captives_and_court",
+  "step": 1,
+  "day": 8,
+  "requires": [
+    "sequeira_visit_step_2"
+  ],
+  "title": "A bundle for Pedir",
+  "body": "1510. Rui de Araújo and the other Portuguese prisoners are still held in Melaka. The watch has heard that letters are leaving the town and that some of the prisoners have escaped toward Pedir. No one at the quay has seen the letters.\n\nA local boat about to sail up the Strait has brought a late bundle of private papers to your clerk. It has no name on it. The clerk asks whether to hold the bundle for the watch and let the boat go, or send the bundle back to its bearer.",
+  "choices": [
+    {
+      "id": "refer_bundle",
+      "label": "Hold the bundle in the temenggung's name and refer it to the watch",
+      "outcome_text": "The clerk issues a receipt without opening the papers. The boat sails; by morning every carrier on the quay knows of the hold.",
+      "effects": {
+        "reputation": -1
+      }
+    },
+    {
+      "id": "return_bundle",
+      "label": "Return the papers to the bearer unsealed",
+      "outcome_text": "The bearer takes the bundle back. The clerk writes down the time and the boat's name, but nothing about the papers' contents.",
+      "effects": {
+        "reputation": 1
+      }
+    }
+  ],
+  "notes": [
+    "fact: Araújo sent a clandestine letter to Albuquerque dated 6 February 1510, and several captives escaped to Pedir. Birch's account credits the merchant Nina Chatu with helping get the letter out (docs/research/1511-events.md §1, Phase II; docs/research/people-factions.md §2).",
+    "gameplay: The watch's report, the anonymous bundle and the handling choices are invented. The hold is made in the temenggung's name as customs judge, without identifying an officeholder or letting the player intercept the documented letter (docs/research/port-official.md §4)."
+  ]
+}
