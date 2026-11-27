@@ -7,7 +7,7 @@
     "melaka_siege_step_4"
   ],
   "title": "The last quay roll",
-  "body": "Late August 1511. The sultans have withdrawn inland toward Muar and Pagoh. The town has fallen. In the lanes, some warehouses still have their safe-conduct banners; others have been looted. At the landing people turn up with bundles, not cargo accounts.\n\nYour clerk brings tonight's list of names and asks where you will take it. A court runner is gathering people bound inland. A boatman is making room for families at the landing.",
+  "body": "Late August 1511. Mahmud Shah and his son Ahmad Shah have withdrawn inland toward Muar and Pagoh. The town has fallen. In the lanes, some warehouses still have their safe-conduct banners; others have been looted. At the landing people turn up with bundles, not cargo accounts.\n\nYour clerk brings tonight's list of names and asks where you will take it. A court runner is gathering people bound inland. A boatman is making room for families at the landing.",
   "choices": [
     {
       "id": "leave_with_roll",
@@ -29,7 +29,7 @@
     }
   ],
   "notes": [
-    "fact: The sultans retreated toward Muar and Pagoh and Portuguese troops occupied and sacked Melaka; sources distinguish different dates for the capture and final sweep. Some merchants' safe-conduct banners were respected (docs/research/1511-events.md §§1, 4.4).",
+    "fact: The Portuguese accounts summarized in the timeline describe Mahmud and Ahmad's retreat toward Muar and Pagoh, the occupation and sack, and some merchants' safe-conduct banners being respected. Accounts differ on the dates of the capture and final sweep and on which ruler held the throne (docs/research/1511-events.md §§1, 4.4; docs/research/people-factions.md §2, research PR #28).",
     "gameplay: The roll, the evacuations, the choice to stay or go and their effects are invented. The city falls in both outcomes; the choice changes whom the shahbandar helps, not the military result or the next campaign state."
   ]
 }

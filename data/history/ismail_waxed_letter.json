@@ -8,7 +8,7 @@
     "case_004_hold"
   ],
   "title": "Keep the name off the quay",
-  "body": "1511. The bendahara has the sealed letter from Pedir. Farid's account of the seized Cambay ship has stayed off the public record. Khoja Ismail is not asking to see the letter. He wants to know where to keep the Salamat's unsold resin, so his buyers can still reach it if the ships have to wait.",
+  "body": "1511. The bendahara has the sealed letter from Pedir. Farid's account of the seized Cambay ship has stayed off the public record. Khoja Ismail, the Salamat's owner, is not asking to see the letter. He wants to know where to keep its unsold resin, so his buyers can still reach it if the ships have to wait.",
   "choices": [
     {
       "id": "keep_resin_ashore",
@@ -29,7 +29,7 @@
   ],
   "notes": [
     "fact: Albuquerque's fleet took Gujarati shipping and called at Pedir, where escaped Portuguese captives joined it (docs/research/1511-events.md §1, Phase III).",
-    "gameplay: Farid, his letter, the Salamat and this follow-up are fictional (data/inspections/case_004.json; data/events/ev_bendahara_summons.json; data/merchants/khoja_ismail.json). The advice concerns unsold stock and does not assess dues or count a sale."
+    "gameplay: Ismail is the fictional merchant who owns the Salamat, not the unnamed Gujarati shahbandar mentioned in Birch's account. Farid, his letter, the Salamat and this follow-up are also fictional. The advice concerns unsold stock and does not assess dues or count a sale (data/inspections/case_004.json; data/events/ev_bendahara_summons.json; data/merchants/khoja_ismail.json; docs/research/people-factions.md §2, research PR #28)."
   ],
   "merchant_id": "khoja_ismail"
 }
