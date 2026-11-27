@@ -3,7 +3,8 @@
   "title": "An invitation from the Keling quarter",
   "day": 1,
   "requires": [
-    "case_002_cleared"
+    "case_002_cleared",
+    "case_002_inspected"
   ],
   "body": "A boy brings word from Sri Rangan’s house in the Keling quarter: the Kaveri’s cloth is selling, and the merchants of Pulicat would be honoured if the shahbandar ate with them tonight. They have heard that you cut the cords yourself rather than trust the porter’s tally or the owner’s seal.\n\nThe Keling merchants are many and rich in Melaka. They are also not your merchants alone.",
   "choices": [

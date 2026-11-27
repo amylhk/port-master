@@ -38,6 +38,8 @@ Morning briefings live in `data/briefings/` and evening events in `data/events/`
 
 Briefing flags in use: `rice_short_yesterday` (rice landed the previous day fell below `rice_target`), `ship_lost_yesterday` (at least one ship lost the previous day), `major_fraud_ruled_yesterday` (a correct Major Fraud ruling the previous day), `ships_held_over` (ships carried over unresolved from the previous day). Run `godot --headless --script tests/briefings.gd` to check briefing files.
 
+Evening event flags describe the current day. Use `<case>_inspected` (for example, `case_002_inspected`) when an event needs a ruling filed through the inspection screen, regardless of its outcome. Declaration-only clearance sets `<case>_cleared` but not `<case>_inspected`. Require both flags when the story needs an inspection that ended in clearance.
+
 Sample briefing (`data/briefings/rice_short.json`, abridged):
 
 ```json
