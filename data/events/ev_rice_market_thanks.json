@@ -1,10 +1,10 @@
 {
   "id": "ev_rice_market_thanks",
-  "title": "A quiet market",
+  "title": "平靜的米市",
   "day": 1,
   "requires": [
     "rice_target_met"
   ],
-  "body": "The market closes without trouble tonight. The rice from Java reached the sellers before noon, and the price of a gantang held. A kampung headman sends a basket of mangosteens to your door with no message beyond his name.",
+  "body": "今晚市場平靜收市。爪哇米在中午前送到米商手中，每甘當米的價格沒有上漲。一名村長送了一籃山竹到您家門口，只留下姓名。",
   "choices": []
 }

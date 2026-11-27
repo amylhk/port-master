@@ -1,49 +1,49 @@
 {
-  "title": "Harbour Office Reference Manual (Stage A)",
+  "title": "港務署驗貨手冊（階段 A）",
   "entries": [
     {
-      "title": "How to use this manual",
-      "text": "You are a shahbandar of Melaka, working from the harbour office. Every ship that wants to trade hands you a manifest. The manifest is the ship's declaration: what its people say is aboard. It is not proof.\n\nThis manual tells you what the office expects to find: the registered marks of known merchants, how lots are sealed, what goods normally weigh, and how to rule. Compare the manifest and this manual against what you actually see in the hold.\n\nA mismatch is a clue, not a verdict. Look for a second clue before you accuse anyone.\n\nHistory: Port papers are mentioned in period sources, but no pre-conquest Melaka cargo manifest survives. This game's written declaration is an invention."
+      "title": "如何使用手冊",
+      "text": "您是馬六甲的沙班達爾，在港務署辦公。每艘想交易的船都會交來貨單。貨單是船方的申報，記載他們聲稱船上有甚麼；這不是證據。\n\n本手冊列出港務署的查驗依據：商人登記的標記、各批貨物的封裝方式、貨物的通常重量，以及裁決準則。請以貨單和手冊對照貨艙內的實物。\n\n不符之處是線索，不是裁決。指控任何人之前，請再找一項線索。\n\n歷史：當時的史料提到港口文書，但沒有征服前馬六甲的貨單留存。本遊戲的書面申報為虛構。"
     },
     {
-      "title": "The port and your office",
-      "text": "Melaka is a port of many nations. Ships come from Gujarat and the Coromandel coast, from Bengal and Pegu, from Java and the spice islands, from Champa and China. Each captain goes first to the shahbandar of his own nation, who receives him, presents him to the bendahara, allots him a warehouse and dispatches his goods.\n\nYou are a shahbandar of Melaka. In this game you also direct berthing and inspection for the whole harbour: you choose which ships berth, how closely to inspect them, and how to rule. Dues are collected, and every customs ruling is made, in the name of the temenggung, the Customs Judge. You do not command merchants, set every price, or control when ships arrive.\n\nHistory: Tome Pires (Suma Oriental, c. 1512-1515, pp. 264-5, 273) describes four shahbandars, one for each group of nations (Gujarat; the Klings, Bengal, Pegu and Pasai; Java and the eastern islands; China, the Ryukyus and Champa), and gives dues and the customs bench to the temenggung. Your port-wide authority over berths and inspection goes beyond the historical office: it is a game abstraction."
+      "title": "港口與您的職責",
+      "text": "馬六甲匯聚各地船隻，來自古吉拉特與科羅曼德爾海岸、孟加拉與勃固、爪哇與香料群島，以及占城與中國。船長先去見自己所屬商群的沙班達爾，由他接待，引見盤陀訶羅，分配倉庫並安排貨物轉運。\n\n您是馬六甲的沙班達爾。在本遊戲中，您也負責全港靠泊和驗貨：決定哪艘船靠泊、查驗到何種程度，以及如何裁決。稅款以海關法官天猛公的名義徵收；海關裁決也以他的名義作出。您無權指揮商人、規定每項價格，或控制船隻到達的時間。\n\n歷史：托梅皮雷斯在《東方志》（約1512–1515年，第264–265、273頁）記載四位沙班達爾，分管四組商群：古吉拉特；吉靈、孟加拉、勃固和巴賽；爪哇和東方群島；中國、琉球和占城。他記載稅務和海關審判由天猛公負責。遊戲讓您掌管全港泊位和驗貨，是遊戲設計上的簡化，超出史實的職權。"
     },
     {
-      "title": "Berths, anchorage and lost ships",
-      "text": "The harbour has 2 berths. A berthed ship unloads and is processed; both berths work at the same time.\n\nShips waiting for a berth lie at the anchorage, which holds 3 ships. If a ship arrives when the anchorage is full, it sails on to another port. That trade, its dues and its goods are lost to Melaka.\n\nEvery minute you spend on one ship is a minute the anchorage keeps filling. Choose which ships deserve your time."
+      "title": "泊位、錨地與錯失的船隻",
+      "text": "港口有2個泊位。靠泊的船隻可卸貨和辦理手續，兩個泊位可同時作業。\n\n等候靠泊的船隻停在錨地，最多可容納3艘船。錨地已滿時，抵達的船隻會轉往其他港口；馬六甲便會失去這筆交易、稅款和貨物。\n\n您每在一艘船上多花一分鐘，錨地仍可能繼續擠滿。請考慮哪些船值得花時間。"
     },
     {
-      "title": "Inspection depths",
-      "text": "Skip: clear the ship on its declaration. Fast, but you will miss faults and fraud.\n\nBasic: count the lots and check their condition. Catches routine miscounts and damage.\n\nDetailed: board the ship yourself. Read the manifest, examine marks, seals and weights, open containers, and question the captain, crew and merchants. Slow, but it is the only way to uncover hidden cargo or a story behind it."
+      "title": "驗貨深度",
+      "text": "略過：按船方申報放行。最快，但會漏掉錯誤和欺詐。\n\n基本查驗：點算貨物批數並檢查狀況，可發現一般的數量差錯或破損。\n\n詳細驗貨：親自登船。閱讀貨單，檢查標記、封印和重量，開啟容器，並向船長、船員和商人問話。較費時，卻是發現隱藏貨物或背後內情的唯一辦法。"
     },
     {
-      "title": "Detailed Inspection, step by step",
-      "text": "1. Read the manifest: ship, captain, route, owners, lots, quantities, values, and any notes the captain has written.\n2. Examine each lot from outside: packaging, merchant mark, seal, condition. The porters call out the weight of anything you point at.\n3. Check this manual: whose mark should be on the lot? How should it be sealed? What should it weigh?\n4. Investigate what does not fit: open a container, compare it with its neighbours, ask the people aboard. Listen for answers that disagree.\n5. Rule (see 'Rulings')."
+      "title": "詳細驗貨步驟",
+      "text": "1. 閱讀貨單：查閱船隻、船長、航線、貨主、批次、數量、貨值及船長的附註。\n2. 檢查每批貨物外部：留意包裝、商號標記、封印和狀況；您指出要查看的貨物，搬運工便會報出重量。\n3. 查閱本手冊：貨物應有誰的標記？應如何封裝？應有多重？\n4. 追查不符之處：打開容器，與鄰近貨物比較，向船上人員問話，留意互相矛盾的說法。\n5. 作出裁決（見「裁決」）。"
     },
     {
-      "title": "Register of merchant marks",
-      "text": "A merchant who trades through Melaka registers a mark with the harbour office. His lots should carry his mark, pressed into the clay seal and painted or stamped on the packing.\n\nRegistered marks (this season):\n- Lim Seng, merchant of Guangzhou: a circle crossed by one upright line.\n- Khoja Ismail, merchant of Cambay: a crescent over a bar.\n- Sri Rangan, merchant of Pulicat: three dots in a triangle.\n- Ki Jaya, merchant of Gresik: two wavy lines.\n- Encik Hamzah, merchant of Pahang: a fish facing left. SUSPENDED: by order of the harbour office, Encik Hamzah may not land goods at Melaka this season, after jars of his were found hiding undeclared goods.\n\nA ship's captain (nakhoda) also registers a seal for his ship. It is used only for resealing (see 'Seals').\n\nHistory: Some period jars from the region have shoulder marks whose purpose is unknown. The merchant marks and register in this game are invented."
+      "title": "商號標記名冊",
+      "text": "在馬六甲交易的商人須向港務署登記標記。泥封上應壓有商號標記，包裝上也應畫上或蓋上相同標記。\n\n本季登記的標記：\n- 廣州商人林成：圓形中間穿過一條豎線。\n- 坎貝商人霍賈伊斯梅爾：橫槓上方有一彎新月。\n- 普利卡特商人斯里蘭甘：三點排成三角形。\n- 格雷西克商人基查亞：兩條波浪線。\n- 彭亨商人恩吉哈姆扎：一條向左的魚。已停權：有人發現他的貨甕藏有未申報貨物，港務署下令本季不得在馬六甲卸貨。\n\n船長也會為船隻登記船印，只可在重封時使用（見「封印與重封」）。\n\n歷史：該地區留存的部分古甕，甕肩有用途不明的印記。遊戲中的商號標記和名冊為虛構。"
     },
     {
-      "title": "Seals and resealing",
-      "text": "Lots are closed with a clay seal at the port where they are packed, pressed with the owner's mark. A sound seal is dry, hard and the same colour as the others in its lot.\n\nA lot may be opened at sea when goods are damaged: wet, broken, or spoiling. The nakhoda then reseals it with his ship's seal and writes it on the manifest: which lot, where, and why. A resealed lot with that note is in order.\n\nWarning signs: an owner's mark that does not belong to the declared owner; fresh or differently coloured clay; a reseal with no note on the manifest.\n\nHistory: Cargo seals are not documented for Melaka in this period. This game's clay seals and resealing rules are invented."
+      "title": "封印與重封",
+      "text": "貨物在包裝港以泥封封好，壓上貨主的標記。妥善的封印乾燥堅硬，顏色與同批貨物的其他封印相同。\n\n貨物在海上受潮、破裂或腐壞時，可以開封。船長須用船印重封，並在貨單上註明哪一批貨物、在哪裡重封及原因。有這項附註，重封便符合規定。\n\n須留意的情況：貨主標記與申報不符；封泥仍新或顏色不同；貨物重封卻未在貨單註明。\n\n歷史：沒有史料記載這一時期的馬六甲使用貨物封印。遊戲中的泥封與重封規則為虛構。"
     },
     {
-      "title": "Dues, presents and weighing",
-      "text": "Merchants from the west (Gujarat, the Coromandel coast, Bengal, Pegu and beyond) pay dues of 6 in every 100 on their goods, and presents worth 1 or 2 more to the king, the bendahara, the temenggung and their shahbandar.\n\nMerchants from the east (Pahang to China, Java and the spice islands) pay no dues; they give presents instead, of a reasonable amount set by the shahbandar.\n\nEveryone pays the weighing fee: 1 in every 100 of the value of all goods weighed in or out. Everything landed is weighed, so the weighers' call is your first check on a declaration.\n\nA dacing is a beam scale. Use the small dacing for tin and silk and the large dacing for pepper and other bulk spices. They both read in bahar, but a large bahar is heavier than a small one. For inspection in this game, 7 large bahar balance 8 small bahar. Compare weights in the same unit and leave the packing out of the net weight.\n\nHistory: the rates follow Tome Pires (pp. 270-4). António Nunes (1554, fol. 31) records Melaka's two bahar weights. The conversion above is rounded for play, and the fee calculations are simplified."
+      "title": "稅款、贈禮與磅費",
+      "text": "西方商人（來自古吉拉特、科羅曼德爾海岸、孟加拉、勃固及更遠地方）每100貨值繳6的稅款，另向國王、盤陀訶羅、天猛公及所屬的沙班達爾獻上價值1或2的贈禮。\n\n東方商人（從彭亨到中國、爪哇與香料群島）不用繳稅，改送贈禮；金額由沙班達爾酌定。\n\n所有人都要繳磅費：進出港貨物凡經秤量，每100貨值繳1。所有上岸貨物都要秤量，所以磅手報出的重量是核對申報的第一步。\n\n桿秤用來秤重。錫和生絲用小桿秤；胡椒和其他大宗香料用大桿秤。兩種秤均以巴哈計，但大巴哈比小巴哈重。在本遊戲的驗貨規則中，7大巴哈等於8小巴哈。請以同一單位比較重量，並扣除包裝重量以得出淨重。\n\n歷史：稅率參照托梅皮雷斯（第270–274頁）。安東尼奧努內斯（1554年，第31葉）記載馬六甲有兩種巴哈重量。遊戲採用取整後的換算值，磅費亦經簡化。"
     },
     {
-      "title": "Packing and weights",
-      "text": "Weights are in kati. Expected weights for the commonest packing:\n- Large storage jar, empty: 20-24 kati.\n- Large storage jar packed with small bowls in straw (the usual 30 bowls): 31-37 kati.\n- Large storage jar full of grain, spice or other dense goods: 42 kati or more.\n- Bale of silk: 9-11 kati.\n- Sack of rice: 38-42 kati.\n- Slab of tin: 1 kati (bundled in tens).\n\nA single lot heavier or lighter than its neighbours deserves a look inside.\n\nCloth may be declared by the kodi: twenty pieces. Count the separate lengths, not the rolls or wrappers. If the count looks wrong, unroll the cloth before you rule.\n\nHistory: the kati (catty) and the much larger bahar were trade weights used across the region; the ranges above are game values, not period measurements. The kodi (also called a corge) was a trade count for cloth."
+      "title": "包裝與重量",
+      "text": "重量以斤計。常見包裝的預期重量如下：\n- 大型空甕：20–24斤。\n- 大甕內以稻草包裹小碗（通常30隻）：31–37斤。\n- 盛滿穀物、香料或其他密實貨物的大甕：42斤或以上。\n- 一包生絲：9–11斤。\n- 一袋米：38–42斤。\n- 一塊錫錠：1斤（每十塊捆成一束）。\n\n單件貨物比同批的其他貨物重或輕，值得打開查驗。\n\n布匹可按戈迪申報，每戈迪二十匹。請點算分開的布匹，不要數布卷或包裝。數量看似不符時，請攤開棉布再作裁決。\n\n歷史：斤與重得多的巴哈是本區商貿重量單位；上述重量是遊戲數值，並非歷史測量所得。戈迪（又稱科吉）是布匹的交易計數單位。"
     },
     {
-      "title": "Questioning people aboard",
-      "text": "You may question the nakhoda, the merchant or his factor, and the crew. People have reasons to lie, to protect a master, or simply to be wrong.\n\nAn account means most when it agrees with something you can see. Two accounts that cannot both be true mean one person is mistaken or lying; find the evidence that tells you which."
+      "title": "向船上人員問話",
+      "text": "您可向船長、商人或其代理人，以及船員問話。有人為了保護僱主而撒謊，也有人只是記錯。\n\n說法與實物相符，才更可信。兩個互相矛盾的說法表示有人記錯或說謊；請找出能分辨真偽的證據。"
     },
     {
-      "title": "Rulings",
-      "text": "When you finish, rule on the ship. Your ruling is given in the temenggung's name.\n\nClean: the cargo matches the declaration, or every difference is explained and in order (for example a noted reseal). Clear the ship.\n\nMinor Fault: an honest error with nothing hidden: a miscount, a wrong grade, damaged goods not declared, a missing note. Correct the declaration and charge dues on what is really aboard.\n\nMajor Fraud: deliberate deception: goods hidden or undeclared, false or borrowed marks, seals tampered with, people lying to cover it. Hold the goods for the temenggung's judgement.\n\nStory Event: what you found is about more than trade (a letter, a passenger, a message for the court). Hold the ship and report it to the bendahara.\n\nIf you cannot decide, ask for clarification, but the ship keeps its berth while you wait."
+      "title": "裁決",
+      "text": "驗貨完畢後，請選用印章作出裁決。裁決以天猛公的名義作出。四枚印章的含義如下。\n\n放行（無誤）：貨物符合申報，或所有差異均有合理解釋並符合規定，例如貨單已註明重封。放行船隻。\n\n更正（輕微錯漏）：無意的疏漏，並未藏匿貨物，例如數量、等級寫錯，未申報破損，或漏寫附註。更正申報，按實際裝載的貨物徵收稅款。\n\n罰款（重大欺詐）：蓄意欺騙，例如藏匿或不申報貨物、冒用或借用商號標記、篡改封印，或有人說謊掩飾。暫扣有爭議的貨物，交天猛公裁決，追補應繳稅款；其餘貨物可繼續辦理交易。這不等於扣留整艘船。\n\n扣留（特殊事件）：所發現的事超出交易範圍，例如信件、乘客或給朝廷的消息。扣留整艘船及其貨物，並向盤陀訶羅通報。此印章並非只暫扣有爭議的貨物。\n\n若尚不能決定，可要求進一步說明，但等候期間，船隻仍佔用泊位。"
     }
   ],
   "authoring": {

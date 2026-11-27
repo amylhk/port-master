@@ -1,16 +1,16 @@
 {
   "id": "ev_bendahara_summons",
-  "title": "Summoned to the bendahara",
+  "title": "盤陀訶羅召見",
   "day": 1,
   "requires": [
     "case_004_hold"
   ],
-  "body": "After the evening prayer a palace runner comes for you. The bendahara has read the sealed letter from Pedir and heard Farid out. He wishes to see the shahbandar who found him.\n\nIn the lamplight of the audience hall the bendahara asks only one question: will the Gujarati nau in harbour stay or run when they hear of eighteen Feringgi warships taking Gujarati ships off Pedir?",
+  "body": "晚禱後，一名宮中信差來傳召。盤陀訶羅已讀過皮迪爾送來的密信，也聽過法里德的陳述，想見一見找到他的沙班達爾。\n\n燈火映照的廳上，盤陀訶羅只問一件事：若在港的古吉拉特大帆船得知十八艘佛郎機戰船在皮迪爾攔截古吉拉特船隻，會留下還是離開？",
   "choices": [
     {
       "id": "keep_quiet",
-      "label": "Advise keeping the news inside the court",
-      "outcome_text": "The bendahara agrees to let no word reach the waterfront until the council has met. Tomorrow’s Gujarati ships will trade as usual, for now. You leave knowing what the harbour does not.",
+      "label": "建議將消息留在朝廷",
+      "outcome_text": "盤陀訶羅同意，議事會開會前不讓消息傳到碼頭。明天古吉拉特商船暫且照常交易。您離席時，港中還無人知道此事。",
       "effects": {
         "duty": 2,
         "supply": 0,
@@ -19,8 +19,8 @@
     },
     {
       "id": "warn_merchants",
-      "label": "Advise warning the Gujarati merchants",
-      "outcome_text": "The bendahara hesitates, then allows you to tell the Gujarati shahbandar quietly. By dawn some Cambay captains are asking for early clearance; others bring their goods ashore for safekeeping. They will remember who warned them.",
+      "label": "建議通知古吉拉特商人",
+      "outcome_text": "盤陀訶羅猶豫片刻，准您私下告知古吉拉特的沙班達爾。天亮前，有些坎貝船長來求提早放行，另一些先把貨物搬上岸保管。他們會記得是誰報的信。",
       "effects": {
         "duty": -2,
         "supply": 0,
@@ -29,8 +29,8 @@
     },
     {
       "id": "press_for_rice",
-      "label": "Advise buying rice for the stores",
-      "outcome_text": "If warships come, you say, the city will need food before it needs news. The bendahara nods and sends word to the Treasurer. The court’s agents will be at the Javanese rice boats early tomorrow.",
+      "label": "建議購米入庫",
+      "outcome_text": "您說，若戰船到來，城中首先需要的是糧食，不是消息。盤陀訶羅點頭，派人通知掌管國庫的官員。朝廷的人明早會到爪哇米船等候。",
       "effects": {
         "duty": -1,
         "supply": 2,

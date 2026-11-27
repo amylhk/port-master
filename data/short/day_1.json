@@ -1,0 +1,163 @@
+{
+  "briefings": {
+    "day_01_turn_of_the_monsoon": {
+      "speaker_id": "salmah_quay_watch",
+      "line": "大人，請趕在10:15離港潮前卸下全數24袋米。"
+    },
+    "port_day": {
+      "speaker_id": "salmah_quay_watch",
+      "line": "米船與胡椒船於10:15離港；金豐號留至11:00。"
+    }
+  },
+  "ships": {
+    "rice": {"line": "爪哇米船載有市場急需的24袋米。"},
+    "pepper": {"line": "胡椒的稅收較高，但兩艘船皆於10:15離港。"},
+    "porcelain": {"line": "金豐號自廣州運來瓷器，於11:00離港。"},
+    "resin": {"line": "薩拉馬特號自坎貝運來乳香，前帆已破。"},
+    "tin": {"line": "阿魯斯號自霹靂運來成籃錫錠。"},
+    "cloth": {"line": "卡韋里號自普利卡特運來染色棉布。"}
+  },
+  "cases": {
+    "case_001": {
+      "speaker_id": "ong_kuan",
+      "line": "大人，本船從廣州運來瓷器和生絲。",
+      "evidence": {
+        "ev_manifest": "申報24甕，每甕30碗；另有10包絲。",
+        "ev_exterior": "前20甕32–36；後甕45、46、45、47斤",
+        "ev_testimony": "船長否認另行停靠，舵手稱曾泊刁曼島兩夜。",
+        "ev_opened": "前甕30碗；後甕8碗，草墊下有整顆肉豆蔻。"
+      },
+      "rulings": {
+        "clear": "按申報放行",
+        "major_fraud": "扣留可疑貨物",
+        "minor_fault": "更正申報",
+        "hold": "扣船通報朝廷"
+      }
+    },
+    "case_002": {
+      "line": "搬運工說卡韋里號少了一匹布。",
+      "evidence": {
+        "ev_manifest": "申報棉布2戈迪，每包1戈迪。",
+        "ev_tally": "甲包20卷；乙包19卷，其中一卷繫兩圈繩。",
+        "ev_testimony": "船長每包數得20匹，搬運工數的是布卷。",
+        "ev_opened": "甲包共20匹；乙包那卷厚布可拆成兩匹。"
+      },
+      "rulings": {
+        "clear": "按申報放行",
+        "major_fraud": "扣留可疑貨物",
+        "minor_fault": "更正申報",
+        "hold": "扣船通報朝廷"
+      }
+    },
+    "case_003": {
+      "line": "碼頭磅手對阿魯斯號申報的錫重有疑問。",
+      "evidence": {
+        "ev_manifest": "七籃錫錠，申報重7小巴哈。",
+        "ev_exterior": "同批錫以小磅秤得8巴哈，大磅秤得7巴哈。",
+        "ev_testimony": "船夫用大磅秤，記下7巴哈。",
+        "ev_opened": "泥只沾在籃外；錫錠淨重仍是8小巴哈。"
+      },
+      "rulings": {
+        "clear": "按申報放行",
+        "major_fraud": "扣留可疑貨物",
+        "minor_fault": "更正申報",
+        "hold": "扣船通報朝廷"
+      }
+    },
+    "case_004": {
+      "line": "薩拉馬特號的船長不許搬運工到後排貨箱背後。",
+      "evidence": {
+        "ev_manifest": "申報14箱乳香、6箱玫瑰水，無乘客；11號重封",
+        "ev_exterior": "乳香34–36；15號94；玫瑰水22–24斤",
+        "ev_testimony": "船長否認泊蘇門答臘，兩名船員稱曾泊皮迪爾。",
+        "ev_opened": "3號箱有兩個破瓶；15號箱有人及一封信。"
+      },
+      "rulings": {
+        "clear": "按申報放行",
+        "major_fraud": "扣留可疑貨物",
+        "minor_fault": "更正申報",
+        "hold": "扣船通報朝廷"
+      }
+    }
+  },
+  "events": {
+    "ev_awang_musa_grievance": {
+      "line": "阿旺穆薩的船長警告，霹靂船若再被扣留便會轉往別港。",
+      "choices": {
+        "smooth_over": "答應優先靠泊",
+        "dismiss": "要求更正文書"
+      }
+    },
+    "ev_bendahara_summons": {
+      "speaker_id": "tun_mutahir",
+      "line": "古吉拉特商船若得知皮迪爾有戰船，還會留下嗎？",
+      "choices": {
+        "keep_quiet": "消息留在朝廷",
+        "warn_merchants": "通知古吉拉特商人",
+        "press_for_rice": "購米入庫"
+      }
+    },
+    "ev_kaveri_held_complaint": {
+      "line": "斯里蘭甘的代理人問，誰來彌補卡韋里號耽誤的一天？",
+      "choices": {
+        "apologise": "道歉並免收贈禮",
+        "stand_firm": "堅持扣留有理"
+      }
+    },
+    "ev_kaveri_keling_invitation": {
+      "line": "斯里蘭甘派人邀您與普利卡特商人共進晚餐。",
+      "choices": {
+        "attend": "赴宴",
+        "decline": "致謝婉拒"
+      }
+    },
+    "ev_kim_hong_owner_plea": {
+      "speaker_id": "lim_seng",
+      "line": "請告訴天猛公，瓷器和生絲確是我正當取得的。",
+      "choices": {
+        "speak_for_him": "為林成說項",
+        "refuse_gift": "退還茶禮不表態",
+        "accept_gift": "收茶但不承諾"
+      }
+    },
+    "ev_kim_hong_whispers": {
+      "line": "書記聽聞烏佩街巷的肉豆蔻賣得便宜，來源卻無人肯說。",
+      "choices": {
+        "send_clerk": "追查貨袋",
+        "let_it_go": "不再追究"
+      }
+    },
+    "ev_lost_ship_agent": {
+      "line": "一名掮客願代您向離港船隻的船主致歉，但要收費。",
+      "choices": {
+        "pay_broker": "付費請他寫信",
+        "refuse_broker": "拒絕掮客提議"
+      }
+    },
+    "ev_rice_market_petition": {
+      "line": "今日米價漲了兩次，米商問您明日有何打算。",
+      "choices": {
+        "promise_berth": "答應米船先靠泊",
+        "explain_dues": "說明稅款用途"
+      }
+    },
+    "ev_rice_market_thanks": {
+      "line": "米價穩住了，一名村長送來山竹致謝。",
+      "choices": {}
+    },
+    "ev_stranger_in_upeh": {
+      "line": "書記聽聞一名來自皮迪爾的傷者在烏佩尋找容身之所。",
+      "choices": {
+        "search": "派人搜尋",
+        "ignore": "交由巡守處理"
+      }
+    },
+    "ev_two_dacing_petition": {
+      "line": "磅手首領請您下令，錫貨申報須列明所用磅秤。",
+      "choices": {
+        "order_scale": "規定列明磅秤",
+        "leave_custom": "由磅手自行判斷"
+      }
+    }
+  }
+}

@@ -234,12 +234,14 @@ func reset() -> void:
         _advance_clock(int(scenario["end_minute"]) - minute_of_day)
 
 
-func berth(ship_id: String, inspect: bool) -> void:
-    _berth_ship(ship_id, inspect)
+func berth(ship_id: String, inspect: bool, berth_slot := -1) -> void:
+    _berth_ship(ship_id, inspect, 0, berth_slot)
 
 
-func _berth_ship(ship_id: String, inspect: bool, extra_time := 0) -> void:
+func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := -1) -> void:
     if closed() or not current_story().is_empty() or not pending_case.is_empty() or berths.size() >= BERTH_CAPACITY:
+        return
+    if berth_slot != -1 and (berth_slot < 0 or berth_slot >= BERTH_CAPACITY or not ship_at_berth(berth_slot).is_empty()):
         return
     for i in waiting.size():
         var ship := waiting[i]
@@ -249,10 +251,13 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0) -> void:
             return
         var inspection := inspection_for(ship)
         waiting.remove_at(i)
-        for slot in BERTH_CAPACITY:
-            if ship_at_berth(slot).is_empty():
-                ship["berth_slot"] = slot
-                break
+        if berth_slot != -1:
+            ship["berth_slot"] = berth_slot
+        else:
+            for slot in BERTH_CAPACITY:
+                if ship_at_berth(slot).is_empty():
+                    ship["berth_slot"] = slot
+                    break
         berths.append(ship)
         _log("%s took a berth." % ship["name"])
         if inspect:

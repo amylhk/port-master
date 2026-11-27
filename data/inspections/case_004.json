@@ -1,7 +1,7 @@
 {
   "id": "case_004",
-  "title": "The fifteenth crate from Cambay",
-  "subtitle": "A Gujarati nau from Cambay carrying Arabian frankincense drops anchor with a torn foresail and a hurried crew. A harbour boatman says her captain forbade any porter to step behind the after stack. You board her for a Detailed Inspection.",
+  "title": "坎貝來的第十五箱",
+  "subtitle": "一艘來自坎貝的古吉拉特大帆船載著阿拉伯乳香進入錨地，前帆破裂，船員神色匆忙。港中一名船夫說，船長不許搬運工踏進後排貨箱背後。您登船詳細驗貨。",
   "minutes": 45,
   "art": {
     "desk": "res://assets/art/inspection/inspection_desk_bg.png"
@@ -9,63 +9,63 @@
   "evidence": [
     {
       "id": "ev_manifest",
-      "label": "01  Manifest",
-      "title": "The Salamat’s declaration",
-      "text": "Salamat — Gujarati nau from Cambay\nMid-morning, first day of inspection season\n\nOwner Khoja Ismail of Cambay. 14 crates of Arabian frankincense, 6 crates of rosewater in glass flasks. Route Cambay - Calicut - Melaka. One note: frankincense crate 11 resealed off Calicut after a plank split. No passengers declared. No other note.\n\nArabian frankincense, in sealed timber crates\nQuantity: 14 crates · Grade: Fine · Declared value: 420\n\nRosewater in glass flasks, packed in straw-lined crates\nQuantity: 6 crates · Grade: Fine · Declared value: 180\n\nManifest note: Frankincense crate 11 opened off Calicut after a plank split in a swell; repacked and resealed by the nakhoda with the ship's seal."
+      "label": "01  貨單",
+      "title": "薩拉馬特號的申報",
+      "text": "薩拉馬特號——來自坎貝的古吉拉特大帆船\n驗貨季第一天，上午稍後\n\n貨主是坎貝商人霍賈伊斯梅爾。貨物有14箱阿拉伯乳香和6箱以玻璃瓶分裝的玫瑰水。航線：坎貝－卡利卡特－馬六甲。唯一附註：第11箱乳香因木板裂開，在卡利卡特外重封。沒有申報乘客。\n\n阿拉伯乳香，裝於密封木箱\n數量：14箱｜等級：上等｜申報貨值：420\n\n玻璃瓶裝玫瑰水，箱內鋪有稻草\n數量：6箱｜等級：上等｜申報貨值：180\n\n貨單附註：第11箱乳香在卡利卡特外遇湧浪，木板震裂而開箱；船長重新打包，以船印重封。"
     },
     {
       "id": "ev_exterior",
-      "label": "02  Seals & weights",
-      "title": "Marks, seals and the weighers’ call",
-      "text": "Frankincense crates: 1 to 10 and 12 to 14 (13 crates)\nDry, reddish-brown clay seals pressed with a crescent over a bar. Timber sound; all alike.\n\nFrankincense crate 11\nDry grey clay seal pressed with a star above a crescent, the nakhoda's registered ship's seal. One side plank freshly pegged.\n\nUnnumbered crate behind the after stack (15th crate)\nLashed out of sight behind the frankincense rows. Darker river-clay seal, still soft at the rim, pressed clumsily with a crooked crescent and bar. Three narrow air-slits have been bored through the back slats.\n\nWeights: frankincense crates\nThe porters call out 35, 34, 36, 35, 34 kati... all fourteen declared crates between 34 and 36 kati, including crate 11 at 35 kati. When two porters heave the unnumbered fifteenth crate, they call out 94 kati and jump back at a muffled scrape from inside.\n\nRosewater flask crates (6 crates)\nAll six carry Khoja Ismail's crescent-over-a-bar seal in dry reddish-brown clay and weigh 22 to 24 kati. Crate 3 gives a faint clink of broken glass when tilted.\n\nNakhoda Dawud\nWhy does frankincense crate 11 carry your seal?\nA swell off Calicut split a side plank. I repacked the resin, pegged a new board, sealed it with my ship's seal and wrote it on the manifest.\n\nHassan\nWhat is the unnumbered fifteenth crate behind the stack?\nSpare ballast-stone and ship's gear. Not trade goods — nothing for the weighers.\n\nHassan\nWhy does rosewater crate 3 rattle?\nTwo flasks must have cracked in the swell. Ordinary breakage on a long crossing."
+      "label": "02  封印與重量",
+      "title": "標記、封印和磅手報重",
+      "text": "乳香箱：第1至10及第12至14箱（共13箱）\n紅褐色泥封乾燥，印有橫槓上方一彎新月。木板完好，各箱相同。\n\n乳香第11箱\n灰色泥封乾燥，印有星在新月之上，是船長登記的船印。一側木板新近用木栓釘牢。\n\n後排背後的無編號箱（第15箱）\n用繩索固定在乳香箱後，不易看見。深色河泥封的邊緣仍軟，歪斜地印了新月與橫槓。後側木板鑿了三道狹窄的透氣縫。\n\n重量：乳香箱\n搬運工報出35、34、36、35、34斤……十四箱申報貨物都在34至36斤之間，第11箱是35斤。兩名搬運工抬起無編號的第十五箱，報出94斤；箱內傳出一聲悶響，兩人嚇得跳開。\n\n玫瑰水（6箱）\n六箱都用紅褐色乾泥封，帶霍賈伊斯梅爾的新月橫槓標記，重22至24斤。第3箱傾斜時傳出輕微的碎玻璃聲。\n\n達烏德船長\n第11箱乳香為何用您的船印？\n在卡利卡特外遇到湧浪，一側木板裂開了。我重新裝好乳香，釘了塊新板，蓋上船印，也在貨單寫明此事。\n\n哈桑\n後排背後那個沒編號的第十五箱是甚麼？\n備用的壓艙石和船具，不是貨，無須磅手查看。\n\n哈桑\n第3箱玫瑰水為何有聲響？\n大概有兩個瓶子在浪中裂了。長途航行難免破損。"
     },
     {
       "id": "ev_testimony",
-      "label": "03  Testimony",
-      "title": "The people aboard",
-      "text": "Hassan — Factor (agent) of Khoja Ismail, merchant of Cambay\nFourteen crates of Dhofar frankincense and six crates of rosewater flasks, all packed in Cambay under my master's mark. We called at Calicut and came straight across to Melaka. Nowhere else.\n\nNakhoda Dawud — Captain\nCambay to Calicut, then straight to Melaka. We never dropped anchor in Sumatra. Crate 11 split off Calicut; I repacked it, sealed it with my ship's seal and noted it on the manifest.\n\nTariq — Helmsman\nWe lay one night off Pedir in northern Sumatra, with our lamps hooded. Sixteen or more Feringgi warships — the white Bengalis — were anchored off the bar, and a Gujarati nau was burning in the roadstead.\n\nRahim — Cook\nAt Pedir a bruised, salt-soaked man in torn Cambay clothes scrambled up our side from a perahu after midnight with a waxed leather tube slung across his chest. The nakhoda hurried him below, bored air-slits into a spare crate and daubed wet dark clay from the Pedir shore onto its cord before we slipped out on the ebb.\n\nNakhoda Dawud\nYour helmsman and cook say you stopped at Pedir and hid a man in the stern crate.\nHe lowers his voice. A sister ship of our guild was seized off Pedir by the Feringgi. If I wrote that man's name on a public manifest, spies on the waterfront would know before noon."
+      "label": "03  問話",
+      "title": "船上的人",
+      "text": "哈桑——坎貝商人霍賈伊斯梅爾的代理人\n十四箱佐法爾乳香和六箱玫瑰水，都在坎貝打包，印的是我東家的標記。我們到過卡利卡特，然後直接渡海來馬六甲，沒去別處。\n\n達烏德——船長\n從坎貝到卡利卡特，再直接到馬六甲。我們從沒在蘇門答臘下錨。第11箱在卡利卡特外裂開，我重新打包、蓋上船印，也寫進了貨單。\n\n塔里克——舵手\n我們收起燈火，在蘇門答臘北部的皮迪爾外海停了一晚。至少十六艘佛郎機戰船，就是所謂的白孟加拉人，在沙洲外下錨；一艘古吉拉特大帆船在外港燃燒。\n\n拉希姆——廚子\n在皮迪爾，過了午夜，一名渾身瘀傷、被海水浸透、穿著破爛坎貝衣裳的男子從沿岸小船爬上船舷，胸前掛著一個塗蠟的皮筒。船長匆忙把他送進艙內，在備用木箱上鑿透氣縫，又把皮迪爾岸邊濕潤的深色泥抹在箱繩上，趁退潮離開。\n\n達烏德船長\n舵手和廚子都說，您在皮迪爾停靠，把一名男子藏在船尾木箱裡。\n他壓低聲音：我們商會的一艘船在皮迪爾外被佛郎機人劫去。若我把那人的名字寫在公開的貨單上，碼頭上的眼線不到中午便會知道。"
     },
     {
       "id": "ev_opened",
-      "label": "04  Open cargo",
-      "title": "Inside the crates",
-      "text": "Opened: frankincense crate 11\nPale amber tears of Arabian frankincense, dry and clean, matching the other crates. One repaired side plank. Nothing else inside.\n\nOpened: rosewater crate 3\nGlass flasks nested in straw. Two flasks are cracked and dry; the rest are whole and full. Nothing else.\n\nOpened: the unnumbered fifteenth crate\nNo frankincense, no ballast, no trade goods. Curled inside beside a water gourd is Farid, a bruised clerk from a sister Cambay nau seized by the Feringgi off Pedir. Around his neck hangs a waxed leather tube containing a sealed letter from Pedir's shahbandar to the bendahara of Melaka: eighteen armed Feringgi warships have put in at Pedir, taken aboard escaped captives from Melaka, and are making ready to sail down the Strait.\n\nFarid\nWhy were you sealed inside a cargo crate?\nI have not a kati of goods to trade and no dues to dodge. Take me and this letter quietly to the bendahara before the Feringgi sails sight the headland — and keep my name off the quay."
+      "label": "04  開箱驗貨",
+      "title": "箱內所見",
+      "text": "開箱：第11箱乳香\n淡琥珀色的阿拉伯乳香樹脂粒，乾燥潔淨，與其他箱相同。一側木板修過，箱內沒有別的東西。\n\n開箱：第3箱玫瑰水\n玻璃瓶墊在稻草中。有兩瓶破裂而乾涸，其餘完整而盛滿。沒有別的東西。\n\n開箱：無編號的第十五箱\n沒有乳香、壓艙物或其他貨物。水葫蘆旁蜷著法里德；他是坎貝另一艘大帆船上受傷的書記，那船在皮迪爾外遭佛郎機人劫去。他頸上掛著塗蠟的皮筒，裡面是皮迪爾的沙班達爾給馬六甲盤陀訶羅的密信：十八艘武裝佛郎機戰船已進駐皮迪爾，接走自馬六甲逃脫的俘虜，正準備沿海峽南下。\n\n法里德\n你為何被封在貨箱裡？\n我沒有一斤貨可賣，也沒有稅要逃。請在佛郎機人的船帆望見岬角前，悄悄帶我和這封信去見盤陀訶羅，別把我的名字傳到碼頭。"
     }
   ],
   "rulings": [
     {
       "id": "clear",
-      "label": "Clean — clear as declared"
+      "label": "無誤——按申報放行"
     },
     {
       "id": "major_fraud",
-      "label": "Major Fraud — hold the suspect cargo"
+      "label": "重大欺詐——扣留可疑貨物"
     },
     {
       "id": "minor_fault",
-      "label": "Minor Fault — correct the declaration"
+      "label": "輕微錯漏——更正申報"
     },
     {
       "id": "hold",
-      "label": "Story Event — hold the ship and notify the court"
+      "label": "特殊事件——扣船通報朝廷"
     }
   ],
   "reasons": [
     {
       "id": "calicut_reseal",
-      "label": "Frankincense crate 11 was resealed with the nakhoda's seal instead of Khoja Ismail's."
+      "label": "第11箱乳香用船印重封，沒用霍賈伊斯梅爾的標記。"
     },
     {
       "id": "cracked_flasks",
-      "label": "Two cracked rosewater flasks in crate 3 were not declared as damaged."
+      "label": "第3箱兩瓶破裂的玫瑰水未申報為破損。"
     },
     {
       "id": "pedir_messenger",
-      "label": "The hidden stern crate, Pedir testimony and the survivor's sealed warning of a Feringgi fleet are a matter of state."
+      "label": "藏在船尾的貨箱、關於皮迪爾的證詞及倖存者帶來的佛郎機船隊密信，關乎國事。"
     },
     {
       "id": "smuggled_resin",
-      "label": "The unmanifested 94-kati crate proves undeclared frankincense was hidden to evade the 6% western dues."
+      "label": "未申報的94斤貨箱證明有人藏匿乳香，企圖逃避西方商人的6%稅款。"
     }
   ],
   "hidden_truth": {
@@ -73,15 +73,15 @@
     "hold_at_berth": true,
     "reason_id": "pedir_messenger",
     "feedback_by_method": {
-      "marks": "The crooked seal makes the hidden stern crate worth opening, but it does not reveal the messenger or his warning.",
-      "measurements": "The hidden crate weighs 94 kati, but its weight does not tell you that it holds a man carrying a warning from Pedir.",
-      "manifest": "The declaration accounts for the repaired frankincense crate, but lists neither the Pedir stop nor the passenger hidden at the stern."
+      "marks": "歪斜的封印讓藏在船尾的箱子值得打開，但不能揭露信使或他的警報。",
+      "measurements": "藏起的箱子重94斤，但單憑重量看不出裡面藏著一名從皮迪爾帶來警報的人。",
+      "manifest": "申報交代了修補過的乳香箱，卻沒列出停靠皮迪爾或藏在船尾的乘客。"
     },
     "extra_duty": 0,
-    "success": "In the temenggung's name you hold the Salamat at the berth and send Farid and the sealed Pedir letter under quiet guard to the bendahara. Every declared crate of frankincense and rosewater is in order, so no extra dues apply — yet the court receives warning of the eighteen Feringgi warships before their sails sight Melaka.",
-    "clear": "You clear the Salamat as declared. Farid slips ashore into the crowded lanes of Upeh after dark, and days pass before the court hears that an armed Feringgi fleet has already seized Gujarati ships off Pedir.",
-    "unsupported": "The evidence cited does not support a customs amendment in the temenggung’s name. All fourteen crates of frankincense and six of rosewater match the declaration, and the man hidden at the stern goes unreported to the court.",
-    "hold": "You hold the Salamat and summon the court on the wrong grounds. The bendahara's clerks find only a noted reseal and two cracked flasks where you pointed, and the day's frankincense sale is lost without uncovering the survivor from Pedir."
+    "success": "您以天猛公的名義將薩拉馬特號扣在泊位，派人低調護送法里德與皮迪爾的密信，交給盤陀訶羅。申報的乳香和玫瑰水都合規，無須補徵稅款；然而佛郎機的十八艘戰船望見馬六甲前，朝廷已收到警報。",
+    "clear": "您准薩拉馬特號按申報放行。法里德天黑後悄悄上岸，消失在烏佩人來人往的街巷裡。數日後朝廷才聽說，武裝的佛郎機船隊早已在皮迪爾外劫持古吉拉特商船。",
+    "unsupported": "所引用的證據不足以支持以天猛公名義更正申報。十四箱乳香和六箱玫瑰水都符合申報，藏在船尾的男子未被通報。",
+    "hold": "您以錯誤的理由扣下薩拉馬特號並通報朝廷。盤陀訶羅的書記在您所指之處，只查到已登記的重封和兩個碎瓶。當天的乳香交易告吹，來自皮迪爾的倖存者亦未被發現。"
   },
   "authoring": {
     "manual_id": "manual_stage_a",
