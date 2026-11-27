@@ -1,0 +1,27 @@
+{
+  "id": "day_1_rice",
+  "title": "爪哇米船船長",
+  "subtitle": "米袋共二十四袋，起航時已逐袋點算。貨單上載有貨主的聲明。",
+  "art": {"desk": "res://assets/art/inspection/inspection_desk_bg.png"},
+  "minutes": 0,
+  "minutes_per_sack": 5,
+  "duty_reduction": 2,
+  "sacks": [
+    {"label": "一號袋", "finding": "米粒乾爽，舀起時粒粒分明。"},
+    {"label": "二號袋", "finding": "袋底的米粒結團，手指沾上水氣，並聞到酸味。", "wet": true},
+    {"label": "三號袋", "finding": "袋口有碎米，袋內米粒乾爽，未見結團。"},
+    {"label": "四號袋", "finding": "麻布內側濕潤，米粒結成硬塊。", "wet": true}
+  ],
+  "evidence": [
+    {"id": "ev_manifest", "title": "二十四袋爪哇米", "text": "貨主申報：二十四袋均為乾米，供馬六甲市集。"},
+    {"id": "ev_exterior", "title": "封結與重量", "text": "四袋均以麻繩紮口，外觀沒有破口。逐袋過磅，重三十九至四十二斤。"},
+    {"id": "ev_testimony", "title": "船員證詞", "text": "昨夜下過大雨。船員把前艙貨物蓋好，天亮以後才重整堆疊。"}
+  ],
+  "rulings": [
+    {"id": "clear", "label": "放行"},
+    {"id": "minor_fault", "label": "更正"},
+    {"id": "major_fraud", "label": "罰款"},
+    {"id": "hold", "label": "扣留"}
+  ],
+  "reasons": [{"id": "wet_rice", "label": "袋內稻米受潮"}]
+}
