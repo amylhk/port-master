@@ -1,0 +1,82 @@
+{
+  "id": "case_014",
+  "title": "One present, two lots",
+  "subtitle": "Matsu of Naha wants her copper ashore while the smiths can still get to the landing. Her factor says both lots have paid their assessed presents. The quay runner brings you back a single receipt.",
+  "minutes": 35,
+  "art": {
+    "desk": "res://assets/art/inspection/inspection_desk_bg.png"
+  },
+  "evidence": [
+    {
+      "id": "ev_manifest",
+      "label": "01  Manifest",
+      "title": "The White Tern’s declaration",
+      "text": "White Tern — junk from Naha, Ryukyu\nMerchant: Matsu of Naha\n\nCopper ingots, carried from Japan by way of Naha. Lots A and B: four baskets each. Both lots marked ‘present delivered’.\nWoven silk: two bundles, entered and assessed separately."
+    },
+    {
+      "id": "ev_copper",
+      "label": "02  Copper lots",
+      "title": "Eight baskets on deck",
+      "text": "There are four baskets with a single stroke on their tags and four with a double stroke. All eight contain solid copper ingots. The receiver's tally on the two silk bundles is in order."
+    },
+    {
+      "id": "ev_receipts",
+      "label": "03  Receiver’s book",
+      "title": "What the receiver acknowledged",
+      "text": "At the harbour desk you lay the White Tern's clearance entries alongside the receiver's book. Both copper entries cite receipt 37. The receipt itself reads ‘White Tern, copper A, present received: 6.’ On the next line of the receiver's book: ‘Copper B, assessed: 6. Not delivered.’ No later receipt is entered for B."
+    },
+    {
+      "id": "ev_testimony",
+      "label": "04  Testimony",
+      "title": "Who entered the number twice?",
+      "text": "Landing clerk\nI pointed to the A on the receipt. The factor said he knew whose copper it was and made me copy the number beside B all the same. He said the smiths would have the ingots before the receiver could ask again.\n\nReceiver\nOne present came across my mat. I wrote A because that was the lot the runner named. When the second runner came, he showed me the same receipt and brought nothing.\n\nMatsu\nI told my factor to bring both presents down. If one is still owed, name the lot. I won't pay twice for the same four baskets."
+    }
+  ],
+  "rulings": [
+    {"id": "clear", "label": "Clean — clear as declared"},
+    {"id": "major_fraud", "label": "Major Fraud — stop the suspect lot for reassessment"},
+    {"id": "minor_fault", "label": "Minor Fault — correct the declaration"},
+    {"id": "hold", "label": "Story Event — hold the ship and notify the court"}
+  ],
+  "reasons": [
+    {"id": "separate_tags", "label": "Two sets of tags prove both lots paid separately."},
+    {"id": "reused_receipt", "label": "The factor knowingly claimed A's receipt for B; the receiver was never paid for B."},
+    {"id": "combined_present", "label": "The copper was paid for together; the receiver omitted the second lot from the receipt."},
+    {"id": "wrong_charge", "label": "The copper should have paid a western entry duty instead of an assessed present."}
+  ],
+  "hidden_truth": {
+    "ruling_id": "major_fraud",
+    "reason_id": "reused_receipt",
+    "citation_method": "testimony",
+    "feedback_by_method": {
+      "marks": "The tags distinguish the two lots. They do not show whether either lot's present reached the receiver.",
+      "measurements": "The tally accounts for eight baskets. The missing item is a present, not a basket or an ingot.",
+      "contents": "The copper is as declared. Opening the baskets cannot establish what the factor did with the receipt.",
+      "manifest": "The declaration repeats the factor's claim. Compare the clearance entries to the receiver's book and ask who put the same receipt number on both."
+    },
+    "extra_duty": 6,
+    "success": "In the temenggung's name, you stop lot B until its present is made and refer the factor to the customs bench. Lot A and the silk keep their clearance. Matsu pays the six outstanding on B before it trades, then asks you to strike her factor's name from the next delivery.",
+    "clear": "You let both copper lots trade. The receiver is left trying to collect a second present after the second lot has already gone.",
+    "unsupported": "The evidence you filed does not establish a false claim. In the temenggung's name, you leave both clearances in place. The unpaid present is not recovered.",
+    "hold": "You hold the entire White Tern for the court. The court's men find a false receipt claim, not a matter of state. Matsu's silk and the paid copper sit with the unpaid lot."
+  },
+  "authoring": {
+    "manual_id": "manual_stage_a",
+    "harbour_ship_name": "White Tern",
+    "verdicts": ["clean", "minor_fault", "major_fraud", "story_event"],
+    "truth": {
+      "verdict": "major_fraud",
+      "summary": "The factor deliberately used the acknowledgment for lot A to give unpaid lot B a clearance. The goods are genuine and correctly counted.",
+      "key_clues": ["ev_receipts", "ev_testimony"],
+      "deduction": [
+        "Receipt 37 acknowledges one present for A. B has its own assessment but no matching payment in the receiver's book.",
+        "The clerk identified A on the receipt before the factor ordered the same number entered for B, ruling out an innocent copying error."
+      ],
+      "solvable_without_opening": true
+    },
+    "history_notes": [
+      {"topic": "Ryukyuan copper and assessed presents", "note": "Pires describes Ryukyuan carriers of Japanese copper; see docs/research/commodities.md §3.5. On assessed presents rather than western entry dues, see docs/research/port-official.md §§5.1–5.2.", "confidence": "high"},
+      {"topic": "Lot-by-lot assessment", "note": "The lot assessment and its amount, written manifest, tags, numbered receipt and clearance records are gameplay inventions. The outstanding present uses the same ledger field as extra duty; it is not a historical tariff or a western percentage.", "confidence": "game_rule"}
+    ]
+  }
+}
