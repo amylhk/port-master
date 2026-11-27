@@ -324,6 +324,8 @@ func _resolve_ruling(ruling_id: String, evidence_matches: bool, method_id: Strin
         outcome = "clear"
     flags[ship["inspection_case"] + "_inspected"] = true
     _record_ruling(ship, outcome)
+    if supported and ruling_id == "clear":
+        flags[ship["inspection_case"] + "_verified_clearance"] = true
     if not supported:
         ruling_note += "\n\n" + _ruling_feedback(inspection, ruling_matches, evidence_matches, method_id)
     _log(ruling_note)

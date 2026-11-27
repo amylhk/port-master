@@ -35,13 +35,20 @@ func _run() -> void:
             _campaign(harbour, fate)
         else:
             _expect(false, "reload data for " + fate)
+    for clearance in ["declaration", "manifest"]:
+        harbour.day = PortDay.new()
+        if harbour.day.load_data():
+            harbour.day.reset()
+            _campaign(harbour, "aftermath_strait_passage", clearance)
+        else:
+            _expect(false, "reload data for " + clearance)
     _art_fallback(harbour)
     if failures == 0:
         print("Stage D checks passed: linked history, ruling branches, four reachable fates, priority, replay, art and cast.")
     quit(1 if failures else 0)
 
 
-func _campaign(harbour: Control, fate: String) -> void:
+func _campaign(harbour: Control, fate: String, unverified_clearance := "") -> void:
     var day: PortDay = harbour.day
     var clearing := fate == "aftermath_fortress_quay"
     var inland := fate == "aftermath_inland_exile"
@@ -50,12 +57,14 @@ func _campaign(harbour: Control, fate: String) -> void:
     var choices := {
         "sequeira_five_sails": "keep_the_turn" if rulings else "reserve_landings",
         "first_assault_bridge": "split_merchant_rice" if upeh else "reserve_for_store",
-        "second_assault_bridge": "keep_desk_open" if clearing else "send_duplicates",
+        "second_assault_bridge": "keep_desk_open" if clearing or not unverified_clearance.is_empty() else "send_duplicates",
         "last_quay_roll": "leave_with_roll" if inland else "stay_at_landing",
         "kaveri_open_account": "record_the_count",
         "white_border_on_the_mat": "routine_assessment",
         "finale_cambay_flight": "leave_watchman_receipt",
     }
+    if not unverified_clearance.is_empty():
+        choices["ev_boatman_tip"] = "send_away"
     for number in range(1, 19):
         _expect(day.day_number == number, "reached day %d of %s" % [number, fate])
         _finish(day, choices)
@@ -69,6 +78,12 @@ func _campaign(harbour: Control, fate: String) -> void:
             day.advance(120)
             day.berth("cloth", true)
             day.rule("clear" if clearing else "hold", "piece_count")
+        if number == 1 and not unverified_clearance.is_empty():
+            day.advance(120)
+            day.berth("cloth", unverified_clearance != "declaration")
+            if unverified_clearance != "declaration":
+                day.rule_with_method("clear", unverified_clearance)
+            _expect(day.flags.has("case_002_cleared"), "Kaveri actually cleared by " + unverified_clearance)
         if number == 15 and clearing:
             day.advance(70)
             day.berth("north_bank_jong", false)
@@ -102,10 +117,15 @@ func _campaign(harbour: Control, fate: String) -> void:
             _expect("finale_cambay_flight" in played, "the Cambay flight plays")
             for id in ["finale_junk_convoy", "finale_ismail_barque"]:
                 _expect(played.has(id) == rulings, id + " requires its matching record")
-            _expect(played.has("finale_chatu_banner") == clearing and played.has("finale_kaveri_departure") == inland,
-                "clearing or holding Kaveri changes the day 17 steps")
+            if not unverified_clearance.is_empty():
+                _expect(day.faction_standing["chatu_contacts"] == 2, "Chatu standing is high for " + unverified_clearance)
+                _expect(not played.has("finale_chatu_banner") and day.duty == 0,
+                    "Kaveri %s clearance must not earn Chatu's vouching or its +2 duty" % unverified_clearance)
+            else:
+                _expect(played.has("finale_chatu_banner") == clearing and played.has("finale_kaveri_departure") == inland,
+                    "clearing or holding Kaveri changes the day 17 steps")
         if number == 18:
-            _expect(played == [fate] and not day.has_next_day(), "only the first eligible fate plays: " + fate)
+            _expect(played == [fate] and not day.has_next_day(), "expected only %s, got %s (%s)" % [fate, played, unverified_clearance])
             day.reset()
             day.start_evening()
             _expect(_finish(day, choices) == [fate], "replaying the final day restores the same branch")
