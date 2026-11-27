@@ -351,10 +351,10 @@ func _morning_voice() -> void:
         if day.can_inspect_berthed(ship):
             var cargo_action := "抽驗米袋" if day.is_rice_spot_check(ship) else "開箱檢查"
             line = "大人，%s已靠泊位%d。請按船旁的「驗貨」標記%s。" % [ship["name"], slot + 1, cargo_action]
-            caption = "按此驗貨；推進時間即按申報卸貨"
+            caption = "未驗貨，離港時按申報處理"
             action = inspect_berth.bind(slot)
         else:
-            line = "大人，%s已來不及在潮汐前驗貨，推進時間便按申報卸貨。" % ship["name"]
+            line = "大人，%s已來不及在潮汐前驗貨；若已卸妥，離港時按申報放行。" % ship["name"]
     var late_ships := PackedStringArray()
     for ship in day.waiting:
         if day.can_request_departure(ship):
@@ -638,7 +638,9 @@ func _next_bell_minute() -> int:
     var next := int(day.scenario["end_minute"])
     for ship in day.berths:
         if not ship.get("held_at_berth", false):
-            next = mini(next, mini(day.minute_of_day + int(ship["remaining"]), int(ship["departure"])))
+            next = mini(next, int(ship["departure"]))
+            if int(ship["remaining"]) > 0:
+                next = mini(next, day.minute_of_day + int(ship["remaining"]))
     for ship in day.waiting:
         next = mini(next, int(ship["departure"]))
     var ships: Array = day.scenario["ships"]

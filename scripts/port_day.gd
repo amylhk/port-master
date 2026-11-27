@@ -245,11 +245,13 @@ func inspect_berthed(ship_id: String) -> void:
 func _clear_open_inspections() -> void:
     for ship in awaiting_inspection():
         if ship != pending_case:
-            ship.erase("inspection_open")
-            ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
-            _record_ruling(ship, "clear")
-            if _watch_active() and ship["remaining"] == 0:
-                _complete_trade(ship)
+            _clear_on_declaration(ship)
+
+
+func _clear_on_declaration(ship: Dictionary) -> void:
+    ship.erase("inspection_open")
+    ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
+    _record_ruling(ship, "clear")
 
 
 func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := -1, defer_ruling := false) -> void:
@@ -284,8 +286,7 @@ func _berth_ship(ship_id: String, inspect: bool, extra_time := 0, berth_slot := 
         elif not inspection.is_empty() and defer_ruling:
             ship["inspection_open"] = true
         elif not inspection.is_empty():
-            ruling_note = "%s cleared on the declaration alone." % ship["cargo"]
-            _record_ruling(ship, "clear")
+            _clear_on_declaration(ship)
         return
 
 
@@ -781,7 +782,6 @@ func advance(minutes: int) -> void:
     if pending_case.is_empty() and current_story().is_empty():
         if _watch_active():
             watch_rice_report = ""
-            _clear_open_inspections()
         _advance_clock(minutes)
 
 
@@ -863,12 +863,15 @@ func _advance_clock(minutes: int) -> void:
                 if closed():
                     berths.remove_at(i)
                 continue
+            var deadline_reached := minute_of_day >= _trade_deadline(ship)
             if ship["remaining"] > 0 and (_watch_active() or ship != pending_case):
                 ship["remaining"] -= 1
+            if _watch_active() and deadline_reached and ship["remaining"] == 0 and ship.get("inspection_open", false):
+                _clear_on_declaration(ship)
             var awaits_ruling: bool = _watch_active() and (ship == pending_case or ship.get("inspection_open", false))
             if ship["remaining"] == 0 and not awaits_ruling:
                 _complete_trade(ship)
-            elif minute_of_day >= int(ship["departure"]) or closed():
+            elif deadline_reached:
                 berths.remove_at(i)
                 if _watch_active() and pending_case == ship:
                     pending_case = {}
