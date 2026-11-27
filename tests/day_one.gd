@@ -108,6 +108,10 @@ func _run() -> void:
     game.advance(75)
     _expect(game.day.rice == 24 and game.day.recovered_duty == 18 and game.day.completed == 2, "rice and inspected porcelain finish with their original consequences")
     _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the completed rice task no longer shows its urgent reminder")
+    _expect(_label_containing(game, "稻米已全數卸妥"), "the colleague acknowledges the completed rice task")
+    _press_text(game, "港口同僚")
+    _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the full Day 1 briefing remains accessible after rice delivery")
+    _press_text(game, "返回港口")
     game.assign_berth("resin", 0, false)
     game.assign_berth("tin", 1, false)
     game.advance(60)
@@ -176,6 +180,7 @@ func _run() -> void:
     await _wrong_rulings()
     await _harbour_status_routing()
     await _berthed_hull_routing()
+    await _expired_rice_reminder()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -310,6 +315,19 @@ func _accessible_button(node: Node, caption: String) -> Button:
     return null
 
 
+func _expired_rice_reminder() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    _expect(_label_containing(game, "請趕在10:15離港潮前卸下全數24袋米"), "the rice reminder is present before the opening tide")
+    game.advance(75)
+    _expect(game.day.minute_of_day == 615 and game.day.rice == 0, "the missed-rice path reaches its 10:15 departure tide")
+    _expect(not _label_containing(game, "請趕在10:15離港潮前卸下全數24袋米") and _label_containing(game, "米船已離港"), "the expired reminder changes to the departed status")
+    _press_text(game, "港口同僚")
+    _expect(game.notes_open and game.notes_id == "day_01_turn_of_the_monsoon", "the colleague still opens the full briefing after the tide")
+    game.queue_free()
+    await process_frame
+
+
 func _label_containing(node: Node, fragment: String) -> bool:
     for label in node.find_children("*", "Label", true, false):
         if label.text.contains(fragment):
@@ -326,7 +344,7 @@ func _text_shown(node: Node, part: String) -> bool:
 
 func _press_text(node: Node, caption: String) -> void:
     for button in node.find_children("*", "Button", true, false):
-        if (button as Button).text == caption:
+        if (button as Button).text == caption or _label_containing(button, caption):
             (button as Button).pressed.emit()
             return
     _expect(false, "button %s exists" % caption)

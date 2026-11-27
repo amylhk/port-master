@@ -263,8 +263,10 @@ func _morning_voice() -> void:
         notes_open = true
         render()
     var awaiting := day.awaiting_inspection()
-    if day.rice_shortfall() == 0 and awaiting.is_empty():
-        return
+    if day.rice_shortfall() == 0:
+        line = "大人，稻米已全數卸妥，請繼續安排船隻靠泊。"
+    elif not day.waiting.any(func(ship: Dictionary) -> bool: return ship["id"] == "rice") and not day.berths.any(func(ship: Dictionary) -> bool: return ship["id"] == "rice"):
+        line = "大人，米船已離港，請繼續安排其餘船隻靠泊。"
     if not awaiting.is_empty():
         var ship: Dictionary = awaiting[0]
         for candidate in awaiting:
