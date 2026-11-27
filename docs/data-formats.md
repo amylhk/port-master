@@ -1,19 +1,21 @@
-# Stage A authoring formats
+# Data authoring formats
 
-Stage A uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and `JSON.parse_string`. Required fields are listed below unless marked optional. Labels and prose are display text; keep IDs stable and unique within each collection. Use JSON `\n` for paragraph breaks.
+Authoring data uses UTF-8 JSON objects under `res://data/`, read with `FileAccess` and `JSON.parse_string`. Required fields are listed below unless marked optional. Labels and prose are display text; keep IDs stable and unique within each collection. Use JSON `\n` for paragraph breaks.
 
 | File | Object shape |
 | --- | --- |
 | `data/port_day.json` | `briefing` (text), `start_minute`, `end_minute`, `rice_target` (integers), `ships` (array ordered by arrival) |
 | `data/manual/manual_stage_a.json` | `title` (text); `entries` (array of objects with `title` and `text`, in reading order) |
-| `data/inspections/case_001.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
+| `data/inspections/<id>.json` | `id`, `title`, `subtitle` (text); `minutes` (integer); `evidence`, `rulings`, `reasons` (arrays); `hidden_truth` (object) |
 | `data/briefings/<id>.json` | One morning briefing per file: `id`, `title`, `body` (text); `day` (integer) or `trigger` (condition text); optional `requires`, `choices`, `notes` (arrays) |
 | `data/events/<id>.json` | One evening event per file, same shape as a briefing |
+| `data/deputies/<id>.json` | One Stage B deputy per file: `id`, `name`, `role`, `bio` (text); `skills`, `flaw`, `delegation_lines` (objects); optional `notes` (array) |
 
 - **Ships:** `id`, `name`, `cargo` (text); `arrival` and `departure` (integers, minutes since midnight); `minutes` (positive unloading duration); `duty` (integer), `rice` (integer sacks); optional `inspection_case` is the case ID. Deadline times are the last minute a sale can complete.
+- **Registering inspections:** Put the case file in `data/inspections/` and add its ID (without `.json`) to the ship, e.g. `"inspection_case": "case_002"` loads `data/inspections/case_002.json`. The file's `id` must match. The day can reference multiple case IDs and fails to load if any referenced file is missing. Ships without `inspection_case` use normal berth assignment.
 - **Evidence:** each page has `id`, `label` (short button text), `title`, and `text`. Optional `image` is the full Godot resource path. Put observations on the evidence pages and generally applicable conventions in the manual. The manifest describes what was declared, never the expected correct markings or an assessment.
-- **Choices:** `rulings` and `reasons` each contain `id` and `label` pairs. The current outcome handlers reserve `clear` for clearing as declared and `hold` for stopping the sale. Other ruling IDs attempt an amendment.
-- **Hidden truth:** `ruling_id` and `reason_id` identify the one successful combination; `extra_duty` is credited only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
+- **Choices:** `rulings` and `reasons` must each contain at least one `id` and `label` pair. The current outcome handlers reserve `clear` for clearing as declared and `hold` for stopping the sale. A hold with the correct evidence is recorded separately in the closing ledger; it earns no duty and does not count as a lost sale. Other ruling IDs attempt an amendment.
+- **Hidden truth:** `ruling_id` and `reason_id` identify the one successful combination. A successful amendment credits `extra_duty` only after unloading. `success`, `clear`, `unsupported`, and `hold` are feedback text shown only after filing. Keep all pre-ruling text independent of this object. This hides the answer in play, not from someone reading the JSON.
 
 
 ## Briefings and events
@@ -82,6 +84,50 @@ Use `fact:` for attested history, `inference:` for plausible extrapolation, and 
 Some research notes cited by this roster are still on separate research branches. Reference snapshots: [commodities](https://github.com/amylhk/port-master/blob/8b01dacbbacdc3b739f766322579761343d77779/docs/research/commodities.md), [ships, weights and currency](https://github.com/amylhk/port-master/blob/7f2e7589794ebd08c7ba0f894cfe38a42d1d36a3/docs/research/ships-weights-currency.md), [port officials](https://github.com/amylhk/port-master/blob/8d2af3d86744f425e987a734fbddca21e17d2c3f/docs/research/port-official.md), [seals, marks and packaging](https://github.com/amylhk/port-master/blob/d30f160dc2727677f3d4b2770fc5906d291f1e4f/docs/research/seals-marks-packaging.md), and [1511 events](https://github.com/amylhk/port-master/blob/26c9abb9568e1ef4baefcdd3feb9cf3c9e292df7/docs/research/1511-events.md).
 
 Run `godot --headless --script tests/merchants.gd` to check the roster.
+
+## Deputies
+
+Stage B deputies live in `data/deputies/`, one deputy per file named `<id>.json`.
+
+- `id`, `name`, `role`, `bio` (non-empty text).
+- `skills`: integer ratings from 0 to 5 for exactly three delegable tasks: `berth`, `inspection`, and `purchasing`.
+- `flaw`: `id` identifies the flaw, and `text` describes it (both non-empty text). The game decides how the flaw changes outcomes; the prose does not set a numerical modifier.
+- `delegation_lines`: keyed by the same three task IDs. Each task has `assign` (spoken when given the work) and `good`, `mixed`, and `bad` (spoken when reporting the result). Each is a non-empty array of non-empty strings. The game could pick a line at random from the matching array when it has multiple variants.
+- Optional `notes`: authoring-only strings, never shown in play. Start every note with `[FACT]` (source-backed), `[INFERENCE]` (plausible reconstruction), or `[GAMEPLAY]` (fiction or design abstraction).
+
+Flaw IDs in use (intended effects):
+
+| ID | Effect |
+| --- | --- |
+| `kin_and_countrymen` | Valuation and inspection are more lenient toward ships from Pasai and Bengal. |
+| `accepts_presents` | A captain's gift can win a kinder tally or leave a fault unreported. |
+| `weighs_everything` | Checking weights personally slows inspection and can cost a ship berth time or delay its departure. |
+| `old_favours` | A captain owed a favour may jump the berth queue. |
+| `rice_before_all` | Rice takes priority, sometimes at the expense of duty or other cargo. |
+
+Run `godot --headless --script tests/deputies.gd` to check deputy files.
+
+Sample deputy (illustrative and abridged; a real file also needs the `inspection` and `purchasing` entries under `delegation_lines`):
+
+```json
+{
+  "id": "pak_mamat",
+  "name": "Pak Mamat",
+  "role": "Roads pilot",
+  "bio": "He knows the anchorage and its captains.",
+  "skills": {"berth": 5, "inspection": 1, "purchasing": 1},
+  "flaw": {"id": "old_favours", "text": "Captains he owes may jump the berth queue."},
+  "delegation_lines": {
+    "berth": {
+      "assign": ["I'll take the boat out, Shahbandar."],
+      "good": ["She's tied up and ready to unload."],
+      "mixed": ["She's in, but the next ship has to wait."],
+      "bad": ["She gave up waiting and sailed."]
+    }
+  },
+  "notes": ["[GAMEPLAY] Pak Mamat is fictional."]
+}
+```
 
 ## Art
 
