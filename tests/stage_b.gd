@@ -255,6 +255,7 @@ func _evidence_plates() -> void:
         if label.text == "DEPUTY ASSIGNMENT":
             deputy_panel_found = true
     _expect(deputy_panel_found, "the morning briefing offers deputy assignment")
+    _screen_art(harbour)
     var imported_plates := 0
     for number in range(5, 19):
         var dossier: Dictionary = day.inspections["case_%03d" % number]
@@ -311,6 +312,39 @@ func _evidence_plates() -> void:
     harbour._advance(600)
     _expect(day.closed() and harbour.scroll.scroll_vertical == 0, "opening End of Day returns the view to the top")
     harbour.queue_free()
+
+
+func _screen_art(harbour: Control) -> void:
+    var ships := {}
+    for scenario in harbour.day.scenario["following_days"]:
+        for ship in scenario["ships"]:
+            ships[ship["id"]] = ship
+    for ship_id in CASE_SHIPS:
+        if ship_id == "rice":
+            continue
+        _expect(ships.has(ship_id), "%s is scheduled for the named sprite check" % ship_id)
+        if not ships.has(ship_id):
+            continue
+        var stage := Control.new()
+        var ship: Dictionary = ships[ship_id].duplicate()
+        ship.erase("image")
+        harbour._view_ship(stage, ship, Vector2.ZERO)
+        _expect(_has_texture(stage, "res://assets/art/ships/%s.png" % ship_id),
+            "%s renders its sprite by ID instead of cargo text" % ship_id)
+        stage.free()
+    harbour.selected_deputy = "pak_mamat"
+    harbour._render()
+    for duty in ["berth", "inspection", "purchasing"]:
+        _expect(_has_texture(harbour.content, "res://assets/art/icons/%s.png" % duty),
+            "the morning deputy panel renders the %s icon by ID" % duty)
+    harbour.selected_deputy = ""
+
+
+func _has_texture(parent: Node, path: String) -> bool:
+    for picture: TextureRect in parent.find_children("*", "TextureRect", true, false):
+        if picture.texture and picture.texture.resource_path == path:
+            return true
+    return false
 
 
 func _finish_evening(day: PortDay) -> Array[String]:
