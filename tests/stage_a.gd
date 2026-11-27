@@ -139,6 +139,7 @@ func _run() -> void:
     var truth: Dictionary = inspection["hidden_truth"]
     for method in ["marks", "measurements", "testimony", "contents"]:
         harbour._restart()
+        _press(harbour, "Continue")
         harbour._berth("porcelain", true)
         day.rule_with_method("major_fraud", method)
         _expect(day.ruling_note == truth["success"], "the porcelain finding accepts %s" % method)
