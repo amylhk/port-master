@@ -186,8 +186,9 @@ To keep all upcoming assets cohesive as the project expands beyond Stage A:
 - **Reference Manual Pages:** Styled as an open two-page merchant handbook—left page holds hand-inked diagrams (ships, knots, seals, jars), right page holds concise notes.
 - **Accessibility:** Never rely on color alone for status; pair Jade/Ochre/Cinnabar with clear iconography or text labels, and keep body text contrast ≥ 7:1 (`#2A1E17` on `#F7F0DF`).
 
-### 7.6 Character Portraits (`256×256` or `384×384` bust)
-- **Framing & Lighting:** 3/4 bust portrait, eye-line at upper third, warm key light from top-left, sepia ink contours matching the harbour and inspection style.
+### 7.6 Character Portraits (`256×256` transparent RGBA PNG bust)
+- **File Convention:** `assets/art/portraits/<id>.png` matching the snake_case `id` in `data/deputies/<id>.json`, `data/merchants/<id>.json`, and `data/characters/<id>.json` (transparent background — the game draws the card frame).
+- **Framing & Lighting:** 3/4 bust portrait flush to bottom edge, eye-line at upper third, warm key light from top-left, sepia ink contours matching the harbour and inspection style.
 - **Cultural & Period Diversity (c. 1500 Melaka):**
   - **Malay Port Officials (*Syahbandar*, clerks):** Woven *songket*/silk *baju*, *tengkolok*/*destar* headwear, restrained gold/indigo/maroon accents.
   - **Javanese *Nakhoda* (Captains):** Batik *kain*, headcloth (*ikat kepala*), weathered maritime complexion.
