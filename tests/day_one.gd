@@ -48,7 +48,7 @@ func _run() -> void:
         game.inspect_berth(0)
     _expect(game.day.pending_case.get("id") == "porcelain" and game.day.minute_of_day == 585, "inspection opens the existing case and charges its fixed 45 minutes")
     _expect(game.day.ship_at_berth(1)["remaining"] == 15 and game.day.waiting.size() == 2, "the other berth and scheduled arrivals work during inspection")
-    _expect(game.viewed == {"manifest": true}, "opened cargo and measurements are not revealed in advance")
+    _expect(game.viewed.is_empty(), "no citation is unlocked before its source is examined")
     var stamp_buttons := 0
     var stamp_order: Array[String] = []
     var manual_found := false
@@ -198,6 +198,7 @@ func _run() -> void:
     await _rice_spot_check()
     await _duty_score()
     await _closing_help_focus()
+    await _citation_locks()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, inspection and stamps, rice spot checks, immediate HUD and duty outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -334,6 +335,8 @@ func _duty_score() -> void:
         var before: int = game.day.watch_score
         game.assign_berth("cloth", 0, true)
         game.manual_seen = true
+        _press_text(game, "查閱完整貨單")
+        _press_text(game, "返回驗貨桌")
         game.choose_method("manifest")
         game.choose_stamp(stamp)
         game.apply_stamp()
@@ -409,6 +412,8 @@ func _wrong_rulings() -> void:
             var inspection: Dictionary = game.day.inspection_for(game.day.pending_case)
             var explanation: String = inspection["hidden_truth"]["feedback_by_method"]["manifest"]
             var correction := "正確判決：應蓋「%s」" % example[3]
+            _press_text(game, "查閱完整貨單")
+            _press_text(game, "返回驗貨桌")
             game.choose_method("manifest")
             game.choose_stamp(example[2])
             game.apply_stamp()
@@ -420,6 +425,65 @@ func _wrong_rulings() -> void:
             _expect(game.last_feedback.ends_with(correction + "\n" + explanation), "%s names the correct stamp and keeps the evidence explanation" % example[0])
         game.queue_free()
         await process_frame
+
+
+func _citation_locks() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.assign_berth("rice", 0, true)
+    for caption in game.METHODS:
+        _expect(_disabled_button(game, caption), "%s starts locked on the rice desk" % caption)
+        _press_text(game, caption)
+        _expect(game.method.is_empty(), "%s cannot be cited before examination" % caption)
+    _expect(not _text_shown(game, "均為乾米"), "the unopened manifest is not visible in the findings")
+    game.open_manual()
+    _press_text(game, "合上手冊")
+    for stamp in ["major_fraud", "hold", "minor_fault"]:
+        game.choose_stamp(stamp)
+        game.apply_stamp()
+        _expect(game.day.pending_case.get("id") == "rice" and not game.feedback_open, "%s cannot be filed without a citation" % stamp)
+    game.choose_stamp("clear")
+    _press_text(game, "蓋印：放行")
+    _expect(game.day.flags.has("day_1_rice_clear") and game.opened_crates.is_empty() and game.method.is_empty(), "rice can be cleared on the declaration without opening or citing anything")
+    _press_text(game, "返回港口")
+    game.advance(60)
+    _expect(game.day.watch_stock == 10, "blind clearance still carries the wet-rice risk")
+    game.restart()
+    game.assign_berth("rice", 0, true)
+    game.open_crate(0)
+    game.choose_method("contents")
+    game.open_crate(1)
+    _expect(game.cited_sack == 0 and _text_shown(game, "已引用：一號袋") and _disabled_button(game, "貨單"), "an opened sack can be cited without unlocking an unopened source or moving the existing citation")
+    game.day.rule_with_method("major_fraud", "contents", 3)
+    _expect(game.day.pending_case.get("id") == "rice", "the model rejects a citation to a still-closed sack")
+    game.manual_seen = true
+    game.choose_stamp("major_fraud")
+    game.apply_stamp()
+    _expect(game.day.watch_score == 0 and game.day.flags.has("day_1_rice_clear"), "a fine citing a dry sack cannot borrow proof from an opened wet sack")
+    game.restart()
+    game.assign_berth("porcelain", 0, true)
+    _press_text(game, "聽取船長陳述")
+    _press_text(game, "返回驗貨桌")
+    _expect(_disabled_button(game, "證詞") and _disabled_button(game, "貨單"), "the introductory statement does not substitute for either source")
+    _press_text(game, "查驗封印與過磅")
+    _expect(not _disabled_button(game, "重量") and _disabled_button(game, "封印"), "the weight summary does not uncover unshown seal marks")
+    _press_text(game, "查看完整證據")
+    _press_text(game, "返回驗貨桌")
+    _expect(not _disabled_button(game, "封印") and _disabled_button(game, "證詞") and _disabled_button(game, "貨單"), "only the complete exterior check unlocks its seals")
+    _press_text(game, "詢問船員")
+    _press_text(game, "查閱完整貨單")
+    _press_text(game, "返回驗貨桌")
+    _expect(not _disabled_button(game, "證詞") and not _disabled_button(game, "貨單") and _disabled_button(game, "貨物"), "testimony and manifest unlock independently of cargo")
+    game.queue_free()
+    await process_frame
+
+
+func _disabled_button(node: Node, caption: String) -> bool:
+    for button: Button in node.find_children("*", "Button", true, false):
+        if button.text == caption:
+            return button.disabled
+    _expect(false, "button %s exists" % caption)
+    return false
 
 
 func _harbour_status_routing() -> void:
