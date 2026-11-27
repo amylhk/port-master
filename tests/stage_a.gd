@@ -34,7 +34,7 @@ func _run() -> void:
     _expect(day.ship_at_anchor(0).is_empty() and day.ship_at_anchor(1).get("id") == "pepper",
         "assigning one ship keeps the other ship in its original row")
     harbour._berth("pepper", false)
-    var blocked_inspection := _button_named(harbour, "Inspect  +45 min")
+    var blocked_inspection := _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text == "Both berths are occupied."
         and _has_label(harbour, blocked_inspection.tooltip_text), "occupied berths explain the disabled inspection")
     harbour._advance(60)
@@ -43,7 +43,7 @@ func _run() -> void:
         "a scheduled arrival fills a free slot without moving other ships")
     harbour._berth("porcelain", true)
     _expect(day.pending_case.is_empty(), "serving both early ships misses the inspection window")
-    blocked_inspection = _button_named(harbour, "Inspect  +45 min")
+    blocked_inspection = _button_named(harbour, "Inspect  +45 min", "Chinese Porcelain Trader")
     _expect(blocked_inspection.disabled and blocked_inspection.tooltip_text.contains("before departure")
         and _has_label(harbour, blocked_inspection.tooltip_text), "a missed tide explains the disabled inspection")
     harbour._berth("porcelain", false)
@@ -432,9 +432,9 @@ func _press(harbour: Control, caption: String) -> void:
     _expect(false, "button not found: " + caption)
 
 
-func _button_named(node: Node, caption: String) -> Button:
+func _button_named(node: Node, caption: String, row_label := "") -> Button:
     for button in node.find_children("*", "Button", true, false):
-        if button.text == caption:
+        if button.text == caption and (row_label.is_empty() or _has_label(button.get_parent().get_parent(), row_label)):
             return button
     return null
 
