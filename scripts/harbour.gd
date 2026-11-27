@@ -143,7 +143,7 @@ func _render_harbour() -> void:
 
 func _render_inspection() -> void:
     var dossier := _panel(content)
-    _label(dossier, day.inspection["subtitle"], 14, GOLD)
+    _label(dossier, day.inspection["subtitle"], 14, GOLD, true)
     _label(dossier, day.inspection["title"], 24)
     var inspection_minutes := int(day.inspection["minutes"])
     _label(dossier, "%d min elapsed. Other berth work and scheduled arrivals continued; unloading starts after your ruling." % inspection_minutes,
@@ -158,9 +158,9 @@ func _render_inspection() -> void:
 
     var reading := _panel(content)
     if evidence_index == evidence.size():
-        _label(reading, day.manual["title"], 20, GOLD)
+        _label(reading, day.manual["title"], 20, GOLD, true)
         for entry in day.manual["entries"]:
-            _label(reading, entry["title"], 16, GOLD)
+            _label(reading, entry["title"], 16, GOLD, true)
             _label(reading, entry["text"], 16, INK, true)
     else:
         var clue: Dictionary = evidence[evidence_index]
