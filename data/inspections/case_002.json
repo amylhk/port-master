@@ -71,6 +71,11 @@
   "hidden_truth": {
     "ruling_id": "clear",
     "reason_id": "piece_count",
+    "feedback_by_method": {
+      "marks": "Both seals bear the same three-dot mark, but a seal cannot tell you that one roll in bale B holds two lengths.",
+      "testimony": "Arulan tells you how he wound two lengths on one reed, but his account cannot show that both are separate and match the declared cloth.",
+      "manifest": "The declaration lists one kodi per bale, but does not tell you why nineteen rolls in bale B still yield twenty lengths."
+    },
     "extra_duty": 0,
     "success": "In the temenggung’s name, you clear the Kaveri as declared. The porter counts the two lengths on the mat, then strikes the shortfall from his tally.\n\nA kodi is twenty pieces, not twenty rolls. The two cords pointed to the roll Arulan described; opening it confirmed two separate lengths of the declared cloth. Both bales are full.",
     "clear": "The Kaveri is cleared, but the reason you filed does not settle the shortage on the tally. A sound seal does not tell the buyers how many lengths are inside.",
