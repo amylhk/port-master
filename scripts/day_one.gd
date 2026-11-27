@@ -14,7 +14,7 @@ const GREEN := Color("#65be98")
 const RED := Color("#dd8773")
 const FULL_BERTHS_HINT := "兩個泊位均已佔用，請推進至下次港鐘。"
 const BERTH_POS := [Vector2(460, 218), Vector2(520, 378)]
-const BERTH_SIZE := Vector2(280, 165)
+const BERTH_SIZE := Vector2(280, 160)
 const ANCHOR_POS := [Vector2(925, 152), Vector2(925, 317), Vector2(925, 482)]
 const SHIP_SIZE := Vector2(230, 160)
 const METHODS := ["封印", "重量", "證詞", "貨物", "貨單"]
@@ -325,13 +325,14 @@ func _berth_target(slot: int) -> void:
             request_berth(selected_ship, slot)
     )
     surface.add_child(target)
-    var plaque := _panel(target, Rect2(5, 127, 270, 35), Color(0.12, 0.27, 0.28, 0.94))
+    var plaque := _panel(target, Rect2(5, 125, 270, 35), Color(0.12, 0.27, 0.28, 0.94))
     plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
     _text(plaque, "泊位 %d" % (slot + 1), Rect2(9, 0, 78, 35), 16, GOLD)
     if ship.is_empty():
         _text(plaque, "將船拖往此處", Rect2(88, 0, 173, 35), 16, INK, true)
     else:
-        _image(target, _ship_art(ship), Rect2(25, -30, 230, 152))
+        # Hull and wake stay above the plaque and inside their own drop row.
+        _image(target, _ship_art(ship), Rect2(25, 0, 230, 120))
         _text(plaque, ship["name"], Rect2(88, 0, 173, 35), 16, INK, true)
         if ship.get("inspection_open", false):
             _berth_inspection_marker(target, ship, slot)
@@ -366,7 +367,6 @@ func _berth_inspection_marker(target: Control, ship: Dictionary, slot: int) -> v
     for state in ["normal", "hover", "pressed", "focus"]:
         marker.add_theme_stylebox_override(state, _style(PAPER if state == "normal" else Color("#fff3d6"), GOLD, 3))
     marker.add_theme_stylebox_override("disabled", _style(Color("#8d8a80"), Color("#547a79"), 2))
-    var face := Rect2(Vector2.ZERO, marker.size)
     if ResourceLoader.exists("res://assets/art/harbour/inspect_marker.png", "Texture2D"):
         _image(marker, "res://assets/art/harbour/inspect_marker.png", Rect2(4, 2, 120, 66))
     else:

@@ -164,6 +164,7 @@ func _run() -> void:
     await _other_cases()
     await _wrong_rulings()
     await _harbour_status_routing()
+    await _berthed_hull_routing()
     if failures == 0:
         print("Day 1 checks passed: native drag/drop, exact berth, fixed clock, inspection tools/manual/stamps, original outcomes, closing and replay.")
     quit(1 if failures else 0)
@@ -231,6 +232,21 @@ func _harbour_status_routing() -> void:
     _expect(not status.get_global_rect().intersects(other.get_global_rect()), "berth 1's unloading status never covers berth 2's drop target")
     await _drag(_anchor_point(game, 1), status.get_global_rect().get_center())
     _expect(game.day.ship_at_berth(1).is_empty() and game.day.waiting.size() == 2, "dropping on berth 1's status cannot silently berth a ship at berth 2")
+    game.queue_free()
+    await process_frame
+
+
+func _berthed_hull_routing() -> void:
+    var game = DayOne.instantiate()
+    root.add_child(game)
+    game.request_berth("porcelain", 1)
+    await process_frame
+    var target: Control = game.surface.get_node("Berth1")
+    var hull: Control = target.find_children("*", "TextureRect", false, false)[0]
+    var other: Control = game.surface.get_node("Berth0")
+    _expect(not hull.get_global_rect().intersects(other.get_global_rect()), "a docked hull never draws inside the other berth's drop target")
+    await _drag(_anchor_point(game, 0), hull.get_global_rect().position + Vector2(115, 20))
+    _expect(game.day.ship_at_berth(0).is_empty() and game.day.ship_at_berth(1).get("id") == "porcelain" and game.day.waiting.size() == 2, "dropping onto an occupied hull cannot dock the incoming ship at the other berth")
     game.queue_free()
     await process_frame
 
